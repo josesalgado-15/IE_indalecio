@@ -6,7 +6,7 @@ abstract class Carroceria {
 
 class Carro
 {
-    //Propiedades
+
     protected string $marca; //Visibilidad (public, protected, private)
     protected string $color; // Tipos (bool, int, float, null, array, object)
     protected bool $cajaAutomatica; // LowerCamelCase

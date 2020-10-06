@@ -1,20 +1,21 @@
 {
-  "name": "IE_IndalecioVasquez/proyecto",
+  "name": "ie_indaleciovasquez/proyecto",
   "description": "Proyecto control de asistencia",
   "version": "0.0.1",
   "type": "project",
-  "keywords": ["ejemplo", "composer", "adsi"],
+  "keywords": ["registro", "ingreso", "asistencia" ,"estudiantes", "institucion"],
   "homepage": "https://google.com",
   "time": "2020-09-23",
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [
     {
-      "name": "Diego Ojeda",
-      "email": "daom89@gmail.com",
+      "name": "Andres Muñoz",
+      "email": "afmunoz22@misena.edu.co",
       "homepage": "http://www.sena.edu.co",
       "role": "Developer"
     }
+
   ],
   "require": {
     "php": ">=7.4",

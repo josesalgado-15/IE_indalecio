@@ -1,7 +1,6 @@
 <?php
 
-use Carbon\Carbon;
-use \App\Models\BasicModel;
+use App\Models\BasicModel;
 
 class Usuario extends BasicModel
 {

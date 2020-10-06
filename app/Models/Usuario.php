@@ -1,36 +1,39 @@
 <?php
 
 use Carbon\Carbon;
+use \App\Models\BasicModel;
 
-class Usuario
+class Usuario extends BasicModel
 {
     //Propiedades
 
-    protected float $idPersona; //Visibilidad (public, protected, private)
+    protected int $idPersona; //Visibilidad (public, protected, private)
     protected float $numeroDocumento;
     protected string $nombres;
     protected string $apellidos;
     protected string $tipoDocumento;
     protected string $fechaNacimiento;
-    protected string $edad;
+    protected int $edad;
     protected string $correo;
     protected string $direccion;
     protected string $ciudad;
-    protected float $telefono;
+    protected int $telefono;
     protected string $genero;
     protected string $rol;
     protected ?string $password;
     protected string $nombreAcudiente;
-    protected float $telefonoAcudiente;
+    protected int $telefonoAcudiente;
     protected string $correoAcudiente;
-    protected float $institucion_id_institucion;
 
+    /*
+    protected int $institucion_id_institucion;
+    */
     /**
      * Usuario constructor.
      */
 
     //Metodo Constructor
-    public function __construct ($idPersona, $numeroDocumento, $nombres , $apellidos, $tipoDocumento, $fechaNacimiento, $edad, $correo, $direccion, $ciudad, $telefono, $genero, $rol, $password, $nombreAcudiente, $telefonoAcudiente, $correoAcudiente, $institucion_id_institucion)
+    public function __construct ($idPersona, $numeroDocumento, $nombres , $apellidos, $tipoDocumento, $fechaNacimiento, $edad, $correo, $direccion, $ciudad, $telefono, $genero, $rol, $password, $nombreAcudiente, $telefonoAcudiente, $correoAcudiente)
     {
         $this->setIdPersona($idPersona); //Propiedad recibida y asigna a una propiedad de la clase
         $this->setNumeroDocumento($numeroDocumento);
@@ -49,7 +52,10 @@ class Usuario
         $this->setNombreAcudiente($nombreAcudiente);
         $this->setTelefonoAcudiente($telefonoAcudiente);
         $this->setCorreoAcudiente($correoAcudiente);
+
+        /*
         $this->setInstitucionIdInstitucion($institucion_id_institucion);
+        */
     }
 
 
@@ -84,7 +90,7 @@ class Usuario
     /**
      * @return int|mixed
      */
-    public function getIdPersona(): float
+    public function getIdPersona(): int
     {
         return $this->idPersona;
     }
@@ -92,7 +98,7 @@ class Usuario
     /**
      * @param int|mixed $idPersona
      */
-    public function setIdPersona(float $idPersona): void
+    public function setIdPersona(int $idPersona): void
     {
         $this->idPersona = $idPersona;
     }
@@ -205,7 +211,7 @@ class Usuario
         */
 
 
-    public function getEdad(): float
+    public function getEdad(): int
     {
         return $this->edad;
     }
@@ -213,7 +219,7 @@ class Usuario
     /**
      * @param mixed|string $edad
      */
-    public function setEdad(float $edad): void
+    public function setEdad(int $edad): void
     {
         $this->edad = $edad;
     }
@@ -270,7 +276,7 @@ class Usuario
      * @return int|mixed|string
      */
 
-    public function getTelefono(): float
+    public function getTelefono(): int
     {
         return $this->telefono;
     }
@@ -278,7 +284,7 @@ class Usuario
     /**
      * @param int|mixed|string $telefono
      */
-    public function setTelefono(float $telefono): void
+    public function setTelefono(int $telefono): void
     {
         $this->telefono = $telefono;
     }
@@ -350,7 +356,7 @@ class Usuario
     /**
      * @return int|mixed|string
      */
-    public function getTelefonoAcudiente(): float
+    public function getTelefonoAcudiente(): int
     {
         return $this->telefonoAcudiente;
     }
@@ -358,7 +364,7 @@ class Usuario
     /**
      * @param int|mixed|string $telefonoAcudiente
      */
-    public function setTelefonoAcudiente(float $telefonoAcudiente): void
+    public function setTelefonoAcudiente(int $telefonoAcudiente): void
     {
         $this->telefonoAcudiente = $telefonoAcudiente;
     }
@@ -379,10 +385,12 @@ class Usuario
         $this->correoAcudiente = $correoAcudiente;
     }
 
+
     /**
      * @return int|mixed|string
      */
-    public function getInstitucionIdInstitucion(): float
+    /*
+    public function getInstitucionIdInstitucion(): int
     {
         return $this->institucion_id_institucion;
     }
@@ -390,10 +398,12 @@ class Usuario
     /**
      * @param int|mixed|string $institucion_id_institucion
      */
-    public function setInstitucionIdInstitucion(float $institucion_id_institucion): void
+    /*
+    public function setInstitucionIdInstitucion(int $institucion_id_institucion): void
     {
         $this->institucion_id_institucion = $institucion_id_institucion;
     }
+    */
 
     //Metodo
     public function saludar(?string $nombres = "Julian"): string
@@ -423,21 +433,52 @@ class Usuario
             "<strong>Password:</strong> " . $this->getPassword() . "<br/>".
             "<strong>Nombre de acudiente:</strong> " . $this->getNombreAcudiente() . "<br/>".
             "<strong>Teléfono de acudiente:</strong> " . $this->getTelefonoAcudiente() . "<br/>".
-            "<strong>Correo de acudiente:</strong> " . $this->getCorreoAcudiente() . "<br/>".
-            "<strong>Id de Institución:</strong> " . $this->getInstitucionIdInstitucion() . "<br/>";
+            "<strong>Correo de acudiente:</strong> " . $this->getCorreoAcudiente() . "<br/>";
 
+        /*
+            "<strong>Id de Institución:</strong> " . $this->getInstitucionIdInstitucion() . "<br/>";
+        */
 
 
 
     }
 
 
+    protected static function search($query)
+    {
+        // TODO: Implement search() method.
+    }
+
+    protected static function getAll()
+    {
+        // TODO: Implement getAll() method.
+    }
+
+    protected static function searchForId($id)
+    {
+        // TODO: Implement searchForId() method.
+    }
+
+    protected function create()
+    {
+        // TODO: Implement create() method.
+    }
+
+    protected function update()
+    {
+        // TODO: Implement update() method.
+    }
+
+    protected function deleted($id)
+    {
+        // TODO: Implement deleted() method.
+    }
 }
 
 $Persona1 = new Usuario(1, 1002723452,
     'Juan Jose', 'Diaz Camargo', 'CC',
     '2001-05-07', 19, 'juancamar@gmail.com',
     'Calle 2 sur#3-09', 'Pesca', 3132594565, 'Masculino',
-    'Estudiante', 1002723452, 'Pablo Diaz', '3132591544', 'juancamar@gmail.com', 1);
+    'Estudiante', 1002723452, 'Pablo Diaz', '3132591544', 'juancamar@gmail.com');
 
 echo $Persona1;

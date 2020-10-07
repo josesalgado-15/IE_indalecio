@@ -1,6 +1,8 @@
 <?php
 
-use App\Models\BasicModel;
+namespace App\Models;
+require_once('BasicModel.php');
+
 
 class Usuario extends BasicModel
 {

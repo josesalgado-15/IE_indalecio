@@ -4,7 +4,7 @@ use App\Models\BasicModel;
 use Carbon\Carbon;
 
 require_once('BasicModel.php');
-
+require_once('GeneralFunctions.php');
 
 class Usuario extends BasicModel
 {
@@ -473,25 +473,25 @@ class Usuario extends BasicModel
     public function __toString(): string
     {
         return
-            "<strong>Sus datos son:</strong> ".
-            "<br>".
-            "<br>".
+            "<strong>Sus datos son:</strong> " .
+            "<br>" .
+            "<br>" .
             "<strong>Id:</strong> " . $this->getIdPersona() . "<br/>" .
             "<strong>Número de documento:</strong> " . $this->getNumeroDocumento() . "<br/>" .
             "<strong>Nombres:</strong> " . $this->getNombres() . "<br/>" .
-            "<strong>Apellidos:</strong> " . $this->getApellidos() . "<br/>".
-            "<strong>Tipo de documento:</strong> " . $this->getTipoDocumento() . "<br/>".
-            "<strong>Fecha de nacimiento:</strong> " . $this->getFechaNacimiento() . "<br/>".
-            "<strong>Edad:</strong> " . $this->getEdad() . "<br/>".
-            "<strong>Correo:</strong> " . $this->getCorreo() . "<br/>".
-            "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>".
-            "<strong>Ciudad:</strong> " . $this->getCiudad() . "<br/>".
-            "<strong>Teléfono:</strong> " . $this->getTelefono() . "<br/>".
-            "<strong>Genero:</strong> " . $this->getGenero() . "<br/>".
-            "<strong>Rol:</strong> " . $this->getRol() . "<br/>".
-            "<strong>Password:</strong> " . $this->getPassword() . "<br/>".
-            "<strong>Nombre de acudiente:</strong> " . $this->getNombreAcudiente() . "<br/>".
-            "<strong>Teléfono de acudiente:</strong> " . $this->getTelefonoAcudiente() . "<br/>".
+            "<strong>Apellidos:</strong> " . $this->getApellidos() . "<br/>" .
+            "<strong>Tipo de documento:</strong> " . $this->getTipoDocumento() . "<br/>" .
+            "<strong>Fecha de nacimiento:</strong> " . $this->getFechaNacimiento() . "<br/>" .
+            "<strong>Edad:</strong> " . $this->getEdad() . "<br/>" .
+            "<strong>Correo:</strong> " . $this->getCorreo() . "<br/>" .
+            "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>" .
+            "<strong>Ciudad:</strong> " . $this->getCiudad() . "<br/>" .
+            "<strong>Teléfono:</strong> " . $this->getTelefono() . "<br/>" .
+            "<strong>Genero:</strong> " . $this->getGenero() . "<br/>" .
+            "<strong>Rol:</strong> " . $this->getRol() . "<br/>" .
+            "<strong>Password:</strong> " . $this->getPassword() . "<br/>" .
+            "<strong>Nombre de acudiente:</strong> " . $this->getNombreAcudiente() . "<br/>" .
+            "<strong>Teléfono de acudiente:</strong> " . $this->getTelefonoAcudiente() . "<br/>" .
             "<strong>Correo de acudiente:</strong> " . $this->getCorreoAcudiente() . "<br/>";
 
         /*
@@ -499,12 +499,8 @@ class Usuario extends BasicModel
         */
 
 
-
     }
-
-
 }
-
 
 $Persona1 = new Usuario(1, 1002723452,
     'Juan Jose', 'Diaz Camargo', 'CC',

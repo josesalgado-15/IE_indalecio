@@ -19,9 +19,7 @@ class Usuario extends BasicModel
     protected string $tipoDocumento;
     protected string $fechaNacimiento;
     protected string $direccion;
-
     protected string $municipios_id;
-
     protected string $genero;
     protected string $rol;
     protected string $correo;
@@ -32,7 +30,6 @@ class Usuario extends BasicModel
     protected string $correoAcudiente;
 
     //Dejé las llaves foraneas como string para despues cambiarlas al saber de que tipo o como deben quedar
-
     protected string $instituciones_id;
     protected string $created_at;
     protected string $updated_at;

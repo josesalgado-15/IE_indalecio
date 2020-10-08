@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\BasicModel;
 use Carbon\Carbon;
-use \App\Models\BasicModel;
+
+require_once('BasicModel.php');
+
 
 class Usuario extends BasicModel
 {
@@ -17,12 +20,12 @@ class Usuario extends BasicModel
     protected string $correo;
     protected string $direccion;
     protected string $ciudad;
-    protected int $telefono;
+    protected string $telefono;
     protected string $genero;
     protected string $rol;
     protected ?string $password;
     protected string $nombreAcudiente;
-    protected int $telefonoAcudiente;
+    protected string $telefonoAcudiente;
     protected string $correoAcudiente;
 
     /*
@@ -35,6 +38,8 @@ class Usuario extends BasicModel
     //Metodo Constructor
     public function __construct ($idPersona, $numeroDocumento, $nombres , $apellidos, $tipoDocumento, $fechaNacimiento, $edad, $correo, $direccion, $ciudad, $telefono, $genero, $rol, $password, $nombreAcudiente, $telefonoAcudiente, $correoAcudiente)
     {
+
+        parent::__construct();
         $this->setIdPersona($idPersona); //Propiedad recibida y asigna a una propiedad de la clase
         $this->setNumeroDocumento($numeroDocumento);
         $this->setNombres($nombres);
@@ -52,6 +57,7 @@ class Usuario extends BasicModel
         $this->setNombreAcudiente($nombreAcudiente);
         $this->setTelefonoAcudiente($telefonoAcudiente);
         $this->setCorreoAcudiente($correoAcudiente);
+
 
         /*
         $this->setInstitucionIdInstitucion($institucion_id_institucion);
@@ -276,7 +282,7 @@ class Usuario extends BasicModel
      * @return int|mixed|string
      */
 
-    public function getTelefono(): int
+    public function getTelefono(): string
     {
         return $this->telefono;
     }
@@ -284,7 +290,7 @@ class Usuario extends BasicModel
     /**
      * @param int|mixed|string $telefono
      */
-    public function setTelefono(int $telefono): void
+    public function setTelefono(string $telefono): void
     {
         $this->telefono = $telefono;
     }
@@ -356,7 +362,7 @@ class Usuario extends BasicModel
     /**
      * @return int|mixed|string
      */
-    public function getTelefonoAcudiente(): int
+    public function getTelefonoAcudiente(): string
     {
         return $this->telefonoAcudiente;
     }
@@ -364,7 +370,7 @@ class Usuario extends BasicModel
     /**
      * @param int|mixed|string $telefonoAcudiente
      */
-    public function setTelefonoAcudiente(int $telefonoAcudiente): void
+    public function setTelefonoAcudiente(string $telefonoAcudiente): void
     {
         $this->telefonoAcudiente = $telefonoAcudiente;
     }
@@ -385,7 +391,6 @@ class Usuario extends BasicModel
         $this->correoAcudiente = $correoAcudiente;
     }
 
-
     /**
      * @return int|mixed|string
      */
@@ -405,7 +410,61 @@ class Usuario extends BasicModel
     }
     */
 
-    //Metodo
+    public function create()
+    {
+
+            $result = $this->insertRow("INSERT INTO dbindalecio.usuario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+                    $this->getNumeroDocumento(),
+                    $this->getNombres(),
+                    $this->getApellidos(),
+                    $this->getTipoDocumento(),
+                    $this->getFechaNacimiento(),
+                    $this->getEdad(),
+                    $this->getCorreo(),
+                    $this->getDireccion(),
+                    $this->getCiudad(),
+                    $this->getTelefono(),
+                    $this->getGenero(),
+                    $this->getRol(),
+                    $this->getPassword(),
+                    $this->getNombreAcudiente(),
+                    $this->getTelefonoAcudiente(),
+                    $this->getCorreoAcudiente()
+
+                )
+            );
+            $this->Disconnect();
+            return $result;
+
+    }
+
+    public function update()
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function deleted($id)
+    {
+        // TODO: Implement deleted() method.
+    }
+
+    public static function search($query)
+    {
+        // TODO: Implement search() method.
+    }
+
+    public static function getAll()
+    {
+        // TODO: Implement getAll() method.
+    }
+
+    public static function searchForId($id)
+    {
+        // TODO: Implement searchForId() method.
+    }
+
+
+    //Metodos
     public function saludar(?string $nombres = "Julian"): string
     { //Visibilidad, function, nombre metodo(parametros), retorno
         return "Hola " . $nombres . ", Soy " . $this->apellidos . " de color " . " como estas?<br/>";
@@ -444,41 +503,18 @@ class Usuario extends BasicModel
     }
 
 
-    protected static function search($query)
-    {
-        // TODO: Implement search() method.
-    }
-
-    protected static function getAll()
-    {
-        // TODO: Implement getAll() method.
-    }
-
-    protected static function searchForId($id)
-    {
-        // TODO: Implement searchForId() method.
-    }
-
-    protected function create()
-    {
-        // TODO: Implement create() method.
-    }
-
-    protected function update()
-    {
-        // TODO: Implement update() method.
-    }
-
-    protected function deleted($id)
-    {
-        // TODO: Implement deleted() method.
-    }
 }
+
 
 $Persona1 = new Usuario(1, 1002723452,
     'Juan Jose', 'Diaz Camargo', 'CC',
     '2001-05-07', 19, 'juancamar@gmail.com',
-    'Calle 2 sur#3-09', 'Pesca', 3132594565, 'Masculino',
-    'Estudiante', 1002723452, 'Pablo Diaz', '3132591544', 'juancamar@gmail.com');
+    'Calle 2 sur#3-09', 'Pesca', '3132594565', 'Masculino',
+    'Estudiante', 1002723452, 'Pablo Diaz',
+    '3132591544', 'juancamar@gmail.com');
+
+$Persona1->create();
 
 echo $Persona1;
+
+

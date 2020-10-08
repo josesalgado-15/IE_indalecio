@@ -3,8 +3,12 @@
 namespace App\Models;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Use Dotenv\Dotenv;
 require_once('BasicModel.php');
+=======
+use Dotenv\Dotenv;
+>>>>>>> *Primeros cambios
 =======
 use Dotenv\Dotenv;
 >>>>>>> *Primeros cambios

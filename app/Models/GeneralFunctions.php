@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
 Use Dotenv\Dotenv;
 require_once('BasicModel.php');
+=======
+use Dotenv\Dotenv;
+>>>>>>> *Primeros cambios
 
 require(__DIR__ .'/../../vendor/autoload.php');
 class GeneralFunctions

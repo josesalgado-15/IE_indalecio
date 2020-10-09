@@ -27,6 +27,7 @@ class Usuario extends BasicModel
     protected string $nombreAcudiente;
     protected string $telefonoAcudiente;
     protected string $correoAcudiente;
+    protected string $estado;
 
     /*
     protected int $institucion_id_institucion;
@@ -36,7 +37,7 @@ class Usuario extends BasicModel
      */
 
     //Metodo Constructor
-    public function __construct ($idPersona, $numeroDocumento, $nombres , $apellidos, $tipoDocumento, $fechaNacimiento, $edad, $correo, $direccion, $ciudad, $telefono, $genero, $rol, $password, $nombreAcudiente, $telefonoAcudiente, $correoAcudiente)
+    public function __construct ($idPersona, $numeroDocumento, $nombres , $apellidos, $tipoDocumento, $fechaNacimiento, $edad, $correo, $direccion, $ciudad, $telefono, $genero, $rol, $password, $nombreAcudiente, $telefonoAcudiente, $correoAcudiente, $estado)
     {
 
         parent::__construct();
@@ -57,6 +58,7 @@ class Usuario extends BasicModel
         $this->setNombreAcudiente($nombreAcudiente);
         $this->setTelefonoAcudiente($telefonoAcudiente);
         $this->setCorreoAcudiente($correoAcudiente);
+        $this->setEstado($estado);
 
 
         /*
@@ -392,8 +394,26 @@ class Usuario extends BasicModel
     }
 
     /**
+     * @return string
+     */
+    public function getEstado(): string
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param string $estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    /**
      * @return int|mixed|string
      */
+
+
     /*
     public function getInstitucionIdInstitucion(): int
     {
@@ -413,7 +433,7 @@ class Usuario extends BasicModel
     public function create()
     {
 
-            $result = $this->insertRow("INSERT INTO dbindalecio.usuario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+            $result = $this->insertRow("INSERT INTO dbindalecio.usuario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
                     $this->getNumeroDocumento(),
                     $this->getNombres(),
                     $this->getApellidos(),
@@ -429,7 +449,8 @@ class Usuario extends BasicModel
                     $this->getPassword(),
                     $this->getNombreAcudiente(),
                     $this->getTelefonoAcudiente(),
-                    $this->getCorreoAcudiente()
+                    $this->getCorreoAcudiente(),
+                    $this->getEstado()
 
                 )
             );
@@ -492,7 +513,8 @@ class Usuario extends BasicModel
             "<strong>Password:</strong> " . $this->getPassword() . "<br/>".
             "<strong>Nombre de acudiente:</strong> " . $this->getNombreAcudiente() . "<br/>".
             "<strong>Teléfono de acudiente:</strong> " . $this->getTelefonoAcudiente() . "<br/>".
-            "<strong>Correo de acudiente:</strong> " . $this->getCorreoAcudiente() . "<br/>";
+            "<strong>Correo de acudiente:</strong> " . $this->getCorreoAcudiente() . "<br/>".
+            "<strong>Estado:</strong> " . $this->getEstado() . "<br/>";
 
         /*
             "<strong>Id de Institución:</strong> " . $this->getInstitucionIdInstitucion() . "<br/>";
@@ -511,7 +533,7 @@ $Persona1 = new Usuario(1, 1002723452,
     '2001-05-07', 19, 'juancamar@gmail.com',
     'Calle 2 sur#3-09', 'Pesca', '3132594565', 'Masculino',
     'Estudiante', 1002723452, 'Pablo Diaz',
-    '3132591544', 'juancamar@gmail.com');
+    '3132591544', 'juancamar@gmail.com','Activo');
 
 $Persona1->create();
 

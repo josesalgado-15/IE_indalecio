@@ -5,6 +5,7 @@ require(__DIR__ .'/../../vendor/autoload.php');
 
 require_once ('GeneralFunctions.php');
 
+
 use Exception;
 use PDOException;
 
@@ -19,7 +20,6 @@ abstract class BasicModel {
     //TODO: Agregar PHPDoc
     public $isConnected;
     protected $datab;
-
 
     # métodos abstractos para ABM de clases que hereden
     abstract protected function create();
@@ -63,8 +63,6 @@ abstract class BasicModel {
         $this->datab = null;
         $this->isConnected = false;
     }
-
-
 
     //Getting row -> Deveulve una sola fila de la Base de Datos.
     //$getrow = $database->getRow("SELECT email, username FROM users WHERE username = ? and password = ?", array("diego","123456"));

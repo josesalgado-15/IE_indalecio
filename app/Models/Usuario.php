@@ -10,8 +10,8 @@ class Usuario extends BasicModel
 {
     //Propiedades
 
-    protected int $idPersona; //Visibilidad (public, protected, private)
-    protected float $numeroDocumento;
+    protected int $id; //Visibilidad (public, protected, private)
+    protected int $numeroDocumento;
     protected string $nombres;
     protected string $apellidos;
     protected string $tipoDocumento;
@@ -34,14 +34,15 @@ class Usuario extends BasicModel
     */
     /**
      * Usuario constructor.
+     *
      */
 
     //Metodo Constructor
-    public function __construct ($idPersona, $numeroDocumento, $nombres , $apellidos, $tipoDocumento, $fechaNacimiento, $edad, $correo, $direccion, $ciudad, $telefono, $genero, $rol, $password, $nombreAcudiente, $telefonoAcudiente, $correoAcudiente, $estado)
+    public function __construct ($id=0, $numeroDocumento = 0000000000, $nombres = 'Nombres' , $apellidos = 'Apellidos', $tipoDocumento = 'Tipo de documento', $fechaNacimiento = 'Fecha de nacimiento', $edad = 0, $correo = 'Correo', $direccion = 'Dirección', $ciudad = 'Ciudad', $telefono = 0, $genero = 'Genero', $rol = 'Rol', $password = 'Password', $nombreAcudiente = 'Nombre de acudiente', $telefonoAcudiente = 0, $correoAcudiente = 'Correo de acudiante', $estado = 'Inactivo')
     {
 
         parent::__construct();
-        $this->setIdPersona($idPersona); //Propiedad recibida y asigna a una propiedad de la clase
+        $this->setId($id); //Propiedad recibida y asigna a una propiedad de la clase
         $this->setNumeroDocumento($numeroDocumento);
         $this->setNombres($nombres);
         $this->setApellidos($apellidos);
@@ -70,7 +71,7 @@ class Usuario extends BasicModel
     /*
     public function __construct($usuario = array())
     {
-        $this->idPersona = $usuario['idPersona'] ?? 0;
+        $this->id = $usuario['id'] ?? 0;
         $this->numeroDocumento = $usuario['numeroDocumento'] ?? '';
         $this->nombres = $usuario['nombres'] ?? '';
         $this->apellidos = $usuario['apellidos'] ?? '';
@@ -98,23 +99,23 @@ class Usuario extends BasicModel
     /**
      * @return int|mixed
      */
-    public function getIdPersona(): int
+    public function getId(): int
     {
-        return $this->idPersona;
+        return $this->id;
     }
 
     /**
-     * @param int|mixed $idPersona
+     * @param int|mixed $id
      */
-    public function setIdPersona(int $idPersona): void
+    public function setId(int $id): void
     {
-        $this->idPersona = $idPersona;
+        $this->id = $id;
     }
 
     /**
      * @return int|mixed|string
      */
-    public function getNumeroDocumento(): float
+    public function getNumeroDocumento(): int
     {
         return $this->numeroDocumento;
     }
@@ -122,7 +123,7 @@ class Usuario extends BasicModel
     /**
      * @param int|mixed|string $numeroDocumento
      */
-    public function setNumeroDocumento(float $numeroDocumento): void
+    public function setNumeroDocumento(int $numeroDocumento): void
     {
         $this->numeroDocumento = $numeroDocumento;
     }
@@ -461,27 +462,113 @@ class Usuario extends BasicModel
 
     public function update()
     {
-        // TODO: Implement update() method.
+            $result = $this->updateRow("UPDATE dbindalecio.usuario SET numeroDocumento = ?, nombres = ?, apellidos = ?, tipoDocumento = ?, 
+            fechaNacimiento = ?, edad = ?, correo = ?, direccion = ?, ciudad = ?, telefono = ?, genero = ?, rol = ?, password = ?, nombreAcudiente = ?, 
+            telefonoAcudiente = ?, correoAcudiente = ?, estado = ? WHERE id = ?", array(
+
+                    $this->getNumeroDocumento(),
+                    $this->getNombres(),
+                    $this->getApellidos(),
+                    $this->getTipoDocumento(),
+                    $this->getFechaNacimiento(),
+                    $this->getEdad(),
+                    $this->getCorreo(),
+                    $this->getDireccion(),
+                    $this->getCiudad(),
+                    $this->getTelefono(),
+                    $this->getGenero(),
+                    $this->getRol(),
+                    $this->getPassword(),
+                    $this->getNombreAcudiente(),
+                    $this->getTelefonoAcudiente(),
+                    $this->getCorreoAcudiente(),
+                    $this->getEstado(),
+                    $this->getId()
+
+            )
+        );
+            $this->Disconnect();
+            return $this;
     }
 
     public function deleted($id)
     {
-        // TODO: Implement deleted() method.
+            $result = $this->updateRow('UPDATE dbindalecio.usuario SET estado = ? WHERE id = ?', array(
+                    'Inactivo',
+                    $this->getId()
+                )
+            );
     }
 
     public static function search($query)
     {
-        // TODO: Implement search() method.
+         $arrUsuarios = array();
+         $tmp = new Usuario();
+         $getrows = $tmp->getRows($query);
+
+         foreach ($getrows as $valor) {
+
+             $Usuario = new Usuario();
+             $Usuario->setId($valor['id']);
+             $Usuario->setNumeroDocumento($valor['numeroDocumento']);
+             $Usuario->setNombres($valor['nombres']);
+             $Usuario->setApellidos($valor['apellidos']);
+             $Usuario->setTipoDocumento($valor['tipoDocumento']);
+             $Usuario->setFechaNacimiento($valor['fechaNacimiento']);
+             $Usuario->setEdad($valor['edad']);
+             $Usuario->setCorreo($valor['correo']);
+             $Usuario->setDireccion($valor['direccion']);
+             $Usuario->setCiudad($valor['ciudad']);
+             $Usuario->setTelefono($valor['telefono']);
+             $Usuario->setGenero($valor['genero']);
+             $Usuario->setRol($valor['rol']);
+             $Usuario->setPassword($valor['password']);
+             $Usuario->setNombreAcudiente($valor['nombreAcudiente']);
+             $Usuario->setTelefonoAcudiente($valor['telefonoAcudiente']);
+             $Usuario->setCorreoAcudiente($valor['correoAcudiente']);
+             $Usuario->setEstado($valor['estado']);
+             $Usuario->Disconnect();
+             array_push($arrUsuarios, $Usuario);
+
+         }
+        $tmp->Disconnect();
+        return $arrUsuarios;
+
     }
 
     public static function getAll()
     {
-        // TODO: Implement getAll() method.
+        return Usuario::search("SELECT * FROM dbindalecio.usuario");
     }
 
     public static function searchForId($id)
     {
-        // TODO: Implement searchForId() method.
+        $Usuario = null;
+        if ($id>0){
+            $Usuario = new Usuario();
+            $getrow = $Usuario->getRow("SELECT * FROM dbindalecio.usuario WHERE id =?", array($id));
+
+            $Usuario->setId($getrow['id']);
+            $Usuario->setNumeroDocumento($getrow['numeroDocumento']);
+            $Usuario->setNombres($getrow['nombres']);
+            $Usuario->setApellidos($getrow['apellidos']);
+            $Usuario->setTipoDocumento($getrow['tipoDocumento']);
+            $Usuario->setFechaNacimiento($getrow['fechaNacimiento']);
+            $Usuario->setEdad($getrow['edad']);
+            $Usuario->setCorreo($getrow['correo']);
+            $Usuario->setDireccion($getrow['direccion']);
+            $Usuario->setCiudad($getrow['ciudad']);
+            $Usuario->setTelefono($getrow['telefono']);
+            $Usuario->setGenero($getrow['genero']);
+            $Usuario->setRol($getrow['rol']);
+            $Usuario->setPassword($getrow['password']);
+            $Usuario->setNombreAcudiente($getrow['nombreAcudiente']);
+            $Usuario->setTelefonoAcudiente($getrow['telefonoAcudiente']);
+            $Usuario->setCorreoAcudiente($getrow['correoAcudiente']);
+            $Usuario->setEstado($getrow['estado']);
+        }
+        $Usuario->Disconnect();
+        return $Usuario;
     }
 
 
@@ -497,7 +584,7 @@ class Usuario extends BasicModel
             "<strong>Sus datos son:</strong> ".
             "<br>".
             "<br>".
-            "<strong>Id:</strong> " . $this->getIdPersona() . "<br/>" .
+            "<strong>Id:</strong> " . $this->getId() . "<br/>" .
             "<strong>Número de documento:</strong> " . $this->getNumeroDocumento() . "<br/>" .
             "<strong>Nombres:</strong> " . $this->getNombres() . "<br/>" .
             "<strong>Apellidos:</strong> " . $this->getApellidos() . "<br/>".
@@ -526,17 +613,5 @@ class Usuario extends BasicModel
 
 
 }
-
-
-$Persona1 = new Usuario(1, 1002723452,
-    'Juan Jose', 'Diaz Camargo', 'CC',
-    '2001-05-07', 19, 'juancamar@gmail.com',
-    'Calle 2 sur#3-09', 'Pesca', '3132594565', 'Masculino',
-    'Estudiante', 1002723452, 'Pablo Diaz',
-    '3132591544', 'juancamar@gmail.com','Activo');
-
-$Persona1->create();
-
-echo $Persona1;
 
 

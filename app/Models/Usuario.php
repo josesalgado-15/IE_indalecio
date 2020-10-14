@@ -393,6 +393,7 @@ class Usuario extends BasicModel
 
     /**
      * @return int|mixed|string
+     * @throws Exception
      */
     /*
     public function getInstitucionIdInstitucion(): int
@@ -410,9 +411,8 @@ class Usuario extends BasicModel
     }
     */
 
-    public function create()
+    public function save() : Usuario
     {
-
             $result = $this->insertRow("INSERT INTO dbindalecio.usuario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
                     $this->getNumeroDocumento(),
                     $this->getNombres(),
@@ -434,34 +434,131 @@ class Usuario extends BasicModel
                 )
             );
             $this->Disconnect();
-            return $result;
+            return $this;
 
     }
+    /**
+     * @return mixed
+     */
+
 
     public function update()
     {
-        // TODO: Implement update() method.
+        $result = $this->updateRow("UPDATE dbindalecio.usuario SET numeroDocumento = ?, nombres = ?, apellidos = ?, tipoDocumento = ?, fechaNacimiento = ?, edad = ?, correo = ?, direccion = ?,cidudad = ?, telefono = ?, genero = ?, rol = ?, password = ?, nombreAcudiente = ?, telefonoAcudiente = ?, correoAcudiente = ?,  WHERE id = ?", array(
+                $this->getNumeroDocumento(),
+                $this->getNombres(),
+                $this->getApellidos(),
+                $this->getTipoDocumento(),
+                $this->getFechaNacimiento(),
+                $this->getEdad(),
+                $this->getCorreo(),
+                $this->getDireccion(),
+                $this->getCiudad(),
+                $this->getTelefono(),
+                $this->getGenero(),
+                $this->getRol(),
+                $this->getPassword(),
+                $this->getNombreAcudiente(),
+                $this->getTelefonoAcudiente(),
+                $this->getCorreoAcudiente()
+            )
+        );
+        $this->Disconnect();
+        return $this;
+    }
+    /**
+     * @param $idPersona
+     * @return mixed
+     */
+
+    public function deleted($idPersona)
+    {
+        $result = $this->updateRow("UPDATE dbindalecio.usuario SET estado = ? WHERE id = ?", array(
+                'Inactivo',
+                $this->getIdPersona()
+            )
+        );
+        $this->Disconnect();
+        return $this;
     }
 
-    public function deleted($id)
-    {
-        // TODO: Implement deleted() method.
-    }
+    /**
+     * @param $query
+     * @return mixed
+     * @throws Exception
+     */
 
     public static function search($query)
     {
-        // TODO: Implement search() method.
+            $arrUsuarios = array();
+
+        $tmp = new Usuario();
+            $getrows= $tmp->getRows($query);
+
+            foreach ($getrows as $valor) {
+                $Us= new Usuario();
+                $Us->setIdPersona($valor['idPersona']);
+                $Us->setNumeroDocumento($valor['numeroDocumento']);
+                $Us->setNombres($valor['nombres']);
+                $Us->setApellidos($valor['apellidos']);
+                $Us->setTipoDocumento($valor['tipoDocumento']);
+                $Us->setfechaNacimiento($valor['fechaNacimiento']);
+                $Us->setEdad($valor['edad']);
+                $Us->setCorreo($valor['correo']);
+                $Us->setDireccion($valor['direccion']);
+                $Us->setTelefono($valor['telefono']);
+                $Us->setGenero($valor['genero']);
+                $Us->setRol($valor['rol']);
+                $Us->setPassword($valor['password']);
+                $Us->setNombreAcudiente($valor['nombreAcudiente']);
+                $Us->setTelefonoAcudiente($valor['telefonoAcudiente']);
+                $Us->setCorreoAcudiente($valor['correoAcudiente']);
+                /*
+                $Us->setInstitucion_id_institucion ($valor['institucion_id_institucion']);
+                */
+                $Us->Disconnect();
+                array_push($arrUsuarios, $Us);
+            }
+            $tmp->Disconnect();
+            return $arrUsuarios;
+
     }
 
     public static function getAll()
     {
-        // TODO: Implement getAll() method.
+        return Usuario::search("SELECT * FROM dbindalecio.usuario");
     }
 
-    public static function searchForId($id)
+    public static function searchForId($idPersona)
     {
-        // TODO: Implement searchForId() method.
+        $Us = null;
+        if ($idPersona > 0) {
+            $Us = new Usuario();
+            $getrow = $Us->getRow("SELECT * FROM dbindalecio.usuario WHERE id =?", array($idPersona));
+            $Us->setIdPersona($getrow['id']);
+            $Us->setNumeroDocumento($getrow['numeroDocumento']);
+            $Us->setNombres($getrow['nombres']);
+            $Us->setApellidos($getrow['apellidos']);
+            $Us->setTipoDocumento($getrow['tipoDocumento']);
+            $Us->setfechaNacimiento($getrow['fechaNacimiento']);
+            $Us->setEdad($getrow['edad']);
+            $Us->setCorreo($getrow['correo']);
+            $Us->setDireccion($getrow['direccion']);
+            $Us->setTelefono($getrow['telefono']);
+            $Us->setGenero($getrow['genero']);
+            $Us->setRol($getrow['rol']);
+            $Us->setPassword($getrow['password']);
+            $Us->setNombreAcudiente($getrow['nombreAcudiente']);
+            $Us->setTelefonoAcudiente($getrow['telefonoAcudiente']);
+            $Us->setCorreoAcudiente($getrow['correoAcudiente']);
+            /*
+            $Us->setInstitucion_id_institucion ($getrow['institucion_id_institucion']);
+            */
+        }
+        $Us->Disconnect();
+        return $Us;
     }
+
 
 
     //Metodos
@@ -509,7 +606,7 @@ $Persona1 = new Usuario(1, 1002723452,
     'Estudiante', 1002723452, 'Pablo Diaz',
     '3132591544', 'juancamar@gmail.com');
 
-$Persona1->create();
+$Persona1->save();
 
 echo $Persona1;
 

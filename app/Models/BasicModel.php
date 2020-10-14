@@ -22,7 +22,7 @@ abstract class BasicModel {
     protected $datab;
 
     # métodos abstractos para ABM de clases que hereden
-    abstract protected function create();
+    abstract protected function save();
     abstract protected function update();
     abstract protected function deleted($id);
     abstract protected static function search($query);

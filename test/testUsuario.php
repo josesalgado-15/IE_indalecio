@@ -3,15 +3,15 @@
 require_once ('..\app\Models\Usuario.php');
 
 
-$Persona1 = new Usuario(7, 1005343455,
-    'Juan Jose', 'Diaz Camargo', 'CC',
-    '2001-05-07', 19, 'juancamar@gmail.com',
-    'Calle 2 sur#3-09', 'Pesca', '3132594565', 'Masculino',
-    'Estudiante', 1005343455, 'Pablo Diaz',
-    '3132591544', 'juancamar@gmail.com','Activo');
+$Persona1 = new Usuario(7, 'Juan Jose',
+    'Diaz Camargo', 18, 3108886595,
+    1002723428, 'CC', '2001-05-07',
+    'Calle 2 sur#3-09', '3', 'Estudiante', 'juancamar@gmail.com',
+    '1002723428', 'Activo', 'Pablo Diaz',
+    'Masculino', 'juanca21@gmail.com',3102564585, '1', '2020-10-07','2020-10-07', '2020-10-07');
 
 //Creacion de usuario en base de datos
-//$Persona1->create();
+$Persona1->create();
 
 /*
 //Actualizacion de informacion, corrección de numero de documento y contraseña
@@ -53,5 +53,9 @@ var_dump($arrUsuarios);
 
 
 //Busqueda por Id
+/*
 $busqueda = Usuario::searchForId(6);
 echo ($busqueda);
+*/
+
+$Persona1->create();

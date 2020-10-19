@@ -166,7 +166,7 @@ class Grado extends BasicModel
             $this->getEstado(),
             $this->getCreatedAt(),
             $this->getUpdatedAt(),
-            $this->getDeletedAt()
+            $this->getDeletedAt(), $this->getId()
 
             )
         );

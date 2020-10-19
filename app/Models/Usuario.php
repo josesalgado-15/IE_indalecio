@@ -37,14 +37,13 @@ class Usuario extends BasicModel
 
 
 
-
     /**
      * Usuario constructor.
      *
      */
 
     //Metodo Constructor
-    public function __construct ($id=0, $nombres = 'Nombres', $apellidos = 'Apellidos', $edad = 0,  $telefono = 0000000000, $numeroDocumento = 0000000000, $tipoDocumento = 'TipoDoc', $fechaNacimiento = '00-00-0000', $direccion = 'Dirección', $municipios_id = 'MunicipioId', $rol = 'Rol', $correo = 'Correo', $contrasena='Contraseña', $estado='estado',  $nombreAcudiente = 'Nombre de acudiente', $genero = 'Genero', $correoAcudiente = 'Correo de acudiante',  $telefonoAcudiente = 0, $instituciones_id='0', $created_at='Fecha',$updated_at='Fecha', $deleted_at='Fecha')
+    public function __construct ($id=0, $nombres = 'Nombres', $apellidos = 'Apellidos', $edad = 0,  $telefono = 0000000000, $numeroDocumento = 0000000000, $tipoDocumento = 'TipoDoc', $fechaNacimiento = '00-00-0000', $direccion = 'Dirección', $municipios_id = 'MunicipioId', $genero = 'Genero Persona', $rol = 'Rol', $correo = 'Correo', $contrasena='Contraseña', $estado='estado',  $nombreAcudiente = 'Nombre de acudiente', $telefonoAcudiente = 0, $correoAcudiente = 'Correo de acudiante', $instituciones_id='0', $created_at='Fecha',$updated_at='Fecha', $deleted_at='Fecha')
     {
 
         parent::__construct();
@@ -58,14 +57,15 @@ class Usuario extends BasicModel
         $this->setFechaNacimiento($fechaNacimiento);
         $this->setDireccion($direccion);
         $this->setMunicipiosId($municipios_id);
+        $this->setGenero($genero);
         $this->setRol($rol);
         $this->setCorreo($correo);
         $this->setContrasena($contrasena);
         $this->setEstado($estado);
         $this->setNombreAcudiente($nombreAcudiente);
-        $this->setGenero($genero);
-        $this->setCorreoAcudiente($correoAcudiente);
         $this->setTelefonoAcudiente($telefonoAcudiente);
+        $this->setCorreoAcudiente($correoAcudiente);
+
 
         $this->setInstitucionesId($instituciones_id);
         $this->setCreatedAt($created_at);
@@ -240,6 +240,8 @@ class Usuario extends BasicModel
         $this->genero = $genero;
     }
 
+
+
     /**
      * @return string
      */
@@ -321,6 +323,7 @@ class Usuario extends BasicModel
     {
         $this->nombreAcudiente = $nombreAcudiente;
     }
+
 
     /**
      * @return string
@@ -456,14 +459,14 @@ class Usuario extends BasicModel
                     $this->getFechaNacimiento(),
                     $this->getDireccion(),
                     $this->getMunicipiosId(),
+                    $this->getGenero(),
                     $this->getRol(),
                     $this->getCorreo(),
                     $this->getContrasena(),
                     $this->getEstado(),
                     $this->getNombreAcudiente(),
-                    $this->getGenero(),
-                    $this->getCorreoAcudiente(),
                     $this->getTelefonoAcudiente(),
+                    $this->getCorreoAcudiente(),
                     $this->getInstitucionesId(),
                     $this->getCreatedAt(),
                     $this->getUpdatedAt(),
@@ -480,7 +483,7 @@ class Usuario extends BasicModel
     public function update()
     {
             $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombres = ?, apellidos = ? edad = ?, telefono = ?, numeroDocumento = ?, tipoDocumento = ?, 
-            fechaNacimiento = ?, direccion = ?, municipio_id = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombreAcudiente = ?, genero = ?, correoAcudiente = ?,  telefonoAcudiente = ?, instituciones_id = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
+            fechaNacimiento = ?, direccion = ?, municipio_id = ?,  genero = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombreAcudiente = ?, telefonoAcudiente = ?, correoAcudiente = ?,  instituciones_id = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
 
                     $this->getNombres(),
                     $this->getApellidos(),
@@ -491,14 +494,14 @@ class Usuario extends BasicModel
                     $this->getFechaNacimiento(),
                     $this->getDireccion(),
                     $this->getMunicipiosId(),
+                    $this->getGenero(),
                     $this->getRol(),
                     $this->getCorreo(),
                     $this->getContrasena(),
                     $this->getEstado(),
                     $this->getNombreAcudiente(),
-                    $this->getGenero(),
-                    $this->getCorreoAcudiente(),
                     $this->getTelefonoAcudiente(),
+                    $this->getCorreoAcudiente(),
                     $this->getInstitucionesId(),
                     $this->getCreatedAt(),
                     $this->getUpdatedAt(),
@@ -538,14 +541,14 @@ class Usuario extends BasicModel
              $Usuario->setFechaNacimiento($valor['fechaNacimiento']);
              $Usuario->setDireccion($valor['direccion']);
              $Usuario->setMunicipiosId($valor['municipio_id']);
+             $Usuario->setGenero($valor['genero']);
              $Usuario->setRol($valor['rol']);
              $Usuario->setCorreo($valor['correo']);
              $Usuario->setContrasena($valor['contrasena']);
              $Usuario->setEstado($valor['estado']);
              $Usuario->setNombreAcudiente($valor['nombreAcudiente']);
-             $Usuario->setGenero($valor['genero']);
-             $Usuario->setCorreoAcudiente($valor['correoAcudiente']);
              $Usuario->setTelefonoAcudiente($valor['telefonoAcudiente']);
+             $Usuario->setCorreoAcudiente($valor['correoAcudiente']);
              $Usuario->setInstitucionesId($valor['instituciones_id']);
              $Usuario->setCreatedAt($valor['created_at']);
              $Usuario->setUpdatedAt($valor['updated_at']);
@@ -584,14 +587,14 @@ class Usuario extends BasicModel
             $Usuario->setFechaNacimiento($getrow['fechaNacimiento']);
             $Usuario->setDireccion($getrow['direccion']);
             $Usuario->setMunicipiosId($getrow['municipio_id']);
+            $Usuario->setGenero($getrow['genero']);
             $Usuario->setRol($getrow['rol']);
             $Usuario->setCorreo($getrow['correo']);
             $Usuario->setContrasena($getrow['contrasena']);
             $Usuario->setEstado($getrow['estado']);
             $Usuario->setNombreAcudiente($getrow['nombreAcudiente']);
-            $Usuario->setGenero($getrow['genero']);
-            $Usuario->setCorreoAcudiente($getrow['correoAcudiente']);
             $Usuario->setTelefonoAcudiente($getrow['telefonoAcudiente']);
+            $Usuario->setCorreoAcudiente($getrow['correoAcudiente']);
             $Usuario->setInstitucionesId($getrow['instituciones_id']);
             $Usuario->setCreatedAt($getrow['created_at']);
             $Usuario->setUpdatedAt($getrow['updated_at']);

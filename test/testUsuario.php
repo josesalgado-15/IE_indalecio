@@ -6,9 +6,8 @@ require_once ('..\app\Models\Usuario.php');
 $Persona1 = new Usuario(7, 'Juan Jose',
     'Diaz Camargo', 18, 3108886595,
     1002723428, 'CC', '2001-05-07',
-    'Calle 2 sur#3-09', '3', 'Estudiante', 'juancamar@gmail.com',
-    '1002723428', 'Activo', 'Pablo Diaz',
-    'Masculino', 'juanca21@gmail.com',3102564585, '1', '2020-10-07','2020-10-07', '2020-10-07');
+    'Calle 2 sur#3-09', '3', 'Masculino', 'Estudiante', 'juancamar@gmail.com',
+    '1002723428', 'Activo', 'Pablo Diaz', 3132564588,'juanca21@gmail.com', '1', '2020-10-07','2020-10-07', '2020-10-07');
 
 //Creacion de usuario en base de datos
 $Persona1->create();

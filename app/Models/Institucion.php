@@ -164,7 +164,7 @@ class Institucion extends BasicModel
         $this->correo = $correo;
     }
 
-    public function save() : Institucion
+    public function create() : Institucion
     {
         $result = $this->insertRow("INSERT INTO dbindalecio.usuario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)", array(
 

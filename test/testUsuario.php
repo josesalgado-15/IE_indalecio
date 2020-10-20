@@ -45,7 +45,6 @@ echo $Persona1;
 //Busquedas, no funciona ya que pide llenar el a
 $allUsuarios = Usuario::getAll();
 var_dump($allUsuarios);
-
 $arrUsuarios = Usuario::search("SELECT * FROM dbindalecio.usuario WHERE numeroDocumento = 1005343425");
 var_dump($arrUsuarios);
 */

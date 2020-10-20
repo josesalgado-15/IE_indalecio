@@ -9,26 +9,33 @@ require_once('BasicModel.php');
 class Institucion extends BasicModel
 
 {
-    protected int $idInstitucion; //Visibilidad (public, protected, private)
+    protected int $id; //Visibilidad (public, protected, private)
     protected string $nombre;
     protected string $direccion;
+    protected string $municipios_id;
     protected string $rector;
-    protected string $departamento;
-    protected string $ciudad;
     protected string $telefono;
     protected string $correo;
+    protected string $estado;
+    protected string $created_at;
+    protected string $updated_at;
+    protected string $deleted_at;
 
-    public function __construct ($nombre, $direccion, $rector, $departamento, $ciudad, $telefono ,$correo){
+    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'Fecha', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado', $created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha')
+    {
 
         parent::__construct();
-
-        $this->setNombres($nombre);
+        $this->setId($id);
+        $this->setNombre($nombre);
         $this->setDireccion($direccion);
+        $this->setMunicipiosId($municipios_id);
         $this->setRector($rector);
-        $this->setDepartamento($departamento);
-        $this->setCiudad($ciudad);
         $this->setTelefono($telefono);
         $this->setCorreo($correo);
+        $this->setEstado($estado);
+        $this->setCreatedAt($created_at);
+        $this->setUpdatedAt($updated_at);
+        $this->setDeletedAt($deleted_at);
     }
 
     function __destruct()
@@ -39,17 +46,17 @@ class Institucion extends BasicModel
     /**
      * @return int
      */
-    public function getIdInstitucion(): int
+    public function getId(): int
     {
-        return $this->idInstitucion;
+        return $this->id;
     }
 
     /**
-     * @param int $idInstitucion
+     * @param int $id
      */
-    public function setIdInstitucion(int $idInstitucion): void
+    public function setId(int $id): void
     {
-        $this->idInstitucion = $idInstitucion;
+        $this->id = $id;
     }
 
     /**
@@ -87,6 +94,22 @@ class Institucion extends BasicModel
     /**
      * @return string
      */
+    public function getMunicipiosId(): string
+    {
+        return $this->municipios_id;
+    }
+
+    /**
+     * @param string $municipios_id
+     */
+    public function setMunicipiosId(string $municipios_id): void
+    {
+        $this->municipios_id = $municipios_id;
+    }
+
+    /**
+     * @return string
+     */
     public function getRector(): string
     {
         return $this->rector;
@@ -100,37 +123,6 @@ class Institucion extends BasicModel
         $this->rector = $rector;
     }
 
-    /**
-     * @return string
-     */
-    public function getDepartamento(): string
-    {
-        return $this->departamento;
-    }
-
-    /**
-     * @param string $departamento
-     */
-    public function setDepartamento(string $departamento): void
-    {
-        $this->departamento = $departamento;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCiudad(): string
-    {
-        return $this->ciudad;
-    }
-
-    /**
-     * @param string $ciudad
-     */
-    public function setCiudad(string $ciudad): void
-    {
-        $this->ciudad = $ciudad;
-    }
 
     /**
      * @return string
@@ -164,17 +156,85 @@ class Institucion extends BasicModel
         $this->correo = $correo;
     }
 
-    public function create() : Institucion
+    /**
+     * @return string
+     */
+    public function getEstado(): string
     {
-        $result = $this->insertRow("INSERT INTO dbindalecio.usuario VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)", array(
+        return $this->estado;
+    }
 
-        $this->setNombre(),
-        $this->setDireccion(),
-        $this->setRector(),
-        $this->setDepartamento(),
-        $this->setCiudad(),
-        $this->setTelefono(),
-        $this->setCorreo(),
+    /**
+     * @param string $estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param string $created_at
+     */
+    public function setCreatedAt(string $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param string $updated_at
+     */
+    public function setUpdatedAt(string $updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeletedAt(): string
+    {
+        return $this->deleted_at;
+    }
+
+    /**
+     * @param string $deleted_at
+     */
+    public function setDeletedAt(string $deleted_at): void
+    {
+        $this->deleted_at = $deleted_at;
+    }
+
+
+    public function create()
+    {
+        $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? ,? , ? ,?)", array(
+
+                $this->setNombre(),
+                $this->setDireccion(),
+                $this->setMunicipiosId(),
+                $this->setRector(),
+                $this->setTelefono(),
+                $this->setCorreo(),
+                $this->setEstado(),
+                $this->setCreatedAt(),
+                $this->setUpdatedAt(),
+                $this->setDeletedAt(),
 
             )
         );
@@ -191,14 +251,19 @@ class Institucion extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.usuario SET nombre = ?, direccion = ?, rector = ?, departamento = ?, ciudad = ?, telefono = ?, correo = ? , WHERE id = ?", array(
-                $this->setNombre(),
-                $this->setDireccion(),
-                $this->setRector(),
-                $this->setDepartamento(),
-                $this->setCiudad(),
-                $this->setTelefono(),
-                $this->setCorreo(),
+        $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombre = ?,  direccion = ?, municipios_id = ?, rector = ?,  telefono = ?,
+          correo = ?, estado = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
+                $this->getNombre(),
+                $this->getDireccion(),
+                $this->getMunicipiosId(),
+                $this->getRector(),
+                $this->getTelefono(),
+                $this->getCorreo(),
+                $this->getEstado(),
+                $this->getCreatedAt(),
+                $this->getUpdatedAt(),
+                $this->getDeletedAt(),
+
             )
         );
         $this->Disconnect();
@@ -206,32 +271,76 @@ class Institucion extends BasicModel
     }
 
     /**
-     * @param $idPersona
+     * @param $id
      * @return mixed
      */
 
-    public function deleted($idPersona)
+
+    public function deleted($id)
     {
-        $result = $this->updateRow("UPDATE dbindalecio.usuario SET estado = ? WHERE id = ?", array(
+        $result = $this->updateRow('UPDATE dbindalecio.instituciones SET estado = ? WHERE id = ?', array(
                 'Inactivo',
-                $this->getIdInstitucion()
+                $this->getId()
             )
         );
-        $this->Disconnect();
-        return $this;
-    }
-    protected static function search($query)
-    {
-        // TODO: Implement search() method.
     }
 
-    protected static function getAll()
+    public static function search($query)
     {
-        // TODO: Implement getAll() method.
+        $arrInsti = array();
+        $tmp = new Institucion();
+        $getrows = $tmp->getRows($query);
+
+        foreach ($getrows as $valor) {
+
+            $Insti = new Institucion();
+            $Insti->setId($valor['id']);
+            $Insti->setNombre($valor['nombre']);
+            $Insti->setDireccion($valor['direccion']);
+            $Insti->setMunicipiosId($valor['municipios_id']);
+            $Insti->setRector($valor['rector']);
+            $Insti->setTelefono($valor['telefono']);
+            $Insti->setCorreo($valor['correo']);
+            $Insti->setEstado($valor['estado']);
+            $Insti->setCreatedAt($valor['created_at']);
+            $Insti->setUpdatedAt($valor['updated_at']);
+            $Insti->setDeletedAt($valor['deleted_at']);
+
+            $Insti->Disconnect();
+            array_push($arrInsti,  $Insti);
+
+        }
+        $tmp->Disconnect();
+        return $arrInsti ;
+
     }
 
-    protected static function searchForId($id)
+    public static function getAll()
     {
-        // TODO: Implement searchForId() method.
+        return Institucion::search("SELECT * FROM dbindalecio.instituciones");
+    }
+
+    public static function searchForId($id)
+    {
+        $Insti = null;
+        if ($id>0){
+            $Insti = new Institucion();
+            $getrow = $Insti->getRow("SELECT * FROM dbindalecio.instituciones WHERE id =?", array($id));
+
+            $Insti->setId($getrow['id']);
+            $Insti->setNombre($getrow['nombre']);
+            $Insti->setDireccion($getrow['direccion']);
+            $Insti->setMunicipiosId($getrow['municipio_id']);
+            $Insti->setRector($getrow['rector']);
+            $Insti->setTelefono($getrow['telefono']);
+            $Insti->setCorreo($getrow['correo']);
+            $Insti->setEstado($getrow['estado']);
+            $Insti->setCreatedAt($getrow['created_at']);
+            $Insti->setUpdatedAt($getrow['updated_at']);
+            $Insti->setDeletedAt($getrow['deleted_at']);
+
+        }
+        $Insti->Disconnect();
+        return $Insti;
     }
 }

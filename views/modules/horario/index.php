@@ -1,19 +1,19 @@
 <?php use Carbon\Carbon;
-require("partials/routes.php");
+require("../../partials/routes.php");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title><?= $_ENV['TITLE_SITE'] ?> | Crear Usuario</title>
-    <?php include_once ('partials/head_imports.php') ?>
+    <?php include_once ('../../partials/head_imports.php') ?>
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
-    <?php include_once ('partials/navbar_customization.php') ?>
+    <?php include_once ('../../partials/navbar_customization.php') ?>
 
-    <?php include_once ('partials/sliderbar_main_menu.php') ?>
+    <?php include_once ('../../partials/sliderbar_main_menu.php') ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -65,10 +65,10 @@ require("partials/routes.php");
     </div>
     <!-- /.content-wrapper -->
 
-    <?php include_once ('partials/footer.php') ?>
+    <?php include_once ('../../partials/footer.php') ?>
 </div>
 <!-- ./wrapper -->
 
-<?php include_once ('partials/scripts.php') ?>
+<?php include_once ('../../partials/scripts.php') ?>
 </body>
 </html>

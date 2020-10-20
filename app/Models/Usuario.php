@@ -19,7 +19,9 @@ class Usuario extends BasicModel
     protected string $tipoDocumento;
     protected string $fechaNacimiento;
     protected string $direccion;
+
     protected string $municipios_id;
+
     protected string $genero;
     protected string $rol;
     protected string $correo;
@@ -30,6 +32,7 @@ class Usuario extends BasicModel
     protected string $correoAcudiente;
 
     //Dejé las llaves foraneas como string para despues cambiarlas al saber de que tipo o como deben quedar
+
     protected string $instituciones_id;
     protected string $created_at;
     protected string $updated_at;
@@ -447,7 +450,8 @@ class Usuario extends BasicModel
 
     public function create()
     {
-
+        var_dump($this);
+        var_dump($this->getRol());
         $result = $this->insertRow("INSERT INTO dbindalecio.usuarios VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
 
                 $this->getNombres(),
@@ -458,7 +462,6 @@ class Usuario extends BasicModel
                 $this->getTipoDocumento(),
                 $this->getFechaNacimiento(),
                 $this->getDireccion(),
-                $this->getMunicipiosId(),
                 $this->getGenero(),
                 $this->getRol(),
                 $this->getCorreo(),
@@ -468,6 +471,7 @@ class Usuario extends BasicModel
                 $this->getTelefonoAcudiente(),
                 $this->getCorreoAcudiente(),
                 $this->getInstitucionesId(),
+                $this->getMunicipiosId(),
                 $this->getCreatedAt(),
                 $this->getUpdatedAt(),
                 $this->getDeletedAt()
@@ -643,7 +647,6 @@ class Usuario extends BasicModel
 
 
     }
-
 
 
 }

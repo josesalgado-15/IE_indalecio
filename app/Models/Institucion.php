@@ -17,12 +17,13 @@ class Institucion extends BasicModel
     protected string $telefono;
     protected string $correo;
     protected string $estado;
+    /*
     protected string $created_at;
     protected string $updated_at;
     protected string $deleted_at;
+*/
 
-
-    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'Fecha', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado', $created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha')
+    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'Fecha', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado'/*$created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha'*/)
 
     {
 
@@ -35,9 +36,12 @@ class Institucion extends BasicModel
         $this->setTelefono($telefono);
         $this->setCorreo($correo);
         $this->setEstado($estado);
+        /*
         $this->setCreatedAt($created_at);
         $this->setUpdatedAt($updated_at);
         $this->setDeletedAt($deleted_at);
+        */
+
     }
 
     function __destruct()
@@ -173,10 +177,11 @@ class Institucion extends BasicModel
     {
         $this->estado = $estado;
     }
-
+/*
     /**
      * @return string
      */
+    /*
     public function getCreatedAt(): string
     {
         return $this->created_at;
@@ -185,6 +190,7 @@ class Institucion extends BasicModel
     /**
      * @param string $created_at
      */
+    /*
     public function setCreatedAt(string $created_at): void
     {
         $this->created_at = $created_at;
@@ -193,22 +199,25 @@ class Institucion extends BasicModel
     /**
      * @return string
      */
+    /*
     public function getUpdatedAt(): string
     {
         return $this->updated_at;
     }
-
+/*
     /**
      * @param string $updated_at
      */
+    /*
     public function setUpdatedAt(string $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
-
+/*
     /**
      * @return string
      */
+    /*
     public function getDeletedAt(): string
     {
         return $this->deleted_at;
@@ -217,27 +226,31 @@ class Institucion extends BasicModel
     /**
      * @param string $deleted_at
      */
+    /*
     public function setDeletedAt(string $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
-
+*/
     public function create()
     {
-        $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? ,? , ? ,?)", array(
+        $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? , NOW() , NULL ,NULL)", array(
 
-                $this->setNombre(),
-                $this->setDireccion(),
-                $this->setMunicipiosId(),
-                $this->setRector(),
-                $this->setTelefono(),
-                $this->setCorreo(),
-                $this->setEstado(),
-                $this->setCreatedAt(),
-                $this->setUpdatedAt(),
-                $this->setDeletedAt(),
+                $this->getNombre(),
+                $this->getDireccion(),
+                $this->getMunicipiosId(),
+                $this->getRector(),
+                $this->getTelefono(),
+                $this->getCorreo(),
+                $this->getEstado(),
 
+
+                /*
+                $this->getCreatedAt(),
+                $this->getUpdatedAt(),
+                $this->getDeletedAt(),
+*/
             )
         );
 
@@ -254,7 +267,7 @@ class Institucion extends BasicModel
     public function update()
     {
         $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombre = ?,  direccion = ?, municipios_id = ?, rector = ?,  telefono = ?,
-          correo = ?, estado = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
+          correo = ?, estado = ? /* created_at = ?, updated_at = ?, deleted_at = ? */  WHERE id = ?", array(
                 $this->getNombre(),
                 $this->getDireccion(),
                 $this->getMunicipiosId(),
@@ -262,20 +275,16 @@ class Institucion extends BasicModel
                 $this->getTelefono(),
                 $this->getCorreo(),
                 $this->getEstado(),
+                /*
                 $this->getCreatedAt(),
                 $this->getUpdatedAt(),
                 $this->getDeletedAt(),
-
+*/
             )
         );
         $this->Disconnect();
         return $this;
     }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
 
 
     public function deleted($id)
@@ -304,10 +313,11 @@ class Institucion extends BasicModel
             $Insti->setTelefono($valor['telefono']);
             $Insti->setCorreo($valor['correo']);
             $Insti->setEstado($valor['estado']);
+            /*
             $Insti->setCreatedAt($valor['created_at']);
             $Insti->setUpdatedAt($valor['updated_at']);
             $Insti->setDeletedAt($valor['deleted_at']);
-
+*/
             $Insti->Disconnect();
             array_push($arrInsti,  $Insti);
 
@@ -337,12 +347,37 @@ class Institucion extends BasicModel
             $Insti->setTelefono($getrow['telefono']);
             $Insti->setCorreo($getrow['correo']);
             $Insti->setEstado($getrow['estado']);
+            /*
             $Insti->setCreatedAt($getrow['created_at']);
             $Insti->setUpdatedAt($getrow['updated_at']);
             $Insti->setDeletedAt($getrow['deleted_at']);
+            */
 
         }
         $Insti->Disconnect();
         return $Insti;
+    }
+    public function __toString(): string
+    {
+        return
+            "<strong>Sus datos son:</strong> ".
+            "<br>".
+            "<br>".
+            "<strong>Id:</strong> " . $this->getId() . "<br/>" .
+            "<strong>Nombre:</strong> " . $this->getNombre() . "<br/>" .
+            "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>".
+            "<strong>Id Municipio:</strong> " . $this->getMunicipiosId() . "<br/>".
+            "<strong>Rector:</strong> " . $this->getRector() . "<br/>".
+            "<strong>Teléfono:</strong> " . $this->getTelefono() . "<br/>".
+            "<strong>Correo:</strong> " . $this->getCorreo() . "<br/>".
+            "<strong>Estado:</strong> " . $this->getEstado() . "<br/>" ;
+
+
+        /*
+
+        */
+
+
+
     }
 }

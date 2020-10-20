@@ -1,12 +1,13 @@
 <?php
 
-require_once ('..\app\Models\Usuario.php');
+require_once ('..\app\Models\Institucion.php');
 
 
-$Insti1 = new Institucion  (7, 'Juan Andres Perea Padilla' , 'Calle 2 sur#3-09', 2 ,  'Rector' ,  '3132594565' ,
+$Insti1 = new Institucion  (7, 'Juan Andres Perea Padilla' , 'Calle 2 sur#3-09', 1 ,  'Rector' ,  '3132594565' ,
     'juancamar@gmail.com' ,  'Activo' );
 
 //Creacion de usuario en base de datos
+
 $Insti1->create();
 
 /*
@@ -31,16 +32,16 @@ echo $Insti1;
 
 /*
 //Busquedas, no funciona ya que pide llenar el a
-$allUsuarios = Usuario::getAll();
-var_dump($allUsuarios);
-$arrUsuarios = Usuario::search("SELECT * FROM dbindalecio.usuario WHERE numeroDocumento = 1005343425");
-var_dump($arrUsuarios);
+$allInstituciones = Institucion::getAll();
+var_dump($allInstituciones);
+$arrInsti = Institucion::search("SELECT * FROM dbindalecio.usuario WHERE numeroDocumento = 1005343425");
+var_dump($arrInsti);
 */
 
 
 //Busqueda por Id
 /*
-$busqueda = Instituciones::searchForId(6);
+$busqueda = Institucion::searchForId(6);
 echo ($busqueda);
 */
 

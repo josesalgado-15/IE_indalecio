@@ -645,4 +645,5 @@ class Usuario extends BasicModel
     }
 
 
+
 }

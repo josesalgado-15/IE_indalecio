@@ -21,7 +21,7 @@ class Institucion extends BasicModel
     protected string $updated_at;
     protected string $deleted_at;
 
-    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'Fecha', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado', $created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha')
+    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'MunicipioId', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado', $created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha')
     {
 
         parent::__construct();

@@ -6,8 +6,8 @@ require_once ('..\app\Models\Usuario.php');
 $Persona1 = new Usuario(7, 'Juan Jose',
     'Diaz Camargo', 18, 3108886595,
     1002723428, 'CC', '2001-05-07',
-    'Calle 2 sur#3-09', '3', 'Masculino', 'Estudiante', 'juancamar@gmail.com',
-    '1002723428', 'Activo', 'Pablo Diaz', 3132564588,'juanca21@gmail.com', '1', '2020-10-07','2020-10-07', '2020-10-07');
+    'Calle 2 sur#3-09', '1', 'Masculino', 'Estudiante', 'juancamar@gmail.com',
+    '1002723428', 'Activo', 'Pablo Diaz', 3132564588,'juanca21@gmail.com', '2', '2020-10-07','2020-10-07', '2020-10-07');
 
 //Creacion de usuario en base de datos
 $Persona1->create();
@@ -45,7 +45,6 @@ echo $Persona1;
 //Busquedas, no funciona ya que pide llenar el a
 $allUsuarios = Usuario::getAll();
 var_dump($allUsuarios);
-
 $arrUsuarios = Usuario::search("SELECT * FROM dbindalecio.usuario WHERE numeroDocumento = 1005343425");
 var_dump($arrUsuarios);
 */
@@ -56,5 +55,3 @@ var_dump($arrUsuarios);
 $busqueda = Usuario::searchForId(6);
 echo ($busqueda);
 */
-
-$Persona1->create();

@@ -474,7 +474,7 @@ class Usuario extends BasicModel
                 $this->getMunicipiosId(),
                 $this->getCreatedAt(),
                 $this->getUpdatedAt(),
-                $this->getDeletedAt()
+                $this->getDeletedAt(),
 
 
             )

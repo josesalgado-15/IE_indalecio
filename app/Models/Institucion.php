@@ -17,13 +17,13 @@ class Institucion extends BasicModel
     protected string $telefono;
     protected string $correo;
     protected string $estado;
-    /*
+
     protected string $created_at;
     protected string $updated_at;
     protected string $deleted_at;
-*/
 
-    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'Fecha', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado'/*$created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha'*/)
+
+    public function __construct($id = 0, $nombre = 'Nombres', $direccion = 'Dirección', $municipios_id = 'Fecha', $rector = 'Rector', $telefono = 0000000000, $correo = 'Correo', $estado = 'estado', $created_at = 'Fecha', $updated_at = 'Fecha', $deleted_at = 'Fecha')
 
     {
 
@@ -36,11 +36,11 @@ class Institucion extends BasicModel
         $this->setTelefono($telefono);
         $this->setCorreo($correo);
         $this->setEstado($estado);
-        /*
+
         $this->setCreatedAt($created_at);
         $this->setUpdatedAt($updated_at);
         $this->setDeletedAt($deleted_at);
-        */
+
 
     }
 
@@ -177,11 +177,11 @@ class Institucion extends BasicModel
     {
         $this->estado = $estado;
     }
-/*
+
     /**
      * @return string
      */
-    /*
+
     public function getCreatedAt(): string
     {
         return $this->created_at;
@@ -190,7 +190,7 @@ class Institucion extends BasicModel
     /**
      * @param string $created_at
      */
-    /*
+
     public function setCreatedAt(string $created_at): void
     {
         $this->created_at = $created_at;
@@ -199,25 +199,25 @@ class Institucion extends BasicModel
     /**
      * @return string
      */
-    /*
+
     public function getUpdatedAt(): string
     {
         return $this->updated_at;
-    }
-/*
+   }
+
     /**
      * @param string $updated_at
      */
-    /*
+
     public function setUpdatedAt(string $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
-/*
+
     /**
      * @return string
      */
-    /*
+
     public function getDeletedAt(): string
     {
         return $this->deleted_at;
@@ -226,13 +226,13 @@ class Institucion extends BasicModel
     /**
      * @param string $deleted_at
      */
-    /*
+
     public function setDeletedAt(string $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
-*/
+
     public function create()
     {
         $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? , NOW() , NULL ,NULL)", array(

@@ -44,5 +44,3 @@ var_dump($arrInsti);
 $busqueda = Institucion::searchForId(6);
 echo ($busqueda);
 */
-
-$Insti1->create();

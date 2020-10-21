@@ -77,7 +77,7 @@ require("../../partials/routes.php");;
                                                    placeholder="Ingrese el nombre de grado">
                                         </div>
                                     </div>
-                                    
+
 
                                     <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>

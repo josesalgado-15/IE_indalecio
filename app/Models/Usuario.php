@@ -462,6 +462,7 @@ class Usuario extends BasicModel
                 $this->getTipoDocumento(),
                 $this->getFechaNacimiento(),
                 $this->getDireccion(),
+                $this->getMunicipiosId(),
                 $this->getGenero(),
                 $this->getRol(),
                 $this->getCorreo(),
@@ -471,7 +472,6 @@ class Usuario extends BasicModel
                 $this->getTelefonoAcudiente(),
                 $this->getCorreoAcudiente(),
                 $this->getInstitucionesId(),
-                $this->getMunicipiosId(),
                 $this->getCreatedAt(),
                 $this->getUpdatedAt(),
                 $this->getDeletedAt()

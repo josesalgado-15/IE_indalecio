@@ -5,7 +5,7 @@ require("../../partials/routes.php");
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Crear Usuario</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Crear grado</title>
     <?php include_once ('../../partials/head_imports.php') ?>
 </head>
 <body class="hold-transition sidebar-mini">

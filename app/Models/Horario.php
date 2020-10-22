@@ -201,16 +201,16 @@ class Horario extends BasicModel
     public function create()
     {
 
-        $result = $this->insertRow("INSERT INTO dbindalecio.horarios VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO dbindalecio.horarios VALUES (NULL, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
 
                 $this->getHorarioEntradaSede(),
                 $this->getHorarioSalida(),
                 $this->getHorarioEntradaRestaurante(),
                 $this->getFechaHorario(),
-                $this->getEstado(),
-                $this->getCreatedAt(),
-                $this->getUpdatedAt(),
-                $this->getDeletedAt()
+                $this->getEstado()
+                //$this->getCreatedAt(),
+                //$this->getUpdatedAt(),
+                //$this->getDeletedAt()
 
 
             )

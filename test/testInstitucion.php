@@ -3,7 +3,7 @@
 require_once ('..\app\Models\Institucion.php');
 
 
-$Insti1 = new Institucion  (7, 'Juan Andres Perea Padilla' , 'Calle 2 sur#3-09', 1 ,  'Rector' ,  '3132594565' ,
+$Insti1 = new Institucion  (1, 'Institución Educativa Indalecio Vásquez' , 'Calle 1 sur#1-05', 1 ,  'Rector' ,  '3132594565' ,
     'juancamar@gmail.com' ,  'Activo' );
 
 //Creacion de usuario en base de datos
@@ -20,7 +20,6 @@ $Insti1 ->setRector('Rector');
 $Insti1 ->setTelefono('3132594565');
 $Insti1 ->setCorreo('juancamar@gmail.com');
 $Insti1 ->setEstado('Activo');
-
 //$Insti1->update();
 */
 

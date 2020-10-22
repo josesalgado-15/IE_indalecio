@@ -24,7 +24,7 @@ class Grado extends BasicModel
      * @param string $updated_at
      * @param string $deleted_at
      */
-    public function __construct(int $id, string $nombre, string $estado, string $created_at, string $updated_at, string $deleted_at)
+    public function __construct($id=0, $nombre='nombre', $estado='estado', $created_at='Fecha',$updated_at='Fecha', $deleted_at='Fecha')
     {
         parent::__construct();
         $this->setId($id); //Propiedad recibida y asigna a una propiedad de la clase
@@ -140,13 +140,13 @@ class Grado extends BasicModel
     public function create()
     {
 
-        $result = $this->insertRow("INSERT INTO dbindalecio.grados VALUES (NULL, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO dbindalecio.grados VALUES (NULL, ?, ?,NOW() , NULL ,NULL)", array(
 
                 $this->getNombre(),
                 $this->getEstado(),
-                $this->getCreatedAt(),
-                $this->getUpdatedAt(),
-                $this->getDeletedAt()
+                //$this->getCreatedAt(),
+                //$this->getUpdatedAt(),
+                //$this->getDeletedAt()
 
 
             )

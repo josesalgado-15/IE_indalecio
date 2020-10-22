@@ -14,7 +14,7 @@ class Usuario extends BasicModel
     protected string $nombres;
     protected string $apellidos;
     protected int $edad;
-    protected string $telefono;
+    protected int $telefono;
     protected int $numeroDocumento;
     protected string $tipoDocumento;
     protected string $fechaNacimiento;
@@ -148,20 +148,22 @@ class Usuario extends BasicModel
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getTelefono(): string
+    public function getTelefono(): int
     {
         return $this->telefono;
     }
 
     /**
-     * @param string $telefono
+     * @param int $telefono
      */
-    public function setTelefono(string $telefono): void
+    public function setTelefono(int $telefono): void
     {
         $this->telefono = $telefono;
     }
+
+
 
     /**
      * @return int
@@ -452,7 +454,7 @@ class Usuario extends BasicModel
     {
         var_dump($this);
         var_dump($this->getRol());
-        $result = $this->insertRow("INSERT INTO dbindalecio.usuarios VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO dbindalecio.usuarios VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
 
                 $this->getNombres(),
                 $this->getApellidos(),
@@ -472,9 +474,10 @@ class Usuario extends BasicModel
                 $this->getTelefonoAcudiente(),
                 $this->getCorreoAcudiente(),
                 $this->getInstitucionesId(),
-                $this->getCreatedAt(),
-                $this->getUpdatedAt(),
-                $this->getDeletedAt()
+
+                //$this->getCreatedAt(),
+                //$this->getUpdatedAt(),
+                //$this->getDeletedAt()
 
 
             )
@@ -486,8 +489,8 @@ class Usuario extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombres = ?, apellidos = ? edad = ?, telefono = ?, numeroDocumento = ?, tipoDocumento = ?, 
-            fechaNacimiento = ?, direccion = ?, municipio_id = ?,  genero = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombreAcudiente = ?, telefonoAcudiente = ?, correoAcudiente = ?,  instituciones_id = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
+        $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombres = ?, apellidos = ?, edad = ?, telefono = ?, numero_documento = ?, tipo_documento = ?, 
+            fecha_nacimiento = ?, direccion = ?, municipios_id = ?,  genero = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombre_acudiente = ?, telefono_acudiente = ?, correo_acudiente = ?,  instituciones_id = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
 
                 $this->getNombres(),
                 $this->getApellidos(),
@@ -509,7 +512,8 @@ class Usuario extends BasicModel
                 $this->getInstitucionesId(),
                 $this->getCreatedAt(),
                 $this->getUpdatedAt(),
-                $this->getDeletedAt()
+                $this->getDeletedAt(),
+                $this->getId()
 
             )
         );

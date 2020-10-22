@@ -68,7 +68,7 @@ require("../../partials/routes.php");;
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateHorario"
                                       name="frmCreateHorario"
-                                      action="../../../app/Controllers/HorariosController.php?action=create">
+                                      action="../../../app/Controllers/HorarioController.php?action=create">
                                     <div class="form-group row">
                                         <label for="hora_entrada_sede" class="col-sm-2 col-form-label">Hora de Entrada a Institución</label>
                                         <div class="col-sm-10">

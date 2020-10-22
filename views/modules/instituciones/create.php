@@ -68,7 +68,7 @@ require("../../partials/routes.php");;
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateUsuario"
                                       name="frmCreateUsuario"
-                                      action="../../../app/Controllers/UsuariosController.php?action=create">
+                                      action="../../../app/Controllers/UsuarioController.php?action=create">
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">

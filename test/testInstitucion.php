@@ -33,7 +33,7 @@ echo $Insti1;
 //Busquedas, no funciona ya que pide llenar el a
 $allInstituciones = Institucion::getAll();
 var_dump($allInstituciones);
-$arrInsti = Institucion::search("SELECT * FROM dbindalecio.usuario WHERE numeroDocumento = 1005343425");
+$arrInsti = Institucion::search("SELECT * FROM dbindalecio.usuario WHERE numero_documento = 1005343425");
 var_dump($arrInsti);
 */
 

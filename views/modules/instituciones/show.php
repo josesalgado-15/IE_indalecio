@@ -1,9 +1,9 @@
 <?php
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
-require("../../../app/Controllers/UsuariosController.php");
+require("../../../app/Controllers/UsuarioController.php");
 
-use App\Controllers\UsuariosController; ?>
+use App\Controllers\UsuarioController; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +62,7 @@ use App\Controllers\UsuariosController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataUsuario = UsuariosController::searchForID($_GET["id"]);
+                                $DataUsuario = UsuarioController::searchForID($_GET["id"]);
                                 if (!empty($DataUsuario)) {
                                     ?>
                                     <div class="card-header">

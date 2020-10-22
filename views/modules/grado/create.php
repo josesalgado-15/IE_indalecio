@@ -68,7 +68,7 @@ require("../../partials/routes.php");;
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateHorario"
                                       name="frmCreateHorario"
-                                      action="../../../app/Controllers/GradossController.php?action=create">
+                                      action="../../../app/Controllers/GradosController.php?action=create">
 
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>

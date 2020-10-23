@@ -104,6 +104,17 @@ require("../../partials/routes.php");;
                                         </div>
                                     </div>
 
+                                    <div class="form-group row">
+                                        <label for="sedes_id" class="col-sm-2 col-form-label">Sede Institución</label>
+                                        <div class="col-sm-10">
+                                            <select id="sedes_id" name="sedes_id" class="custom-select">
+                                                <option value="1">Sede Principal</option>
+                                                <option value="2">Sede Ejemplo</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
 
 
 

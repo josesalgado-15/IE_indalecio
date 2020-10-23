@@ -11,6 +11,7 @@ $Persona1 = new Usuario(0, 'David Maria',
     '1002723421', 'Activo', 'Pablo Diaz', 3132564588,'juanca21@gmail.com',
     2);
 */
+/*
 $Persona1 = new Usuario(); //Propiedad recibida y asigna a una propiedad de la clase
 $Persona1 ->setId(0);
 $Persona1 ->setNombres('Pablo David'); //se cambió nombre de pedro a luis
@@ -35,6 +36,7 @@ $Persona1->setCreatedAt('2020-10-21 12:26:54');
 $Persona1->setUpdatedAt('2020-10-21');
 $Persona1->setDeletedAt('2020-10-21');
 $Persona1->create();
+*/
 
 //Creacion de usuario en base de datos
 //$Persona1->create();
@@ -73,9 +75,10 @@ echo $Persona1;
 */
 
 
-/*
+
 $allUsuarios = Usuario::getAll();
 var_dump($allUsuarios);
+/*
 $arrUsuarios = Usuario::search("SELECT * FROM dbindalecio.usuarios WHERE numero_documento= 1002723422");
 var_dump($arrUsuarios);
 */

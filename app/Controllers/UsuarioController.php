@@ -79,54 +79,56 @@ class UsuarioController
     static public function edit()
     {
         try {
+
             $arrayUsuario = array();
             $arrayUsuario['nombres'] = $_POST['nombres'];
             $arrayUsuario['apellidos'] = $_POST['apellidos'];
-            $arrayUsuario['tipo_documento'] = $_POST['tipo_documento'];
-            $arrayUsuario['documento'] = $_POST['documento'];
+            $arrayUsuario['edad'] = $_POST['edad'];
             $arrayUsuario['telefono'] = $_POST['telefono'];
+            $arrayUsuario['numero_documento'] = $_POST['numero_documento'];
+            $arrayUsuario['tipo_documento'] = $_POST['tipo_documento'];
             $arrayUsuario['fecha_nacimiento'] = Carbon::parse($_POST['fecha_nacimiento']);
             $arrayUsuario['direccion'] = $_POST['direccion'];
-            $arrayUsuario['user'] = $_POST['user'];
-            $arrayUsuario['password'] = $_POST['password'];
+
+            $arrayUsuario['municipios_id'] = ($_POST['municipios_id']);
+
+            $arrayUsuario['genero'] = $_POST['genero'];
             $arrayUsuario['rol'] = $_POST['rol'];
-            $arrayUsuario['estado'] = $_POST['estado'];
+            $arrayUsuario['correo'] = $_POST['correo'];
+            $arrayUsuario['contrasena'] = $_POST['contrasena'] ?? null;
+            $arrayUsuario['estado'] = 'Activo';
+            $arrayUsuario['nombre_acudiente'] = $_POST['nombre_acudiente'];
+            $arrayUsuario['telefono_acudiente'] = $_POST['telefono_acudiente'];
+            $arrayUsuario['correo_acudiente'] = $_POST['correo_acudiente'];
+            $arrayUsuario['instituciones_id'] = ($_POST['instituciones_id']);
+            //$arrayUsuario['created_at'] = Carbon::now(); //Fecha Actual
             $arrayUsuario['id'] = $_POST['id'];
-            $arrayUsuario['fecha_registro'] = Carbon::now(); //Fecha Actual
 
-            $user = new Usuarios($arrayUsuario);
-            $user->update();
+            $usuario = new Usuario($arrayUsuario);
+            $usuario->update();
 
-            header("Location: ../../views/modules/usuarios/show.php?id=" . $user->getId() . "&respuesta=correcto");
+            header("Location: ../../views/modules/usuario/index.php?id=" . $usuario->getId() . "&respuesta=correcto");
+
         } catch (\Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            //header("Location: ../../views/modules/usuario/edit.php?respuesta=error&mensaje=".$e->getMessage());
         }
     }
 
     static public function searchForID($id)
     {
         try {
-            return Usuarios::searchForId($id);
+            return Usuario::searchForId($id);
         } catch (\Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');
             //header("Location: ../../views/modules/usuarios/manager.php?respuesta=error");
         }
     }
 
-    /**
-     * Retorna la lectura de un archivo en formato csv
-     *
-     * @param string $fileName
-     * @param string $delimiter
-     * @param string $path
-     * @return Iterator
-     * @throws Exception
-     */
     static public function getAll()
     {
         try {
-            return Usuarios::getAll();
+            return Usuario::getAll();
         } catch (\Exception $e) {
             GeneralFunctions::console($e, 'log', 'errorStack');
             //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
@@ -136,7 +138,7 @@ class UsuarioController
     static public function activate()
     {
         try {
-            $ObjUsuario = Usuarios::searchForId($_GET['Id']);
+            $ObjUsuario = Usuario::searchForId($_GET['Id']);
             $ObjUsuario->setEstado("Activo");
             if ($ObjUsuario->update()) {
                 header("Location: ../../views/modules/usuarios/index.php");

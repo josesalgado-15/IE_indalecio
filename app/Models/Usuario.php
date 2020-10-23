@@ -497,7 +497,7 @@ class Usuario extends BasicModel
     public function update()
     {
         $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombres = ?, apellidos = ?, edad = ?, telefono = ?, numero_documento = ?, tipo_documento = ?, 
-            fecha_nacimiento = ?, direccion = ?, municipios_id = ?,  genero = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombre_acudiente = ?, telefono_acudiente = ?, correo_acudiente = ?,  instituciones_id = ?, created_at = ?, updated_at = ?, deleted_at = ? WHERE id = ?", array(
+            fecha_nacimiento = ?, direccion = ?, municipios_id = ?,  genero = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombre_acudiente = ?, telefono_acudiente = ?, correo_acudiente = ?,  instituciones_id = ? WHERE id = ?", array(
 
                 $this->getNombres(),
                 $this->getApellidos(),
@@ -517,9 +517,9 @@ class Usuario extends BasicModel
                 $this->getTelefonoAcudiente(),
                 $this->getCorreoAcudiente(),
                 $this->getInstitucionesId(),
-                $this->getCreatedAt(),
-                $this->getUpdatedAt(),
-                $this->getDeletedAt(),
+                //$this->getCreatedAt(),
+                //$this->getUpdatedAt(),
+                //$this->getDeletedAt(),
                 $this->getId()
 
             )
@@ -565,12 +565,9 @@ class Usuario extends BasicModel
             $Usuario->setTelefonoAcudiente($valor['telefono_acudiente']);
             $Usuario->setCorreoAcudiente($valor['correo_acudiente']);
             $Usuario->setInstitucionesId($valor['instituciones_id']);
-            $Usuario->setCreatedAt($valor['created_at']);
-            $Usuario->setUpdatedAt($valor['updated_at']);
-            $Usuario->setDeletedAt($valor['deleted_at']);
-
-
-
+            //$Usuario->setCreatedAt($valor['created_at']);
+            //$Usuario->setUpdatedAt($valor['updated_at']);
+            //$Usuario->setDeletedAt($valor['deleted_at']);
             $Usuario->Disconnect();
             array_push($arrUsuarios, $Usuario);
 
@@ -591,7 +588,6 @@ class Usuario extends BasicModel
         if ($id>0){
             $Usuario = new Usuario();
             $getrow = $Usuario->getRow("SELECT * FROM dbindalecio.usuarios WHERE id =?", array($id));
-
             $Usuario->setId($getrow['id']);
             $Usuario->setNombres($getrow['nombres']);
             $Usuario->setApellidos($getrow['apellidos']);
@@ -611,9 +607,9 @@ class Usuario extends BasicModel
             $Usuario->setTelefonoAcudiente($getrow['telefono_acudiente']);
             $Usuario->setCorreoAcudiente($getrow['correo_acudiente']);
             $Usuario->setInstitucionesId($getrow['instituciones_id']);
-            $Usuario->setCreatedAt($getrow['created_at']);
-            $Usuario->setUpdatedAt($getrow['updated_at']);
-            $Usuario->setDeletedAt($getrow['deleted_at']);
+            //$Usuario->setCreatedAt($getrow['created_at']);
+            //$Usuario->setUpdatedAt($getrow['updated_at']);
+            //$Usuario->setDeletedAt($getrow['deleted_at']);
         }
         $Usuario->Disconnect();
         return $Usuario;

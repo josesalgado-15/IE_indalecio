@@ -32,7 +32,6 @@ class Usuario extends BasicModel
     protected string $telefono_acudiente;
     protected string $correo_acudiente;
 
-    //Dejé las llaves foraneas como string para despues cambiarlas al saber de que tipo o como deben quedar
 
     protected int $instituciones_id;
     protected string $created_at;

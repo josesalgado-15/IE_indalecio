@@ -46,7 +46,7 @@ class UsuarioController
             $arrayUsuario['fecha_nacimiento'] = Carbon::parse($_POST['fecha_nacimiento']);
             $arrayUsuario['direccion'] = $_POST['direccion'];
 
-            //$arrayUsuario['municipios_id'] = Municipios::searchForId($_POST['municipios_id']);
+            $arrayUsuario['municipios_id'] = ($_POST['municipios_id']);
 
             $arrayUsuario['genero'] = $_POST['genero'];
             $arrayUsuario['rol'] = $_POST['rol'];
@@ -57,7 +57,7 @@ class UsuarioController
             $arrayUsuario['telefono_acudiente'] = $_POST['telefono_acudiente'];
             $arrayUsuario['correo_acudiente'] = $_POST['correo_acudiente'];
 
-            //$arrayUsuario['instituciones_id'] = Instituciones::searchForId($_POST['instituciones_id']);
+            $arrayUsuario['instituciones_id'] = ($_POST['instituciones_id']);
 
             $arrayUsuario['created_at'] = Carbon::now(); //Fecha Actual
 
@@ -65,7 +65,7 @@ class UsuarioController
                 $Usuario = new Usuario ($arrayUsuario);
                 if ($Usuario->create()) {
                     //var_dump($_POST);
-                    header("Location: ../../views/modules/usuario/index.php?respuesta=correcto");
+                    header("Location: ../../views/modules/usuario/index.php?accion=create&respuesta=correcto");
                 }
             } else {
                 header("Location: ../../views/modules/usuario/create.php?respuesta=error&mensaje=Usuario ya registrado");

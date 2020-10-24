@@ -11,7 +11,7 @@ use App\Models\Horario;
 use Carbon\Carbon;
 
 if (!empty($_GET['action'])) {
-    UsuarioController::main($_GET['action']);
+    HorarioController::main($_GET['action']);
 }
 
 class HorarioController
@@ -30,6 +30,36 @@ class HorarioController
             HorarioController::changeStatus();
         }
 
+    }
+
+
+    static public function create()
+    {
+        try {
+            $arrayHorario = array();
+            $arrayHorario['hora_entrada_sede'] = $_POST['hora_entrada_sede'];
+            $arrayHorario['hora_salida'] = $_POST['hora_salida'];
+            $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
+            $arrayHorario['fecha_horario'] = $_POST['fecha_horario'];
+            $arrayUsuario['estado'] = 'Activo';
+            $arrayUsuario['sedes_id'] = ($_POST['sedes_id']);
+            $arrayUsuario['created_at'] = Carbon::now(); //Fecha Actual
+
+            //PENDIENTE verificar con que datos se va a hacer la validación
+
+            if (!Horario::usuarioRegistrado($arrayHorario['numero_documento'])) {
+                $Horario = new Horario ($arrayHorario);
+                if ($Horario->create()) {
+                    //var_dump($_POST);
+                    header("Location: ../../views/modules/horario/index.php?accion=create&respuesta=correcto");
+                }
+            } else {
+                header("Location: ../../views/modules/horario/create.php?respuesta=error&mensaje=Usuario ya registrado");
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::console($e, 'error', 'errorStack');
+            //header("Location: ../../views/modules/horario/create.php?respuesta=error&mensaje=" . $e->getMessage());
+        }
     }
 
 

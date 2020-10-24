@@ -58,23 +58,23 @@ require("../../partials/routes.php");;
                                             data-source="create.php" data-source-selector="#card-refresh-content"
                                             data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                            class="fas fa-expand"></i></button>
+                                                class="fas fa-expand"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                            class="fas fa-minus"></i></button>
+                                                class="fas fa-minus"></i></button>
                                 </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateHorario"
-                                      name="frmCreateHorario"
-                                      action="../../../app/Controllers/GradosController.php?action=create">
+                                <form class="form-horizontal" method="post" id="frmCreateGrado"
+                                      name="frmCreateGrado"
+                                      action="../../../app/Controllers/GradoController.php?action=create">
 
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese el nombre de grado">
+                                                   placeholder="Ingrese el nombre del grado">
                                         </div>
                                     </div>
 

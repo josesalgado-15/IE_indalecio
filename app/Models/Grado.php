@@ -20,22 +20,16 @@ class Grado extends BasicModel
 
     /**
      * Grado constructor.
-     * @param int $id
-     * @param string $nombre
-     * @param string $estado
-     * @param string $created_at
-     * @param string $updated_at
-     * @param string $deleted_at
      */
-    public function __construct($id=0, $nombre='nombre', $estado='estado', $created_at='Fecha',$updated_at='Fecha', $deleted_at='Fecha')
+    public function __construct($grado = array())
     {
         parent::__construct();
-        $this->setId($id); //Propiedad recibida y asigna a una propiedad de la clase
-        $this->setNombre($nombre);
-        $this->setEstado($estado);
-        $this->setCreatedAt($created_at);
-        $this->setUpdatedAt($updated_at);
-        $this->setDeletedAt($deleted_at);
+        $this->id = $grado['id'] ?? 0;
+        $this->nombre = $grado['nombre'] ?? '';
+        $this->estado = $grado['estado'] ?? '';
+        $this->created_at = $grado['created_at'] ?? new Carbon();
+        $this->updated_at = $grado['updated_at'] ?? new Carbon();
+        $this->deleted_at = $grado['deleted_at'] ?? new Carbon();
     }
 
 
@@ -43,6 +37,23 @@ class Grado extends BasicModel
     {
         //    $this->Disconnect(); // Cierro Conexiones
     }
+
+    /**
+     * @param $nombre
+     * @return bool
+     */
+
+    public static function gradoRegistrado($nombre): bool
+    {
+        $result = Grado::search("SELECT id FROM dbindalecio.grados where nombre = '" . $nombre. "'");
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     /**
      * @return int
@@ -142,8 +153,8 @@ class Grado extends BasicModel
 
     public function create()
     {
-
-        $result = $this->insertRow("INSERT INTO dbindalecio.grados VALUES (NULL, ?, ?,NOW() , NULL ,NULL)", array(
+        var_dump($this);
+        $result = $this->insertRow("INSERT INTO dbindalecio.grados VALUES (NULL, ?, ?, NOW() , NULL ,NULL)", array(
 
                 $this->getNombre(),
                 $this->getEstado(),
@@ -198,7 +209,7 @@ class Grado extends BasicModel
             $Grado->setId($valor['id']);
             $Grado->setNombre($valor['nombre']);
             $Grado->setEstado($valor['estado']);
-            //$Grado->setCreatedAt($valor['created_at']);
+            $Grado->setCreatedAt($valor['created_at']);
             //$Grado->setUpdatedAt($valor['updated_at']);
             //$Grado->setDeletedAt($valor['deleted_at']);
             $Grado->Disconnect();

@@ -1,6 +1,6 @@
 <?php
 require("../../partials/routes.php");
-;
+
 require("../../../app/Controllers/UsuarioController.php");
 
 use App\Controllers\UsuarioController; ?>

@@ -54,6 +54,7 @@ class Horario extends BasicModel
         //    $this->Disconnect(); // Cierro Conexiones
     }
 
+
     /**
      * @return int
      */

@@ -38,7 +38,7 @@ class GradoController
         try {
             $arrayGrado = array();
             $arrayGrado['nombre'] = $_POST['nombre'];
-            $arrayGrado['estado'] = 'Activo';
+            $arrayGrado['estado'] = 'estado';
             $arrayGrado['created_at'] = Carbon::now(); //Fecha Actual
 
 
@@ -50,7 +50,8 @@ class GradoController
 
                 }
             } else {
-                header("Location: ../../views/modules/grado/create.php?respuesta=error&mensaje=Usuario ya registrado");
+                //echo "Grado ya creado";
+                header("Location: ../../views/modules/grado/create.php?respuesta=error&mensaje=Grado ya registrado");
             }
         } catch (Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');

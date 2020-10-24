@@ -43,10 +43,11 @@ class Grado extends BasicModel
      * @return bool
      */
 
-    public static function gradoRegistrado($nombre): bool
-    {
-        $result = Grado::search("SELECT id FROM dbindalecio.grados where nombre = '" . $nombre. "'");
-        if (count($result) > 0) {
+
+    static function gradoRegistrado(string $nombre){
+        $nombre = strtolower(trim($nombre));
+        $result = Grado::search("SELECT * FROM dbindalecio.grados where nombre = '" . $nombre. "'");
+        if ( count ($result) > 0 ) {
             return true;
         } else {
             return false;

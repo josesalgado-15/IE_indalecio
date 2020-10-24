@@ -58,9 +58,9 @@ require("../../partials/routes.php");;
                                             data-source="create.php" data-source-selector="#card-refresh-content"
                                             data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                            class="fas fa-expand"></i></button>
+                                                class="fas fa-expand"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                            class="fas fa-minus"></i></button>
+                                                class="fas fa-minus"></i></button>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -68,7 +68,7 @@ require("../../partials/routes.php");;
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateUsuario"
                                       name="frmCreateUsuario"
-                                      action="../../../app/Controllers/UsuariosController.php?action=create">
+                                      action="../../../app/Controllers/UsuarioController.php?action=create">
                                     <div class="form-group row">
                                         <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
@@ -99,10 +99,10 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="documento" class="col-sm-2 col-form-label">Documento</label>
+                                        <label for="numero_documento" class="col-sm-2 col-form-label">Documento</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="6" class="form-control"
-                                                   id="documento" name="documento" placeholder="Ingrese su documento">
+                                                   id="numero_documento" name="numero_documento" placeholder="Ingrese su documento">
                                         </div>
                                     </div>
 
@@ -138,14 +138,14 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
+                                        <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
                                         <div class="col-sm-10">
-                                            <select id="municipio_id" name="municipio_id" class="custom-select">
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
+                                            <select id="municipios_id" name="municipios_id" class="custom-select">
+                                                <option value="1">Ejemplo Municipio 1</option>
+                                                <option value="2">Ejemplo Municipio</option>
+                                                <option value="3">Ejemplo Municipio</option>
+                                                <option value="4">Ejemplo Municipio</option>
+                                                <option value="5">Ejemplo Municipio</option>
 
                                             </select>
                                         </div>
@@ -227,11 +227,11 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="institucion_id" class="col-sm-2 col-form-label">Sede Institución</label>
+                                        <label for="instituciones_id" class="col-sm-2 col-form-label">Sede Institución</label>
                                         <div class="col-sm-10">
-                                            <select id="institucion_id" name="institucion_id" class="custom-select">
-                                                <option value="SedePrincipal">Sede Principal</option>
-                                                <option value="SedeEjemplo">Sede Ejemplo</option>
+                                            <select id="instituciones_id" name="instituciones_id" class="custom-select">
+                                                <option value="1">Sede Principal</option>
+                                                <option value="2">Sede Ejemplo</option>
 
                                             </select>
                                         </div>

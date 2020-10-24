@@ -1,9 +1,9 @@
 <?php
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
-require("../../../app/Controllers/UsuariosController.php");
+require("../../../app/Controllers/UsuarioController.php");
 
-use App\Controllers\UsuariosController; ?>
+use App\Controllers\UsuarioController; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +62,7 @@ use App\Controllers\UsuariosController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataUsuario = UsuariosController::searchForID($_GET["id"]);
+                                $DataUsuario = UsuarioController::searchForID($_GET["id"]);
                                 if (!empty($DataUsuario)) {
                                     ?>
                                     <div class="card-header">
@@ -73,7 +73,7 @@ use App\Controllers\UsuariosController; ?>
                                                     data-source="show.php" data-source-selector="#card-refresh-content"
                                                     data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                                    class="fas fa-expand"></i></button>
+                                                        class="fas fa-expand"></i></button>
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                                     data-toggle="tooltip" title="Collapse">
                                                 <i class="fas fa-minus"></i></button>

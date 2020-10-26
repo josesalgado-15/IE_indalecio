@@ -99,7 +99,6 @@ use App\Controllers\InstitucionController;
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>
-                                    <th>Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -145,8 +144,8 @@ use App\Controllers\InstitucionController;
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>
-                                    <th>Creación</th>
                                     <th>Acciones</th>
+
                                 </tr>
                                 </tfoot>
                             </table>

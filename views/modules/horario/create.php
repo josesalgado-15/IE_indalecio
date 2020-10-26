@@ -58,9 +58,9 @@ require("../../partials/routes.php");;
                                             data-source="create.php" data-source-selector="#card-refresh-content"
                                             data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                            class="fas fa-expand"></i></button>
+                                                class="fas fa-expand"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                            class="fas fa-minus"></i></button>
+                                                class="fas fa-minus"></i></button>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -68,7 +68,7 @@ require("../../partials/routes.php");;
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateHorario"
                                       name="frmCreateHorario"
-                                      action="../../../app/Controllers/HorariosController.php?action=create">
+                                      action="../../../app/Controllers/HorarioController.php?action=create">
                                     <div class="form-group row">
                                         <label for="hora_entrada_sede" class="col-sm-2 col-form-label">Hora de Entrada a Institución</label>
                                         <div class="col-sm-10">
@@ -94,11 +94,30 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
+                                        <label for="fecha_horario" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+                                        <div class="col-sm-10">
+                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha_horario"
+                                                   name="fecha_horario" placeholder="Ingrese su Fecha de Nacimiento">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
                                             <select id="estado" name="estado" class="custom-select">
                                                 <option value="Activo">Activo</option>
                                                 <option value="Inactivo">Inactivo</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="sedes_id" class="col-sm-2 col-form-label">Sede Institución</label>
+                                        <div class="col-sm-10">
+                                            <select id="sedes_id" name="sedes_id" class="custom-select">
+                                                <option value="1">Sede Principal</option>
+                                                <option value="2">Sede Ejemplo</option>
 
                                             </select>
                                         </div>

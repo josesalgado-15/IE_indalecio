@@ -81,14 +81,25 @@ use App\Controllers\InstitucionController;
                                         <form class="form-horizontal" method="post" id="frmEditInstitucion"
                                               name="frmEditInstitucion"
                                               action="../../../app/Controllers/InstitucionController.php?action=edit">
+
                                             <input id="id" name="id" value="<?php echo $DataInstitucion->getId(); ?>" hidden
                                                    required="required" type="text">
 
                                             <div class="form-group row">
                                                 <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                           placeholder="Ingrese sus nombres"  value="<?php echo $DataInstitucion->getNombre(); ?>">
+                                                    <input required type="text" class="form-control" id="nombre"
+                                                           name="nombre" value="<?= $DataInstitucion->getNombre(); ?>"
+                                                           placeholder="Ingrese sus nombres">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="nit" class="col-sm-2 col-form-label">Nit</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="text" class="form-control" id="nit"
+                                                           name="nit" value="<?= $DataInstitucion->getNit(); ?>"
+                                                           placeholder="Ingrese su direccion">
                                                 </div>
                                             </div>
 
@@ -96,7 +107,8 @@ use App\Controllers\InstitucionController;
                                                 <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" class="form-control" id="direccion"
-                                                           name="direccion" placeholder="Ingrese su direccion" value="<?php echo $DataInstitucion->getDireccion(); ?>">
+                                                           name="direccion" value="<?= $DataInstitucion->getDireccion(); ?>"
+                                                           placeholder="Ingrese su direccion">
                                                 </div>
                                             </div>
 
@@ -104,11 +116,11 @@ use App\Controllers\InstitucionController;
                                                 <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
                                                 <div class="col-sm-10">
                                                     <select id="municipios_id" name="municipios_id" class="custom-select">
-                                                        <option>Seleccione</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "EjemploMunicipio")? "selected" : ""; ?> value="Ejemplo Municipio">Municipio</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "EjemploMunicipio")? "selected" : ""; ?> value="Ejemplo Municipio">Municipio</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "EjemploMunicipio")? "selected" : ""; ?> value="Ejemplo Municipio">Municipio</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "EjemploMunicipio")? "selected" : ""; ?> value="Ejemplo Municipio">Municipio</option>
+                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "1") ? "selected" : ""; ?> value="1">Ejemplo Municipio 1</option>
+                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "2") ? "selected" : ""; ?> value="2">Ejemplo Municipio</option>
+                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "3") ? "selected" : ""; ?> value="3">Ejemplo Municipio</option>
+                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "4") ? "selected" : ""; ?> value="4">Ejemplo Municipio</option>
+                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "5") ? "selected" : ""; ?> value="5">Ejemplo Municipio</option>
 
                                                     </select>
                                                 </div>
@@ -118,7 +130,8 @@ use App\Controllers\InstitucionController;
                                                 <label for="rector" class="col-sm-2 col-form-label">Rector</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" minlength="1" class="form-control"
-                                                           id="rector" name="rector" placeholder="Ingrese su rector" value="<?php echo $DataInstitucion->getRector(); ?>">
+                                                           id="rector" name="rector" value="<?= $DataInstitucion->getRector(); ?>"
+                                                           placeholder="Ingrese su rector">
                                                 </div>
                                             </div>
 
@@ -126,7 +139,8 @@ use App\Controllers\InstitucionController;
                                                 <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" minlength="6" class="form-control"
-                                                           id="telefono" name="telefono" placeholder="Ingrese su telefono" value="<?php echo $DataInstitucion->getTelefono(); ?>">
+                                                           id="telefono" name="telefono"  value="<?= $DataInstitucion->getTelefono(); ?>"
+                                                           placeholder="Ingrese su telefono">
                                                 </div>
                                             </div>
 
@@ -134,7 +148,8 @@ use App\Controllers\InstitucionController;
                                                 <label for="correo" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                                 <div class="col-sm-10">
                                                     <input required type="email" class="form-control" id="correo"
-                                                           name="correo" placeholder="Ingrese su correo electrónico" value="<?php echo $DataInstitucion->getCorreo(); ?>">
+                                                           name="correo"  value="<?= $DataInstitucion->getCorreo(); ?>"
+                                                           placeholder="Ingrese su correo electrónico">
                                                 </div>
                                             </div>
                                             <div class="form-group row">

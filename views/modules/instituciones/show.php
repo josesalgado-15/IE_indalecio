@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
-require_once("../../partials/check_login.php");
-require("../../../app/Controllers/UsuarioController.php");
 
-use App\Controllers\UsuariosController; ?>
+require("../../../app/Controllers/InstitucionController.php");
+
+use App\Controllers\InstitucionController; ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del Usuario</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la Institucion</title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,11 +25,11 @@ use App\Controllers\UsuariosController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del Usuario</h1>
+                        <h1>Informacion de la institucion</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">WebER</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -45,7 +45,7 @@ use App\Controllers\UsuariosController; ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar el usuario: <?= ($_GET['mensaje']) ?? "" ?>
+                        Error al consultar la institucion: <?= ($_GET['mensaje']) ?? "" ?>
                     </div>
                 <?php } ?>
             <?php } else if (empty($_GET['id'])) { ?>
@@ -62,12 +62,12 @@ use App\Controllers\UsuariosController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataUsuario = UsuariosController::searchForID($_GET["id"]);
-                                if (!empty($DataUsuario)) {
+                                $DataInstitucion = InstitucionController::searchForID($_GET["id"]);
+                                if (!empty($DataInstitucion)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-info"></i> &nbsp; Ver Información
-                                            de <?= $DataUsuario->getNombres() ?></h3>
+                                            de <?= $DataInstitucion->getNombre() ?></h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                                     data-source="show.php" data-source-selector="#card-refresh-content"
@@ -84,30 +84,37 @@ use App\Controllers\UsuariosController; ?>
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-book mr-1"></i> Nombres y Apellidos</strong>
+                                            <strong><i class="fas fa-book mr-1"></i> Nombre</strong>
                                         <p class="text-muted">
-                                            <?= $DataUsuario->getNombres() . " " . $DataUsuario->getApellidos() ?>
+                                            <?= $DataInstitucion->getNombre()?>
                                         </p>
                                         <hr>
-                                        <strong><i class="fas fa-user mr-1"></i> Documento</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getTipoDocumento() . ": " . $DataUsuario->getDocumento() ?></p>
-                                        <hr>
-                                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Direccion</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getDireccion() ?></p>
-                                        <hr>
-                                        <strong><i class="fas fa-calendar mr-1"></i> Fecha Nacimiento</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></p>
-                                        <p class="text-muted">Tienes: <?= $DataUsuario->getFechaNacimiento()->diffInYears(); ?> Años</p>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Nit</strong>
+                                        <p class="text-muted"><?= $DataInstitucion->getNit() ?></p>
                                         <hr>
 
-                                        <strong><i class="fas fa-phone mr-1"></i> Telefono</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getTelefono() ?></p>
+                                        <strong><i class="fas fa-user mr-1"></i> Direccion</strong>
+                                        <p class="text-muted">
+                                            <?= $DataInstitucion->getDireccion() ?>
+                                            </p>
                                         <hr>
-                                        <strong><i class="fas fa-calendar-check mr-1"></i> Fecha Registro</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getFechaRegistro()->toDateTimeString(); ?></p>
+                                        <strong><i class="fas fa-map-marker-alt mr-1"></i>Municipio</strong>
+                                        <p class="text-muted"><?= $DataInstitucion->getMunicipiosId() ?></p>
                                         <hr>
-                                        <strong><i class="far fa-file-alt mr-1"></i> Estado y Rol</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getEstado() . " - " . $DataUsuario->getRol() ?></p>
+                                        <strong><i class="fas fa-user mr-1"></i> Rector </strong>
+                                        <p class="text-muted"><?= $DataInstitucion->getRector() ?></p>
+                                        <hr>
+                                        <strong><i class="fas fa-phone mr-1"></i> Telefono </strong>
+                                        <p class="text-muted"><?= $DataInstitucion->getTelefono() ?></p>
+                                        <hr>
+                                        <strong><i class="fas fa-user mr-1"></i>Correo</strong>
+                                        <p class="text-muted">
+                                            <?= $DataInstitucion->getCorreo()?>
+                                        </p>
+                                        <hr>
+                                        <strong><i class="far fa-file-alt mr-1"></i> Estado</strong>
+                                        <p class="text-muted"><?= $DataInstitucion->getEstado() ?></p>
                                         </p>
 
                                     </div>
@@ -116,13 +123,13 @@ use App\Controllers\UsuariosController; ?>
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Usuarios
+                                                    <i class="fas fa-tasks"></i> Gestionar Instituciones
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a role="button" href="create.php" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Usuario
+                                                    <i class="fas fa-plus"></i> Crear Institucion
                                                 </a>
                                             </div>
                                         </div>

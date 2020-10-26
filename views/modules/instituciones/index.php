@@ -43,14 +43,14 @@ use App\Controllers\InstitucionController;
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta']) && !empty($_GET['action'])) { ?>
+            <?php if (!empty($_GET['respuesta']) && !empty($_GET['accion'])) { ?>
                 <?php if ($_GET['respuesta'] == "correcto") { ?>
                     <div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-check"></i> Correcto!</h5>
-                        <?php if ($_GET['action'] == "create") { ?>
+                        <?php if ($_GET['accion'] == "create") { ?>
                             La institucion ha sido registrada con exito!
-                        <?php } else if ($_GET['action'] == "update") { ?>
+                        <?php } else if ($_GET['accion'] == "update") { ?>
                             Los datos de la institucion han sido actualizados correctamente!
                         <?php } ?>
                     </div>
@@ -87,29 +87,32 @@ use App\Controllers\InstitucionController;
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblInsti" class="datatable table table-bordered table-striped">
+                            <table id="tblInstitucion" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Nombre</th>
+                                    <th>Nit</th>
                                     <th>Direccion</th>
                                     <th>Id Municipio</th>
                                     <th>Rector</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>
+                                    <th>Creación</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php
-                                $arrInsti = InstitucionController::getAll();
-                                /* @var $arrInsti \App\Models\Institucion[] */
-                                foreach ($arrInsti as $institucion) {
+                                $arrInstitucion = InstitucionController::getAll();
+                                /* @var $arrInstitucion \App\Models\Institucion[] */
+                                foreach ($arrInstitucion as $institucion) {
                                     ?>
-
                                     <tr>
                                         <td><?php echo $institucion->getId(); ?></td>
                                         <td><?php echo $institucion->getNombre(); ?></td>
+                                        <td><?php echo $institucion->getNit(); ?></td>
                                         <td><?php echo $institucion->getDireccion(); ?></td>
                                         <td><?php echo $institucion->getMunicipiosId(); ?></td>
                                         <td><?php echo $institucion->getRector(); ?></td>
@@ -135,12 +138,15 @@ use App\Controllers\InstitucionController;
                                 <tr>
                                     <th>#</th>
                                     <th>Nombre</th>
+                                    <th>Nit</th>
                                     <th>Direccion</th>
                                     <th>Id Municipio</th>
                                     <th>Rector</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>
+                                    <th>Creación</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </tfoot>
                             </table>

@@ -6,7 +6,7 @@
              alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">Indalecio Vasquez</span>
+        <span class="brand-text font-weight-light">Indalecio Vásquez</span>
     </a>
 
     <!-- Sidebar -->
@@ -88,7 +88,7 @@
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'instituciones') ? 'active' : '' ?>">
                         <i class="nav-icon far fa-user"></i>
                         <p>
-                          Instituciones
+                            Instituciones
                             <i class="fas fa-angle-left right"></i>
                         </p>
 

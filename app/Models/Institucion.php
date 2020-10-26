@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Controllers\InstitucionController;
 use App\Models\BasicModel;
 use Carbon\Carbon;
 
@@ -12,6 +13,7 @@ class Institucion extends BasicModel
 {
     protected int $id; //Visibilidad (public, protected, private)
     protected string $nombre;
+    protected string $nit;
     protected string $direccion;
     protected string $municipios_id;
     protected string $rector;
@@ -23,30 +25,45 @@ class Institucion extends BasicModel
     protected string $updated_at;
     protected string $deleted_at;
 
+    /**suario
+     * Institucion constructor.
+     *
+     */
 
-    public function __construct ($arrInstitucion = array ())
+    public function __construct ($Institucion = array ())
 
     {
 
         parent::__construct();
-        $this->setId($arrInstitucion ['id'] ?? 0);
-        $this->setNombre($arrInstitucion ['nombre'] ?? "");
-        $this->setDireccion($arrInstitucion ['direccion'] ?? "");
-        $this->setMunicipiosId($arrInstitucion ['municipios_id'] ?? 0);
-        $this->setRector($arrInstitucion ['rector'] ?? "");
-        $this->setTelefono($arrInstitucion ['telefono'] ?? 0000000000) ;
-        $this->setCorreo($arrInstitucion ['correo'] ?? "");
-        $this->setEstado($arrInstitucion ['estado'] ?? "Activo");
+        $this->id = $Institucion['id'] ?? 0;
+        $this->nombre = $Institucion['nombre'] ?? '';
+        $this->nit = $Institucion ['nit'] ?? '';
+        $this->direccion = $Institucion['direccion'] ?? '';
+        $this->municipios_id = $Institucion['municipios_id'] ?? 0 ;
+        $this->rector = $Institucion['rector'] ?? '';
+        $this->telefono = $Institucion['telefono'] ?? '';
+        $this->correo = $Institucion['correo'] ?? '';
+        $this->estado= $Institucion['estado'] ?? '';
 
-        $this->setCreatedAt($arrInstitucion ['created_at'] ?? "Fecha");
-        $this->setUpdatedAt($arrInstitucion ['updated_at'] ?? "Fecha");
-        $this->setDeletedAt($arrInstitucion ['deleted_at'] ?? "Fecha");
+        $this->created_at =  $Institucion ['created_at'] ?? new Carbon();
+        $this->updated_at =  $Institucion['updated_at'] ?? new Carbon();
+        $this->deleted_at =  $Institucion ['deleted_at'] ?? new Carbon();
 
     }
 
     function __destruct()
     {
         //    $this->Disconnect(); // Cierro Conexiones
+    }
+
+    public static function InstitucionRegistrada($nit): bool
+    {
+        $result = Institucion::search("SELECT * FROM dbindalecio.instituciones where nit = " . $nit);
+        if ( count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -80,6 +97,23 @@ class Institucion extends BasicModel
     {
         $this->nombre = $nombre;
     }
+
+    /**
+     * @return mixed|string
+     */
+    public function getNit()
+    {
+        return $this->nit;
+    }
+
+    /**
+     * @param mixed|string $nit
+     */
+    public function setNit($nit): void
+    {
+        $this->nit = $nit;
+    }
+
 
     /**
      * @return string
@@ -237,12 +271,13 @@ class Institucion extends BasicModel
      */
 
 
-    public function create() : Institucion
+    public function create()
     {
         var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? , NOW() , NULL ,NULL )", array(
+        $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? ,? , NOW() , NULL ,NULL )", array(
 
                 $this->getNombre(),
+                $this->getNit(),
                 $this->getDireccion(),
                 $this->getMunicipiosId(),
                 $this->getRector(),
@@ -269,20 +304,22 @@ class Institucion extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombre = ?,  direccion = ?, municipios_id = ?, rector = ?,  telefono = ?,
+        $result = $this->updateRow("UPDATE dbindalecio.instituciones SET nombre = ?, nit = ?,  direccion = ?, municipios_id = ?, rector = ?,  telefono = ?,
           correo = ?, estado = ? created_at = ?, updated_at = ?, deleted_at = ?   WHERE id = ?", array(
 
                 $this->getNombre(),
+                $this->getNit(),
                 $this->getDireccion(),
                 $this->getMunicipiosId(),
                 $this->getRector(),
                 $this->getTelefono(),
                 $this->getCorreo(),
                 $this->getEstado(),
-
+/*
                 $this->getCreatedAt(),
                 $this->getUpdatedAt(),
                 $this->getDeletedAt(),
+*/
                 $this->getId()
 
             )
@@ -321,6 +358,7 @@ class Institucion extends BasicModel
             $Institucion = new Institucion();
             $Institucion->setId($valor['id']);
             $Institucion->setNombre($valor['nombre']);
+            $Institucion->setNit($valor ['nit']);
             $Institucion->setDireccion($valor['direccion']);
             $Institucion->setMunicipiosId($valor['municipios_id']);
             $Institucion->setRector($valor['rector']);
@@ -328,9 +366,9 @@ class Institucion extends BasicModel
             $Institucion->setCorreo($valor['correo']);
             $Institucion->setEstado($valor['estado']);
 
-            $Institucion->setCreatedAt($valor['created_at']);
-            $Institucion->setUpdatedAt($valor['updated_at']);
-            $Institucion->setDeletedAt($valor['deleted_at']);
+            //$Institucion->setCreatedAt($valor['created_at']);
+            //$Institucion->setUpdatedAt($valor['updated_at']);
+            //$Institucion->setDeletedAt($valor['deleted_at']);
 
             $Institucion->Disconnect();
             array_push($arrInstitucion, $Institucion);
@@ -341,19 +379,14 @@ class Institucion extends BasicModel
 
     }
 
-    /**
-     * @return mixed
-     */
+
 
     public static function getAll()
     {
         return Institucion::search("SELECT * FROM dbindalecio.instituciones");
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
+
 
     public static function searchForId($id)
     {
@@ -361,19 +394,19 @@ class Institucion extends BasicModel
         if ($id>0){
             $Institucion = new Institucion();
             $getrow = $Institucion->getRow("SELECT * FROM dbindalecio.instituciones WHERE id =?", array($id));
-
             $Institucion->setId($getrow['id']);
+            $Institucion->setNit($getrow['nit']);
             $Institucion->setNombre($getrow['nombre']);
             $Institucion->setDireccion($getrow['direccion']);
-            $Institucion->setMunicipiosId($getrow['municipio_id']);
+            $Institucion->setMunicipiosId($getrow['municipios_id']);
             $Institucion->setRector($getrow['rector']);
             $Institucion->setTelefono($getrow['telefono']);
             $Institucion->setCorreo($getrow['correo']);
             $Institucion->setEstado($getrow['estado']);
 
-            $Institucion->setCreatedAt($getrow['created_at']);
-            $Institucion->setUpdatedAt($getrow['updated_at']);
-            $Institucion->setDeletedAt($getrow['deleted_at']);
+            //$Institucion->setCreatedAt($getrow['created_at']);
+            //$Institucion->setUpdatedAt($getrow['updated_at']);
+            //$Institucion->setDeletedAt($getrow['deleted_at']);
 
 
         }
@@ -381,18 +414,7 @@ class Institucion extends BasicModel
         return $Institucion;
     }
 
-    static function InstitucionRegistrada(string $rector , string $telefono ){
 
-        $rector = strtolower(trim($rector));
-        $telefono  = strtolower(trim($telefono));
-
-        $result = Institucion::search("SELECT * FROM dbindalecio.instituciones where rector = '" . $rector. "' and teléfono = ".$telefono);
-        if ( count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public function __toString(): string
     {
@@ -402,6 +424,7 @@ class Institucion extends BasicModel
             "<br>".
             "<strong>Id:</strong> " . $this->getId() . "<br/>" .
             "<strong>Nombre:</strong> " . $this->getNombre() . "<br/>" .
+            "<strong>Nit:</strong> " . $this->getNit() . "<br/>" .
             "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>".
             "<strong>Id Municipio:</strong> " . $this->getMunicipiosId() . "<br/>".
             "<strong>Rector:</strong> " . $this->getRector() . "<br/>".

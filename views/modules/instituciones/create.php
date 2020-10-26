@@ -76,6 +76,15 @@ require("../../partials/routes.php");;
                                                    placeholder="Ingrese sus nombres">
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label for="nit" class="col-sm-2 col-form-label">Nit</label>
+                                        <div class="col-sm-10">
+                                            <input required type="text" class="form-control" id="nit"
+                                                   name="nit" placeholder="Ingrese su nit">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group row">
                                         <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                         <div class="col-sm-10">
@@ -83,11 +92,12 @@ require("../../partials/routes.php");;
                                                    name="direccion" placeholder="Ingrese su direccion">
                                         </div>
                                     </div>
+
                                     <div class="form-group row">
                                         <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
                                         <div class="col-sm-10">
                                             <select id="municipios_id" name="municipios_id" class="custom-select">
-                                                <option value="1">Ejemplo Municipio</option>
+                                                <option value="1">Ejemplo Municipio 1 </option>
                                                 <option value="2">Ejemplo Municipio</option>
                                                 <option value="3">Ejemplo Municipio</option>
                                                 <option value="4">Ejemplo Municipio</option>

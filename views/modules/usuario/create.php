@@ -168,7 +168,7 @@ require("../../partials/routes.php");;
                                         <div class="col-sm-10">
                                             <select id="rol" name="rol" class="custom-select">
                                                 <option value="Estudiante">Estudiante</option>
-                                                <option value="Administrado">Administrador</option>
+                                                <option value="Administrador">Administrador</option>
 
                                             </select>
                                         </div>

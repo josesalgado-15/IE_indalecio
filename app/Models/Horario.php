@@ -31,20 +31,22 @@ class Horario extends BasicModel
      */
 
     //Metodo Constructor
-    public function __construct ($id=0, $horario_entrada_sede='Fecha', $horario_salida='Fecha' , $horario_entrada_restaurante='Fecha', $fecha_horario='Fecha', $estado='estado', $sedes_id=0, $created_at='Fecha',$updated_at='Fecha', $deleted_at='Fecha')
+    public function __construct ($horario = array())
     {
 
         parent::__construct();
-        $this->setId($id); //Propiedad recibida y asigna a una propiedad de la clase
-        $this->setHorarioEntradaSede($horario_entrada_sede);
-        $this->setHorarioSalida($horario_salida);
-        $this->setHorarioEntradaRestaurante($horario_entrada_restaurante);
-        $this->setFechaHorario($fecha_horario);
-        $this->setEstado($estado);
-        $this->setSedesId($sedes_id);
-        $this->setCreatedAt($created_at);
-        $this->setUpdatedAt($updated_at);
-        $this->setDeletedAt($deleted_at);
+        $this->id = $horario['id'] ?? 0;
+        $this->horario_entrada_sede = $horario['horario_entrada_sede'] ?? '';
+        $this->horario_salida = $horario['horario_salida'] ?? '';
+        $this->horario_entrada_restaurante = $horario['horario_entrada_restaurante'] ?? '';
+        $this->fecha_horario = $horario['fecha_horario'] ?? new Carbon();
+        $this->estado = $horario['estado'] ?? '';
+        $this->sedes_id = $horario['sedes_id'] ?? 0;
+        $this->created_at = $horario['created_at'] ?? new Carbon();
+        $this->updated_at = $horario['updated_at'] ?? new Carbon();
+        $this->deleted_at = $horario['deleted_at'] ?? new Carbon();
+
+
 
     }
 
@@ -224,6 +226,7 @@ class Horario extends BasicModel
     public function create()
     {
 
+        var_dump($this);
         $result = $this->insertRow("INSERT INTO dbindalecio.horarios VALUES (NULL, ?, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
 
                 $this->getHorarioEntradaSede(),
@@ -246,7 +249,7 @@ class Horario extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.horarios SET hora_entrada_sede = ?, hora_salida = ?, hora_entrada_restaurante = ?, fecha_horario = ?, estado = ?, sedes_id = ?WHERE id = ?", array(
+        $result = $this->updateRow("UPDATE dbindalecio.horarios SET hora_entrada_sede = ?, hora_salida = ?, hora_entrada_restaurante = ?, fecha_horario = ?, estado = ?, sedes_id = ? WHERE id = ?", array(
 
                 $this->getHorarioEntradaSede(),
                 $this->getHorarioSalida(),

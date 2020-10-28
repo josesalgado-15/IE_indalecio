@@ -38,7 +38,7 @@ class GradoController
         try {
             $arrayGrado = array();
             $arrayGrado['nombre'] = $_POST['nombre'];
-            $arrayGrado['estado'] = 'estado';
+            $arrayGrado['estado'] = $_POST['estado'];
             $arrayGrado['created_at'] = Carbon::now(); //Fecha Actual
 
 
@@ -65,13 +65,13 @@ class GradoController
 
             $arrayGrado = array();
             $arrayGrado['nombre'] = $_POST['nombre'];
-            $arrayGrado['estado'] = 'Activo';
+            $arrayGrado['estado'] = $_POST['estado'];
             $arrayGrado['id'] = $_POST['id'];
 
             $grado = new Grado($arrayGrado);
             $grado->update();
 
-            header("Location: ../../views/modules/grado/index.php?id=" . $grado->getId() . "&respuesta=correcto");
+            header("Location: ../../views/modules/grado/show.php?id=" . $grado->getId() . "&respuesta=correcto");
 
         } catch (\Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');

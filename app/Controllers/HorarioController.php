@@ -41,24 +41,64 @@ class HorarioController
             $arrayHorario['hora_salida'] = $_POST['hora_salida'];
             $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
             $arrayHorario['fecha_horario'] = $_POST['fecha_horario'];
-            $arrayUsuario['estado'] = 'Activo';
-            $arrayUsuario['sedes_id'] = ($_POST['sedes_id']);
-            $arrayUsuario['created_at'] = Carbon::now(); //Fecha Actual
+            $arrayHorario['estado'] = $_POST['estado'];
+            $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
+            $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual
 
             //PENDIENTE verificar con que datos se va a hacer la validación
 
-            if (!Horario::usuarioRegistrado($arrayHorario['numero_documento'])) {
-                $Horario = new Horario ($arrayHorario);
-                if ($Horario->create()) {
-                    //var_dump($_POST);
-                    header("Location: ../../views/modules/horario/index.php?accion=create&respuesta=correcto");
-                }
-            } else {
-                header("Location: ../../views/modules/horario/create.php?respuesta=error&mensaje=Usuario ya registrado");
+            $Horario = new Horario ($arrayHorario);
+            if($Horario->create()){
+                header("Location: ../../views/modules/horario/create.php?id=".$Horario->getId());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            GeneralFunctions::console( $e, 'error', 'errorStack');
+            header("Location: ../../views/modules/ventas/create.php?respuesta=error&mensaje=" . $e->getMessage());
+        }
+    }
+
+    static public function edit()
+    {
+        try {
+
+            $arrayHorario = array();
+            $arrayHorario['hora_entrada_sede'] = $_POST['hora_entrada_sede'];
+            $arrayHorario['hora_salida'] = $_POST['hora_salida'];
+            $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
+            $arrayHorario['fecha_horario'] = $_POST['fecha_horario'];
+            $arrayHorario['estado'] = $_POST['estado'];
+            $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
+            $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual
+            $arrayHorario['id'] = $_POST['id'];
+
+            $horario = new Horario($arrayHorario);
+            $horario->update();
+
+            header("Location: ../../views/modules/horario/show.php?id=" . $horario->getId() . "&respuesta=correcto");
+
+        } catch (\Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/horario/create.php?respuesta=error&mensaje=" . $e->getMessage());
+            //header("Location: ../../views/modules/horario/edit.php?respuesta=error&mensaje=".$e->getMessage());
+        }
+    }
+
+    static public function searchForID($id)
+    {
+        try {
+            return Horario::searchForId($id);
+        } catch (\Exception $e) {
+            GeneralFunctions::console($e, 'error', 'errorStack');
+            //header("Location: ../../views/modules/horario/manager.php?respuesta=error");
+        }
+    }
+
+    static public function getAll()
+    {
+        try {
+            return Horario::getAll();
+        } catch (\Exception $e) {
+            GeneralFunctions::console($e, 'log', 'errorStack');
+            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
         }
     }
 

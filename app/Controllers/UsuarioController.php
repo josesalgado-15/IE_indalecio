@@ -96,7 +96,7 @@ class UsuarioController
             $arrayUsuario['rol'] = $_POST['rol'];
             $arrayUsuario['correo'] = $_POST['correo'];
             $arrayUsuario['contrasena'] = $_POST['contrasena'] ?? null;
-            $arrayUsuario['estado'] = 'Activo';
+            $arrayUsuario['estado'] = $_POST['estado'];
             $arrayUsuario['nombre_acudiente'] = $_POST['nombre_acudiente'];
             $arrayUsuario['telefono_acudiente'] = $_POST['telefono_acudiente'];
             $arrayUsuario['correo_acudiente'] = $_POST['correo_acudiente'];
@@ -107,7 +107,7 @@ class UsuarioController
             $usuario = new Usuario($arrayUsuario);
             $usuario->update();
 
-            header("Location: ../../views/modules/usuario/index.php?id=" . $usuario->getId() . "&respuesta=correcto");
+            header("Location: ../../views/modules/usuario/show.php?id=" . $usuario->getId() . "&respuesta=correcto");
 
         } catch (\Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');

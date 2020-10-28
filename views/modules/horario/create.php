@@ -94,10 +94,10 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="fecha_horario" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+                                        <label for="fecha_horario" class="col-sm-2 col-form-label">Fecha de Horario</label>
                                         <div class="col-sm-10">
-                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha_horario"
-                                                   name="fecha_horario" placeholder="Ingrese su Fecha de Nacimiento">
+                                            <input required type="date" class="form-control" id="fecha_horario"
+                                                   name="fecha_horario" placeholder="Ingrese la fecha">
                                         </div>
                                     </div>
 

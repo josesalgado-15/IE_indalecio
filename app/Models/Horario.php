@@ -16,7 +16,7 @@ class Horario extends BasicModel
     protected string $horario_entrada_sede;
     protected string $horario_salida;
     protected string $horario_entrada_restaurante;
-    protected string $fecha_horario;
+    protected string $fecha;
     protected string $estado;
     protected int $sedes_id;
     protected string $created_at;
@@ -39,7 +39,7 @@ class Horario extends BasicModel
         $this->horario_entrada_sede = $horario['horario_entrada_sede'] ?? '';
         $this->horario_salida = $horario['horario_salida'] ?? '';
         $this->horario_entrada_restaurante = $horario['horario_entrada_restaurante'] ?? '';
-        $this->fecha_horario = $horario['fecha_horario'] ?? new Carbon();
+        $this->fecha = $horario['fecha'] ?? new Carbon();
         $this->estado = $horario['estado'] ?? '';
         $this->sedes_id = $horario['sedes_id'] ?? 0;
         $this->created_at = $horario['created_at'] ?? new Carbon();
@@ -124,17 +124,17 @@ class Horario extends BasicModel
     /**
      * @return string
      */
-    public function getFechaHorario(): string
+    public function getFecha(): string
     {
-        return $this->fecha_horario;
+        return $this->fecha;
     }
 
     /**
-     * @param string $fecha_horario
+     * @param string $fecha
      */
-    public function setFechaHorario(string $fecha_horario): void
+    public function setFecha(string $fecha): void
     {
-        $this->fecha_horario = $fecha_horario;
+        $this->fecha = $fecha;
     }
 
     /**
@@ -232,7 +232,7 @@ class Horario extends BasicModel
                 $this->getHorarioEntradaSede(),
                 $this->getHorarioSalida(),
                 $this->getHorarioEntradaRestaurante(),
-                $this->getFechaHorario(),
+                $this->getFecha(),
                 $this->getEstado(),
                 $this->getSedesId()
                 //$this->getCreatedAt(),
@@ -249,12 +249,12 @@ class Horario extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.horarios SET hora_entrada_sede = ?, hora_salida = ?, hora_entrada_restaurante = ?, fecha_horario = ?, estado = ?, sedes_id = ? WHERE id = ?", array(
+        $result = $this->updateRow("UPDATE dbindalecio.horarios SET hora_entrada_sede = ?, hora_salida = ?, hora_entrada_restaurante = ?, fecha = ?, estado = ?, sedes_id = ? WHERE id = ?", array(
 
                 $this->getHorarioEntradaSede(),
                 $this->getHorarioSalida(),
                 $this->getHorarioEntradaRestaurante(),
-                $this->getFechaHorario(),
+                $this->getFecha(),
                 $this->getEstado(),
                 $this->getSedesId(),
                 //$this->getCreatedAt(),
@@ -290,7 +290,7 @@ class Horario extends BasicModel
             $Horario->setHorarioEntradaSede($valor['hora_entrada_sede']);
             $Horario->setHorarioSalida($valor['hora_salida']);
             $Horario->setHorarioEntradaRestaurante($valor['hora_entrada_restaurante']);
-            $Horario->setFechaHorario($valor['fecha_horario']);
+            $Horario->setFecha($valor['fecha']);
             $Horario->setEstado($valor['estado']);
             $Horario->setSedesId($valor['sedes_id']);
             //$Horario->setCreatedAt($valor['created_at']);
@@ -321,7 +321,7 @@ class Horario extends BasicModel
             $Horario->setHorarioEntradaSede($getrow['hora_entrada_sede']);
             $Horario->setHorarioSalida($getrow['hora_salida']);
             $Horario->setHorarioEntradaRestaurante($getrow['hora_entrada_restaurante']);
-            $Horario->setFechaHorario($getrow['fecha_horario']);
+            $Horario->setFecha($getrow['fecha']);
             $Horario->setEstado($getrow['estado']);
             $Horario->setSedesId($getrow['sedes_id']);
             //$Horario->setCreatedAt($getrow['created_at']);

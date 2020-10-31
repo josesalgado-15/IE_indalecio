@@ -112,7 +112,7 @@ use App\Controllers\HorarioController;
                                         <td><?php echo $horario->getHorarioEntradaSede(); ?></td>
                                         <td><?php echo $horario->getHorarioSalida(); ?></td>
                                         <td><?php echo $horario->getHorarioEntradaRestaurante(); ?></td>
-                                        <td><?php echo $horario->getFechaHorario(); ?></td>
+                                        <td><?php echo $horario->getFecha(); ?></td>
                                         <td><?php echo $horario->getEstado(); ?></td>
                                         <td><?php echo $horario->getSedesId(); ?></td>
                                         <td><?php echo $horario->getCreatedAt(); ?></td>

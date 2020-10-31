@@ -16,7 +16,7 @@ $Horario1 ->setId(2); //Propiedad recibida y asigna a una propiedad de la clase
 $Horario1 ->setHorarioEntradaSede('07:00:00'); //Se cambio hora
 $Horario1 ->setHorarioSalida('13:00:00');
 $Horario1 ->setHorarioEntradaRestaurante('11:00:00');
-$Horario1 ->setFechaHorario('2020-10-20');
+$Horario1 ->setFecha('2020-10-20');
 $Horario1 ->setEstado('Activo');
 $Horario1 ->setSedesId(1);
 //$Horario1->setCreatedAt('2020-10-21 12:26:54');

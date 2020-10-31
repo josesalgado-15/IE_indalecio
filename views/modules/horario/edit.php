@@ -115,7 +115,7 @@ use Carbon\Carbon;
                                                 <label for="fecha_horario" class="col-sm-2 col-form-label">Fecha de Horario</label>
                                                 <div class="col-sm-10">
                                                     <input required type="date" class="form-control" id="fecha_horario"
-                                                           name="fecha_horario" value="<?= $DataHorario->getFechaHorario(); ?>" placeholder="Ingrese la fecha">
+                                                           name="fecha_horario" value="<?= $DataHorario->getFecha(); ?>" placeholder="Ingrese la fecha">
                                                 </div>
                                             </div>
 

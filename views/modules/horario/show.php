@@ -103,7 +103,7 @@ use App\Controllers\HorarioController; ?>
 
                                         <strong><i class="fas fa-user mr-1"></i>Fecha De Horario</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getFechaHorario() ?>
+                                            <?= $DataHorario->getFecha() ?>
                                         </p>
                                         <hr>
 

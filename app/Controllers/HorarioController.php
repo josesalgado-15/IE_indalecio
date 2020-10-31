@@ -40,7 +40,7 @@ class HorarioController
             $arrayHorario['hora_entrada_sede'] = $_POST['hora_entrada_sede'];
             $arrayHorario['hora_salida'] = $_POST['hora_salida'];
             $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
-            $arrayHorario['fecha_horario'] = $_POST['fecha_horario'];
+            $arrayHorario['fecha'] = $_POST['fecha'];
             $arrayHorario['estado'] = $_POST['estado'];
             $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
             $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual
@@ -65,7 +65,7 @@ class HorarioController
             $arrayHorario['hora_entrada_sede'] = $_POST['hora_entrada_sede'];
             $arrayHorario['hora_salida'] = $_POST['hora_salida'];
             $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
-            $arrayHorario['fecha_horario'] = $_POST['fecha_horario'];
+            $arrayHorario['fecha'] = $_POST['fecha'];
             $arrayHorario['estado'] = $_POST['estado'];
             $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
             $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual

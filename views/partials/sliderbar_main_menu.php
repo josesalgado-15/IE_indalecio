@@ -121,13 +121,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/novedades/index.php" class="nav-link">
+                            <a href="<?= $baseURL ?>/views/modules/novedad/index.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Gestionar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/novedades/create.php" class="nav-link">
+                            <a href="<?= $baseURL ?>/views/modules/novedad/create.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Registrar</p>
                             </a>

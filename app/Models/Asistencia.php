@@ -4,6 +4,8 @@ namespace App\Models;
 use App\Models\BasicModel;
 use Carbon\Carbon;
 
+require_once('BasicModel.php');
+
 class Asistencia extends BasicModel
 {
 
@@ -345,5 +347,15 @@ class Asistencia extends BasicModel
         }
         $Asistencia->Disconnect();
         return $Asistencia;
+    }
+
+    static function asistenciaRegistrada(string $hora_ingreso, string $hora_salida){
+
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where hora_ingreso = '" . $hora_ingreso. "' and hora_salida = ".$hora_salida);
+        if ( count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

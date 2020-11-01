@@ -5,7 +5,7 @@ require("../../partials/routes.php");;
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Asistencia | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title> Crear Novedad | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -23,11 +23,11 @@ require("../../partials/routes.php");;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear Una Nueva Asistencia</h1>
+                        <h1>Crear Una Nueva Novedad</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Asistencia</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Novedad</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -42,7 +42,7 @@ require("../../partials/routes.php");;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear la asistencia: <?= $_GET['mensaje'] ?>
+                        Error al crear la novedad: <?= $_GET['mensaje'] ?>
                     </div>
                 <?php } ?>
             <?php } ?>
@@ -52,7 +52,7 @@ require("../../partials/routes.php");;
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información de la Asistencia</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información de la Novedad</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -66,31 +66,15 @@ require("../../partials/routes.php");;
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateAsistencia"
-                                      name="frmCreateAsistencia"
-                                      action="../../../app/Controllers/AsistenciaController.php?action=create">
+                                <form class="form-horizontal" method="post" id="frmCreateNovedad"
+                                      name="frmCreateNovedad"
+                                      action="../../../app/Controllers/NovedadController.php?action=create">
 
                                     <div class="form-group row">
-                                        <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
+                                        <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                                         <div class="col-sm-10">
-                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha"
-                                                   name="fecha" placeholder="Ingrese la fecha">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
-                                        <div class="col-sm-10">
-                                            <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                   placeholder="Ingrese la hora de ingreso">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
-                                        <div class="col-sm-10">
-                                            <select id="observacion" name="observacion" class="custom-select">
-                                                <option value="Ninguna">Ninguna</option>
+                                            <select id="tipo" name="tipo" class="custom-select">
+                                                <option value="Ejemplo">Ejemplo</option>
                                                 <option value="Ejemplo1">Ejemplo1</option>
                                                 <option value="Ejemplo2">Ejemplo2</option>
                                                 <option value="Ejemplo3">Ejemplo3</option>
@@ -99,49 +83,26 @@ require("../../partials/routes.php");;
                                         </div>
                                     </div>
 
-                                    <!--
-
                                     <div class="form-group row">
-                                        <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
+                                        <label for="justificacion" class="col-sm-2 col-form-label">Justificación</label>
                                         <div class="col-sm-10">
-                                            <select id="tipo_ingreso" name="tipo_ingreso" class="custom-select">
-                                                <option value="Institución">Institución</option>
-                                                <option value="Restaurante">Restaurante</option>
+                                            <select id="justificacion" name="justificacion" class="custom-select">
+                                                <option value="Ejemplo">Ejemplo</option>
+                                                <option value="Ejemplo1">Ejemplo1</option>
+                                                <option value="Ejemplo2">Ejemplo2</option>
+                                                <option value="Ejemplo3">Ejemplo3</option>
 
                                             </select>
                                         </div>
                                     </div>
-                                    -->
-
 
                                     <div class="form-group row">
-                                        <label for="usuarios_id" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
-                                        <div class="col-sm-4">
-
+                                        <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
+                                        <div class="col-sm-6">
+                                            <!-- textarea -->
                                             <div class="form-group">
-                                                <select multiple class="form-control">
-                                                    <option value="Institución">Institución</option>
-                                                    <option value="Restaurante">Restaurante</option>
-                                                </select>
+                                                <textarea id="observacion" name="observacion"  class="form-control" rows="3" placeholder="Ingrese ..."></textarea>
                                             </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="form-group row">
-                                        <label for="hora_salida" class="col-sm-2 col-form-label">Hora De Salida</label>
-                                        <div class="col-sm-10">
-                                            <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                   placeholder="Ingrese la hora de salida">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" minlength="6" class="form-control"
-                                                   id="usuarios_id" name="usuarios_id" placeholder="Ingrese su documento">
                                         </div>
                                     </div>
 
@@ -152,6 +113,30 @@ require("../../partials/routes.php");;
                                             <select id="estado" name="estado" class="custom-select">
                                                 <option value="Activo">Activo</option>
                                                 <option value="Inactivo">Inactivo</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
+                                        <div class="col-sm-10">
+                                            <select id="administrador_id" name="administrador_id" class="custom-select">
+                                                <option value="Admin 1">Admin 1</option>
+                                                <option value="Admin 2">Admin 2</option>
+                                                <option value="Admin 3">Admin 3</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
+                                        <div class="col-sm-10">
+                                            <select id="asistencias_id" name="asistencias_id" class="custom-select">
+                                                <option value="Asistencia 1">Asistencia 1</option>
+                                                <option value="Asistencia 2">Asistencia 2</option>
+                                                <option value="Asistencia 3">Asistencia 3</option>
 
                                             </select>
                                         </div>

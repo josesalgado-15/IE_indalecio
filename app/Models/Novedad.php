@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\BasicModel;
 use Carbon\Carbon;
 
+require_once('BasicModel.php');
+
 class Novedad extends BasicModel
 {
 
@@ -47,6 +49,16 @@ class Novedad extends BasicModel
     function __destruct()
     {
         //    $this->Disconnect(); // Cierro Conexiones
+    }
+
+    public static function novedadRegistrada($asistencias_id): bool
+    {
+        $result = Novedad::search("SELECT * FROM dbindalecio.novedades where asistencias_id = " . $asistencias_id);
+        if ( count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -322,4 +334,8 @@ class Novedad extends BasicModel
         return $Novedad;
     }
 
+    public static function getAll()
+    {
+        return Novedad::search("SELECT * FROM dbindalecio.novedades");
+    }
 }

@@ -38,7 +38,7 @@ class GradoController
         try {
             $arrayGrado = array();
             $arrayGrado['nombre'] = $_POST['nombre'];
-            $arrayGrado['estado'] = $_POST['estado'];
+            $arrayGrado['estado'] = 'Activo';
             $arrayGrado['created_at'] = Carbon::now(); //Fecha Actual
 
 

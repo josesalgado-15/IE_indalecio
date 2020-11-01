@@ -41,7 +41,7 @@ class HorarioController
             $arrayHorario['hora_salida'] = $_POST['hora_salida'];
             $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
             $arrayHorario['fecha'] = $_POST['fecha'];
-            $arrayHorario['estado'] = $_POST['estado'];
+            $arrayHorario['estado'] = 'Activo';
             $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
             $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual
 

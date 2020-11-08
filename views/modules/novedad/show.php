@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
 
-require("../../../app/Controllers/AsistenciaController.php");
+require("../../../app/Controllers/NovedadController.php");
 
-use App\Controllers\AsistenciaController; ?>
+use App\Controllers\NovedadController; ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la Asistencia</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la Novedad</title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +25,7 @@ use App\Controllers\AsistenciaController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la Asistencia</h1>
+                        <h1>Informacion del la Novedad</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -45,7 +45,7 @@ use App\Controllers\AsistenciaController; ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar la asistencia: <?= ($_GET['mensaje']) ?? "" ?>
+                        Error al consultar la novedad: <?= ($_GET['mensaje']) ?? "" ?>
                     </div>
                 <?php } ?>
             <?php } else if (empty($_GET['id'])) { ?>
@@ -62,8 +62,8 @@ use App\Controllers\AsistenciaController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataAsistencia = AsistenciaController::searchForID($_GET["id"]);
-                                if (!empty($DataAsistencia)) {
+                                $DataNovedad = NovedadController::searchForID($_GET["id"]);
+                                if (!empty($DataNovedad)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-info"></i> &nbsp; Ver Información </h3>
@@ -83,45 +83,44 @@ use App\Controllers\AsistenciaController; ?>
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Fecha</strong>
+                                            <strong><i class="fas fa-user mr-1"></i>Tipo</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getFecha() ?>
+                                            <?= $DataNovedad->getTipo() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Hora Ingreso</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Justificación</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getHoraIngreso() ?>
+                                            <?= $DataNovedad->getJustificacion() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Observación</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Observación</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getObservacion() ?>
+                                            <?= $DataNovedad->getObservacion() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Tipo De Ingreso</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Administrador ID</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getTipoIngreso() ?>
+                                            <?= $DataNovedad->getAdministradorId() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Hora Salida</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Asistencia ID</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getHoraSalida() ?>
+                                            <?= $DataNovedad->getAsistenciasId() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i># Documento</strong>
-                                        <p class="text-muted">
-                                            <?= $DataAsistencia->getUsuariosId() ?>
-                                        </p>
-                                        <hr>
 
                                         <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getEstado() ?>
+                                            <?= $DataNovedad->getEstado() ?>
                                         </p>
 
 
@@ -131,13 +130,13 @@ use App\Controllers\AsistenciaController; ?>
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Asistencias
+                                                    <i class="fas fa-tasks"></i> Gestionar Novedades
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a role="button" href="create.php" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Asistencia
+                                                    <i class="fas fa-plus"></i> Crear Novedades
                                                 </a>
                                             </div>
                                         </div>

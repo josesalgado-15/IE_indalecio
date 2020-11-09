@@ -19,10 +19,10 @@ $Institucion = new Institucion (7, 'Juan Andres Perea Padilla', );
 $Institucion = new Institucion();
 $Institucion->setId(7); //Propiedad recibida y asigna a una propiedad de la clase
 $Institucion->setNombre('Juan Andres Perea Padilla');
-$Institucion->setNit(8901231590);
+$Institucion->setNit(8031231590);
 $Institucion->setDireccion('Calle 2 sur#3-09');
 $Institucion->setMunicipiosId('1');
-$Institucion->setRector('Rector');
+$Institucion->setRectorId('10');
 $Institucion->setTelefono(3132594565);
 $Institucion->setCorreo('juancamar@gmail.com');
 $Institucion->setEstado('Activo');

@@ -127,13 +127,19 @@ use App\Controllers\InstitucionController;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="rector" class="col-sm-2 col-form-label">Rector</label>
+                                                <label for="rector_id" class="col-sm-2 col-form-label">Rector</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" minlength="1" class="form-control"
-                                                           id="rector" name="rector" value="<?= $DataInstitucion->getRector(); ?>"
-                                                           placeholder="Ingrese su rector">
+                                                    <select id="rector_id" name="rector_id" class="custom-select">
+                                                        <option <?= ($DataInstitucion->getRectorId() == "10") ? "selected" : ""; ?> value="10">Juan Andrés Pérez</option>
+                                                        <option <?= ($DataInstitucion->getRectorId() == "5") ? "selected" : ""; ?> value="5">Leopoldo López</option>
+                                                        <option <?= ($DataInstitucion->getRectorId() == "7") ? "selected" : ""; ?> value="7">Leandro Castellanos</option>
+
+
+                                                    </select>
                                                 </div>
                                             </div>
+
+
 
                                             <div class="form-group row">
                                                 <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>

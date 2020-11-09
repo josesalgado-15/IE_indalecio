@@ -103,7 +103,7 @@ use App\Controllers\InstitucionController; ?>
                                         <p class="text-muted"><?= $DataInstitucion->getMunicipiosId() ?></p>
                                         <hr>
                                         <strong><i class="fas fa-user mr-1"></i> Rector </strong>
-                                        <p class="text-muted"><?= $DataInstitucion->getRector() ?></p>
+                                        <p class="text-muted"><?= $DataInstitucion->getRectorId() ?></p>
                                         <hr>
                                         <strong><i class="fas fa-phone mr-1"></i> Telefono </strong>
                                         <p class="text-muted"><?= $DataInstitucion->getTelefono() ?></p>

@@ -16,7 +16,7 @@ class Institucion extends BasicModel
     protected string $nit;
     protected string $direccion;
     protected string $municipios_id;
-    protected string $rector;
+    protected string $rector_id;
     protected string $telefono;
     protected string $correo;
     protected string $estado;
@@ -40,7 +40,7 @@ class Institucion extends BasicModel
         $this->nit = $Institucion ['nit'] ?? '';
         $this->direccion = $Institucion['direccion'] ?? '';
         $this->municipios_id = $Institucion['municipios_id'] ?? 0 ;
-        $this->rector = $Institucion['rector'] ?? '';
+        $this->rector_id = $Institucion['rector_id'] ?? '';
         $this->telefono = $Institucion['telefono'] ?? '';
         $this->correo = $Institucion['correo'] ?? '';
         $this->estado= $Institucion['estado'] ?? '';
@@ -150,17 +150,17 @@ class Institucion extends BasicModel
     /**
      * @return string
      */
-    public function getRector(): string
+    public function getRectorId(): string
     {
-        return $this->rector;
+        return $this->rector_id;
     }
 
     /**
-     * @param string $rector
+     * @param string $rector_id
      */
-    public function setRector(string $rector): void
+    public function setRectorId(string $rector_id): void
     {
-        $this->rector = $rector;
+        $this->rector_id = $rector_id;
     }
 
 
@@ -280,7 +280,7 @@ class Institucion extends BasicModel
                 $this->getNit(),
                 $this->getDireccion(),
                 $this->getMunicipiosId(),
-                $this->getRector(),
+                $this->getRectorId(),
                 $this->getTelefono(),
                 $this->getCorreo(),
                 $this->getEstado(),
@@ -304,14 +304,14 @@ class Institucion extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.instituciones SET nombre = ?, nit = ?,  direccion = ?, municipios_id = ?, rector = ?,  telefono = ?,
-          correo = ?, estado = ? created_at = ?, updated_at = ?, deleted_at = ?   WHERE id = ?", array(
+        $result = $this->updateRow("UPDATE dbindalecio.instituciones SET nombre = ?, nit = ?,  direccion = ?, municipios_id = ?, rector_id = ?,  telefono = ?,
+          correo = ?, estado = ? /*created_at = ?, updated_at = ?, deleted_at = ?*/   WHERE id = ?", array(
 
                 $this->getNombre(),
                 $this->getNit(),
                 $this->getDireccion(),
                 $this->getMunicipiosId(),
-                $this->getRector(),
+                $this->getRectorId(),
                 $this->getTelefono(),
                 $this->getCorreo(),
                 $this->getEstado(),
@@ -361,7 +361,7 @@ class Institucion extends BasicModel
             $Institucion->setNit($valor ['nit']);
             $Institucion->setDireccion($valor['direccion']);
             $Institucion->setMunicipiosId($valor['municipios_id']);
-            $Institucion->setRector($valor['rector']);
+            $Institucion->setRectorId($valor['rector_id']);
             $Institucion->setTelefono($valor['telefono']);
             $Institucion->setCorreo($valor['correo']);
             $Institucion->setEstado($valor['estado']);
@@ -399,7 +399,7 @@ class Institucion extends BasicModel
             $Institucion->setNombre($getrow['nombre']);
             $Institucion->setDireccion($getrow['direccion']);
             $Institucion->setMunicipiosId($getrow['municipios_id']);
-            $Institucion->setRector($getrow['rector']);
+            $Institucion->setRectorId($getrow['rector_id']);
             $Institucion->setTelefono($getrow['telefono']);
             $Institucion->setCorreo($getrow['correo']);
             $Institucion->setEstado($getrow['estado']);
@@ -427,7 +427,7 @@ class Institucion extends BasicModel
             "<strong>Nit:</strong> " . $this->getNit() . "<br/>" .
             "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>".
             "<strong>Id Municipio:</strong> " . $this->getMunicipiosId() . "<br/>".
-            "<strong>Rector:</strong> " . $this->getRector() . "<br/>".
+            "<strong>Id Rector:</strong> " . $this->getRectorId() . "<br/>".
             "<strong>Teléfono:</strong> " . $this->getTelefono() . "<br/>".
             "<strong>Correo:</strong> " . $this->getCorreo() . "<br/>".
             "<strong>Estado:</strong> " . $this->getEstado() . "<br/>" ;

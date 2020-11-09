@@ -1,5 +1,9 @@
-<?php use Carbon\Carbon;
-require("../../partials/routes.php");;
+<?php
+require("../../partials/routes.php");
+require_once("../../../app/Controllers/UsuarioController.php");
+use App\Controllers\UsuarioController;
+use Carbon\Carbon;
+
 ?>
 
 <!DOCTYPE html>
@@ -108,12 +112,20 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="rector" class="col-sm-2 col-form-label">Rector</label>
+                                        <label for="rector_id" class="col-sm-2 col-form-label">Rector</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" minlength="1" class="form-control"
-                                                   id="rector" name="rector" placeholder="Ingrese su rector">
+                                            <?= UsuarioController::selectUsuario(false,
+                                                true,
+                                                'rector_id',
+                                                'rector_id',
+                                                  '',
+                                                'form-control select2bs4 select2-info',
+                                                "rol = 'Administrador' and estado = 'Activo'")
+                                            ?>
                                         </div>
                                     </div>
+
+
                                     <div class="form-group row">
                                         <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                         <div class="col-sm-10">

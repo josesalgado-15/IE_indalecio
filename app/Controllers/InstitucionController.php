@@ -42,7 +42,7 @@ class InstitucionController
             $arrayInstitucion['nit'] = $_POST['nit'];
             $arrayInstitucion['direccion'] = $_POST['direccion'];
             $arrayInstitucion['municipios_id'] = $_POST['municipios_id'];
-            $arrayInstitucion['rector'] = $_POST['rector'];
+            $arrayInstitucion['rector_id'] = $_POST['rector_id'];
             $arrayInstitucion['telefono'] = $_POST['telefono'];
             $arrayInstitucion['correo'] = $_POST['correo'];
             $arrayInstitucion['estado'] = $_POST['estado'];
@@ -53,7 +53,7 @@ class InstitucionController
                 $Institucion = new Institucion ($arrayInstitucion);
                 if ($Institucion->create()) {
                     //var_dump($_POST);
-                    header("Location: ../../views/modules/instituciones/index.php?acccion=create&respuesta=correcto");
+                    header("Location: ../../views/modules/instituciones/index.php?accion=create&respuesta=correcto");
                 }
             } else {
 
@@ -73,19 +73,20 @@ class InstitucionController
             $arrayInstitucion['nit'] = $_POST['nit'];
             $arrayInstitucion['direccion'] = $_POST['direccion'];
             $arrayInstitucion['municipios_id'] = ($_POST['municipios_id']);
-            $arrayInstitucion['rector'] = $_POST['rector'];
+            $arrayInstitucion['rector_id'] = $_POST['rector_id'];
             $arrayInstitucion['telefono'] = $_POST['telefono'];
             $arrayInstitucion['correo'] = $_POST['correo'];
             $arrayInstitucion['estado'] = $_POST['estado'];
             $arrayInstitucion['id'] = $_POST['id'];
 
-            $Institucion = new Institucion($arrayInstitucion);
-            $Institucion->update();
+            $institucion = new Institucion($arrayInstitucion);
+            $institucion->update();
 
-            header("Location: ../../views/modules/instituciones/index.php?id=" . $Institucion->getId() . "&respuesta=correcto");
+            header("Location: ../../views/modules/instituciones/index.php?id=" . $institucion->getId() . "&respuesta=correcto");
+
         } catch (\Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/instituciones/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            //header("Location: ../../views/modules/usuario/edit.php?respuesta=error&mensaje=".$e->getMessage());
         }
     }
 
@@ -164,7 +165,7 @@ static public function activate()
             /* @var $arrInstitucion \App\Models\Institucion[] */
             foreach ($arrInstitucion as $institucion)
                 if (!InstitucionController::institucionIsInArray($id->getId(), $arrExcluir))
-                    $htmlSelect .= "<option " . (($institucion != "") ? (($defaultValue == $institucion->getId()) ? "selected" : "") : "") . " value='" . $institucion->getId() . "'>" . $institucion->getDireccion() . " - " . $institucion->getNombre() . " " . $institucion->getRector() . "</option>";
+                    $htmlSelect .= "<option " . (($institucion != "") ? (($defaultValue == $institucion->getId()) ? "selected" : "") : "") . " value='" . $institucion->getId() . "'>" . $institucion->getDireccion() . " - " . $institucion->getNombre() . " " . $institucion->getRectorId() . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

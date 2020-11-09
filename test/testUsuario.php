@@ -18,7 +18,7 @@ $Persona1 ->setNombres('Pablo David'); //se cambió nombre de pedro a luis
 $Persona1 ->setApellidos('Diaz Camargo');
 $Persona1 ->setEdad(18);
 $Persona1 ->setTelefono(3132594565);
-$Persona1 ->setNumeroDocumento(1201723422);
+$Persona1 ->setNumeroDocumento(1101723422);
 $Persona1 ->setTipoDocumento('CC');
 $Persona1 ->setFechaNacimiento('2001-05-07');
 $Persona1 ->setDireccion('Calle 2 sur#3-09');

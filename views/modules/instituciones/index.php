@@ -49,9 +49,9 @@ use App\Controllers\InstitucionController;
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-check"></i> Correcto!</h5>
                         <?php if ($_GET['accion'] == "create") { ?>
-                            La institucion ha sido registrada con exito!
+                            La institución ha sido registrada con exito!
                         <?php } else if ($_GET['accion'] == "update") { ?>
-                            Los datos de la institucion han sido actualizados correctamente!
+                            Los datos de la institución han sido actualizados correctamente!
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -95,7 +95,7 @@ use App\Controllers\InstitucionController;
                                     <th>Nit</th>
                                     <th>Direccion</th>
                                     <th>Id Municipio</th>
-                                    <th>Rector</th>
+                                    <th>Id Rector</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>
@@ -106,25 +106,25 @@ use App\Controllers\InstitucionController;
                                 <?php
                                 $arrInstitucion = InstitucionController::getAll();
                                 /* @var $arrInstitucion \App\Models\Institucion[] */
-                                foreach ($arrInstitucion as $institucion) {
+                                foreach ($arrInstitucion as $Institucion) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $institucion->getId(); ?></td>
-                                        <td><?php echo $institucion->getNombre(); ?></td>
-                                        <td><?php echo $institucion->getNit(); ?></td>
-                                        <td><?php echo $institucion->getDireccion(); ?></td>
-                                        <td><?php echo $institucion->getMunicipiosId(); ?></td>
-                                        <td><?php echo $institucion->getRector(); ?></td>
-                                        <td><?php echo $institucion->getTelefono(); ?></td>
-                                        <td><?php echo $institucion->getCorreo(); ?></td>
-                                        <td><?php echo $institucion->getEstado(); ?></td>
+                                        <td><?php echo $Institucion->getId(); ?></td>
+                                        <td><?php echo $Institucion->getNombre(); ?></td>
+                                        <td><?php echo $Institucion->getNit(); ?></td>
+                                        <td><?php echo $Institucion->getDireccion(); ?></td>
+                                        <td><?php echo $Institucion->getMunicipiosId(); ?></td>
+                                        <td><?php echo $Institucion->getRectorId(); ?></td>
+                                        <td><?php echo $Institucion->getTelefono(); ?></td>
+                                        <td><?php echo $Institucion->getCorreo(); ?></td>
+                                        <td><?php echo $Institucion->getEstado(); ?></td>
 
                                         <td>
-                                            <a href="edit.php?id=<?php echo $institucion->getId(); ?>"
+                                            <a href="edit.php?id=<?php echo $Institucion->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
                                                class="btn docs-tooltip btn-primary btn-xs"><i
                                                         class="fa fa-edit"></i></a>
-                                            <a href="show.php?id=<?php echo $institucion->getId(); ?>"
+                                            <a href="show.php?id=<?php echo $Institucion->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
@@ -140,7 +140,7 @@ use App\Controllers\InstitucionController;
                                     <th>Nit</th>
                                     <th>Direccion</th>
                                     <th>Id Municipio</th>
-                                    <th>Rector</th>
+                                    <th>Id Rector</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>

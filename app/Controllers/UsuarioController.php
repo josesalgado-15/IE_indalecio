@@ -179,18 +179,18 @@ class UsuarioController
         $arrUsuarios = array();
         if ($where != "") {
             $base = "SELECT * FROM usuarios WHERE ";
-            $arrUsuarios = Usuarios::search($base . ' ' . $where);
+            $arrUsuarios = Usuario::search($base . ' ' . $where);
         } else {
-            $arrUsuarios = Usuarios::getAll();
+            $arrUsuarios = Usuario::getAll();
         }
 
         $htmlSelect = "<select " . (($isMultiple) ? "multiple" : "") . " " . (($isRequired) ? "required" : "") . " id= '" . $id . "' name='" . $nombre . "' class='" . $class . "' style='width: 100%;'>";
         $htmlSelect .= "<option value='' >Seleccione</option>";
         if (count($arrUsuarios) > 0) {
-            /* @var $arrUsuarios \App\Models\Usuarios[] */
+            /* @var $arrUsuarios \App\Models\Usuario[] */
             foreach ($arrUsuarios as $usuario)
                 if (!UsuarioController::usuarioIsInArray($usuario->getId(), $arrExcluir))
-                    $htmlSelect .= "<option " . (($usuario != "") ? (($defaultValue == $usuario->getId()) ? "selected" : "") : "") . " value='" . $usuario->getId() . "'>" . $usuario->getDocumento() . " - " . $usuario->getNombres() . " " . $usuario->getApellidos() . "</option>";
+                    $htmlSelect .= "<option " . (($usuario != "") ? (($defaultValue == $usuario->getId()) ? "selected" : "") : "") . " value='" . $usuario->getId() . "'>" . $usuario->getNumeroDocumento() . " - " . $usuario->getNombres() . " " . $usuario->getApellidos() . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

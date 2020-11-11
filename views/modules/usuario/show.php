@@ -1,9 +1,9 @@
 <?php
 require("../../partials/routes.php");
-require_once("../../partials/check_login.php");
-require("../../../app/Controllers/UsuariosController.php");
 
-use App\Controllers\UsuariosController; ?>
+require("../../../app/Controllers/UsuarioController.php");
+
+use App\Controllers\UsuarioController; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +29,7 @@ use App\Controllers\UsuariosController; ?>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">WebER</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -62,12 +62,12 @@ use App\Controllers\UsuariosController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataUsuario = UsuariosController::searchForID($_GET["id"]);
+                                $DataUsuario = UsuarioController::searchForID($_GET["id"]);
                                 if (!empty($DataUsuario)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-info"></i> &nbsp; Ver Información
-                                            de <?= $DataUsuario->getNombres() ?></h3>
+                                            de  <?= $DataUsuario->getNombres()?>  </h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                                     data-source="show.php" data-source-selector="#card-refresh-content"
@@ -84,30 +84,83 @@ use App\Controllers\UsuariosController; ?>
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-book mr-1"></i> Nombres y Apellidos</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Nombres y Apellidos</strong>
                                         <p class="text-muted">
                                             <?= $DataUsuario->getNombres() . " " . $DataUsuario->getApellidos() ?>
                                         </p>
                                         <hr>
-                                        <strong><i class="fas fa-user mr-1"></i> Documento</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getTipoDocumento() . ": " . $DataUsuario->getDocumento() ?></p>
-                                        <hr>
-                                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Direccion</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getDireccion() ?></p>
-                                        <hr>
-                                        <strong><i class="fas fa-calendar mr-1"></i> Fecha Nacimiento</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></p>
-                                        <p class="text-muted">Tienes: <?= $DataUsuario->getFechaNacimiento()->diffInYears(); ?> Años</p>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Edad</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getEdad() ?>
+                                        </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-phone mr-1"></i> Telefono</strong>
+                                        <strong><i class="fas fa-phone mr-1"></i>Telefono</strong>
                                         <p class="text-muted"><?= $DataUsuario->getTelefono() ?></p>
                                         <hr>
-                                        <strong><i class="fas fa-calendar-check mr-1"></i> Fecha Registro</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getFechaRegistro()->toDateTimeString(); ?></p>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Documento</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getTipoDocumento() . ": " . $DataUsuario->getNumeroDocumento() ?></p>
                                         <hr>
+
+                                        <strong><i class="fas fa-calendar mr-1"></i>Fecha Nacimiento</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getFechaNacimiento() ?></p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-map-marker-alt mr-1"></i>Direccion</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getDireccion() ?></p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-map-marker-alt mr-1"></i>Municipio</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getMunicipiosId() ?></p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Género</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getGenero()?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Correo</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getCorreo()?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Contraseña</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getContrasena()?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-book mr-1"></i>Nombre Acudiente</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getNombreAcudiente()?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-book mr-1"></i>Teléfono Acudiente</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getTelefonoAcudiente()?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-book mr-1"></i>Correo Acudiente</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getCorreoAcudiente()?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-map-marker-alt mr-1"></i>Institución</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getInstitucionesId() ?></p>
+                                        <hr>
+
                                         <strong><i class="far fa-file-alt mr-1"></i> Estado y Rol</strong>
                                         <p class="text-muted"><?= $DataUsuario->getEstado() . " - " . $DataUsuario->getRol() ?></p>
+                                        </p>
+
+
                                         </p>
 
                                     </div>

@@ -5,7 +5,7 @@ require("../../partials/routes.php");;
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Grado | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title> Crear Novedad | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -23,11 +23,11 @@ require("../../partials/routes.php");;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear un Nuevo Grado</h1>
+                        <h1>Crear Una Nueva Novedad</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Grado</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Novedad</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -42,7 +42,7 @@ require("../../partials/routes.php");;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear el grado: <?= $_GET['mensaje'] ?>
+                        Error al crear la novedad: <?= $_GET['mensaje'] ?>
                     </div>
                 <?php } ?>
             <?php } ?>
@@ -52,29 +52,57 @@ require("../../partials/routes.php");;
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información del Grado</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información de la Novedad</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
                                             data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                                class="fas fa-expand"></i></button>
+                                            class="fas fa-expand"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                                class="fas fa-minus"></i></button>
+                                            class="fas fa-minus"></i></button>
                                 </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateGrado"
-                                      name="frmCreateGrado"
-                                      action="../../../app/Controllers/GradoController.php?action=create">
+                                <form class="form-horizontal" method="post" id="frmCreateNovedad"
+                                      name="frmCreateNovedad"
+                                      action="../../../app/Controllers/NovedadController.php?action=create">
 
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                        <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese el nombre del grado">
+                                            <select id="tipo" name="tipo" class="custom-select">
+                                                <option value="Ejemplo">Ejemplo</option>
+                                                <option value="Ejemplo1">Ejemplo1</option>
+                                                <option value="Ejemplo2">Ejemplo2</option>
+                                                <option value="Ejemplo3">Ejemplo3</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="justificacion" class="col-sm-2 col-form-label">Justificación</label>
+                                        <div class="col-sm-10">
+                                            <select id="justificacion" name="justificacion" class="custom-select">
+                                                <option value="Ejemplo">Ejemplo</option>
+                                                <option value="Ejemplo1">Ejemplo1</option>
+                                                <option value="Ejemplo2">Ejemplo2</option>
+                                                <option value="Ejemplo3">Ejemplo3</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
+                                        <div class="col-sm-6">
+                                            <!-- textarea -->
+                                            <div class="form-group">
+                                                <textarea id="observacion" name="observacion"  class="form-control" rows="3" placeholder="Ingrese ..."></textarea>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -90,7 +118,29 @@ require("../../partials/routes.php");;
                                         </div>
                                     </div>
 
+                                    <div class="form-group row">
+                                        <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
+                                        <div class="col-sm-10">
+                                            <select id="administrador_id" name="administrador_id" class="custom-select">
+                                                <option value="Admin 1">Admin 1</option>
+                                                <option value="Admin 2">Admin 2</option>
+                                                <option value="Admin 3">Admin 3</option>
 
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
+                                        <div class="col-sm-10">
+                                            <select id="asistencias_id" name="asistencias_id" class="custom-select">
+                                                <option value="Asistencia 1">Asistencia 1</option>
+                                                <option value="Asistencia 2">Asistencia 2</option>
+                                                <option value="Asistencia 3">Asistencia 3</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
 
 
                                     <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>

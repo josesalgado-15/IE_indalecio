@@ -12,4 +12,5 @@ $baseURL = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST']."/".$_ENV['ROO
 //https://localhost/institucion-educativa-indalecio-vasquez/
 $adminlteURL = $baseURL."/vendor/almasaeed2010/adminlte";
 //https://localhost/institucion-educativa-indalecio-vasquez/vendor/almasaeed2010/adminlte
+
 ?>

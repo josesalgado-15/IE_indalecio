@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
 
-require("../../../app/Controllers/HorarioController.php");
+require("../../../app/Controllers/NovedadController.php");
 
-use App\Controllers\HorarioController; ?>
+use App\Controllers\NovedadController; ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del Horario</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la Novedad</title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +25,7 @@ use App\Controllers\HorarioController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del Horario</h1>
+                        <h1>Informacion del la Novedad</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -45,7 +45,7 @@ use App\Controllers\HorarioController; ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar el horario: <?= ($_GET['mensaje']) ?? "" ?>
+                        Error al consultar la novedad: <?= ($_GET['mensaje']) ?? "" ?>
                     </div>
                 <?php } ?>
             <?php } else if (empty($_GET['id'])) { ?>
@@ -62,8 +62,8 @@ use App\Controllers\HorarioController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataHorario = HorarioController::searchForID($_GET["id"]);
-                                if (!empty($DataHorario)) {
+                                $DataNovedad = NovedadController::searchForID($_GET["id"]);
+                                if (!empty($DataNovedad)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-info"></i> &nbsp; Ver Información </h3>
@@ -83,40 +83,44 @@ use App\Controllers\HorarioController; ?>
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Hora Entrada Sede</strong>
+                                            <strong><i class="fas fa-user mr-1"></i>Tipo</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getHorarioEntradaSede() ?>
+                                            <?= $DataNovedad->getTipo() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Hora Salida</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Justificación</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getHorarioSalida() ?>
+                                            <?= $DataNovedad->getJustificacion() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Hora Entrada Restaurante</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Observación</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getHorarioEntradaRestaurante() ?>
+                                            <?= $DataNovedad->getObservacion() ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Fecha De Horario</strong>
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Administrador ID</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getFecha() ?>
+                                            <?= $DataNovedad->getAdministradorId() ?>
+                                        </p>
+                                        <hr>
+
+                                        <p>
+                                            <strong><i class="fas fa-user mr-1"></i>Asistencia ID</strong>
+                                        <p class="text-muted">
+                                            <?= $DataNovedad->getAsistenciasId() ?>
                                         </p>
                                         <hr>
 
 
                                         <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getEstado() ?>
-                                        </p>
-                                        <hr>
-
-                                        <strong><i class="fas fa-map-marker-alt mr-1"></i>Sede</strong>
-                                        <p class="text-muted">
-                                            <?= $DataHorario->getSedesId() ?>
+                                            <?= $DataNovedad->getEstado() ?>
                                         </p>
 
 
@@ -126,13 +130,13 @@ use App\Controllers\HorarioController; ?>
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Grados
+                                                    <i class="fas fa-tasks"></i> Gestionar Novedades
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a role="button" href="create.php" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Grado
+                                                    <i class="fas fa-plus"></i> Crear Novedades
                                                 </a>
                                             </div>
                                         </div>

@@ -68,7 +68,7 @@ require("../../partials/routes.php");;
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateHorario"
                                       name="frmCreateHorario"
-                                      action="../../../app/Controllers/HorariosController.php?action=create">
+                                      action="../../../app/Controllers/HorarioController.php?action=create">
                                     <div class="form-group row">
                                         <label for="hora_entrada_sede" class="col-sm-2 col-form-label">Hora de Entrada a Institución</label>
                                         <div class="col-sm-10">
@@ -94,11 +94,30 @@ require("../../partials/routes.php");;
                                     </div>
 
                                     <div class="form-group row">
+                                        <label for="fecha_horario" class="col-sm-2 col-form-label">Fecha de Horario</label>
+                                        <div class="col-sm-10">
+                                            <input required type="date" class="form-control" id="fecha_horario"
+                                                   name="fecha_horario" placeholder="Ingrese la fecha">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
                                             <select id="estado" name="estado" class="custom-select">
                                                 <option value="Activo">Activo</option>
                                                 <option value="Inactivo">Inactivo</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="sedes_id" class="col-sm-2 col-form-label">Sede Institución</label>
+                                        <div class="col-sm-10">
+                                            <select id="sedes_id" name="sedes_id" class="custom-select">
+                                                <option value="1">Sede Principal</option>
+                                                <option value="2">Sede Ejemplo</option>
 
                                             </select>
                                         </div>

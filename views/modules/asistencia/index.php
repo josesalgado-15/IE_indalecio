@@ -1,13 +1,13 @@
 <?php
 require_once("../../partials/routes.php");
-require_once("../../../app/Controllers/GradoController.php");
+require_once("../../../app/Controllers/AsistenciaController.php");
 
-use App\Controllers\GradoController;
+use App\Controllers\AsistenciaController;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar Grados</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar Asistencias</title>
     <?php include_once ('../../partials/head_imports.php') ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -28,12 +28,12 @@ use App\Controllers\GradoController;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestionar Grados</h1>
+                        <h1>Gestionar Asistencias</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                            <li class="breadcrumb-item active">Gestionar Grados</li>
+                            <li class="breadcrumb-item active">Gestionar Asistencias</li>
                         </ol>
                     </div>
                 </div>
@@ -49,9 +49,9 @@ use App\Controllers\GradoController;
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-check"></i> Correcto!</h5>
                         <?php if ($_GET['accion'] == "create") { ?>
-                            El grado ha sido registrado con exito!
+                            La asistencia se ha sido registrado con exito!
                         <?php } else if ($_GET['accion'] == "update") { ?>
-                            Los datos del grado han sido actualizados correctamente!
+                            Los datos de la asistencia han sido actualizados correctamente!
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -60,7 +60,7 @@ use App\Controllers\GradoController;
             <!-- Default box -->
             <div class="card card-dark">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Grados</h3>
+                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Asistencias</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                 data-source="index.php" data-source-selector="#card-refresh-content"
@@ -81,17 +81,22 @@ use App\Controllers\GradoController;
                         <div class="col-auto">
                             <a role="button" href="create.php" class="btn btn-primary float-right"
                                style="margin-right: 5px;">
-                                <i class="fas fa-plus"></i> Crear Grado
+                                <i class="fas fa-plus"></i> Crear Asistencia
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblGrados" class="datatable table table-bordered table-striped">
+                            <table id="tblAsistencias" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nombre</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo De Ingreso</th>
+                                    <th>Hora De Ingreso</th>
+                                    <th>Observación</th>
+                                    <th>Hora De Salida</th>
+                                    <th># Documento</th>
                                     <th>Estado</th>
                                     <th>Creación</th>
                                     <th>Acciones</th>
@@ -99,21 +104,26 @@ use App\Controllers\GradoController;
                                 </thead>
                                 <tbody>
                                 <?php
-                                $arrGrados = GradoController::getAll();
-                                /* @var $arrGrados \App\Models\Grado[] */
-                                foreach ($arrGrados as $grado) {
+                                $arrAsistencias = AsistenciaController::getAll();
+                                /* @var $arrAsistencias \App\Models\Asistencia[] */
+                                foreach ($arrAsistencias as $asistencia) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $grado->getId(); ?></td>
-                                        <td><?php echo $grado->getNombre(); ?></td>
-                                        <td><?php echo $grado->getEstado(); ?></td>
-                                        <td><?php echo $grado->getCreatedAt(); ?></td>
+                                        <td><?php echo $asistencia->getId(); ?></td>
+                                        <td><?php echo $asistencia->getFecha(); ?></td>
+                                        <td><?php echo $asistencia->getHoraIngreso(); ?></td>
+                                        <td><?php echo $asistencia->getObservacion(); ?></td>
+                                        <td><?php echo $asistencia->getTipoIngreso(); ?></td>
+                                        <td><?php echo $asistencia->getHoraSalida(); ?></td>
+                                        <td><?php echo $asistencia->getUsuariosId(); ?></td>
+                                        <td><?php echo $asistencia->getEstado(); ?></td>
+                                        <td><?php echo $asistencia->getCreatedAt(); ?></td>
                                         <td>
-                                            <a href="edit.php?id=<?php echo $grado->getId(); ?>"
+                                            <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
                                                class="btn docs-tooltip btn-primary btn-xs"><i
                                                         class="fa fa-edit"></i></a>
-                                            <a href="show.php?id=<?php echo $grado->getId(); ?>"
+                                            <a href="show.php?id=<?php echo $asistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
@@ -125,7 +135,12 @@ use App\Controllers\GradoController;
                                 <tfoot>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nombre</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo De Ingreso</th>
+                                    <th>Hora De Ingreso</th>
+                                    <th>Observación</th>
+                                    <th>Hora De Salida</th>
+                                    <th># Documento</th>
                                     <th>Estado</th>
                                     <th>Creación</th>
                                     <th>Acciones</th>

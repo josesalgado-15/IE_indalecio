@@ -1,5 +1,9 @@
-<?php use Carbon\Carbon;
-require("../../partials/routes.php");;
+<?php
+require("../../partials/routes.php");
+require_once("../../../app/Controllers/UsuarioController.php");
+use App\Controllers\UsuarioController;
+use Carbon\Carbon;
+
 ?>
 
 <!DOCTYPE html>
@@ -66,16 +70,25 @@ require("../../partials/routes.php");;
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateUsuario"
-                                      name="frmCreateUsuario"
-                                      action="../../../app/Controllers/UsuarioController.php?action=create">
+                                <form class="form-horizontal" method="post" id="frmCreateInstitucion"
+                                      name="frmCreateInstitucion"
+                                      action="../../../app/Controllers/InstitucionController.php?action=create">
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombres" name="nombres"
+                                            <input required type="text" class="form-control" id="nombre" name="nombre"
                                                    placeholder="Ingrese sus nombres">
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label for="nit" class="col-sm-2 col-form-label">Nit</label>
+                                        <div class="col-sm-10">
+                                            <input required type="text" class="form-control" id="nit"
+                                                   name="nit" placeholder="Ingrese su nit">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group row">
                                         <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                         <div class="col-sm-10">
@@ -83,34 +96,44 @@ require("../../partials/routes.php");;
                                                    name="direccion" placeholder="Ingrese su direccion">
                                         </div>
                                     </div>
+
                                     <div class="form-group row">
                                         <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
                                         <div class="col-sm-10">
                                             <select id="municipios_id" name="municipios_id" class="custom-select">
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
-                                                <option value="EjemploMunicipio">Ejemplo Municipio</option>
+                                                <option value="1">Ejemplo Municipio 1 </option>
+                                                <option value="2">Ejemplo Municipio</option>
+                                                <option value="3">Ejemplo Municipio</option>
+                                                <option value="4">Ejemplo Municipio</option>
+                                                <option value="5">Ejemplo Municipio</option>
 
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="edad" class="col-sm-2 col-form-label">Rector</label>
+                                        <label for="rector_id" class="col-sm-2 col-form-label">Rector</label>
                                         <div class="col-sm-10">
-                                            <input required type="rector" minlength="1" class="form-control"
-                                                   id="edad" name="text" placeholder="Ingrese su rector">
+                                            <?= UsuarioController::selectUsuario(false,
+                                                true,
+                                                'rector_id',
+                                                'rector_id',
+                                                '',
+                                                'form-control select2bs4 select2-info',
+                                                "rol = 'Administrador' and estado = 'Activo'")
+                                            ?>
                                         </div>
                                     </div>
+
+
                                     <div class="form-group row">
                                         <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" minlength="6" class="form-control"
+                                            <input required type="text" minlength="6" class="form-control"
                                                    id="telefono" name="telefono" placeholder="Ingrese su telefono">
                                         </div>
                                     </div>
+
                                     <div class="form-group row">
                                         <label for="correo" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                         <div class="col-sm-10">
@@ -118,6 +141,7 @@ require("../../partials/routes.php");;
                                                    name="correo" placeholder="Ingrese su correo electrónico">
                                         </div>
                                     </div>
+
                                     <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
@@ -156,7 +180,7 @@ require("../../partials/routes.php");;
                                         <div class="form-group row">
                                             <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                             <div class="col-sm-10">
-                                                <select id="rol" name="Estado" class="custom-select">
+                                                <select id="rol" name="estado" class="custom-select">
                                                     <option value="Activo">Activo</option>
                                                     <option value="Inactivo">Inactivo</option>
                                                 </select>

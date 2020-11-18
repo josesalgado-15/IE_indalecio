@@ -1,5 +1,12 @@
-<?php use Carbon\Carbon;
+
+<?php
+
+use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
+use Carbon\Carbon;
 require("../../partials/routes.php");;
+require_once("../../../app/Controllers/AsistenciaController.php");
+require_once("../../../app/Controllers/UsuarioController.php");
 ?>
 
 <!DOCTYPE html>
@@ -73,10 +80,11 @@ require("../../partials/routes.php");;
                                     <div class="form-group row">
                                         <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
                                         <div class="col-sm-10">
-                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha"
+                                            <input required type="date" class="form-control" id="fecha"
                                                    name="fecha" placeholder="Ingrese la fecha">
                                         </div>
                                     </div>
+
 
                                     <div class="form-group row">
                                         <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
@@ -115,11 +123,11 @@ require("../../partials/routes.php");;
 
 
                                     <div class="form-group row">
-                                        <label for="usuarios_id" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
+                                        <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
                                         <div class="col-sm-4">
 
                                             <div class="form-group">
-                                                <select multiple class="form-control">
+                                                <select multiple class="form-control" id="tipo_ingreso" name="tipo_ingreso">
                                                     <option value="Institución">Institución</option>
                                                     <option value="Restaurante">Restaurante</option>
                                                 </select>
@@ -137,6 +145,10 @@ require("../../partials/routes.php");;
                                         </div>
                                     </div>
 
+                                    <!--
+
+
+
                                     <div class="form-group row">
                                         <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
                                         <div class="col-sm-10">
@@ -144,6 +156,31 @@ require("../../partials/routes.php");;
                                                    id="usuarios_id" name="usuarios_id" placeholder="Ingrese su documento">
                                         </div>
                                     </div>
+
+                                    -->
+
+
+                                    <?php
+                                    $dataAsistencia = null;
+                                    if (!empty($_GET['id'])) {
+                                        $dataAsistencia = AsistenciaController::searchForID($_GET['id']);
+                                    }
+                                    ?>
+
+                                    <div class="form-group row">
+                                        <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
+                                        <div class="col-sm-5">
+                                            <?= UsuarioController::selectUsuario(false,
+                                                true,
+                                                'usuarios_id',
+                                                'usuarios_id',
+                                                (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
+                                                'form-control select2bs4 select2-info',
+                                                "rol = 'Estudiante' and estado = 'Activo'")
+                                            ?>
+                                        </div>
+                                    </div>
+
 
 
                                     <div class="form-group row">

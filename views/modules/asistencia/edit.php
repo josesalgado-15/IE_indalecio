@@ -1,6 +1,7 @@
 <?php
 require("../../partials/routes.php");
 require("../../../app/Controllers/AsistenciaController.php");
+require_once("../../../app/Controllers/UsuarioController.php");
 
 use App\Controllers\AsistenciaController;
 use Carbon\Carbon;
@@ -140,6 +141,7 @@ use Carbon\Carbon;
                                                 </div>
                                             </div>
 
+
                                             <div class="form-group row">
                                                 <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
                                                 <div class="col-sm-10">
@@ -147,6 +149,29 @@ use Carbon\Carbon;
                                                            id="usuarios_id" name="usuarios_id"  value="<?= $DataAsistencia->getUsuariosId(); ?> placeholder="Ingrese su documento">
                                                 </div>
                                             </div>
+
+                                            <?php
+                                            $dataAsistencia = null;
+                                            if (!empty($_GET['id'])) {
+                                                $dataAsistencia = AsistenciaController::searchForID($_GET['id']);
+                                            }
+                                            ?>
+
+                                            <div class="form-group row">
+                                                <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
+                                                <div class="col-sm-8">
+                                                    <?= UsuarioController::selectUsuario(false,
+                                                        true,
+                                                        'usuarios_id',
+                                                        'usuarios_id',
+                                                        (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
+                                                        'form-control select2bs4 select2-info',
+                                                        "rol = 'Estudiante' and estado = 'Activo'")
+                                                    ?>
+                                                </div>
+                                            </div>
+
+
 
 
                                             <div class="form-group row">

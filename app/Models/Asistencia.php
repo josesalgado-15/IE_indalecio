@@ -19,7 +19,6 @@ class Asistencia extends BasicModel
     protected string $hora_salida;
     protected int $usuarios_id;
     protected string $estado;
-    protected string $created_at;
     protected string $updated_at;
     protected string $deleted_at;
 
@@ -44,7 +43,6 @@ class Asistencia extends BasicModel
 
 
         $this->estado = $asistencia['estado'] ?? '';
-        $this->created_at = $asistencia['created_at'] ?? new Carbon();
         $this->updated_at = $asistencia['updated_at'] ?? new Carbon();
         $this->deleted_at = $asistencia['deleted_at'] ?? new Carbon();
     }
@@ -185,18 +183,7 @@ class Asistencia extends BasicModel
     /**
      * @return Carbon|mixed|string
      */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
 
-    /**
-     * @param Carbon|mixed|string $created_at
-     */
-    public function setCreatedAt($created_at): void
-    {
-        $this->created_at = $created_at;
-    }
 
     /**
      * @return Carbon|mixed|string
@@ -349,9 +336,12 @@ class Asistencia extends BasicModel
         return $Asistencia;
     }
 
-    static function asistenciaRegistrada(string $hora_ingreso, string $hora_salida){
 
-        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where hora_ingreso = '" . $hora_ingreso. "' and hora_salida = ".$hora_salida);
+    //PENDIENTE PREGUNTAR COMO DEFINIR LAS 3 CONDICIONES DE FECHA, HORA_INGRESO Y USUARIOS_ID
+
+    static function asistenciaRegistrada(string $fecha, string $hora_ingreso){
+
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = ".$hora_ingreso );
         if ( count ($result) > 0 ) {
             return true;
         } else {

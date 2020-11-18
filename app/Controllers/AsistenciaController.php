@@ -4,11 +4,14 @@ namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
 require_once(__DIR__ . '/../Models/Asistencia.php');
+require_once(__DIR__ . '/../Models/Usuario.php');
 require_once(__DIR__ . '/../Models/GeneralFunctions.php');
 
 use App\Models\GeneralFunctions;
 use App\Models\Asistencia;
+use App\Models\Usuario;
 use Carbon\Carbon;
+
 
 if (!empty($_GET['action'])) {
     AsistenciaController::main($_GET['action']);
@@ -40,18 +43,18 @@ class AsistenciaController
 
             $arrayAsistencia['fecha'] = $_POST['fecha'];
             //Pendiente preguntar si la fecha se definira sola o el usuario la define
-            //$arrayAsistencia['fecha'] = Carbon::parse($_POST['fecha']);
+            $arrayAsistencia['fecha'] = $_POST['fecha'];
             $arrayAsistencia['hora_ingreso'] = $_POST['hora_ingreso'];
             $arrayAsistencia['observacion'] = $_POST['observacion'];
             $arrayAsistencia['tipo_ingreso'] = $_POST['tipo_ingreso'];
             $arrayAsistencia['hora_salida'] = $_POST['hora_salida'];
-            $arrayAsistencia['usuarios_id'] = $_POST['usuarios_id'];
+            $arrayAsistencia['usuarios_id'] = Usuario::searchForId($_POST['usuarios_id']);
             $arrayAsistencia['estado'] = 'Activo';
-            $arrayAsistencia['created_at'] = Carbon::now(); //Fecha Actual
+            //$arrayAsistencia['created_at'] = Carbon::now(); //Fecha Actual
 
 
-            //Preguntar al ingeniero como definir la validación
-            if (!Asistencia::asistenciaRegistrada($arrayAsistencia['hora_ingreso'], $arrayAsistencia['hora_salida'])) {
+            //PENDIENTE PREGUNTAR COMO DEFINIR LAS 3 CONDICIONES DE FECHA, HORA_INGRESO Y USUARIOS_ID
+            if (!Asistencia::asistenciaRegistrada($arrayAsistencia['fecha'], $arrayAsistencia['hora_ingreso'])) {
                 $Asistencia = new Asistencia ($arrayAsistencia);
                 if ($Asistencia->create()) {
                     //var_dump($_POST);
@@ -73,12 +76,12 @@ class AsistenciaController
             $arrayAsistencia = array();
             $arrayAsistencia['fecha'] = $_POST['fecha'];
             //Pendiente preguntar si la fecha se definira sola o el usuario la define
-            //$arrayAsistencia['fecha'] = Carbon::parse($_POST['fecha']);
+            $arrayAsistencia['fecha'] = $_POST['fecha'];
             $arrayAsistencia['hora_ingreso'] = $_POST['hora_ingreso'];
             $arrayAsistencia['observacion'] = $_POST['observacion'];
             $arrayAsistencia['tipo_ingreso'] = $_POST['tipo_ingreso'];
             $arrayAsistencia['hora_salida'] = $_POST['hora_salida'];
-            $arrayAsistencia['usuarios_id'] = $_POST['usuarios_id'];
+            $arrayAsistencia['usuarios_id'] = Usuario::searchForId($_POST['usuarios_id']);
             $arrayAsistencia['estado'] = $_POST['estado'];
             //$arrayAsistencia['created_at'] = Carbon::now(); //Fecha Actual
             $arrayAsistencia['id'] = $_POST['id'];

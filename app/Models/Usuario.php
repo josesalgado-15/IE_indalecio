@@ -320,53 +320,54 @@ class Usuario extends BasicModel
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getNombreAcudiente(): string
+    public function getNombreAcudiente()
     {
         return $this->nombre_acudiente;
     }
 
     /**
-     * @param string $nombre_acudiente
+     * @param mixed|string $nombre_acudiente
      */
-    public function setNombreAcudiente(string $nombre_acudiente): void
+    public function setNombreAcudiente($nombre_acudiente): void
     {
         $this->nombre_acudiente = $nombre_acudiente;
     }
 
-
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getTelefonoAcudiente(): string
+    public function getTelefonoAcudiente()
     {
         return $this->telefono_acudiente;
     }
 
     /**
-     * @param string $telefono_acudiente
+     * @param mixed|string $telefono_acudiente
      */
-    public function setTelefonoAcudiente(string $telefono_acudiente): void
+    public function setTelefonoAcudiente($telefono_acudiente): void
     {
         $this->telefono_acudiente = $telefono_acudiente;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getCorreoAcudiente(): string
+    public function getCorreoAcudiente()
     {
         return $this->correo_acudiente;
     }
 
     /**
-     * @param string $correo_acudiente
+     * @param mixed|string $correo_acudiente
      */
-    public function setCorreoAcudiente(string $correo_acudiente): void
+    public function setCorreoAcudiente($correo_acudiente): void
     {
         $this->correo_acudiente = $correo_acudiente;
     }
+
+
 
     /**
      * @return int|mixed|string
@@ -616,11 +617,7 @@ class Usuario extends BasicModel
     }
 
 
-    //Metodos
-    public function saludar(?string $nombres = "Julian"): string
-    { //Visibilidad, function, nombre metodo(parametros), retorno
-        return "Hola " . $nombres . ", Soy " . $this->apellidos . " de color " . " como estas?<br/>";
-    }
+
 
     public function __toString(): string
     {

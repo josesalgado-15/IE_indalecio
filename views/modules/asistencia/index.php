@@ -98,7 +98,6 @@ use App\Controllers\AsistenciaController;
                                     <th>Hora De Salida</th>
                                     <th># Documento</th>
                                     <th>Estado</th>
-                                    <th>Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -117,7 +116,6 @@ use App\Controllers\AsistenciaController;
                                         <td><?php echo $asistencia->getHoraSalida(); ?></td>
                                         <td><?php echo $asistencia->getUsuariosId(); ?></td>
                                         <td><?php echo $asistencia->getEstado(); ?></td>
-                                        <td><?php echo $asistencia->getCreatedAt(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
@@ -142,7 +140,6 @@ use App\Controllers\AsistenciaController;
                                     <th>Hora De Salida</th>
                                     <th># Documento</th>
                                     <th>Estado</th>
-                                    <th>Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </tfoot>

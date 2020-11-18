@@ -1,45 +1,68 @@
 <?php
+use App\Models\Institucion;
+
 
 require_once ('..\app\Models\Institucion.php');
 
 
-$Insti1 = new Institucion  (1, 'Institución Educativa Indalecio Vásquez' , 'Calle 1 sur#1-05', 1 ,  'Rector' ,  '3132594565' ,
-    'juancamar@gmail.com' ,  'Activo' );
-
-//Creacion de usuario en base de datos
-
-$Insti1->create();
 
 /*
-//Actualizacion de informacion, corrección de numero de documento y contraseña
-$Insti1 ->setId(7); //Propiedad recibida y asigna a una propiedad de la clase
-$Insti1 ->setNombre('Juan Andres Perea Padilla');
-$Insti1 ->setDireccion('Calle 2 sur#3-09');
-$Insti1 ->setMunicipiosId(2);
-$Insti1 ->setRector('Rector');
-$Insti1 ->setTelefono('3132594565');
-$Insti1 ->setCorreo('juancamar@gmail.com');
-$Insti1 ->setEstado('Activo');
-//$Insti1->update();
+$Institucion = new Institucion (7, 'Juan Andres Perea Padilla', );
 */
 
+
+
+
+//Actualizacion de informacion, corrección de numero de documento y contraseña
+$Institucion = new Institucion();
+$Institucion->setId(7); //Propiedad recibida y asigna a una propiedad de la clase
+$Institucion->setNombre('Juan Andres Perea Padilla');
+$Institucion->setNit(8031231590);
+$Institucion->setDireccion('Calle 2 sur#3-09');
+$Institucion->setMunicipiosId('1');
+$Institucion->setRectorId('10');
+$Institucion->setTelefono(3132594565);
+$Institucion->setCorreo('juancamar@gmail.com');
+$Institucion->setEstado('Activo');
+$Institucion->setCreatedAt('2020-10-21 12:26:54');
+$Institucion->setUpdatedAt('2020-10-21');
+$Institucion->setDeletedAt('2020-10-21');
+$Institucion->create();
+
+
+//Creacion de institucion en base de datos
+//$Institcuib->create();
+
+/*
+ //Actualizacion de informacion
+$Institucion->setId(5); //Propiedad recibida y asigna a una propiedad de la clase
+$Institucion->setNombre('Luis Paez');
+$Institucion->setDireccion('Calle 2 sur#3-09');
+$Institucion->setMunicipiosId(2);
+$Institucion->setRector('Juan Cruz');
+$Institucion->setTelefono('3132594465');
+$Institucion->setCorreo('juancruz@gmail.com');
+$Institucion->setEstado('Activo');
+$Institucion->setCreatedAt('2020-10-21 12:26:54');
+$Institucion->setUpdatedAt('2020-10-21');
+$Institucion->setDeletedAt('2020-10-21');
+$Institucion->create();
+*/
 /*
 //Eliminacion de usuario, cambio de estado.
-$Insti1->deleted(7);
-echo $Insti1;
+$Institucion->deleted(7);
+echo $Institucion;
 */
+$allInstitucion = Institucion::getAll();
+var_dump($allInstitucion);
+/*
+ $arrInstitcuon = Institucion::search("SELECT * FROM dbindalecio.instituciones WHERE id= 7");
+var_dump($arrInstitucion);
+ */
 
 /*
-//Busquedas, no funciona ya que pide llenar el a
-$allInstituciones = Institucion::getAll();
-var_dump($allInstituciones);
-$arrInsti = Institucion::search("SELECT * FROM dbindalecio.usuario WHERE numero_documento = 1005343425");
-var_dump($arrInsti);
-*/
-
-
 //Busqueda por Id
 /*
-$busqueda = Institucion::searchForId(6);
+$busqueda = Institucion::searchForId(5);
 echo ($busqueda);
 */

@@ -1,5 +1,11 @@
-<?php use Carbon\Carbon;
-require("../../partials/routes.php");;
+<?php
+
+use App\Controllers\NovedadController;
+use App\Controllers\UsuarioController;
+use Carbon\Carbon;
+require("../../partials/routes.php");
+require_once("../../../app/Controllers/NovedadController.php");
+require_once("../../../app/Controllers/UsuarioController.php");
 ?>
 
 <!DOCTYPE html>
@@ -118,17 +124,27 @@ require("../../partials/routes.php");;
                                         </div>
                                     </div>
 
+                                    <?php
+                                    $dataNovedad = null;
+                                    if (!empty($_GET['id'])) {
+                                        $dataNovedad = NovedadController::searchForID($_GET['id']);
+                                    }
+                                    ?>
+
                                     <div class="form-group row">
                                         <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
-                                        <div class="col-sm-10">
-                                            <select id="administrador_id" name="administrador_id" class="custom-select">
-                                                <option value="Admin 1">Admin 1</option>
-                                                <option value="Admin 2">Admin 2</option>
-                                                <option value="Admin 3">Admin 3</option>
-
-                                            </select>
+                                        <div class="col-sm-8">
+                                            <?= UsuarioController::selectUsuario(false,
+                                                true,
+                                                'usuarios_id',
+                                                'usuarios_id',
+                                                (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
+                                                'form-control select2bs4 select2-info',
+                                                "rol = 'Administrador' and estado = 'Activo'")
+                                            ?>
                                         </div>
                                     </div>
+
 
                                     <div class="form-group row">
                                         <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>

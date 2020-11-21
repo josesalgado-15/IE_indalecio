@@ -94,8 +94,8 @@ use App\Controllers\InstitucionController;
                                     <th>Nombre</th>
                                     <th>Nit</th>
                                     <th>Direccion</th>
-                                    <th>Id Municipio</th>
-                                    <th>Id Rector</th>
+                                    <th>Municipio</th>
+                                    <th>Rector</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Estado</th>

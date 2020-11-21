@@ -1,8 +1,11 @@
 <?php
 require("../../partials/routes.php");
-require("../../../app/Controllers/InstitucionController.php");
-
+require_once("../../../app/Controllers/InstitucionController.php");
+require_once("../../../app/Controllers/UsuarioController.php");
 use App\Controllers\InstitucionController;
+use App\Controllers\UsuarioController;
+use Carbon\Carbon;
+
 ?>
 
 <!DOCTYPE html>
@@ -129,13 +132,14 @@ use App\Controllers\InstitucionController;
                                             <div class="form-group row">
                                                 <label for="rector_id" class="col-sm-2 col-form-label">Rector</label>
                                                 <div class="col-sm-10">
-                                                    <select id="rector_id" name="rector_id" class="custom-select">
-                                                        <option <?= ($DataInstitucion->getRectorId() == "10") ? "selected" : ""; ?> value="10">Juan Andrés Pérez</option>
-                                                        <option <?= ($DataInstitucion->getRectorId() == "5") ? "selected" : ""; ?> value="5">Leopoldo López</option>
-                                                        <option <?= ($DataInstitucion->getRectorId() == "7") ? "selected" : ""; ?> value="7">Leandro Castellanos</option>
-
-
-                                                    </select>
+                                                    <?= UsuarioController::selectUsuario(false,
+                                                        true,
+                                                        'rector_id',
+                                                        'rector_id',
+                                                        '',
+                                                        'form-control select2bs4 select2-info',
+                                                        "rol = 'Administrador' and estado = 'Activo'")
+                                                    ?>
                                                 </div>
                                             </div>
 

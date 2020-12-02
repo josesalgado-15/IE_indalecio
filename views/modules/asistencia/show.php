@@ -115,7 +115,7 @@ use App\Controllers\AsistenciaController; ?>
 
                                         <strong><i class="fas fa-user mr-1"></i># Documento</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getUsuariosId() ?>
+                                            <?= $DataAsistencia->getUsuariosId()->getNumeroDocumento(),"-",  $DataAsistencia->getUsuariosId()->getNombres(); ?>
                                         </p>
                                         <hr>
 

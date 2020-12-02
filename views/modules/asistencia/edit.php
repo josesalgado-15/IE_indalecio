@@ -4,6 +4,7 @@ require("../../../app/Controllers/AsistenciaController.php");
 require_once("../../../app/Controllers/UsuarioController.php");
 
 use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
 use Carbon\Carbon;
 
 ?>
@@ -88,11 +89,12 @@ use Carbon\Carbon;
                                             <input id="id" name="id" value="<?php echo $DataAsistencia->getId(); ?>" hidden
                                                    required="required" type="text">
 
+
                                             <div class="form-group row">
                                                 <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha"
-                                                           name="fecha"  value="<?= $DataAsistencia->getFecha(); ?> "  placeholder="Ingrese la fecha">
+                                                    <input required type="date" max="<?= Carbon::now()->format('Y-m-d') ?>" value="<?= $DataAsistencia->getFecha(); ?>" class="form-control" id="fecha"
+                                                           name="fecha" placeholder="Ingrese la fecha">
                                                 </div>
                                             </div>
 
@@ -100,9 +102,10 @@ use Carbon\Carbon;
                                                 <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
                                                 <div class="col-sm-10">
                                                     <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                           value="<?= $DataAsistencia->getHoraIngreso(); ?> placeholder="Ingrese la hora de ingreso">
+                                                           value="<?= $DataAsistencia->getHoraIngreso(); ?>">
                                                 </div>
                                             </div>
+
 
                                             <div class="form-group row">
                                                 <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
@@ -119,16 +122,17 @@ use Carbon\Carbon;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="usuarios_id" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
+                                                <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
                                                 <div class="col-sm-4">
 
                                                     <div class="form-group">
-                                                        <select multiple class="form-control">
-                                                            <option value="Institución">Institución</option>
-                                                            <option <?= ($DataAsistencia->getTipoIngreso() == "Institución") ? "selected" : ""; ?> value="Institución">Institución</option>
-                                                            <option value="Restaurante">Restaurante</option>
+                                                        <select id="tipo_ingreso" name="tipo_ingreso" multiple class="form-control">
+
+                                                            <option <?= ($DataAsistencia->getTipoIngreso() == "Institucion") ? "selected" : ""; ?> value="Institucion">Institución</option>
                                                             <option <?= ($DataAsistencia->getTipoIngreso() == "Restaurante") ? "selected" : ""; ?> value="Restaurante">Restaurante</option>
+
                                                         </select>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,18 +141,10 @@ use Carbon\Carbon;
                                                 <label for="hora_salida" class="col-sm-2 col-form-label">Hora De Salida</label>
                                                 <div class="col-sm-10">
                                                     <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                           value="<?= $DataAsistencia->getHoraSalida(); ?> placeholder="Ingrese la hora de salida">
+                                                           value="<?= $DataAsistencia->getHoraSalida(); ?>">
                                                 </div>
                                             </div>
 
-
-                                            <div class="form-group row">
-                                                <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="number" minlength="6" class="form-control"
-                                                           id="usuarios_id" name="usuarios_id"  value="<?= $DataAsistencia->getUsuariosId(); ?> placeholder="Ingrese su documento">
-                                                </div>
-                                            </div>
 
                                             <?php
                                             $dataAsistencia = null;

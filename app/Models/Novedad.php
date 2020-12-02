@@ -17,7 +17,7 @@ class Novedad extends BasicModel
     protected string $justificacion;
     protected string $observacion;
     protected string $estado;
-    protected int $administrador_id;
+    protected Usuario $administrador_id;
     protected int $asistencias_id;
 
     protected string $created_at;
@@ -38,7 +38,7 @@ class Novedad extends BasicModel
         $this->justificacion = $novedad['justificacion'] ?? '';
         $this->observacion = $novedad['observacion'] ?? '';
         $this->estado = $novedad['estado'] ?? '';
-        $this->administrador_id = $novedad['administrador_id'] ?? 0;
+        $this->administrador_id = $novedad['administrador_id'] ?? new Usuario();
         $this->asistencias_id = $novedad['asistencias_id'] ?? 0;
 
         $this->created_at = $usuario['created_at'] ?? new Carbon();
@@ -144,20 +144,22 @@ class Novedad extends BasicModel
     }
 
     /**
-     * @return int
+     @return int|mixed
      */
-    public function getAdministradorId(): int
+    public function getAdministradorId()
     {
         return $this->administrador_id;
     }
 
     /**
-     * @param int $administrador_id
+     * @param int|mixed $administrador_id
      */
-    public function setAdministradorId(int $administrador_id): void
+    public function setAdministradorId($administrador_id): void
     {
         $this->administrador_id = $administrador_id;
     }
+
+
 
     /**
      * @return int
@@ -235,7 +237,7 @@ class Novedad extends BasicModel
                 $this->getJustificacion(),
                 $this->getObservacion(),
                 $this->getEstado(),
-                $this->getAdministradorId(),
+                $this->getAdministradorId()->getId(),
                 $this->getAsistenciasId(),
 
                 //$this->getCreatedAt(),
@@ -259,7 +261,7 @@ class Novedad extends BasicModel
                 $this->getJustificacion(),
                 $this->getObservacion(),
                 $this->getEstado(),
-                $this->getAdministradorId(),
+                $this->getAdministradorId()->getId(),
                 $this->getAsistenciasId(),
                 //$this->getCreatedAt(),
                 //$this->getUpdatedAt(),
@@ -296,7 +298,7 @@ class Novedad extends BasicModel
             $Novedad->setJustificacion($valor['justificacion']);
             $Novedad->setObservacion($valor['observacion']);
             $Novedad->setEstado($valor['estado']);
-            $Novedad->setAdministradorId($valor['administrador_id']);
+            $Novedad->setAdministradorId(Usuario::searchForId ($valor['administrador_id']));
             $Novedad->setAsistenciasId($valor['asistencias_id']);
             $Novedad->setEstado($valor['estado']);
             //$Novedad->setCreatedAt($valor['created_at']);
@@ -322,7 +324,7 @@ class Novedad extends BasicModel
             $Novedad->setJustificacion($getrow['justificacion']);
             $Novedad->setObservacion($getrow['observacion']);
             $Novedad->setEstado($getrow['estado']);
-            $Novedad->setAdministradorId($getrow['administrador_id']);
+            $Novedad->setAdministradorId(Usuario::searchForId ($getrow['administrador_id']));
             $Novedad->setAsistenciasId($getrow['asistencias_id']);
             $Novedad->setEstado($getrow['estado']);
 

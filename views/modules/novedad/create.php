@@ -136,8 +136,8 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                         <div class="col-sm-8">
                                             <?= UsuarioController::selectUsuario(false,
                                                 true,
-                                                'usuarios_id',
-                                                'usuarios_id',
+                                                'administrador_id',
+                                                'administrador_id',
                                                 (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
                                                 'form-control select2bs4 select2-info',
                                                 "rol = 'Administrador' and estado = 'Activo'")
@@ -150,7 +150,7 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                         <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
                                         <div class="col-sm-10">
                                             <select id="asistencias_id" name="asistencias_id" class="custom-select">
-                                                <option value="Asistencia 1">Asistencia 1</option>
+                                                <option value="1">1</option>
                                                 <option value="Asistencia 2">Asistencia 2</option>
                                                 <option value="Asistencia 3">Asistencia 3</option>
 

@@ -50,6 +50,7 @@ class AsistenciaController
             $arrayAsistencia['hora_salida'] = $_POST['hora_salida'];
             $arrayAsistencia['usuarios_id'] = Usuario::searchForId($_POST['usuarios_id']);
             $arrayAsistencia['estado'] = 'Activo';
+            $arrayAsistencia['hora_ingreso'] = $formated_time = date("H:i:s", strtotime($arrayAsistencia['hora_ingreso']));
             //$arrayAsistencia['created_at'] = Carbon::now(); //Fecha Actual
 
 
@@ -61,7 +62,7 @@ class AsistenciaController
                     header("Location: ../../views/modules/asistencia/index.php?accion=create&respuesta=correcto");
                 }
             } else {
-                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Usuario ya registrado");
+                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Asistencia ya registrado");
             }
         } catch (Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');
@@ -74,8 +75,10 @@ class AsistenciaController
         try {
 
             $arrayAsistencia = array();
-            $arrayAsistencia['fecha'] = $_POST['fecha'];
+
+
             //Pendiente preguntar si la fecha se definira sola o el usuario la define
+
             $arrayAsistencia['fecha'] = $_POST['fecha'];
             $arrayAsistencia['hora_ingreso'] = $_POST['hora_ingreso'];
             $arrayAsistencia['observacion'] = $_POST['observacion'];
@@ -85,6 +88,7 @@ class AsistenciaController
             $arrayAsistencia['estado'] = $_POST['estado'];
             //$arrayAsistencia['created_at'] = Carbon::now(); //Fecha Actual
             $arrayAsistencia['id'] = $_POST['id'];
+            var_dump($arrayAsistencia);
 
             $asistencia = new Asistencia($arrayAsistencia);
             $asistencia->update();

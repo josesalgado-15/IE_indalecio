@@ -17,7 +17,7 @@ class Asistencia extends BasicModel
     protected string $observacion;
     protected string $tipo_ingreso;
     protected string $hora_salida;
-    protected int $usuarios_id;
+    protected Usuario $usuarios_id;
     protected string $estado;
     protected string $updated_at;
     protected string $deleted_at;
@@ -39,7 +39,7 @@ class Asistencia extends BasicModel
         $this->observacion = $asistencia['observacion'] ?? '';
         $this->tipo_ingreso = $asistencia['tipo_ingreso'] ?? '';
         $this->hora_salida = $asistencia['hora_salida'] ?? '';
-        $this->usuarios_id = $asistencia['usuarios_id'] ?? 0;
+        $this->usuarios_id = $asistencia['usuarios_id'] ?? new Usuario();
 
 
         $this->estado = $asistencia['estado'] ?? '';
@@ -223,15 +223,15 @@ class Asistencia extends BasicModel
 
     public function create()
     {
-        var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.asistencias VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
+
+        $result = $this->insertRow("INSERT INTO dbindalecio.asistencias VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL ,NULL)", array(
 
                 $this->getFecha(),
                 $this->getHoraIngreso(),
                 $this->getObservacion(),
                 $this->getTipoIngreso(),
                 $this->getHoraSalida(),
-                $this->getUsuariosId(),
+                $this->getUsuariosId()->getId(),
                 $this->getEstado(),
 
                 //$this->getCreatedAt(),
@@ -255,7 +255,7 @@ class Asistencia extends BasicModel
                 $this->getObservacion(),
                 $this->getTipoIngreso(),
                 $this->getHoraSalida(),
-                $this->getUsuariosId(),
+                $this->getUsuariosId()->getId(),
                 $this->getEstado(),
 
                 //$this->getCreatedAt(),
@@ -294,7 +294,7 @@ class Asistencia extends BasicModel
             $Asistencia->setObservacion($valor['observacion']);
             $Asistencia->setTipoIngreso($valor['tipo_ingreso']);
             $Asistencia->setHoraSalida($valor['hora_salida']);
-            $Asistencia->setUsuariosId($valor['usuarios_id']);
+            $Asistencia->setUsuariosId(Usuario::searchForId ($valor['usuarios_id']));
             $Asistencia->setEstado($valor['estado']);
             //$Asistencia->setCreatedAt($valor['created_at']);
             //$Asistencia->setUpdatedAt($valor['updated_at']);
@@ -322,10 +322,10 @@ class Asistencia extends BasicModel
             $Asistencia->setId($getrow['id']);
             $Asistencia->setFecha($getrow['fecha']);
             $Asistencia->setHoraIngreso($getrow['hora_ingreso']);
-            $Asistencia->setObservacion($getrow['observación']);
+            $Asistencia->setObservacion($getrow['observacion']);
             $Asistencia->setTipoIngreso($getrow['tipo_ingreso']);
             $Asistencia->setHoraSalida($getrow['hora_salida']);
-            $Asistencia->setUsuariosId($getrow['usuarios_id']);
+            $Asistencia->setUsuariosId(Usuario::searchForId ($getrow['usuarios_id']));
 
             $Asistencia->setEstado($getrow['estado']);
             //$Usuario->setCreatedAt($getrow['created_at']);
@@ -341,7 +341,7 @@ class Asistencia extends BasicModel
 
     static function asistenciaRegistrada(string $fecha, string $hora_ingreso){
 
-        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = ".$hora_ingreso );
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."'" );
         if ( count ($result) > 0 ) {
             return true;
         } else {

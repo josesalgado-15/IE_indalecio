@@ -4,10 +4,12 @@ namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
 require_once(__DIR__ . '/../Models/Novedad.php');
+require_once(__DIR__ . '/../Models/Usuario.php');
 require_once(__DIR__ . '/../Models/GeneralFunctions.php');
 
 use App\Models\GeneralFunctions;
 use App\Models\Novedad;
+use App\Models\Usuario;
 use Carbon\Carbon;
 
 if (!empty($_GET['action'])) {
@@ -42,11 +44,10 @@ class NovedadController
             $arrayNovedad['justificacion'] = $_POST['justificacion'];
             $arrayNovedad['observacion'] = $_POST['observacion'];
             $arrayNovedad['estado'] = 'Activo';
-            $arrayNovedad['administrador_id'] = $_POST['administrador_id'];
+            $arrayNovedad['administrador_id'] = Usuario::searchForId($_POST['administrador_id']);
             $arrayNovedad['asistencias_id'] = $_POST['asistencias_id'];
             $arrayNovedad['created_at'] = Carbon::now(); //Fecha Actual
-
-
+            //var_dump($arrayNovedad);
             //Preguntar al ingeniero como definir la validación
             if (!Novedad::novedadRegistrada($arrayNovedad['asistencias_id'])) {
                 $Novedad = new Novedad ($arrayNovedad);
@@ -72,7 +73,7 @@ class NovedadController
             $arrayNovedad['justificacion'] = $_POST['justificacion'];
             $arrayNovedad['observacion'] = $_POST['observacion'];
             $arrayNovedad['estado'] = 'Activo';
-            $arrayNovedad['administrador_id'] = $_POST['administrador_id'];
+            $arrayNovedad['administrador_id'] = Usuario::searchForId($_POST['administrador_id']);
             $arrayNovedad['asistencias_id'] = $_POST['asistencias_id'];
             $arrayNovedad['created_at'] = Carbon::now(); //Fecha Actual
             $arrayNovedad['id'] = $_POST['id'];

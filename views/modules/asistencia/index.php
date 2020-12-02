@@ -110,11 +110,11 @@ use App\Controllers\AsistenciaController;
                                     <tr>
                                         <td><?php echo $asistencia->getId(); ?></td>
                                         <td><?php echo $asistencia->getFecha(); ?></td>
+                                        <td><?php echo $asistencia->getTipoIngreso(); ?></td>
                                         <td><?php echo $asistencia->getHoraIngreso(); ?></td>
                                         <td><?php echo $asistencia->getObservacion(); ?></td>
-                                        <td><?php echo $asistencia->getTipoIngreso(); ?></td>
                                         <td><?php echo $asistencia->getHoraSalida(); ?></td>
-                                        <td><?php echo $asistencia->getUsuariosId(); ?></td>
+                                        <td><?php echo $asistencia->getUsuariosId()->getNumeroDocumento(),"-",  $asistencia->getUsuariosId()->getNombres(); ?></td>
                                         <td><?php echo $asistencia->getEstado(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"

@@ -106,7 +106,8 @@ use App\Controllers\NovedadController; ?>
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Administrador ID</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getAdministradorId() ?>
+                                            <?= $DataNovedad->getAdministradorId()->getNombres(), " ", $DataNovedad->getAdministradorId()->getApellidos(); ?>
+
                                         </p>
                                         <hr>
 

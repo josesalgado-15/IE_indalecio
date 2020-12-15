@@ -41,7 +41,6 @@ class AsistenciaController
         try {
             $arrayAsistencia = array();
 
-            $arrayAsistencia['fecha'] = $_POST['fecha'];
             //Pendiente preguntar si la fecha se definira sola o el usuario la define
             $arrayAsistencia['fecha'] = $_POST['fecha'];
             $arrayAsistencia['hora_ingreso'] = $_POST['hora_ingreso'];
@@ -86,9 +85,10 @@ class AsistenciaController
             $arrayAsistencia['hora_salida'] = $_POST['hora_salida'];
             $arrayAsistencia['usuarios_id'] = Usuario::searchForId($_POST['usuarios_id']);
             $arrayAsistencia['estado'] = $_POST['estado'];
+            $arrayAsistencia['hora_ingreso'] = $formated_time = date("H:i:s", strtotime($arrayAsistencia['hora_ingreso']));
             //$arrayAsistencia['created_at'] = Carbon::now(); //Fecha Actual
             $arrayAsistencia['id'] = $_POST['id'];
-            var_dump($arrayAsistencia);
+
 
             $asistencia = new Asistencia($arrayAsistencia);
             $asistencia->update();
@@ -119,5 +119,49 @@ class AsistenciaController
             GeneralFunctions::console($e, 'log', 'errorStack');
             //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
         }
+    }
+
+
+
+    static public function selectAsistencia($isMultiple = false,
+                                            $isRequired = true,
+                                            $id = "idAsistencia",
+                                            $nombre = "idAsistencia",
+                                            $defaultValue = "",
+                                            $class = "form-control",
+                                            $where = "",
+                                            $arrExcluir = array())
+    {
+        $arrAsistencias = array();
+        if ($where != "") {
+            $base = "SELECT * FROM asistencias WHERE ";
+            $arrAsistencias = Asistencia::search($base . ' ' . $where);
+        } else {
+            $arrAsistencias = Asistencia::getAll();
+        }
+
+        $htmlSelect = "<select " . (($isMultiple) ? "multiple" : "") . " " . (($isRequired) ? "required" : "") . " id= '" . $id . "' name='" . $nombre . "' class='" . $class . "' style='width: 100%;'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if (count($arrAsistencias) > 0) {
+            /* @var $arrAsistencias \App\Models\Asistencia[] */
+            foreach ($arrAsistencias as $asistencia)
+                if (!AsistenciaController::asistenciaIsInArray($asistencia->getId(), $arrExcluir))
+                    $htmlSelect .= "<option " . (($asistencia != "") ? (($defaultValue == $asistencia->getId()) ? "selected" : "") : "") . " value='" . $asistencia->getId() . "'>" . $asistencia->getUsuariosId()->getNombres(). " ". $asistencia->getUsuariosId()->getApellidos(). " - ". $asistencia->getFecha() . " - " . $asistencia->getTipoIngreso() . " - " . $asistencia->getHoraIngreso() . "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+
+    public static function asistenciaIsInArray($idAsistencia, $arrAsistencias)
+    {
+        if (count($arrAsistencias) > 0) {
+            foreach ($arrAsistencias as $asistencia) {
+                if ($asistencia->getId() == $idAsistencia) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

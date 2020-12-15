@@ -52,6 +52,17 @@ class Asistencia extends BasicModel
         //    $this->Disconnect(); // Cierro Conexiones
     }
 
+
+    static function asistenciaRegistrada(string $fecha, string $hora_ingreso, int $usuarios_id){
+
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."' and usuarios_id = '".$usuarios_id ."'" );
+        if ( count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @return int|mixed
      */
@@ -308,10 +319,7 @@ class Asistencia extends BasicModel
 
     }
 
-    public static function getAll()
-    {
-        return Asistencia::search("SELECT * FROM dbindalecio.asistencias");
-    }
+
 
     public static function searchForId($id)
     {
@@ -326,26 +334,19 @@ class Asistencia extends BasicModel
             $Asistencia->setTipoIngreso($getrow['tipo_ingreso']);
             $Asistencia->setHoraSalida($getrow['hora_salida']);
             $Asistencia->setUsuariosId(Usuario::searchForId ($getrow['usuarios_id']));
-
             $Asistencia->setEstado($getrow['estado']);
             //$Usuario->setCreatedAt($getrow['created_at']);
             //$Usuario->setUpdatedAt($getrow['updated_at']);
             //$Usuario->setDeletedAt($getrow['deleted_at']);
         }
+
         $Asistencia->Disconnect();
         return $Asistencia;
     }
 
-
-    //PENDIENTE PREGUNTAR COMO DEFINIR LAS 3 CONDICIONES DE FECHA, HORA_INGRESO Y USUARIOS_ID
-
-    static function asistenciaRegistrada(string $fecha, string $hora_ingreso){
-
-        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."'" );
-        if ( count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
-        }
+    public static function getAll()
+    {
+        return Asistencia::search("SELECT * FROM dbindalecio.asistencias");
     }
+
 }

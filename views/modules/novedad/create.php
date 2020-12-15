@@ -1,11 +1,13 @@
 <?php
 
+use App\Controllers\AsistenciaController;
 use App\Controllers\NovedadController;
 use App\Controllers\UsuarioController;
 use Carbon\Carbon;
 require("../../partials/routes.php");
-require_once("../../../app/Controllers/NovedadController.php");
+require_once("../../../app/Controllers/AsistenciaController.php");
 require_once("../../../app/Controllers/UsuarioController.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -80,10 +82,10 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                         <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                                         <div class="col-sm-10">
                                             <select id="tipo" name="tipo" class="custom-select">
-                                                <option value="Ejemplo">Ejemplo</option>
-                                                <option value="Ejemplo1">Ejemplo1</option>
-                                                <option value="Ejemplo2">Ejemplo2</option>
-                                                <option value="Ejemplo3">Ejemplo3</option>
+                                                <option value="Inasistencia">Inasistencia</option>
+                                                <option value="Llegada Tarde">Llegada Tarde</option>
+                                                <option value="Salida Temprana">Salida Temprana</option>
+                                                <option value="Salida Tarde">Salida Tarde</option>
 
                                             </select>
                                         </div>
@@ -113,16 +115,6 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                     </div>
 
 
-                                    <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                        <div class="col-sm-10">
-                                            <select id="estado" name="estado" class="custom-select">
-                                                <option value="Activo">Activo</option>
-                                                <option value="Inactivo">Inactivo</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <?php
                                     $dataNovedad = null;
@@ -138,25 +130,39 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                                 true,
                                                 'administrador_id',
                                                 'administrador_id',
-                                                (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
+                                                (!empty($dataNovedad)) ? $dataNovedad->getUsuariosId()->getId() : '',
                                                 'form-control select2bs4 select2-info',
                                                 "rol = 'Administrador' and estado = 'Activo'")
                                             ?>
                                         </div>
                                     </div>
 
-
                                     <div class="form-group row">
                                         <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
+                                        <div class="col-sm-8">
+                                            <?= AsistenciaController::selectAsistencia(false,
+                                                true,
+                                                'idAsistencia',
+                                                'idAsistencia',
+                                                (!empty($dataNovedad)) ? $dataNovedad->getNovedadId()->getId() : '',
+                                                'form-control select2bs4 select2-info')
+                                            ?>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
-                                            <select id="asistencias_id" name="asistencias_id" class="custom-select">
-                                                <option value="1">1</option>
-                                                <option value="Asistencia 2">Asistencia 2</option>
-                                                <option value="Asistencia 3">Asistencia 3</option>
+                                            <select id="estado" name="estado" class="custom-select">
+                                                <option value="Activo">Activo</option>
+                                                <option value="Inactivo">Inactivo</option>
 
                                             </select>
                                         </div>
                                     </div>
+
+
 
 
                                     <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>

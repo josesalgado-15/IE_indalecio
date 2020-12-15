@@ -5,8 +5,10 @@ namespace App\Controllers;
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
 require_once(__DIR__ . '/../Models/Novedad.php');
 require_once(__DIR__ . '/../Models/Usuario.php');
+require_once(__DIR__ . '/../Models/Asistencia.php');
 require_once(__DIR__ . '/../Models/GeneralFunctions.php');
 
+use App\Models\Asistencia;
 use App\Models\GeneralFunctions;
 use App\Models\Novedad;
 use App\Models\Usuario;
@@ -45,18 +47,19 @@ class NovedadController
             $arrayNovedad['observacion'] = $_POST['observacion'];
             $arrayNovedad['estado'] = 'Activo';
             $arrayNovedad['administrador_id'] = Usuario::searchForId($_POST['administrador_id']);
-            $arrayNovedad['asistencias_id'] = $_POST['asistencias_id'];
+            var_dump($arrayNovedad);
+            $arrayNovedad['asistencias_id'] = Asistencia::searchForId($_POST['asistencias_id']);
             $arrayNovedad['created_at'] = Carbon::now(); //Fecha Actual
-            //var_dump($arrayNovedad);
-            //Preguntar al ingeniero como definir la validación
-            if (!Novedad::novedadRegistrada($arrayNovedad['asistencias_id'])) {
+
+
+            if (!Novedad::novedadRegistrada($arrayNovedad['tipo'], $arrayNovedad['$asistencias_id'])) {
                 $Novedad = new Novedad ($arrayNovedad);
                 if ($Novedad->create()) {
-                    //var_dump($_POST);
-                    header("Location: ../../views/modules/asistencia/index.php?accion=create&respuesta=correcto");
+                    var_dump($_POST);
+                    header("Location: ../../views/modules/novedad/index.php?accion=create&respuesta=correcto");
                 }
             } else {
-                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Usuario ya registrado");
+                header("Location: ../../views/modules/novedad/create.php?respuesta=error&mensaje=Novedad ya registrada");
             }
         } catch (Exception $e) {
             GeneralFunctions::console($e, 'error', 'errorStack');
@@ -74,7 +77,7 @@ class NovedadController
             $arrayNovedad['observacion'] = $_POST['observacion'];
             $arrayNovedad['estado'] = 'Activo';
             $arrayNovedad['administrador_id'] = Usuario::searchForId($_POST['administrador_id']);
-            $arrayNovedad['asistencias_id'] = $_POST['asistencias_id'];
+            $arrayNovedad['asistencias_id'] = Asistencia::searchForId($_POST['asistencias_id']);
             $arrayNovedad['created_at'] = Carbon::now(); //Fecha Actual
             $arrayNovedad['id'] = $_POST['id'];
 

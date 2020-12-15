@@ -1,7 +1,11 @@
 <?php
 require("../../partials/routes.php");
 require("../../../app/Controllers/NovedadController.php");
+require("../../../app/Controllers/AsistenciaController.php");
+require_once("../../../app/Controllers/UsuarioController.php");
 
+use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
 use App\Controllers\NovedadController;
 use Carbon\Carbon;
 
@@ -92,10 +96,10 @@ use Carbon\Carbon;
                                                 <div class="col-sm-10">
                                                     <select id="tipo" name="tipo" class="custom-select">
 
-                                                        <option <?= ($DataNovedad->getTipo() == "Ejemplo") ? "selected" : ""; ?> value="Ejemplo">Ejemplo</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
+                                                        <option <?= ($DataNovedad->getTipo() == "Inasistencia") ? "selected" : ""; ?> value="Inasistencia">Inasistencia</option>
+                                                        <option <?= ($DataNovedad->getTipo() == "Llegada Tarde") ? "selected" : ""; ?> value="Llegada Tarde">Llegada Tarde</option>
+                                                        <option <?= ($DataNovedad->getTipo() == "Salida Temprana") ? "selected" : ""; ?> value="Salida Temprana">Salida Temprana</option>
+                                                        <option <?= ($DataNovedad->getTipo() == "Salida Tarde") ? "selected" : ""; ?> value="Salida Tarde">Salida Tarde</option>
 
 
                                                     </select>
@@ -127,6 +131,44 @@ use Carbon\Carbon;
                                                 </div>
                                             </div>
 
+
+
+
+                                            <?php
+                                            $dataNovedad = null;
+                                            if (!empty($_GET['id'])) {
+                                                $dataNovedad = NovedadController::searchForID($_GET['id']);
+                                            }
+                                            ?>
+
+                                            <div class="form-group row">
+                                                <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
+                                                <div class="col-sm-8">
+                                                    <?= UsuarioController::selectUsuario(false,
+                                                        true,
+                                                        'administrador_id',
+                                                        'administrador_id',
+                                                        (!empty($DataNovedad)) ? $DataNovedad->getUsuariosId()->getId() : '',
+                                                        'form-control select2bs4 select2-info',
+                                                        "rol = 'Administrador' and estado = 'Activo'")
+                                                    ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
+                                                <div class="col-sm-8">
+                                                    <?= AsistenciaController::selectAsistencia(false,
+                                                        true,
+                                                        'idAsistencia',
+                                                        'idAsistencia',
+                                                        (!empty($DataNovedad)) ? $DataNovedad->getNovedadId()->getId() : '',
+                                                        'form-control select2bs4 select2-info')
+                                                    ?>
+                                                </div>
+                                            </div>
+
+
                                             <div class="form-group row">
                                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                                 <div class="col-sm-10">
@@ -137,67 +179,6 @@ use Carbon\Carbon;
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <div class="form-group row">
-                                                <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
-                                                <div class="col-sm-10">
-                                                    <select id="administrador_id" name="administrador_id" class="custom-select">
-
-                                                        <option <?= ($DataNovedad->getAdministradorId() == "Admin 1") ? "selected" : ""; ?> value="Admin 1">Admin 1</option>
-                                                        <option <?= ($DataNovedad->getAdministradorId() == "Admin 2") ? "selected" : ""; ?> value="Admin 2">Admin 2</option>
-                                                        <option <?= ($DataNovedad->getAdministradorId() == "Admin 3") ? "selected" : ""; ?> value="Admin 3">Admin 3</option>
-
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
-                                                <div class="col-sm-10">
-                                                    <select id="asistencias_id" name="asistencias_id" class="custom-select">
-
-                                                        <option <?= ($DataNovedad->getAsistenciasId() == "Asistencia 1") ? "selected" : ""; ?> value="Asistencia 1">Asistencia 1</option>
-                                                        <option <?= ($DataNovedad->getAsistenciasId() == "Asistencia 2") ? "selected" : ""; ?> value="Asistencia 2">Asistencia 2</option>
-                                                        <option <?= ($DataNovedad->getAsistenciasId() == "Asistencia 3") ? "selected" : ""; ?> value="Asistencia 3">Asistencia 3</option>
-
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group row">
-                                                <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha"
-                                                           name="fecha"  value="<?= $DataAsistencia->getFecha(); ?> "  placeholder="Ingrese la fecha">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                           value="<?= $DataAsistencia->getHoraIngreso(); ?> placeholder="Ingrese la hora de ingreso">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
-                                                <div class="col-sm-10">
-                                                    <select id="observacion" name="observacion" class="custom-select">
-
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ninguna") ? "selected" : ""; ?> value="Ninguna">Ninguna</option>
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
 
                                             <hr>
                                             <button type="submit" class="btn btn-info">Enviar</button>

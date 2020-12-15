@@ -18,7 +18,7 @@ class Novedad extends BasicModel
     protected string $observacion;
     protected string $estado;
     protected Usuario $administrador_id;
-    protected int $asistencias_id;
+    protected Asistencia $asistencias_id;
 
     protected string $created_at;
     protected string $updated_at;
@@ -39,7 +39,7 @@ class Novedad extends BasicModel
         $this->observacion = $novedad['observacion'] ?? '';
         $this->estado = $novedad['estado'] ?? '';
         $this->administrador_id = $novedad['administrador_id'] ?? new Usuario();
-        $this->asistencias_id = $novedad['asistencias_id'] ?? 0;
+        $this->asistencias_id = $novedad['asistencias_id'] ?? new Asistencia();
 
         $this->created_at = $usuario['created_at'] ?? new Carbon();
         $this->updated_at = $usuario['updated_at'] ?? new Carbon();
@@ -51,9 +51,9 @@ class Novedad extends BasicModel
         //    $this->Disconnect(); // Cierro Conexiones
     }
 
-    public static function novedadRegistrada($asistencias_id): bool
+    public static function novedadRegistrada(string $tipo, int $asistencias_id): bool
     {
-        $result = Novedad::search("SELECT * FROM dbindalecio.novedades where asistencias_id = " . $asistencias_id);
+        $result = Novedad::search("SELECT * FROM dbindalecio.novedades where tipo = '" . $tipo. "' and asistencias_id = '".$asistencias_id ."'");
         if ( count ($result) > 0 ) {
             return true;
         } else {
@@ -164,15 +164,15 @@ class Novedad extends BasicModel
     /**
      * @return int
      */
-    public function getAsistenciasId(): int
+    public function getAsistenciasId()
     {
         return $this->asistencias_id;
     }
 
     /**
-     * @param int $asistencias_id
+     * @param  int|mixed $asistencias_id
      */
-    public function setAsistenciasId(int $asistencias_id): void
+    public function setAsistenciasId($asistencias_id): void
     {
         $this->asistencias_id = $asistencias_id;
     }
@@ -238,7 +238,7 @@ class Novedad extends BasicModel
                 $this->getObservacion(),
                 $this->getEstado(),
                 $this->getAdministradorId()->getId(),
-                $this->getAsistenciasId(),
+                $this->getAsistenciasId()->getId(),
 
                 //$this->getCreatedAt(),
                 //$this->getUpdatedAt(),
@@ -254,7 +254,7 @@ class Novedad extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.novedades SET tipo = ?, justificacion = ?, observación = ?, 
+        $result = $this->updateRow("UPDATE dbindalecio.novedades SET tipo = ?, justificacion = ?, observacion = ?, 
         estado = ?, administrador_id = ?, asistencias_id = ? WHERE id = ?", array(
 
                 $this->getTipo(),
@@ -262,7 +262,7 @@ class Novedad extends BasicModel
                 $this->getObservacion(),
                 $this->getEstado(),
                 $this->getAdministradorId()->getId(),
-                $this->getAsistenciasId(),
+                $this->getAsistenciasId()->getId(),
                 //$this->getCreatedAt(),
                 //$this->getUpdatedAt(),
                 //$this->getDeletedAt(),
@@ -299,7 +299,7 @@ class Novedad extends BasicModel
             $Novedad->setObservacion($valor['observacion']);
             $Novedad->setEstado($valor['estado']);
             $Novedad->setAdministradorId(Usuario::searchForId ($valor['administrador_id']));
-            $Novedad->setAsistenciasId($valor['asistencias_id']);
+            $Novedad->setAsistenciasId(Asistencia::searchForId ($valor['asistencias_id']));
             $Novedad->setEstado($valor['estado']);
             //$Novedad->setCreatedAt($valor['created_at']);
             //$Novedad->setUpdatedAt($valor['updated_at']);
@@ -325,7 +325,7 @@ class Novedad extends BasicModel
             $Novedad->setObservacion($getrow['observacion']);
             $Novedad->setEstado($getrow['estado']);
             $Novedad->setAdministradorId(Usuario::searchForId ($getrow['administrador_id']));
-            $Novedad->setAsistenciasId($getrow['asistencias_id']);
+            $Novedad->setAsistenciasId(Asistencia::searchForId ($getrow['asistencias_id']));
             $Novedad->setEstado($getrow['estado']);
 
             //$Usuario->setCreatedAt($getrow['created_at']);
@@ -340,4 +340,6 @@ class Novedad extends BasicModel
     {
         return Novedad::search("SELECT * FROM dbindalecio.novedades");
     }
+
+
 }

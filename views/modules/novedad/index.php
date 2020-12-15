@@ -112,9 +112,9 @@ use App\Controllers\NovedadController;
                                         <td><?php echo $novedad->getTipo(); ?></td>
                                         <td><?php echo $novedad->getJustificacion(); ?></td>
                                         <td><?php echo $novedad->getObservacion(); ?></td>
+                                        <td><?php echo $novedad->getAdministradorId()->getNombres()," ",  $novedad->getAdministradorId()->getApellidos(); ?></td>
+                                        <td><?php echo $novedad->getAsistenciasId()->getUsuariosId()->getNombres()," ",  $novedad->getAsistenciasId()->getUsuariosId()->getApellidos(); ?></td>
                                         <td><?php echo $novedad->getEstado(); ?></td>
-                                        <td><?php echo $novedad->getAdministradorId(); ?></td>
-                                        <td><?php echo $novedad->getAsistenciasId(); ?></td>
                                         <td><?php echo $novedad->getCreatedAt(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $novedad->getId(); ?>"

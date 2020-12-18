@@ -1,96 +1,90 @@
 <?php
-
 namespace App\Models;
-use App\Models\BasicModel;
+
+use App\Interfaces\Model;
 use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
 
-require_once('BasicModel.php');
-
-class Asistencia extends BasicModel
+class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 {
 
     //Propiedades
 
-    protected int $id; //Visibilidad (public, protected, private)
-    protected string $fecha;
+    protected ?int $id; //Visibilidad (public, protected, private)
+    protected Carbon $fecha;
     protected string $hora_ingreso;
     protected string $observacion;
     protected string $tipo_ingreso;
     protected string $hora_salida;
-    protected Usuario $usuarios_id;
+    protected int $usuarios_id;
     protected string $estado;
-    protected string $updated_at;
-    protected string $deleted_at;
+    protected Carbon $updated_at;
+    protected Carbon $deleted_at;
+
+    /* Relaciones */
+    private ?Usuario $usuario;
 
 
 
     /**
-     * Asistencia constructor.
-     *
+     * Asistencia constructor. Recibe un array asociativo
+     * @param array $asistencia
      */
 
     //Metodo Constructor
-    public function __construct ($asistencia = array())
+    public function __construct (array $asistencia = [])
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->id = $asistencia['id'] ?? 0;
-        $this->fecha = $asistencia['fecha'] ?? '';
-        $this->hora_ingreso = $asistencia['hora_ingreso'] ?? '';
-        $this->observacion = $asistencia['observacion'] ?? '';
-        $this->tipo_ingreso = $asistencia['tipo_ingreso'] ?? '';
-        $this->hora_salida = $asistencia['hora_salida'] ?? '';
-        $this->usuarios_id = $asistencia['usuarios_id'] ?? new Usuario();
-
-
-        $this->estado = $asistencia['estado'] ?? '';
-        $this->updated_at = $asistencia['updated_at'] ?? new Carbon();
-        $this->deleted_at = $asistencia['deleted_at'] ?? new Carbon();
+        $this->setId($asistencia['id'] ?? NULL);
+        $this->setFecha( !empty($asistencia['fecha']) ? Carbon::parse($asistencia['fecha']) : new Carbon());
+        $this->setHoraIngreso($asistencia['hora_ingreso'] ?? '');
+        $this->setObservacion($asistencia['observacion'] ?? '');
+        $this->setTipoIngreso($asistencia['tipo_ingreso'] ?? '');
+        $this->setHoraSalida($asistencia['hora_salida'] ?? '');
+        $this->setUsuariosId($asistencia['usuarios_id'] ?? 0);
+        $this->setEstado($asistencia['estado'] ?? '');
+        $this->setUpdatedAt(!empty($asistencia['updated_at']) ? Carbon::parse($asistencia['updated_at']) : new Carbon());
+        $this->setDeletedAt(!empty($asistencia['deleted_at']) ? Carbon::parse($asistencia['deleted_at']) : new Carbon());
     }
 
     function __destruct()
     {
-        //    $this->Disconnect(); // Cierro Conexiones
-    }
-
-
-    static function asistenciaRegistrada(string $fecha, string $hora_ingreso, int $usuarios_id){
-
-        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."' and usuarios_id = '".$usuarios_id ."'" );
-        if ( count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
+        if($this->isConnected){
+            $this->Disconnect();
         }
     }
+
+
 
     /**
      * @return int|mixed
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int|mixed $id
+     * @param int|null $id
      */
-    public function setId($id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed|string
+     * @return Carbon|mixed
      */
-    public function getFecha()
+    public function getFecha(): Carbon
     {
-        return $this->fecha;
+        return $this->fecha->locale('es');
     }
 
     /**
-     * @param mixed|string $fecha
+     * @param Carbon|mixed $fecha
      */
-    public function setFecha($fecha): void
+    public function setFecha(Carbon $fecha): void
     {
         $this->fecha = $fecha;
     }
@@ -98,7 +92,7 @@ class Asistencia extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getHoraIngreso()
+    public function getHoraIngreso(): string
     {
         return $this->hora_ingreso;
     }
@@ -106,7 +100,7 @@ class Asistencia extends BasicModel
     /**
      * @param mixed|string $hora_ingreso
      */
-    public function setHoraIngreso($hora_ingreso): void
+    public function setHoraIngreso(string $hora_ingreso): void
     {
         $this->hora_ingreso = $hora_ingreso;
     }
@@ -114,7 +108,7 @@ class Asistencia extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getObservacion()
+    public function getObservacion(): string
     {
         return $this->observacion;
     }
@@ -122,7 +116,7 @@ class Asistencia extends BasicModel
     /**
      * @param mixed|string $observacion
      */
-    public function setObservacion($observacion): void
+    public function setObservacion(string $observacion): void
     {
         $this->observacion = $observacion;
     }
@@ -130,7 +124,7 @@ class Asistencia extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getTipoIngreso()
+    public function getTipoIngreso(): string
     {
         return $this->tipo_ingreso;
     }
@@ -138,7 +132,7 @@ class Asistencia extends BasicModel
     /**
      * @param mixed|string $tipo_ingreso
      */
-    public function setTipoIngreso($tipo_ingreso): void
+    public function setTipoIngreso(string $tipo_ingreso): void
     {
         $this->tipo_ingreso = $tipo_ingreso;
     }
@@ -146,7 +140,7 @@ class Asistencia extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getHoraSalida()
+    public function getHoraSalida(): string
     {
         return $this->hora_salida;
     }
@@ -154,23 +148,23 @@ class Asistencia extends BasicModel
     /**
      * @param mixed|string $hora_salida
      */
-    public function setHoraSalida($hora_salida): void
+    public function setHoraSalida(string $hora_salida): void
     {
         $this->hora_salida = $hora_salida;
     }
 
     /**
-     * @return int|mixed
+     * @return int
      */
-    public function getUsuariosId()
+    public function getUsuariosId(): int
     {
         return $this->usuarios_id;
     }
 
     /**
-     * @param int|mixed $usuarios_id
+     * @param int $usuarios_id
      */
-    public function setUsuariosId($usuarios_id): void
+    public function setUsuariosId(int $usuarios_id): void
     {
         $this->usuarios_id = $usuarios_id;
     }
@@ -178,7 +172,7 @@ class Asistencia extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getEstado()
+    public function getEstado(): string
     {
         return $this->estado;
     }
@@ -186,167 +180,233 @@ class Asistencia extends BasicModel
     /**
      * @param mixed|string $estado
      */
-    public function setEstado($estado): void
+    public function setEstado(string $estado): void
     {
         $this->estado = $estado;
     }
 
     /**
-     * @return Carbon|mixed|string
+     * @return Carbon|mixed
      */
-
-
-    /**
-     * @return Carbon|mixed|string
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): Carbon
     {
-        return $this->updated_at;
+        return $this->updated_at->locale('es');
     }
 
     /**
-     * @param Carbon|mixed|string $updated_at
+     * @param Carbon|mixed $updated_at
      */
-    public function setUpdatedAt($updated_at): void
+    public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
 
     /**
-     * @return Carbon|mixed|string
+     * @return Carbon
      */
-    public function getDeletedAt()
+    public function getDeletedAt(): Carbon
     {
-        return $this->deleted_at;
+        return $this->deleted_at->locale('es');
     }
 
     /**
-     * @param Carbon|mixed|string $deleted_at
+     * @param Carbon $deleted_at
      */
-    public function setDeletedAt($deleted_at): void
+    public function setDeletedAt(Carbon $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
-
-
-
-
-    public function create()
+    /* Relaciones */
+    /**
+     * @return Usuario|null
+     */
+    public function getUsuario(): ?Usuario
     {
-
-        $result = $this->insertRow("INSERT INTO dbindalecio.asistencias VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL ,NULL)", array(
-
-                $this->getFecha(),
-                $this->getHoraIngreso(),
-                $this->getObservacion(),
-                $this->getTipoIngreso(),
-                $this->getHoraSalida(),
-                $this->getUsuariosId()->getId(),
-                $this->getEstado(),
-
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt()
+        if(!empty($this->usuarios_id)){
+            $this->usuario = Usuario::searchForId($this->usuarios_id) ?? new Usuario();
+            return $this->usuario;
+        }
+        return NULL;
+    }
 
 
-            )
-        );
+    /**
+     * @param string $query
+     * @return bool|null
+     */
+    protected function save(string $query): ?bool
+    {
+        $arrData = [
+            ':id' =>    $this->getId(),
+            ':fecha' =>  $this->getFecha()->toDateString(), //YYYY-MM-DD
+            ':hora_ingreso' =>   $this->getHoraIngreso(),
+            ':observacion' =>  $this->getObservacion(),
+            ':tipo_ingreso' =>   $this->getTipoIngreso(),
+
+            ':hora_salida' =>   $this->getHoraSalida(),
+            ':usuarios_id' =>   $this->getUsuariosId(),
+
+            ':estado' =>   $this->getEstado(),
+            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString() //YYYY-MM-DD HH:MM:SS
+
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    public function update()
+
+    /**
+     * @return bool|null
+     */
+
+    function insert(): ?bool
     {
-        $result = $this->updateRow("UPDATE dbindalecio.asistencias SET fecha = ?, hora_ingreso = ?, observacion = ?, tipo_ingreso = ?, hora_salida = ?, usuarios_id = ?, 
-            estado = ? WHERE id = ?", array(
-
-                $this->getFecha(),
-                $this->getHoraIngreso(),
-                $this->getObservacion(),
-                $this->getTipoIngreso(),
-                $this->getHoraSalida(),
-                $this->getUsuariosId()->getId(),
-                $this->getEstado(),
-
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt()
-
-                $this->getId()
-
-            )
-        );
-        $this->Disconnect();
-        return $this;
+        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:hora_ingreso,:observacion,:tipo_ingreso,:hora_salida,:usuarios_id,:estado,:updated_at,:deleted_at)";
+        return $this->save($query);
     }
 
-    public function deleted($id)
+    /**
+     * @return bool|null
+     */
+    public function update() : ?bool
     {
-        $result = $this->updateRow('UPDATE dbindalecio.asistencias SET estado = ? WHERE id = ?', array(
-                'Inactivo',
-                $this->getId()
-            )
-        );
+        $query = "UPDATE dbindalecio.asistencias SET 
+            fecha = :fecha, hora_ingreso = :hora_ingreso,
+            observacion = :observacion, tipo_ingreso = :tipo_ingreso,
+            hora_salida = :hora_salida, usuarios_id = :usuarios_id,
+            estado = :estado, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+        return $this->save($query);
     }
 
-    public static function search($query)
+
+    /**
+     * @return mixed
+     */
+    public function deleted() : bool
     {
-        $arrAsistencias = array();
-        $tmp = new Asistencia();
-        $getrows = $tmp->getRows($query);
+        $this->setEstado("Inactivo"); //Cambia el estado
+        return $this->update();                    //Guarda los cambios..
+    }
 
-        foreach ($getrows as $valor) {
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public static function search($query) : ?array
+    {
+        try {
+            $arrAsistencias = array();
+            $tmp = new Asistencia();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
 
-            $Asistencia = new Asistencia();
-            $Asistencia->setId($valor['id']);
-            $Asistencia->setFecha($valor['fecha']);
-            $Asistencia->setHoraIngreso($valor['hora_ingreso']);
-            $Asistencia->setObservacion($valor['observacion']);
-            $Asistencia->setTipoIngreso($valor['tipo_ingreso']);
-            $Asistencia->setHoraSalida($valor['hora_salida']);
-            $Asistencia->setUsuariosId(Usuario::searchForId ($valor['usuarios_id']));
-            $Asistencia->setEstado($valor['estado']);
-            //$Asistencia->setCreatedAt($valor['created_at']);
-            //$Asistencia->setUpdatedAt($valor['updated_at']);
-            //$Asistencia->setDeletedAt($valor['deleted_at']);
-            $Asistencia->Disconnect();
-            array_push($arrAsistencias, $Asistencia);
-
+            foreach ($getrows as $valor) {
+                $Asistencia = new Asistencia($valor);
+                array_push($arrAsistencias, $Asistencia);
+                unset($Asistencia);
+            }
+            return $arrAsistencias;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        $tmp->Disconnect();
-        return $arrAsistencias;
-
+        return NULL;
     }
 
 
-
-    public static function searchForId($id)
+    /**
+     * @param $id
+     * @return Asistencia
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Asistencia
     {
-        $Asistencia = null;
-        if ($id>0){
-            $Asistencia = new Asistencia();
-            $getrow = $Asistencia->getRow("SELECT * FROM dbindalecio.asistencias WHERE id =?", array($id));
-            $Asistencia->setId($getrow['id']);
-            $Asistencia->setFecha($getrow['fecha']);
-            $Asistencia->setHoraIngreso($getrow['hora_ingreso']);
-            $Asistencia->setObservacion($getrow['observacion']);
-            $Asistencia->setTipoIngreso($getrow['tipo_ingreso']);
-            $Asistencia->setHoraSalida($getrow['hora_salida']);
-            $Asistencia->setUsuariosId(Usuario::searchForId ($getrow['usuarios_id']));
-            $Asistencia->setEstado($getrow['estado']);
-            //$Usuario->setCreatedAt($getrow['created_at']);
-            //$Usuario->setUpdatedAt($getrow['updated_at']);
-            //$Usuario->setDeletedAt($getrow['deleted_at']);
-        }
+        try {
+            if ($id > 0) {
+                $Asistencia = new Asistencia();
+                $Asistencia->Connect();
+                $getrow = $Asistencia->getRow("SELECT * FROM dbindalecio.asistencias WHERE id =?", array($id));
 
-        $Asistencia->Disconnect();
-        return $Asistencia;
+                $Asistencia->Disconnect();
+                return ($getrow) ? new Asistencia($getrow) : null;
+            }else{
+                throw new Exception('Id de Asistencia Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
     }
 
-    public static function getAll()
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : array
     {
         return Asistencia::search("SELECT * FROM dbindalecio.asistencias");
     }
 
+    static function asistenciaRegistrada($fecha, $hora_ingreso, $usuarios_id): bool
+    {
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."' and usuarios_id = '".$usuarios_id ."'" );
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function __toString() : string
+    {
+        return "Fecha: $this->fecha, Hora de Ingreso: $this->hora_ingreso, Observación: $this->observacion, Tipo de Ingreso: $this->tipo_ingreso, Hora de Salida: $this->hora_salida, Usuario: $this->usuarios_id, Estado: $this->estado";
+    }
+
+    /*
+        public function Login($User, $Password){
+            try {
+                $resultUsuarios = Usuarios::search("SELECT * FROM usuarios WHERE user = '$User'");
+                if(count($resultUsuarios) >= 1){
+                    if($resultUsuarios[0]->password == $Password){
+                        if($resultUsuarios[0]->estado == 'Activo'){
+                            return $resultUsuarios[0];
+                        }else{
+                            return "Usuario Inactivo";
+                        }
+                    }else{
+                        return "Contraseña Incorrecta";
+                    }
+                }else{
+                    return "Usuario Incorrecto";
+                }
+            } catch (Exception $e) {
+                GeneralFunctions::logFile('Exception',$e, 'error');
+                return "Error en Servidor";
+            }
+        }
+    */
+
+    public function jsonSerialize()
+    {
+        return [
+
+            'id' =>    $this->getId(),
+            'fecha' =>  $this->getFecha()->toDateString(), //YYYY-MM-DD
+            'hora_ingreso' =>   $this->getHoraIngreso(),
+            'observacion' =>  $this->getObservacion(),
+            'tipo_ingreso' =>   $this->getTipoIngreso(),
+            'hora_salida' =>   $this->getHoraSalida(),
+            'usuarios_id' =>   $this->getUsuariosId(),
+            'estado' =>   $this->getEstado(),
+            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString() //YYYY-MM-DD HH:MM:SS
+
+        ];
+    }
 }

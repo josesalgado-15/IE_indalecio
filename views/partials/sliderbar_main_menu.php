@@ -37,7 +37,7 @@
                 <li class="nav-header">Modulos Principales</li>
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'usuario') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'usuario') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Usuarios
                             <i class="fas fa-angle-left right"></i>
@@ -63,7 +63,7 @@
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'asistencias') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'asistencias') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                        <i class="nav-icon fas fa-school"></i>
                         <p>
                             Asistencias
                             <i class="fas fa-angle-left right"></i>
@@ -88,7 +88,7 @@
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'novedades') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'novedades') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                        <i class="nav-icon fas fa-comment-alt"></i>
                         <p>
                             Novedades
                             <i class="fas fa-angle-left right"></i>

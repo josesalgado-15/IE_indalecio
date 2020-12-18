@@ -1,18 +1,23 @@
 <?php
-require("../../partials/routes.php");
-require("../../../app/Controllers/AsistenciaController.php");
-require_once("../../../app/Controllers/UsuarioController.php");
+
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;
 use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
 use Carbon\Carbon;
+
+$nameModel = "Asistencia";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar Asistencia</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Editar <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -30,7 +35,7 @@ use Carbon\Carbon;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Editar Asistencia</h1>
+                        <h1>Editar <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -44,15 +49,10 @@ use Carbon\Carbon;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear la asistencia: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -75,25 +75,25 @@ use Carbon\Carbon;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataAsistencia = AsistenciaController::searchForID($_GET["id"]);
+                                $DataAsistencia = AsistenciaController::searchForID(["id" => $_GET["id"]]);
+
                                 if (!empty($DataAsistencia)) {
                                     ?>
 
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" method="post" id="frmEditAsistencia"
-                                              name="frmEditAsistencia"
-                                              action="../../../app/Controllers/AsistenciaController.php?action=edit">
+                                        <form class="form-horizontal" method="post" id="frmEdit<?= $nameModel ?>"
+                                              name="frmEdit<?= $nameModel ?>"
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
 
-                                            <input id="id" name="id" value="<?php echo $DataAsistencia->getId(); ?>" hidden
+                                        <input id="id" name="id" value="<?= $DataAsistencia->getId(); ?>" hidden
                                                    required="required" type="text">
-
 
                                             <div class="form-group row">
                                                 <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="date" max="<?= Carbon::now()->format('Y-m-d') ?>" value="<?= $DataAsistencia->getFecha(); ?>" class="form-control" id="fecha"
+                                                    <input required type="date" max="<?= Carbon::now()->format('Y-m-d') ?>" value="<?= $DataAsistencia->getFecha()->toDateString(); ?>" class="form-control" id="fecha"
                                                            name="fecha" placeholder="Ingrese la fecha">
                                                 </div>
                                             </div>
@@ -149,7 +149,7 @@ use Carbon\Carbon;
                                             <?php
                                             $dataAsistencia = null;
                                             if (!empty($_GET['id'])) {
-                                                $dataAsistencia = AsistenciaController::searchForID($_GET['id']);
+                                                $dataAsistencia = AsistenciaController::searchForID(["id" => $_GET["id"]]);
                                             }
                                             ?>
 
@@ -160,14 +160,12 @@ use Carbon\Carbon;
                                                         true,
                                                         'usuarios_id',
                                                         'usuarios_id',
-                                                        (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
+                                                        (!empty($dataAsistencia)) ? $dataAsistencia->getUsuario()->getId() : '',
                                                         'form-control select2bs4 select2-info',
                                                         "rol = 'Estudiante' and estado = 'Activo'")
                                                     ?>
                                                 </div>
                                             </div>
-
-
 
 
                                             <div class="form-group row">

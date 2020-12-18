@@ -1,18 +1,23 @@
-
 <?php
+
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;
 use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
 use Carbon\Carbon;
-require("../../partials/routes.php");;
-require_once("../../../app/Controllers/AsistenciaController.php");
-require_once("../../../app/Controllers/UsuarioController.php");
+
+$nameModel = "Asistencia";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Asistencia | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -30,7 +35,7 @@ require_once("../../../app/Controllers/UsuarioController.php");
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear Una Nueva Asistencia</h1>
+                        <h1>Crear Una Nueva <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -44,15 +49,8 @@ require_once("../../../app/Controllers/UsuarioController.php");
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear la asistencia: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensaje de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -71,17 +69,17 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                 </div>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateAsistencia"
-                                      name="frmCreateAsistencia"
-                                      action="../../../app/Controllers/AsistenciaController.php?action=create">
+                                <div class="card-body">
+                                    <form class="form-horizontal" method="post" id="frmCreate<?= $nameModel ?>"
+                                          name="frmCreate<?= $nameModel ?>"
+                                          action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
                                     <div class="form-group row">
                                         <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
                                         <div class="col-sm-10">
                                             <input required type="date" class="form-control" id="fecha"
-                                                   name="fecha" placeholder="Ingrese la fecha">
+                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -90,7 +88,7 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                         <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
                                         <div class="col-sm-10">
                                             <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                   placeholder="Ingrese la hora de ingreso">
+                                                   placeholder="Ingrese la hora de ingreso" value="<?= $frmSession['hora_ingreso'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -98,10 +96,11 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                         <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
                                         <div class="col-sm-10">
                                             <select id="observacion" name="observacion" class="custom-select">
-                                                <option value="Ninguna">Ninguna</option>
-                                                <option value="Ejemplo1">Ejemplo1</option>
-                                                <option value="Ejemplo2">Ejemplo2</option>
-                                                <option value="Ejemplo3">Ejemplo3</option>
+
+                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ninguna") ? "selected" : ""; ?> value="Ninguna">Ninguna</option>
+                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
+                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
+                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
 
                                             </select>
                                         </div>
@@ -128,8 +127,9 @@ require_once("../../../app/Controllers/UsuarioController.php");
 
                                             <div class="form-group">
                                                 <select multiple class="form-control" id="tipo_ingreso" name="tipo_ingreso">
-                                                    <option value="Institución">Institución</option>
-                                                    <option value="Restaurante">Restaurante</option>
+                                                    <option <?= (!empty($frmSession['tipo_ingreso']) && $frmSession['tipo_ingreso'] == "Institución") ? "selected" : ""; ?> value="Institución">Institución</option>
+                                                    <option <?= (!empty($frmSession['tipo_ingreso']) && $frmSession['tipo_ingreso'] == "Restaurante") ? "selected" : ""; ?> value="Restaurante">Restaurante</option>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -141,13 +141,11 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                         <label for="hora_salida" class="col-sm-2 col-form-label">Hora De Salida</label>
                                         <div class="col-sm-10">
                                             <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                   placeholder="Ingrese la hora de salida">
+                                                   placeholder="Ingrese la hora de salida" value="<?= $frmSession['hora_salida'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <!--
-
-
 
                                     <div class="form-group row">
                                         <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
@@ -160,16 +158,10 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                     -->
 
 
-                                    <?php
-                                    $dataAsistencia = null;
-                                    if (!empty($_GET['id'])) {
-                                        $dataAsistencia = AsistenciaController::searchForID($_GET['id']);
-                                    }
-                                    ?>
 
                                     <div class="form-group row">
                                         <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-10">
                                             <?= UsuarioController::selectUsuario(false,
                                                 true,
                                                 'usuarios_id',
@@ -182,54 +174,6 @@ require_once("../../../app/Controllers/UsuarioController.php");
                                     </div>
 
 
-
-                                    <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                        <div class="col-sm-10">
-                                            <select id="estado" name="estado" class="custom-select">
-                                                <option value="Activo">Activo</option>
-                                                <option value="Inactivo">Inactivo</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-                                    <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>
-                                        <div class="form-group row">
-                                            <label for="user" class="col-sm-2 col-form-label">Usuario</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="user" name="user" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="password" class="col-sm-2 col-form-label">Password</label>
-                                            <div class="col-sm-10">
-                                                <input required type="password" class="form-control" id="password" name="password" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="rol" class="col-sm-2 col-form-label">Rol</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="rol" class="custom-select">
-                                                    <option value="Estudiante">Estudiante</option>
-                                                    <option value="Administrador">Administrador</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="Estado" class="custom-select">
-                                                    <option value="Activo">Activo</option>
-                                                    <option value="Inactivo">Inactivo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
 
                                     <hr>
                                     <button type="submit" class="btn btn-info">Enviar</button>

@@ -83,7 +83,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Fecha</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getFecha() ?>
+                                            <?= $DataAsistencia->getFecha()->toDateString();  ?>
                                         </p>
                                         <hr>
 

@@ -155,7 +155,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                             <div class="form-group row">
                                                 <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-10">
                                                     <?= UsuarioController::selectUsuario(false,
                                                         true,
                                                         'usuarios_id',

@@ -1,9 +1,20 @@
 <?php
-require_once("../../partials/routes.php");
-require_once("../../../app/Controllers/NovedadController.php");
+
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
 use App\Controllers\NovedadController;
+use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use Carbon\Carbon;
+
+$nameModel = "Novedad";
+$pluralModel = $nameModel.'es';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,19 +54,11 @@ use App\Controllers\NovedadController;
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta']) && !empty($_GET['accion'])) { ?>
-                <?php if ($_GET['respuesta'] == "correcto") { ?>
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-check"></i> Correcto!</h5>
-                        <?php if ($_GET['accion'] == "create") { ?>
-                            La novedad se ha sido registrado con exito!
-                        <?php } else if ($_GET['accion'] == "update") { ?>
-                            Los datos de la novedad han sido actualizados correctamente!
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
 
             <!-- Default box -->
             <div class="card card-dark">
@@ -112,8 +115,8 @@ use App\Controllers\NovedadController;
                                         <td><?php echo $novedad->getTipo(); ?></td>
                                         <td><?php echo $novedad->getJustificacion(); ?></td>
                                         <td><?php echo $novedad->getObservacion(); ?></td>
-                                        <td><?php echo $novedad->getAdministradorId()->getNombres()," ",  $novedad->getAdministradorId()->getApellidos(); ?></td>
-                                        <td><?php echo $novedad->getAsistenciasId()->getUsuariosId()->getNombres()," ",  $novedad->getAsistenciasId()->getUsuariosId()->getApellidos(); ?></td>
+                                        <td><?php echo $novedad->getAdministrador()->getNombres()," ", $novedad->getAdministrador()->getApellidos(),""; ?></td>
+                                        <td><?php echo $novedad->getAsistencia()->getTipoIngreso()," ",$novedad->getAsistencia()->getUsuario()->getNombres()," ",$novedad->getAsistencia()->getUsuario()->getApellidos()," ",$novedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')," ",$novedad->getAsistencia()->getHoraIngreso()," ",$novedad->getAsistencia()->getHoraSalida() ; ?></td>
                                         <td><?php echo $novedad->getEstado(); ?></td>
                                         <td><?php echo $novedad->getCreatedAt(); ?></td>
                                         <td>

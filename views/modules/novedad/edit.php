@@ -1,20 +1,24 @@
 <?php
-require("../../partials/routes.php");
-require("../../../app/Controllers/NovedadController.php");
-require("../../../app/Controllers/AsistenciaController.php");
-require_once("../../../app/Controllers/UsuarioController.php");
 
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
+
+use App\Controllers\NovedadController;
 use App\Controllers\AsistenciaController;
 use App\Controllers\UsuarioController;
-use App\Controllers\NovedadController;
+use App\Models\GeneralFunctions;
 use Carbon\Carbon;
+
+$nameModel = "Novedad";
+$pluralModel = $nameModel.'es';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar Novedad</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Editar <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -32,7 +36,7 @@ use Carbon\Carbon;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Editar Novedad</h1>
+                        <h1>Editar <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -46,15 +50,10 @@ use Carbon\Carbon;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear la novedad: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -84,12 +83,13 @@ use Carbon\Carbon;
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" method="post" id="frmEditNovedad"
-                                              name="frmEditNovedad"
-                                              action="../../../app/Controllers/NovedadController.php?action=edit">
+                                        <form class="form-horizontal" method="post" id="frmEdit<?= $nameModel ?>"
+                                              name="frmEdit<?= $nameModel ?>"
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
 
-                                            <input id="id" name="id" value="<?php echo $DataNovedad->getId(); ?>" hidden
+                                            <input id="id" name="id" value="<?= $DataNovedad->getId(); ?>" hidden
                                                    required="required" type="text">
+
 
                                             <div class="form-group row">
                                                 <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
@@ -97,7 +97,7 @@ use Carbon\Carbon;
                                                     <select id="tipo" name="tipo" class="custom-select">
 
                                                         <option <?= ($DataNovedad->getTipo() == "Inasistencia") ? "selected" : ""; ?> value="Inasistencia">Inasistencia</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Llegada Tarde") ? "selected" : ""; ?> value="Llegada Tarde">Llegada Tarde</option>
+                                                        <option <?= ($DataNovedad->getTipo() == "Llegada Tarde'") ? "selected" : ""; ?> value="Llegada Tarde'">Llegada Tarde'</option>
                                                         <option <?= ($DataNovedad->getTipo() == "Salida Temprana") ? "selected" : ""; ?> value="Salida Temprana">Salida Temprana</option>
                                                         <option <?= ($DataNovedad->getTipo() == "Salida Tarde") ? "selected" : ""; ?> value="Salida Tarde">Salida Tarde</option>
 
@@ -112,7 +112,7 @@ use Carbon\Carbon;
                                                     <select id="justificacion" name="justificacion" class="custom-select">
 
                                                         <option <?= ($DataNovedad->getJustificacion() == "Ejemplo") ? "selected" : ""; ?> value="Ejemplo">Ejemplo</option>
-                                                        <option <?= ($DataNovedad->getJustificacion() == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
+                                                        <option <?= ($DataNovedad->getJustificacion() == "Ejemplo1'") ? "selected" : ""; ?> value="Ejemplo1'">Ejemplo1'</option>
                                                         <option <?= ($DataNovedad->getJustificacion() == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
                                                         <option <?= ($DataNovedad->getJustificacion() == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
 
@@ -123,32 +123,28 @@ use Carbon\Carbon;
 
                                             <div class="form-group row">
                                                 <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
-                                                <div class="col-sm-6">
-                                                    <!-- textarea -->
-                                                    <div class="form-group">
-                                                        <textarea id="observacion" name="observacion"  class="form-control" rows="3" value="<?= $DataNovedad->getObservacion(); ?> "  placeholder="Ingrese ..."></textarea>
-                                                    </div>
+                                                <div class="col-sm-10">
+                                                    <input required type="time" class="form-control" id="observacion" name="observacion"
+                                                           value="<?= $DataNovedad->getObservacion(); ?>">
                                                 </div>
                                             </div>
 
-
-
-
                                             <?php
-                                            $dataNovedad = null;
+                                            $DataNovedad = null;
                                             if (!empty($_GET['id'])) {
-                                                $dataNovedad = NovedadController::searchForID($_GET['id']);
+                                                $DataNovedad = NovedadController::searchForID(["id" => $_GET["id"]]);
                                             }
                                             ?>
 
+
                                             <div class="form-group row">
                                                 <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-10">
                                                     <?= UsuarioController::selectUsuario(false,
                                                         true,
-                                                        'administrador_id',
-                                                        'administrador_id',
-                                                        (!empty($DataNovedad)) ? $DataNovedad->getUsuariosId()->getId() : '',
+                                                        'usuarios_id',
+                                                        'usuarios_id',
+                                                        (!empty($dataNovedad)) ? $dataNovedad->getUsuariosId()->getId() : '',
                                                         'form-control select2bs4 select2-info',
                                                         "rol = 'Administrador' and estado = 'Activo'")
                                                     ?>
@@ -157,13 +153,16 @@ use Carbon\Carbon;
 
                                             <div class="form-group row">
                                                 <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
-                                                <div class="col-sm-8">
-                                                    <?= AsistenciaController::selectAsistencia(false,
-                                                        true,
-                                                        'idAsistencia',
-                                                        'idAsistencia',
-                                                        (!empty($DataNovedad)) ? $DataNovedad->getNovedadId()->getId() : '',
-                                                        'form-control select2bs4 select2-info')
+                                                <div class="col-sm-10">
+                                                    <?= NovedadController::selectAsistencia(
+                                                        array(
+                                                            'id' => 'asistencia_id',
+                                                            'name' => 'asistencia_id',
+                                                            'defaultValue' => (!empty($frmSession['asistencia_id'])) ? $frmSession['asistencia_id'] : '',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "estado = 'Activo'"
+                                                        )
+                                                    );
                                                     ?>
                                                 </div>
                                             </div>
@@ -173,12 +172,14 @@ use Carbon\Carbon;
                                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                                 <div class="col-sm-10">
                                                     <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($DataNovedad->getEstado() == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                        <option <?= ($DataNovedad->getEstado() == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
+                                                        <option <?= ($dataNovedad->getEstado() == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
+                                                        <option <?= ($dataNovedad->getEstado() == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
 
                                                     </select>
                                                 </div>
                                             </div>
+
+
 
                                             <hr>
                                             <button type="submit" class="btn btn-info">Enviar</button>

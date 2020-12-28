@@ -16,7 +16,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar de <?= $pluralModel ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar <?= $pluralModel ?></title>
     <?php include_once ('../../partials/head_imports.php') ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -109,7 +109,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     ?>
                                     <tr>
                                         <td><?php echo $asistencia->getId(); ?></td>
-                                        <td><?php echo $asistencia->getFecha(); ?></td>
+                                        <td><?php echo $asistencia->getFecha()->translatedFormat('l, j \\de F Y');  ?></td>
                                         <td><?php echo $asistencia->getTipoIngreso(); ?></td>
                                         <td><?php echo $asistencia->getHoraIngreso(); ?></td>
                                         <td><?php echo $asistencia->getObservacion(); ?></td>

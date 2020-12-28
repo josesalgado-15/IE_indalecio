@@ -196,7 +196,7 @@ class UsuarioController
         return $htmlSelect;
     }
 
-    private static function usuarioIsInArray($idUsuario, $ArrUsuarios)
+    public static function usuarioIsInArray($idUsuario, $ArrUsuarios)
     {
         if (count($ArrUsuarios) > 0) {
             foreach ($ArrUsuarios as $Usuario) {

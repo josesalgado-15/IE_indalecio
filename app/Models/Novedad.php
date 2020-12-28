@@ -1,80 +1,74 @@
 <?php
-
-
 namespace App\Models;
-use App\Models\BasicModel;
+
+use App\Interfaces\Model;
 use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
 
-require_once('BasicModel.php');
-
-class Novedad extends BasicModel
+class Novedad extends AbstractDBConnection implements Model, JsonSerializable
 {
 
     //Propiedades
 
-    protected int $id; //Visibilidad (public, protected, private)
+    protected ?int $id; //Visibilidad (public, protected, private)
     protected string $tipo;
     protected string $justificacion;
     protected string $observacion;
     protected string $estado;
-    protected Usuario $administrador_id;
-    protected Asistencia $asistencias_id;
+    protected int $administrador_id;
+    protected int $asistencia_id;
 
-    protected string $created_at;
-    protected string $updated_at;
-    protected string $deleted_at;
+    protected Carbon $created_at;
+    protected Carbon $updated_at;
+    protected Carbon $deleted_at;
 
-    /**
-     * Novedad constructor.
-     *
-     */
+    /* Relaciones */
+    private ?Usuario $administrador;
+    private ?Asistencia $asistencia;
+
+
 
     //Metodo Constructor
-    public function __construct ($novedad = array())
+    /**
+     * Novedad constructor. Recibe un array asociativo
+     * @param array $novedad
+     */
+    public function __construct (array $novedad = [])
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->id = $novedad['id'] ?? 0;
-        $this->tipo = $novedad['tipo'] ?? '';
-        $this->justificacion = $novedad['justificacion'] ?? '';
-        $this->observacion = $novedad['observacion'] ?? '';
-        $this->estado = $novedad['estado'] ?? '';
-        $this->administrador_id = $novedad['administrador_id'] ?? new Usuario();
-        $this->asistencias_id = $novedad['asistencias_id'] ?? new Asistencia();
+        $this->setId($novedad['id'] ?? NULL);
+        $this->setTipo($novedad['tipo'] ?? '');
+        $this->setJustificacion($novedad['justificacion'] ?? '');
+        $this->setObservacion($novedad['observacion'] ?? '');
+        $this->setEstado( $novedad['estado'] ?? '');
+        $this->setAdministradorId($novedad['administrador_id'] ?? 0) ;
+        $this->setAsistenciaId($novedad['asistencia_id'] ?? 0);
+        $this->setCreatedAt(!empty($novedad['created_at']) ? Carbon::parse($novedad['created_at']) : new Carbon());
+        $this->setUpdatedAt(!empty($novedad['updated_at']) ? Carbon::parse($novedad['updated_at']) : new Carbon());
+        $this->setDeletedAt(!empty($novedad['deleted_at']) ? Carbon::parse($novedad['deleted_at']) : new Carbon());
 
-        $this->created_at = $usuario['created_at'] ?? new Carbon();
-        $this->updated_at = $usuario['updated_at'] ?? new Carbon();
-        $this->deleted_at = $usuario['deleted_at'] ?? new Carbon();
     }
 
     function __destruct()
     {
-        //    $this->Disconnect(); // Cierro Conexiones
-    }
-
-    public static function novedadRegistrada(string $tipo, int $asistencias_id): bool
-    {
-        $result = Novedad::search("SELECT * FROM dbindalecio.novedades where tipo = '" . $tipo. "' and asistencias_id = '".$asistencias_id ."'");
-        if ( count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
+        if($this->isConnected){
+            $this->Disconnect();
         }
     }
-
-
 
     /**
      * @return int|mixed
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int|mixed $id
+     * @param int|null $id
      */
-    public function setId($id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -82,7 +76,7 @@ class Novedad extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getTipo()
+    public function getTipo(): string
     {
         return $this->tipo;
     }
@@ -90,13 +84,13 @@ class Novedad extends BasicModel
     /**
      * @param mixed|string $tipo
      */
-    public function setTipo($tipo): void
+    public function setTipo(string $tipo): void
     {
         $this->tipo = $tipo;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
     public function getJustificacion(): string
     {
@@ -104,7 +98,7 @@ class Novedad extends BasicModel
     }
 
     /**
-     * @param string $justificacion
+     * @param mixed|string $justificacion
      */
     public function setJustificacion(string $justificacion): void
     {
@@ -112,7 +106,7 @@ class Novedad extends BasicModel
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
     public function getObservacion(): string
     {
@@ -120,7 +114,7 @@ class Novedad extends BasicModel
     }
 
     /**
-     * @param string $observacion
+     * @param mixed|string $observacion
      */
     public function setObservacion(string $observacion): void
     {
@@ -130,7 +124,7 @@ class Novedad extends BasicModel
     /**
      * @return mixed|string
      */
-    public function getEstado()
+    public function getEstado(): string
     {
         return $this->estado;
     }
@@ -138,208 +132,298 @@ class Novedad extends BasicModel
     /**
      * @param mixed|string $estado
      */
-    public function setEstado($estado): void
+    public function setEstado(string $estado): void
     {
         $this->estado = $estado;
     }
 
     /**
-     @return int|mixed
+     * @return int
      */
-    public function getAdministradorId()
+    public function getAdministradorId(): int
     {
         return $this->administrador_id;
     }
 
     /**
-     * @param int|mixed $administrador_id
+     * @param int $administrador_id
      */
-    public function setAdministradorId($administrador_id): void
+    public function setAdministradorId(int $administrador_id): void
     {
         $this->administrador_id = $administrador_id;
     }
 
-
-
     /**
      * @return int
      */
-    public function getAsistenciasId()
+    public function getAsistenciaId(): int
     {
-        return $this->asistencias_id;
+        return $this->asistencia_id;
     }
 
     /**
-     * @param  int|mixed $asistencias_id
+     * @param int $asistencia_id
      */
-    public function setAsistenciasId($asistencias_id): void
+    public function setAsistenciaId(int $asistencia_id): void
     {
-        $this->asistencias_id = $asistencias_id;
+        $this->asistencia_id = $asistencia_id;
     }
 
     /**
-     * @return Carbon|mixed|string
+     * @return Carbon|mixed
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): Carbon
     {
-        return $this->created_at;
+        return $this->created_at->locale('es');
     }
 
     /**
-     * @param Carbon|mixed|string $created_at
+     * @param Carbon|mixed $created_at
      */
-    public function setCreatedAt($created_at): void
+    public function setCreatedAt(Carbon $created_at): void
     {
         $this->created_at = $created_at;
     }
 
     /**
-     * @return Carbon|mixed|string
+     * @return Carbon|mixed
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): Carbon
     {
-        return $this->updated_at;
+        return $this->updated_at->locale('es');
     }
 
     /**
-     * @param Carbon|mixed|string $updated_at
+     * @param Carbon|mixed $updated_at
      */
-    public function setUpdatedAt($updated_at): void
+    public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
 
     /**
-     * @return Carbon|mixed|string
+     * @return Carbon|mixed
      */
-    public function getDeletedAt()
+    public function getDeletedAt(): Carbon
     {
-        return $this->deleted_at;
+        return $this->deleted_at->locale('es');
     }
 
     /**
-     * @param Carbon|mixed|string $deleted_at
+     * @param Carbon|mixed $deleted_at
      */
-    public function setDeletedAt($deleted_at): void
+    public function setDeletedAt(Carbon $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
+    /* Relaciones */
+    /**
+     * Retorna el objeto usuario
+     * @return Usuario|null
+     */
 
 
-
-    public function create()
+    public function getAdministrador(): ?Usuario
     {
-        var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.novedades VALUES (NULL, ?, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
-
-                $this->getTipo(),
-                $this->getJustificacion(),
-                $this->getObservacion(),
-                $this->getEstado(),
-                $this->getAdministradorId()->getId(),
-                $this->getAsistenciasId()->getId(),
-
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt()
+        if(!empty($this->administrador_id)){
+            $this->administrador = Usuario::searchForId($this->administrador_id) ?? new Usuario();
+            return $this->administrador;
+        }
+        return NULL;
+    }
 
 
-            )
-        );
+    /**
+     * Retorna el objeto asistencia
+     * @return Asistencia|null
+     */
+    public function getAsistencia(): ?Asistencia
+    {
+        if(!empty($this->asistencia_id)){
+            $this->asistencia = Asistencia::searchForId($this->asistencia_id) ?? new Asistencia();
+            return $this->asistencia;
+        }
+        return NULL;
+    }
+
+    /**
+     * @param string $query
+     * @return bool|null
+     */
+    protected function save(string $query): ?bool
+    {
+        $arrData = [
+            ':id' =>    $this->getId(),
+            ':tipo' =>  $this->getTipo(),
+            ':justificacion' =>   $this->getJustificacion(),
+            ':observacion' =>  $this->getObservacion(),
+            ':estado' =>   $this->getEstado(),
+            ':administrador_id' =>   $this->getAdministradorId(),
+            ':asistencia_id' =>   $this->getAsistenciaId(),
+            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+
+
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
-
     }
 
-    public function update()
+    function insert(): ?bool
     {
-        $result = $this->updateRow("UPDATE dbindalecio.novedades SET tipo = ?, justificacion = ?, observacion = ?, 
-        estado = ?, administrador_id = ?, asistencias_id = ? WHERE id = ?", array(
+        $query = "INSERT INTO dbindalecio.novedades VALUES (:id,:tipo,:justificacion,:observacion,:estado,:administrador_id,:asistencia_id,:created_at,:updated_at,:deleted_at)";
+        return $this->save($query);
+    }
 
-                $this->getTipo(),
-                $this->getJustificacion(),
-                $this->getObservacion(),
-                $this->getEstado(),
-                $this->getAdministradorId()->getId(),
-                $this->getAsistenciasId()->getId(),
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt(),
-                $this->getId()
+    /**
+     * @return bool|null
+     */
+    public function update() : ?bool
+    {
+        $query = "UPDATE dbindalecio.novedades SET 
+            tipo = :tipo, justificacion = :justificacion,
+            observacion = :observacion, estado = :estado,
+            administrador_id = :administrador_id, asistencia_id = :asistencia_id,
+            created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+        return $this->save($query);
+    }
 
-            )
-        );
-        $this->Disconnect();
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function deleted() : bool
+    {
+        $this->setEstado("Inactivo"); //Cambia el estado
+        return $this->update();                    //Guarda los cambios..
     }
 
 
-    public function deleted($id)
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public static function search($query) : ?array
     {
-        $result = $this->updateRow('UPDATE dbindalecio.novedades SET estado = ? WHERE id = ?', array(
-                'Inactivo',
-                $this->getId()
-            )
-        );
-    }
+        try {
+            $arrNovedades = array();
+            $tmp = new Novedad();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
 
-    public static function search($query)
-    {
-        $arrNovedades = array();
-        $tmp = new Novedad();
-        $getrows = $tmp->getRows($query);
-
-        foreach ($getrows as $valor) {
-
-            $Novedad = new Novedad();
-            $Novedad->setId($valor['id']);
-            $Novedad->setTipo($valor['tipo']);
-            $Novedad->setJustificacion($valor['justificacion']);
-            $Novedad->setObservacion($valor['observacion']);
-            $Novedad->setEstado($valor['estado']);
-            $Novedad->setAdministradorId(Usuario::searchForId ($valor['administrador_id']));
-            $Novedad->setAsistenciasId(Asistencia::searchForId ($valor['asistencias_id']));
-            $Novedad->setEstado($valor['estado']);
-            //$Novedad->setCreatedAt($valor['created_at']);
-            //$Novedad->setUpdatedAt($valor['updated_at']);
-            //$Novedad->setDeletedAt($valor['deleted_at']);
-            $Novedad->Disconnect();
-            array_push($arrNovedades, $Novedad);
-
+            foreach ($getrows as $valor) {
+                $Novedad = new Novedad($valor);
+                array_push($arrNovedades, $Novedad);
+                unset($Novedad);
+            }
+            return $arrNovedades;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        $tmp->Disconnect();
-        return $arrNovedades;
-
+        return NULL;
     }
 
-    public static function searchForId($id)
+
+
+    /**
+     * @param $id
+     * @return Novedad
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Novedad
     {
-        $Novedad = null;
-        if ($id>0){
-            $Novedad = new Novedad();
-            $getrow = $Novedad->getRow("SELECT * FROM dbindalecio.novedades WHERE id =?", array($id));
-            $Novedad->setId($getrow['id']);
-            $Novedad->setTipo($getrow['tipo']);
-            $Novedad->setJustificacion($getrow['justificacion']);
-            $Novedad->setObservacion($getrow['observacion']);
-            $Novedad->setEstado($getrow['estado']);
-            $Novedad->setAdministradorId(Usuario::searchForId ($getrow['administrador_id']));
-            $Novedad->setAsistenciasId(Asistencia::searchForId ($getrow['asistencias_id']));
-            $Novedad->setEstado($getrow['estado']);
+        try {
+            if ($id > 0) {
+                $Novedad = new Novedad();
+                $Novedad->Connect();
+                $getrow = $Novedad->getRow("SELECT * FROM dbindalecio.novedades WHERE id =?", array($id));
 
-            //$Usuario->setCreatedAt($getrow['created_at']);
-            //$Usuario->setUpdatedAt($getrow['updated_at']);
-            //$Usuario->setDeletedAt($getrow['deleted_at']);
+                $Novedad->Disconnect();
+                return ($getrow) ? new Novedad($getrow) : null;
+            }else{
+                throw new Exception('Id de Novedad Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        $Novedad->Disconnect();
-        return $Novedad;
+        return NULL;
     }
 
-    public static function getAll()
+
+
+
+
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : array
     {
         return Novedad::search("SELECT * FROM dbindalecio.novedades");
     }
 
+    public static function novedadRegistrada(string $tipo, int $asistencia_id): bool
+    {
+        $result = Novedad::search("SELECT * FROM dbindalecio.novedades where tipo = '" . $tipo. "' and asistencia_id = '".$asistencia_id ."'");
+        if ( count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function __toString() : string
+    {
+        return "Tipo: $this->tipo, Justificación: $this->justificacion, Observación: $this->observacion, Estado: $this->estado, Administrador: $this->administrador_id, Asistencia: $this->asistencia_id";
+    }
+
+
+    /*
+       public function Login($User, $Password){
+           try {
+               $resultUsuarios = Usuarios::search("SELECT * FROM usuarios WHERE user = '$User'");
+               if(count($resultUsuarios) >= 1){
+                   if($resultUsuarios[0]->password == $Password){
+                       if($resultUsuarios[0]->estado == 'Activo'){
+                           return $resultUsuarios[0];
+                       }else{
+                           return "Usuario Inactivo";
+                       }
+                   }else{
+                       return "Contraseña Incorrecta";
+                   }
+               }else{
+                   return "Usuario Incorrecto";
+               }
+           } catch (Exception $e) {
+               GeneralFunctions::logFile('Exception',$e, 'error');
+               return "Error en Servidor";
+           }
+       }
+   */
+
+    public function jsonSerialize()
+    {
+        return [
+
+            'id' =>    $this->getId(),
+            'tipo' =>  $this->getTipo(),
+            'justificacion' =>   $this->getJustificacion(),
+            'observacion' =>  $this->getObservacion(),
+            'estado' =>   $this->getEstado(),
+            'administrador_id' =>   $this->getAdministradorId(),
+            'asistencia_id' =>   $this->getAsistenciaId(),
+            'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+
+        ];
+    }
 
 }

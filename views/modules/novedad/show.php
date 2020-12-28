@@ -1,13 +1,23 @@
 <?php
-require("../../partials/routes.php");
 
-require("../../../app/Controllers/NovedadController.php");
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
-use App\Controllers\NovedadController; ?>
+use App\Controllers\AsistenciaController;
+use App\Controllers\NovedadController;
+use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use Carbon\Carbon;
+
+$nameModel = "Asistencia";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la Novedad</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +35,7 @@ use App\Controllers\NovedadController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la Novedad</h1>
+                        <h1>Informacion del la <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -40,21 +50,9 @@ use App\Controllers\NovedadController; ?>
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] == "error") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar la novedad: <?= ($_GET['mensaje']) ?? "" ?>
-                    </div>
-                <?php } ?>
-            <?php } else if (empty($_GET['id'])) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                    Faltan criterios de busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                </div>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
 
             <div class="container-fluid">
                 <div class="row">
@@ -62,7 +60,7 @@ use App\Controllers\NovedadController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataNovedad = NovedadController::searchForID($_GET["id"]);
+                                $DataNovedad = NovedadController::SearchForID(["id" => $_GET["id"]]);
                                 if (!empty($DataNovedad)) {
                                     ?>
                                     <div class="card-header">
@@ -106,7 +104,8 @@ use App\Controllers\NovedadController; ?>
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Administrador ID</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getAdministradorId()->getNombres(), " ", $DataNovedad->getAdministradorId()->getApellidos(); ?>
+
+                                            <?= $DataNovedad->getAdministrador()->getNombres(), " ", $DataNovedad->getAdministrador()->getApellidos(); ?>
 
                                         </p>
                                         <hr>
@@ -114,7 +113,8 @@ use App\Controllers\NovedadController; ?>
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Asistencia ID</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getAsistenciasId() ?>
+                                           
+                                            <?= $DataNovedad->getAsistencia()->getTipoIngreso(), " ",$DataNovedad->getAsistencia()->getUsuario()->getNombres(), " ",$DataNovedad->getAsistencia()->getUsuario()->getApellidos(), " ",$DataNovedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y'), " ",$DataNovedad->getAsistencia()->getHoraIngreso(), " ",$DataNovedad->getAsistencia()->getHoraSalida() ?>
                                         </p>
                                         <hr>
 

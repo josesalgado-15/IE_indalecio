@@ -1,13 +1,20 @@
 <?php
-require("../../partials/routes.php");
 
-require("../../../app/Controllers/GradoController.php");
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
-use App\Controllers\GradoController; ?>
+use App\Controllers\GradoController;
+use App\Models\GeneralFunctions;
+
+$nameModel = "Grado";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del grado</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +32,7 @@ use App\Controllers\GradoController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del Grado</h1>
+                        <h1>Informacion del <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -40,21 +47,10 @@ use App\Controllers\GradoController; ?>
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] == "error") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar el usuario: <?= ($_GET['mensaje']) ?? "" ?>
-                    </div>
-                <?php } ?>
-            <?php } else if (empty($_GET['id'])) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                    Faltan criterios de busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                </div>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
 
             <div class="container-fluid">
                 <div class="row">
@@ -62,7 +58,8 @@ use App\Controllers\GradoController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataGrado = GradoController::searchForID($_GET["id"]);
+                                $DataGrado = GradoController::SearchForID(["id" => $_GET["id"]]);
+
                                 if (!empty($DataGrado)) {
                                     ?>
                                     <div class="card-header">

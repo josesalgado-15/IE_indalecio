@@ -3,105 +3,96 @@
 namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
-require_once(__DIR__ . '/../Models/Horario.php');
-require_once(__DIR__ . '/../Models/GeneralFunctions.php');
 
 use App\Models\GeneralFunctions;
 use App\Models\Horario;
 use Carbon\Carbon;
 
-if (!empty($_GET['action'])) {
-    HorarioController::main($_GET['action']);
-}
+
 
 class HorarioController
 {
-    static function main($action)
+
+    private array $dataHorario;
+
+    public function __construct(array $_FORM)
     {
-        if ($action == "create") {
-            HorarioController::create();
-        } else if ($action == "edit") {
-            HorarioController::edit();
-        } else if ($action == "searchForID") {
-            HorarioController::searchForID($_REQUEST['idPersona']);
-        } else if ($action == "searchAll") {
-            HorarioController::getAll();
-        } else if ($action == "changeStatus") {
-            HorarioController::changeStatus();
-        }
+        $this->dataHorario = array();
+        $this->dataHorario['id'] = $_FORM['id'] ?? NULL;
+        $this->dataHorario['hora_entrada_sede'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_entrada_sede']));
+        $this->dataHorario['hora_salida'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_salida']));
+        $this->dataHorario['hora_entrada_restaurante'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_entrada_restaurante']));
+        $this->dataHorario['fecha'] = !empty($_FORM['fecha']) ? Carbon::parse($_FORM['fecha']) : new Carbon();
+        $this->dataHorario['estado'] = $_FORM['estado'] ?? 'Activo';
+        $this->dataHorario['sedes_id'] = $_FORM['sedes_id'] ?? 0;
+
 
     }
 
 
-    static public function create()
-    {
+    public function create() {
         try {
-            $arrayHorario = array();
-            $arrayHorario['hora_entrada_sede'] = $_POST['hora_entrada_sede'];
-            $arrayHorario['hora_salida'] = $_POST['hora_salida'];
-            $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
-            $arrayHorario['fecha'] = $_POST['fecha'];
-            $arrayHorario['estado'] = 'Activo';
-            $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
-            $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual
 
-            //PENDIENTE verificar con que datos se va a hacer la validación
+            //PENDIENTE VERIFICAR CON QUE CAMPOS SE REALIZARÁ LA VALIDACIÓN?
 
-            $Horario = new Horario ($arrayHorario);
-            if($Horario->create()){
-                header("Location: ../../views/modules/horario/create.php?id=".$Horario->getId());
+            if (!empty($this->dataHorario['hora_entrada_sede'] and $this->dataHorario['hora_salida'] and $this->dataHorario['hora_entrada_restaurante']and $this->dataHorario['sedes_id']) && !Horario::horarioRegistrado($this->dataHorario['hora_entrada_sede'], $this->dataHorario['hora_salida'], $this->dataHorario['hora_entrada_restaurante'], $this->dataHorario['sedes_id']))
+
+            {
+                $Horario = new Horario ($this->dataHorario);
+                if ($Horario->insert()) {
+                    unset($_SESSION['frmHorarios']);
+                    header("Location: ../../views/modules/horario/index.php?respuesta=success&mensaje=Horario Registrado!");
+                }
+            } else {
+                header("Location: ../../views/modules/horario/create.php?respuesta=error&mensaje=Horario ya registrado");
             }
         } catch (\Exception $e) {
-            GeneralFunctions::console( $e, 'error', 'errorStack');
-            header("Location: ../../views/modules/ventas/create.php?respuesta=error&mensaje=" . $e->getMessage());
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function edit()
+    public function edit()
     {
         try {
+            $horario = new Horario($this->dataHorario);
+            if($horario->update()){
+                unset($_SESSION['frmHorarios']);
+            }
 
-            $arrayHorario = array();
-            $arrayHorario['hora_entrada_sede'] = $_POST['hora_entrada_sede'];
-            $arrayHorario['hora_salida'] = $_POST['hora_salida'];
-            $arrayHorario['hora_entrada_restaurante'] = $_POST['hora_entrada_restaurante'];
-            $arrayHorario['fecha'] = $_POST['fecha'];
-            $arrayHorario['estado'] = $_POST['estado'];
-            $arrayHorario['sedes_id'] = ($_POST['sedes_id']);
-            $arrayHorario['created_at'] = Carbon::now(); //Fecha Actual
-            $arrayHorario['id'] = $_POST['id'];
-
-            $horario = new Horario($arrayHorario);
-            $horario->update();
-
-            header("Location: ../../views/modules/horario/show.php?id=" . $horario->getId() . "&respuesta=correcto");
-
+            header("Location: ../../views/modules/horario/show.php?id=" . $horario->getId() . "&respuesta=success&mensaje=Horario Actualizada");
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/horario/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function searchForID($id)
-    {
+
+    static public function searchForID (array $data){
         try {
-            return Horario::searchForId($id);
+            $result = Horario::searchForId($data['id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/horario/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
     }
 
-    static public function getAll()
-    {
+    static public function getAll (array $data = null){
         try {
-            return Horario::getAll();
+            $result = Horario::getAll();
+            if (!empty($data['request']) and $data['request'] === 'ajax') {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result);
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'log', 'errorStack');
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
     }
-
 
 
 }

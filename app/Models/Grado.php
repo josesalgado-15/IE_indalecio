@@ -1,79 +1,66 @@
 <?php
-
 namespace App\Models;
-use App\Models\BasicModel;
+
+use App\Interfaces\Model;
 use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
 
-
-require_once('BasicModel.php');
-
-class Grado extends BasicModel
+class Grado extends AbstractDBConnection implements Model, JsonSerializable
 {
     //Propiedades
 
-    protected int $id; //Visibilidad (public, protected, private)
+    protected ?int $id; //Visibilidad (public, protected, private)
     protected string $nombre;
     protected string $estado;
-    protected string $created_at;
-    protected string $updated_at;
-    protected string $deleted_at;
+    protected Carbon $created_at;
+    protected Carbon $updated_at;
+    protected Carbon $deleted_at;
+
 
     /**
-     * Grado constructor.
+     * Grado constructor. Recibe un array asociativo
+     * @param array $grado
      */
-    public function __construct($grado = array())
+
+    public function __construct(array $grado = [])
     {
         parent::__construct();
-        $this->id = $grado['id'] ?? 0;
-        $this->nombre = $grado['nombre'] ?? '';
-        $this->estado = $grado['estado'] ?? '';
-        $this->created_at = $grado['created_at'] ?? new Carbon();
-        $this->updated_at = $grado['updated_at'] ?? new Carbon();
-        $this->deleted_at = $grado['deleted_at'] ?? new Carbon();
+        $this->setId($grado['id'] ?? NULL);
+        $this->setNombre( $grado['nombre'] ?? '');
+        $this->setEstado($grado['estado'] ?? '');
+        $this->setCreatedAt(!empty($grado['created_at']) ? Carbon::parse($grado['created_at']) : new Carbon());
+        $this->setUpdatedAt(!empty($grado['updated_at']) ? Carbon::parse($grado['updated_at']) : new Carbon());
+        $this->setDeletedAt(!empty($grado['deleted_at']) ? Carbon::parse($grado['deleted_at']) : new Carbon());
     }
 
 
     function __destruct()
     {
-        //    $this->Disconnect(); // Cierro Conexiones
-    }
-
-    /**
-     * @param $nombre
-     * @return bool
-     */
-
-
-    static function gradoRegistrado(string $nombre){
-        $nombre = strtolower(trim($nombre));
-        $result = Grado::search("SELECT * FROM dbindalecio.grados where nombre = '" . $nombre. "'");
-        if ( count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
+        if($this->isConnected){
+            $this->Disconnect();
         }
     }
 
 
-
     /**
-     * @return int
+     * @return int|mixed
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
     public function getNombre(): string
     {
@@ -81,7 +68,7 @@ class Grado extends BasicModel
     }
 
     /**
-     * @param string $nombre
+     * @param mixed|string $nombre
      */
     public function setNombre(string $nombre): void
     {
@@ -89,7 +76,7 @@ class Grado extends BasicModel
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
     public function getEstado(): string
     {
@@ -97,7 +84,7 @@ class Grado extends BasicModel
     }
 
     /**
-     * @param string $estado
+     * @param mixed|string $estado
      */
     public function setEstado(string $estado): void
     {
@@ -105,143 +92,219 @@ class Grado extends BasicModel
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): Carbon
     {
-        return $this->created_at;
+        return $this->created_at->locale('es');
     }
 
     /**
-     * @param string $created_at
+     * @param Carbon|mixed $created_at
      */
-    public function setCreatedAt(string $created_at): void
+    public function setCreatedAt(Carbon $created_at): void
     {
         $this->created_at = $created_at;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): Carbon
     {
-        return $this->updated_at;
+        return $this->updated_at->locale('es');
     }
 
     /**
-     * @param string $updated_at
+     * @param Carbon|mixed $updated_at
      */
-    public function setUpdatedAt(string $updated_at): void
+    public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getDeletedAt(): string
+    public function getDeletedAt(): Carbon
     {
-        return $this->deleted_at;
+        return $this->deleted_at->locale('es');
     }
 
     /**
-     * @param string $deleted_at
+     * @param Carbon|mixed $deleted_at
      */
-    public function setDeletedAt(string $deleted_at): void
+    public function setDeletedAt(Carbon $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
-    public function create()
+
+    /**
+     * @param string $query
+     * @return bool|null
+     */
+    protected function save(string $query): ?bool
     {
-        var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.grados VALUES (NULL, ?, ?, NOW() , NULL ,NULL)", array(
+        $arrData = [
+            ':id' =>    $this->getId(),
+            ':nombre' =>  $this->getNombre(),
+            ':estado' =>   $this->getEstado(),
+            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
 
-                $this->getNombre(),
-                $this->getEstado(),
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt()
-
-
-            )
-        );
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
-
     }
 
-    public function update()
+    /**
+     * @return bool|null
+     */
+
+    function insert(): ?bool
     {
-
-
-        $result = $this->updateRow("UPDATE dbindalecio.grados SET nombre = ?, estado = ? WHERE id = ?", array(
-
-                $this->getNombre(),
-                $this->getEstado(),
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt(),
-                $this->getId()
-
-            )
-        );
-        $this->Disconnect();
-        return $this;
-    }
-    public function deleted($id)
-    {
-        $result = $this->updateRow('UPDATE dbindalecio.grados SET estado = ? WHERE id = ?', array(
-                'Inactivo',
-                $this->getId()
-            )
-        );
+        $query = "INSERT INTO dbindalecio.grados VALUES (:id,:nombre,:estado,:created_at,:updated_at,:deleted_at)";
+        return $this->save($query);
     }
 
-    public static function search($query)
+
+    /**
+     * @return bool|null
+     */
+    public function update() : ?bool
     {
-        $arrGrados = array();
-        $tmp = new Grado();
-        $getrows = $tmp->getRows($query);
+        $query = "UPDATE dbindalecio.grados SET 
+            nombre = :nombre, estado = :estado, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+        return $this->save($query);
+    }
 
-        foreach ($getrows as $valor) {
+    /**
+     * @return mixed
+     */
+    public function deleted() : bool
+    {
+        $this->setEstado("Inactivo"); //Cambia el estado
+        return $this->update();                    //Guarda los cambios..
+    }
 
-            $Grado = new Grado();
-            $Grado->setId($valor['id']);
-            $Grado->setNombre($valor['nombre']);
-            $Grado->setEstado($valor['estado']);
-            $Grado->setCreatedAt($valor['created_at']);
-            //$Grado->setUpdatedAt($valor['updated_at']);
-            //$Grado->setDeletedAt($valor['deleted_at']);
-            $Grado->Disconnect();
-            array_push($arrGrados, $Grado);
 
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public static function search($query) : ?array
+    {
+        try {
+            $arrGrados = array();
+            $tmp = new Grado();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
+
+            foreach ($getrows as $valor) {
+                $Grado = new Grado($valor);
+                array_push($arrGrados, $Grado);
+                unset($Grado);
+            }
+            return $arrGrados;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        $tmp->Disconnect();
-        return $arrGrados;
-
+        return NULL;
     }
 
-    public static function getAll()
+
+    /**
+     * @param $id
+     * @return Asistencia
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Grado
+    {
+        try {
+            if ($id > 0) {
+                $Grado = new Grado();
+                $Grado->Connect();
+                $getrow = $Grado->getRow("SELECT * FROM dbindalecio.grados WHERE id =?", array($id));
+
+                $Grado->Disconnect();
+                return ($getrow) ? new Grado($getrow) : null;
+            }else{
+                throw new Exception('Id de Grado Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : array
     {
         return Grado::search("SELECT * FROM dbindalecio.grados");
     }
 
-    public static function searchForId($id)
+    static function gradoRegistrado($nombre): bool
     {
-        $Grado = null;
-        if ($id>0){
-            $Grado = new Grado();
-            $getrow = $Grado->getRow("SELECT * FROM dbindalecio.grados WHERE id =?", array($id));
-
-            $Grado->setId($getrow['id']);
-            $Grado->setNombre($getrow['nombre']);
-            $Grado->setEstado($getrow['estado']);
-            //$Grado->setCreatedAt($getrow['created_at']);
-            //$Grado->setUpdatedAt($getrow['updated_at']);
-            //$Grado->setDeletedAt($getrow['deleted_at']);
+        $nombre = strtolower(trim($nombre));
+        $result = Grado::search("SELECT * FROM dbindalecio.grados where nombre = '" . $nombre. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
         }
-        $Grado->Disconnect();
-        return $Grado;
     }
+
+    public function __toString() : string
+    {
+        return "nombre: $this->nombre, Estado: $this->estado";
+    }
+
+
+    /*
+        public function Login($User, $Password){
+            try {
+                $resultUsuarios = Usuarios::search("SELECT * FROM usuarios WHERE user = '$User'");
+                if(count($resultUsuarios) >= 1){
+                    if($resultUsuarios[0]->password == $Password){
+                        if($resultUsuarios[0]->estado == 'Activo'){
+                            return $resultUsuarios[0];
+                        }else{
+                            return "Usuario Inactivo";
+                        }
+                    }else{
+                        return "Contraseña Incorrecta";
+                    }
+                }else{
+                    return "Usuario Incorrecto";
+                }
+            } catch (Exception $e) {
+                GeneralFunctions::logFile('Exception',$e, 'error');
+                return "Error en Servidor";
+            }
+        }
+    */
+
+    public function jsonSerialize()
+    {
+        return [
+
+            'id' =>    $this->getId(),
+            'nombre' =>  $this->getNombre(), //YYYY-MM-DD
+            'estado' =>   $this->getEstado(),
+            'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+
+        ];
+    }
+
 }

@@ -1,11 +1,20 @@
-<?php use Carbon\Carbon;
+<?php
+
+//require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
+
+use App\Models\GeneralFunctions;
+
+$nameModel = "Grado";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Grado | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -23,7 +32,7 @@ require("../../partials/routes.php");;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear un Nuevo Grado</h1>
+                        <h1>Crear un Nuevo <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -37,15 +46,8 @@ require("../../partials/routes.php");;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear el grado: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensaje de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -67,67 +69,26 @@ require("../../partials/routes.php");;
                             <div class="card-body">
                                 <!-- form start -->
                                 <form class="form-horizontal" method="post" id="frmCreateGrado"
-                                      name="frmCreateGrado"
-                                      action="../../../app/Controllers/GradoController.php?action=create">
+                                      name="frmCreate<?= $nameModel ?>"
+                                      action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese el nombre del grado">
-                                        </div>
-                                    </div>
+                                            <select id="nombre" name="nombre" class="custom-select">
 
-
-                                    <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                        <div class="col-sm-10">
-                                            <select id="estado" name="estado" class="custom-select">
-                                                <option value="Activo">Activo</option>
-                                                <option value="Inactivo">Inactivo</option>
+                                                <option <?= (!empty($frmSession['Sexto']) && $frmSession['Sexto'] == "Sexto") ? "selected" : ""; ?> value="Sexto">Sexto</option>
+                                                <option <?= (!empty($frmSession['Séptimo']) && $frmSession['Séptimo'] == "Séptimo") ? "selected" : ""; ?> value="Séptimo">Séptimo</option>
+                                                <option <?= (!empty($frmSession['Octavo']) && $frmSession['Octavo'] == "Octavo") ? "selected" : ""; ?> value="Octavo">Octavo</option>
+                                                <option <?= (!empty($frmSession['Noveno']) && $frmSession['Noveno'] == "Noveno") ? "selected" : ""; ?> value="Noveno">Noveno</option>
+                                                <option <?= (!empty($frmSession['Décimo']) && $frmSession['Décimo'] == "Décimo") ? "selected" : ""; ?> value="Décimo">Décimo</option>
+                                                <option <?= (!empty($frmSession['Once']) && $frmSession['Once'] == "Once") ? "selected" : ""; ?> value="Once">Once</option>
 
                                             </select>
                                         </div>
                                     </div>
 
 
-
-
-                                    <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>
-                                        <div class="form-group row">
-                                            <label for="user" class="col-sm-2 col-form-label">Usuario</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="user" name="user" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="password" class="col-sm-2 col-form-label">Password</label>
-                                            <div class="col-sm-10">
-                                                <input required type="password" class="form-control" id="password" name="password" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="rol" class="col-sm-2 col-form-label">Rol</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="rol" class="custom-select">
-                                                    <option value="Estudiante">Estudiante</option>
-                                                    <option value="Administrador">Administrador</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="Estado" class="custom-select">
-                                                    <option value="Activo">Activo</option>
-                                                    <option value="Inactivo">Inactivo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
 
                                     <hr>
                                     <button type="submit" class="btn btn-info">Enviar</button>

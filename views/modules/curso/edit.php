@@ -3,14 +3,14 @@
 //require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
 
-use App\Controllers\NovedadController;
-use App\Controllers\AsistenciaController;
-use App\Controllers\UsuarioController;
+use App\Controllers\CursoController;
+use App\Controllers\GradoController;
+use App\Controllers\HorarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Novedad";
-$pluralModel = $nameModel.'es';
+$nameModel = "Curso";
+$pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
@@ -40,7 +40,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Novedad</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Asistencia</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -60,7 +60,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información De La Novedad</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información Del Curso</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -76,8 +76,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataNovedad = NovedadController::SearchForID(["id" => $_GET["id"]]);
-                                if (!empty($DataNovedad)) {
+                                $DataCurso = CursoController::searchForID(["id" => $_GET["id"]]);
+
+                                if (!empty($DataCurso)) {
                                     ?>
 
                                     <!-- /.card-header -->
@@ -87,81 +88,42 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                               name="frmEdit<?= $nameModel ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
 
-                                            <input id="id" name="id" value="<?= $DataNovedad->getId(); ?>" hidden
+                                            <input id="id" name="id" value="<?= $DataCurso->getId(); ?>" hidden
                                                    required="required" type="text">
 
 
                                             <div class="form-group row">
-                                                <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                                 <div class="col-sm-10">
-                                                    <select id="tipo" name="tipo" class="custom-select">
-
-                                                        <option <?= ($DataNovedad->getTipo() == "Inasistencia") ? "selected" : ""; ?> value="Inasistencia">Inasistencia</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Llegada Tarde") ? "selected" : ""; ?> value="Llegada Tarde">Llegada Tarde</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Salida Temprana") ? "selected" : ""; ?> value="Salida Temprana">Salida Temprana</option>
-                                                        <option <?= ($DataNovedad->getTipo() == "Salida Tarde") ? "selected" : ""; ?> value="Salida Tarde">Salida Tarde</option>
-
-
-                                                    </select>
+                                                    <input required type="text" class="form-control" id="nombre" name="nombre"
+                                                           placeholder="Ingrese el nombre del curso" value="<?= $DataCurso->getNombre(); ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="justificacion" class="col-sm-2 col-form-label">Justificación</label>
+                                                <label for="director" class="col-sm-2 col-form-label">Director</label>
                                                 <div class="col-sm-10">
-                                                    <select id="justificacion" name="justificacion" class="custom-select">
-
-                                                        <option <?= ($DataNovedad->getJustificacion() == "Ejemplo") ? "selected" : ""; ?> value="Ejemplo">Ejemplo</option>
-                                                        <option <?= ($DataNovedad->getJustificacion() == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
-                                                        <option <?= ($DataNovedad->getJustificacion() == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
-                                                        <option <?= ($DataNovedad->getJustificacion() == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
-
-
-                                                    </select>
+                                                    <input required type="text" class="form-control" id="director" name="director"
+                                                           placeholder="Ingrese el nombre del director" value="<?= $DataCurso->getDirector(); ?>">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
+                                                <label for="representante" class="col-sm-2 col-form-label">representante</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="observacion" name="observacion"
-                                                           value="<?= $DataNovedad->getObservacion(); ?>">
+                                                    <input required type="text" class="form-control" id="representante" name="representante"
+                                                           placeholder="Ingrese el nombre del representante" value="<?= $DataCurso->getRepresentante(); ?>">
                                                 </div>
                                             </div>
 
-
-
-                                            <?php
-                                            $DataNovedad = null;
-                                            if (!empty($_GET['id'])) {
-                                                $DataNovedad = NovedadController::searchForID(["id" => $_GET["id"]]);
-                                            }
-                                            ?>
-
-
                                             <div class="form-group row">
-                                                <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
+                                                <label for="grado_id" class="col-sm-2 col-form-label">Grado</label>
                                                 <div class="col-sm-10">
-                                                    <?= UsuarioController::selectUsuario(false,
-                                                        true,
-                                                        'administrador_id',
-                                                        'administrador_id',
-                                                        (!empty($dataNovedad)) ? $dataNovedad->getUsuariosId()->getId() : '',
-                                                        'form-control select2bs4 select2-info',
-                                                        "rol = 'Administrador' and estado = 'Activo'")
-                                                    ?>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group row">
-                                                <label for="asistencias_id" class="col-sm-2 col-form-label">Asistencia</label>
-                                                <div class="col-sm-10">
-                                                    <?= NovedadController::selectAsistencia(
+                                                    <?= GradoController::selectGrado(
                                                         array(
-                                                            'id' => 'asistencia_id',
-                                                            'name' => 'asistencia_id',
-                                                            'defaultValue' => (!empty($frmSession['asistencia_id'])) ? $frmSession['asistencia_id'] : '',
+                                                            'id' => 'grado_id',
+                                                            'name' => 'grado_id',
+                                                            (!empty($DataCurso)) ? $DataCurso->getGrado()->getId() : '',
                                                             'class' => 'form-control select2bs4 select2-info',
                                                             'where' => "estado = 'Activo'"
                                                         )
@@ -170,18 +132,21 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
 
-
                                             <div class="form-group row">
-                                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                                <label for="horario_id" class="col-sm-2 col-form-label">Horario</label>
                                                 <div class="col-sm-10">
-                                                    <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($DataNovedad->getEstado() == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                        <option <?= ($DataNovedad->getEstado() == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
-
-                                                    </select>
+                                                    <?= HorarioController::selectHorario(
+                                                        array(
+                                                            'id' => 'horario_id',
+                                                            'name' => 'horario_id',
+                                                            (!empty($DataCurso)) ? $DataCurso->getHorario()->getId() : '',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "estado = 'Activo'"
+                                                        )
+                                                    );
+                                                    ?>
                                                 </div>
                                             </div>
-
 
 
                                             <hr>

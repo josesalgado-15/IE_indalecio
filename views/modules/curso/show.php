@@ -3,13 +3,13 @@
 //require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
 
-use App\Controllers\AsistenciaController;
-use App\Controllers\NovedadController;
-use App\Controllers\UsuarioController;
+use App\Controllers\CursoController;
+use App\Controllers\GradoController;
+use App\Controllers\HorarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Asistencia";
+$nameModel = "Curso";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
@@ -17,7 +17,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la <?= $nameModel ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -35,7 +35,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la <?= $nameModel ?></h1>
+                        <h1>Informacion del <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -60,8 +60,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataNovedad = NovedadController::SearchForID(["id" => $_GET["id"]]);
-                                if (!empty($DataNovedad)) {
+                                $DataCurso = CursoController::SearchForID(["id" => $_GET["id"]]);
+
+                                if (!empty($DataCurso)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-info"></i> &nbsp; Ver Información </h3>
@@ -81,47 +82,46 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Tipo</strong>
+                                            <strong><i class="fas fa-user mr-1"></i>Nombre</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getTipo() ?>
+                                            <?= $DataCurso->getNombre();  ?>
                                         </p>
                                         <hr>
 
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Justificación</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Director</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getJustificacion() ?>
+                                            <?= $DataCurso->getDirector() ?>
                                         </p>
                                         <hr>
 
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Observación</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Representante</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getObservacion() ?>
+                                            <?= $DataCurso->getRepresentante() ?>
                                         </p>
                                         <hr>
 
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Administrador ID</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Cantidad</strong>
                                         <p class="text-muted">
-
-                                            <?= $DataNovedad->getAdministrador()->getNombres(), " ", $DataNovedad->getAdministrador()->getApellidos(); ?>
-
+                                            <?= $DataCurso->getCantidad() ?>
                                         </p>
                                         <hr>
 
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Asistencia ID</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Grado</strong>
                                         <p class="text-muted">
+                                            <?= $DataCurso->getGrado()->getNombre() ?>
+                                        </p>
+                                        <hr>
 
-                                            <?= $DataNovedad->getAsistencia()->getTipoIngreso(), " ",$DataNovedad->getAsistencia()->getUsuario()->getNombres(), " ",$DataNovedad->getAsistencia()->getUsuario()->getApellidos(), " ",$DataNovedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y'), " ",$DataNovedad->getAsistencia()->getHoraIngreso(), " ",$DataNovedad->getAsistencia()->getHoraSalida() ?>
+                                        <strong><i class="fas fa-user mr-1"></i>Horario</strong>
+                                        <p class="text-muted">
+                                            <?= $DataCurso->getHorario()->getSedesId() ?>
                                         </p>
                                         <hr>
 
 
                                         <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getEstado() ?>
+                                            <?= $DataCurso->getEstado() ?>
                                         </p>
 
 
@@ -131,13 +131,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Novedades
+                                                    <i class="fas fa-tasks"></i> Gestionar Cursos
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a role="button" href="create.php" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Novedades
+                                                    <i class="fas fa-plus"></i> Crear Cursos
                                                 </a>
                                             </div>
                                         </div>

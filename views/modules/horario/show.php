@@ -1,13 +1,21 @@
 <?php
-require("../../partials/routes.php");
 
-require("../../../app/Controllers/HorarioController.php");
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
-use App\Controllers\HorarioController; ?>
+use App\Controllers\HorarioController;
+use App\Models\GeneralFunctions;
+use Carbon\Carbon;
+
+$nameModel = "Horario";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del Horario</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +33,7 @@ use App\Controllers\HorarioController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del Horario</h1>
+                        <h1>Informacion del <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -40,21 +48,10 @@ use App\Controllers\HorarioController; ?>
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] == "error") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar el horario: <?= ($_GET['mensaje']) ?? "" ?>
-                    </div>
-                <?php } ?>
-            <?php } else if (empty($_GET['id'])) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                    Faltan criterios de busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                </div>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
 
             <div class="container-fluid">
                 <div class="row">
@@ -62,7 +59,7 @@ use App\Controllers\HorarioController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataHorario = HorarioController::searchForID($_GET["id"]);
+                                $DataHorario = HorarioController::SearchForID(["id" => $_GET["id"]]);
                                 if (!empty($DataHorario)) {
                                     ?>
                                     <div class="card-header">
@@ -85,25 +82,25 @@ use App\Controllers\HorarioController; ?>
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Hora Entrada Sede</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getHorarioEntradaSede() ?>
+                                            <?= $DataHorario->getHoraEntradaSede() ?>
                                         </p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Hora Salida</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getHorarioSalida() ?>
+                                            <?= $DataHorario->getHoraSalida() ?>
                                         </p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Hora Entrada Restaurante</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getHorarioEntradaRestaurante() ?>
+                                            <?= $DataHorario->getHoraEntradaRestaurante() ?>
                                         </p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Fecha De Horario</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getFecha() ?>
+                                            <?= $DataHorario->getFecha()->toDateString();  ?>
                                         </p>
                                         <hr>
 

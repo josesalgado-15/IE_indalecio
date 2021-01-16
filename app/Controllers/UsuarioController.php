@@ -167,10 +167,11 @@ class UsuarioController
         }
     }
 
+
     static public function selectUsuario($isMultiple = false,
                                          $isRequired = true,
-                                         $id = "idUsuario",
-                                         $nombre = "idUsuario",
+                                         $id = "usuarios_id",
+                                         $nombre = "usuarios_id",
                                          $defaultValue = "",
                                          $class = "form-control",
                                          $where = "",

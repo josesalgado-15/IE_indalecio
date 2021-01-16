@@ -93,7 +93,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="representante" class="col-sm-2 col-form-label">representante</label>
+                                            <label for="representante" class="col-sm-2 col-form-label">Representante</label>
                                             <div class="col-sm-10">
                                                 <input required type="text" class="form-control" id="representante" name="representante"
                                                        placeholder="Ingrese el nombre del representante" value="<?= $frmSession['representante'] ?? '' ?>">
@@ -101,13 +101,21 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="grado_id" class="col-sm-2 col-form-label">Grado</label>
+                                            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+                                            <div class="col-sm-10">
+                                                <input required type="number" class="form-control" id="cantidad" name="cantidad"
+                                                       placeholder="Ingrese la cantidad" value="<?= $frmSession['cantidad'] ?? '' ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="grados_id" class="col-sm-2 col-form-label">Grado</label>
                                             <div class="col-sm-10">
                                                 <?= GradoController::selectGrado(
                                                     array(
-                                                        'id' => 'grado_id',
-                                                        'name' => 'grado_id',
-                                                        'defaultValue' => (!empty($frmSession['grado_id'])) ? $frmSession['grado_id'] : '',
+                                                        'id' => 'grados_id',
+                                                        'name' => 'grados_id',
+                                                        'defaultValue' => (!empty($frmSession['grados_id'])) ? $frmSession['grados_id'] : '',
                                                         'class' => 'form-control select2bs4 select2-info',
                                                         'where' => "estado = 'Activo'"
                                                     )
@@ -117,13 +125,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="horario_id" class="col-sm-2 col-form-label">Horario</label>
+                                            <label for="horarios_id" class="col-sm-2 col-form-label">Horario</label>
                                             <div class="col-sm-10">
                                                 <?= HorarioController::selectHorario(
                                                     array(
-                                                        'id' => 'horario_id',
-                                                        'name' => 'horario_id',
-                                                        'defaultValue' => (!empty($frmSession['horario_id'])) ? $frmSession['horario_id'] : '',
+                                                        'id' => 'horarios_id',
+                                                        'name' => 'horarios_id',
+                                                        'defaultValue' => (!empty($frmSession['horarios_id'])) ? $frmSession['horarios_id'] : '',
                                                         'class' => 'form-control select2bs4 select2-info',
                                                         'where' => "estado = 'Activo'"
                                                     )

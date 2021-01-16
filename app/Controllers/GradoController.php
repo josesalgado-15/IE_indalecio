@@ -86,4 +86,50 @@ class GradoController
     }
 
 
+    static public function selectGrado (array $params = []){
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "grados_id";
+        $params['name'] = $params['name'] ?? "grados_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrGrado = array();
+        if($params['where'] != ""){
+            $base = "SELECT * FROM grados WHERE ";
+            $arrGrado = Grado::search($base.$params['where']);
+        }else{
+            $arrGrado = Grado::getAll();
+        }
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrGrado) > 0){
+            /* @var $arrGrado Grado[] */
+            foreach ($arrGrado as $grado)
+                if (!GradoController::gradoIsInArray($grado->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($grado != "") ? (($params['defaultValue'] == $grado->getId()) ? "selected" : "" ) : "")." value='".$grado->getId() . "'>" . $grado->getNombre() . "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+
+
+    public static function gradoIsInArray($idGrado, $ArrGrado){
+        if(count($ArrGrado) > 0){
+            foreach ($ArrGrado as $Grado){
+                if($Grado->getId() == $idGrado){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

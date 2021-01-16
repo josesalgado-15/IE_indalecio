@@ -142,14 +142,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="form-group row">
                                                 <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
                                                 <div class="col-sm-10">
-                                                    <?= UsuarioController::selectUsuario(false,
-                                                        true,
-                                                        'administrador_id',
-                                                        'administrador_id',
-                                                        (!empty($dataNovedad)) ? $dataNovedad->getUsuariosId()->getId() : '',
-                                                        'form-control select2bs4 select2-info',
-                                                        "rol = 'Administrador' and estado = 'Activo'")
+
+                                                    <?= NovedadController::selectUsuario(
+                                                        array(
+                                                            'id' => 'administrador_id',
+                                                            'name' => 'administrador_id',
+                                                            'defaultValue' => (!empty($DataNovedad)) ? $DataNovedad->getAdministrador()->getId() : '',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "rol = 'Administrador' and estado = 'Activo'"
+                                                        )
+                                                    );
                                                     ?>
+
+
                                                 </div>
                                             </div>
 
@@ -161,7 +166,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         array(
                                                             'id' => 'asistencia_id',
                                                             'name' => 'asistencia_id',
-                                                            'defaultValue' => (!empty($frmSession['asistencia_id'])) ? $frmSession['asistencia_id'] : '',
+                                                            'defaultValue' => (!empty($DataNovedad)) ? $DataNovedad->getAsistencia()->getId() : '',
                                                             'class' => 'form-control select2bs4 select2-info',
                                                             'where' => "estado = 'Activo'"
                                                         )

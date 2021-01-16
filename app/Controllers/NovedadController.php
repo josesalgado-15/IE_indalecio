@@ -27,17 +27,18 @@ class NovedadController
         $this->dataNovedad['estado'] = $_FORM['estado'] ?? 'Activo';
         $this->dataNovedad['administrador_id'] = $_FORM['administrador_id'] ?? 0;
         $this->dataNovedad['asistencia_id'] = $_FORM['asistencia_id'] ?? 0;
-
+        var_dump($this->dataNovedad);
 
     }
 
     public function create() {
         try {
-            if (!empty($this->$dataNovedad['tipo'] and $this->$dataNovedad['asistencia_id']  && !Novedad::novedadRegistrada($this->dataNovedad['tipo'], $this->dataAsistencia['asistencia_id'])))
+            if (!empty($this->dataNovedad['tipo'] and $this->dataNovedad['asistencia_id']  && !Novedad::novedadRegistrada($this->dataNovedad['tipo'], $this->dataNovedad['asistencia_id'])))
 
             {
                 $Novedad = new Novedad ($this->dataNovedad);
                 if ($Novedad->insert()) {
+
                     unset($_SESSION['frmNovedades']);
                     header("Location: ../../views/modules/novedad/index.php?respuesta=success&mensaje=Novedad Registrada!");
                 }
@@ -92,7 +93,8 @@ class NovedadController
         return null;
     }
 
-    static public function selectUsuario(array $params = []) {
+
+    static public function selectUsuario (array $params = []){
 
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
@@ -104,30 +106,32 @@ class NovedadController
         $params['arrExcluir'] = $params['arrExcluir'] ?? array();
         $params['request'] = $params['request'] ?? 'html';
 
-        $arrUsuarios = array();
-        if ($params['where'] != "") {
+        $arrUsuario = array();
+        if($params['where'] != ""){
             $base = "SELECT * FROM usuarios WHERE ";
-            $arrUsuarios = Usuario::search($base . ' ' . $params['where']);
-        } else {
-            $arrUsuarios = Usuario::getAll();
+            $arrUsuario = Usuario::search($base.$params['where']);
+        }else{
+            $arrUsuario = Usuario::getAll();
         }
-        $htmlSelect = "<select " . (($params['isMultiple']) ? "multiple" : "") . " " . (($params['isRequired']) ? "required" : "") . " id= '" . $params['id'] . "' name='" . $params['name'] . "' class='" . $params['class'] . "' style='width: 100%;'>";
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
         $htmlSelect .= "<option value='' >Seleccione</option>";
-        if (count($arrUsuarios) > 0) {
-            /* @var $arrUsuarios Usuario[] */
-            foreach ($arrUsuarios as $usuario)
-                if (!NovedadController::usuarioIsInArray($usuario->getId(), $params['arrExcluir']))
-                    $htmlSelect .= "<option " . (($usuario != "") ? (($params['defaultValue'] == $usuario->getId()) ? "selected" : "") : "") . " value='" . $usuario->getId() . "'>" . $usuario->getNumeroDocumento() . " - " . $usuario->getNombres() . " " . $usuario->getApellidos() . "</option>";
+        if(count($arrUsuario) > 0){
+            /* @var $arrUsuario Usuario[] */
+            foreach ($arrUsuario as $usuario)
+                if (!UsuarioController::usuarioIsInArray($usuario->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($usuario != "") ? (($params['defaultValue'] == $usuario->getId()) ? "selected" : "" ) : "")." value='".$usuario->getId() . "'>" . $usuario->getNombres() . " " . $usuario->getApellidos(). "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;
     }
 
-    public static function usuarioIsInArray($idUsuario, $ArrUsuarios)
-    {
-        if (count($ArrUsuarios) > 0) {
-            foreach ($ArrUsuarios as $Usuario) {
-                if ($Usuario->getId() == $idUsuario) {
+
+
+    public static function usuarioIsInArray($idUsuario, $ArrUsuario){
+        if(count($ArrUsuario) > 0){
+            foreach ($ArrUsuario as $Usuario){
+                if($Usuario->getId() == $idUsuario){
                     return true;
                 }
             }

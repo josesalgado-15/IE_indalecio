@@ -26,6 +26,7 @@ class CursoController
         $this->dataCurso['grados_id'] = $_FORM['grados_id'] ?? 0;
         $this->dataCurso['horarios_id'] = $_FORM['horarios_id'] ?? 0;
         $this->dataCurso['estado'] = $_FORM['estado'] ?? 'Activo';
+        var_dump($this->dataCurso);
 
 
     }
@@ -90,6 +91,8 @@ class CursoController
         }
         return null;
     }
+
+
 
 
 }

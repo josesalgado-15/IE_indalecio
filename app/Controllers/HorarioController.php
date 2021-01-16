@@ -27,6 +27,7 @@ class HorarioController
         $this->dataHorario['sedes_id'] = $_FORM['sedes_id'] ?? 0;
 
 
+
     }
 
 
@@ -92,6 +93,51 @@ class HorarioController
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
         return null;
+    }
+
+    static public function selectHorario (array $params = []){
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "horarios_id";
+        $params['name'] = $params['name'] ?? "horarios_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrHorario = array();
+        if($params['where'] != ""){
+            $base = "SELECT * FROM horarios WHERE ";
+            $arrHorario = Horario::search($base.$params['where']);
+        }else{
+            $arrHorario = Horario::getAll();
+        }
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrHorario) > 0){
+            /* @var $arrHorario Horario[] */
+            foreach ($arrHorario as $horario)
+                if (!HorarioController::horarioIsInArray($horario->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($horario != "") ? (($params['defaultValue'] == $horario->getId()) ? "selected" : "" ) : "")." value='".$horario->getId() . "'>" . $horario->getSedesId() . " - " . $horario->getHoraEntradaSede() . " - ". $horario->getHoraSalida(). " - ". $horario->getHoraEntradaRestaurante(). "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+
+
+    public static function horarioIsInArray($idHorario, $ArrHorario){
+        if(count($ArrHorario) > 0){
+            foreach ($ArrHorario as $Horario){
+                if($Horario->getId() == $idHorario){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 

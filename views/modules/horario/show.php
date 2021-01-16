@@ -123,13 +123,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Grados
+                                                    <i class="fas fa-tasks"></i> Gestionar Horarios
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a role="button" href="create.php" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Grado
+                                                    <i class="fas fa-plus"></i> Crear Horario
                                                 </a>
                                             </div>
                                         </div>

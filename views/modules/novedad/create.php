@@ -122,14 +122,18 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <div class="form-group row">
                                         <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
                                         <div class="col-sm-10">
-                                            <?= UsuarioController::selectUsuario(false,
-                                                true,
-                                                'usuarios_id',
-                                                'usuarios_id',
-                                                (!empty($dataNovedad)) ? $dataNovedad->getUsuariosId()->getId() : '',
-                                                'form-control select2bs4 select2-info',
-                                                "rol = 'Administrador' and estado = 'Activo'")
+
+                                            <?= NovedadController::selectUsuario(
+                                                array(
+                                                    'id' => 'administrador_id',
+                                                    'name' => 'administrador_id',
+                                                    'defaultValue' => (!empty($frmSession['administrador_id'])) ? $frmSession['administrador_id'] : '',
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "rol = 'Administrador' and estado = 'Activo'"
+                                                )
+                                            );
                                             ?>
+
                                         </div>
                                     </div>
 
@@ -148,20 +152,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             ?>
                                         </div>
                                     </div>
-
-
-                                    <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                        <div class="col-sm-10">
-                                            <select id="estado" name="estado" class="custom-select">
-                                                <option value="Activo">Activo</option>
-                                                <option value="Inactivo">Inactivo</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-
 
 
                                     <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>

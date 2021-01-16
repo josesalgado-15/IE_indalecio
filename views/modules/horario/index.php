@@ -96,7 +96,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Fecha de horario</th>
                                                 <th>Estado</th>
                                                 <th>Sede</th>
-                                                <th>Creación</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
@@ -116,11 +115,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td><?php echo $horario->getSedesId(); ?></td>
 
                                                     <td>
-                                                        <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"
+                                                        <a href="edit.php?id=<?php echo $horario->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
                                                            class="btn docs-tooltip btn-primary btn-xs"><i
                                                                     class="fa fa-edit"></i></a>
-                                                        <a href="show.php?id=<?php echo $asistencia->getId(); ?>"
+                                                        <a href="show.php?id=<?php echo $horario->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Ver"
                                                            class="btn docs-tooltip btn-warning btn-xs"><i
                                                                     class="fa fa-eye"></i></a>

@@ -4,12 +4,12 @@
 require("../../partials/routes.php");;
 
 use App\Controllers\CursoController;
-use App\Controllers\GradoController;
-use App\Controllers\HorarioController;
+use App\Controllers\MatriculaController;
+use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Curso";
+$nameModel = "Matricula";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
@@ -40,7 +40,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Curso</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Matricula</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -58,7 +58,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información del curso</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información de la matricula</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -77,45 +77,36 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                           action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
                                         <div class="form-group row">
-                                            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                            <label for="vigencia" class="col-sm-2 col-form-label">Vigencia</label>
                                             <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                       placeholder="Ingrese el nombre del curso" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                                <input required type="date" class="form-control" id="vigencia"
+                                                       name="vigencia" placeholder="Ingrese la vigencia" value="<?= $frmSession['vigencia'] ?? '' ?>">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row">
+                                            <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
+                                            <div class="col-sm-10">
+                                                <?= UsuarioController::selectUsuario(false,
+                                                    true,
+                                                    'usuarios_id',
+                                                    'usuarios_id',
+                                                    (!empty($dataMatricula)) ? $dataMatricula->getUsuariosId()->getId() : '',
+                                                    'form-control select2bs4 select2-info',
+                                                    "rol = 'Estudiante' and estado = 'Activo'")
+                                                ?>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="director" class="col-sm-2 col-form-label">Director</label>
+                                            <label for="cursos_id" class="col-sm-2 col-form-label">Curso</label>
                                             <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="director" name="director"
-                                                       placeholder="Ingrese el nombre del director" value="<?= $frmSession['director'] ?? '' ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="representante" class="col-sm-2 col-form-label">Representante</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="representante" name="representante"
-                                                       placeholder="Ingrese el nombre del representante" value="<?= $frmSession['representante'] ?? '' ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                                            <div class="col-sm-10">
-                                                <input required type="number" class="form-control" id="cantidad" name="cantidad"
-                                                       placeholder="Ingrese la cantidad" value="<?= $frmSession['cantidad'] ?? '' ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="grados_id" class="col-sm-2 col-form-label">Grado</label>
-                                            <div class="col-sm-10">
-                                                <?= GradoController::selectGrado(
+                                                <?= CursoController::selectCurso(
                                                     array(
-                                                        'id' => 'grados_id',
-                                                        'name' => 'grados_id',
-                                                        'defaultValue' => (!empty($frmSession['grados_id'])) ? $frmSession['grados_id'] : '',
+                                                        'id' => 'cursos_id',
+                                                        'name' => 'cursos_id',
+                                                        'defaultValue' => (!empty($frmSession['cursos_id'])) ? $frmSession['cursos_id'] : '',
                                                         'class' => 'form-control select2bs4 select2-info',
                                                         'where' => "estado = 'Activo'"
                                                     )
@@ -123,23 +114,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 ?>
                                             </div>
                                         </div>
-
-                                        <div class="form-group row">
-                                            <label for="horarios_id" class="col-sm-2 col-form-label">Horario</label>
-                                            <div class="col-sm-10">
-                                                <?= HorarioController::selectHorario(
-                                                    array(
-                                                        'id' => 'horarios_id',
-                                                        'name' => 'horarios_id',
-                                                        'defaultValue' => (!empty($frmSession['horarios_id'])) ? $frmSession['horarios_id'] : '',
-                                                        'class' => 'form-control select2bs4 select2-info',
-                                                        'where' => "estado = 'Activo'"
-                                                    )
-                                                );
-                                                ?>
-                                            </div>
-                                        </div>
-
 
 
                                     <hr>

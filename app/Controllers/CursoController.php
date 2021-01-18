@@ -94,5 +94,52 @@ class CursoController
 
 
 
+    static public function selectCurso (array $params = []){
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "cursos_id";
+        $params['name'] = $params['name'] ?? "cursos_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrCurso = array();
+        if($params['where'] != ""){
+            $base = "SELECT * FROM cursos WHERE ";
+            $arrCurso = Curso::search($base.$params['where']);
+        }else{
+            $arrCurso = Curso::getAll();
+        }
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrCurso) > 0){
+            /* @var $arrCurso Curso[] */
+            foreach ($arrCurso as $curso)
+                if (!CursoController::cursoIsInArray($curso->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($curso != "") ? (($params['defaultValue'] == $curso->getId()) ? "selected" : "" ) : "")." value='".$curso->getId() . "'>" . $curso->getNombre() . "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+
+
+    public static function cursoIsInArray($idCurso, $ArrCurso){
+        if(count($ArrCurso) > 0){
+            foreach ($ArrCurso as $Curso){
+                if($Curso->getId() == $idCurso){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
 
 }

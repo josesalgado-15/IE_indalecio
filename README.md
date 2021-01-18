@@ -1,3 +1,28 @@
-# EjemploComposer
-Ejemplo de creacion de una estructura de proyecto con composer y adminlte
+# Sistema de Control y Registro by @SENA
+Sistema de control de asistencia institucional e ingreso restaurante.
 
+## Descripción 
+Este repositorio es creado por 4  aprendices del Programa de ADSI del SENA. La intención del proyecto es servir de guía para desarrollar aplicaciones en PHP usando técnicas actuales de desarrollo bajo una estructura MVC.
+
+### Requisitos
+Para su correcto funcionamiento se requiere tener instaladas las siguientes herramientas:
+
+* [Visual Studio Code](https://code.visualstudio.com/download) - Editor de Código Ligero y Personalizable.
+* [Node](https://nodejs.org/es/download/) - Entorno de Ejecución JS, requerido por npm
+* [Git](https://git-scm.com/download/win) - Sistema de Control de Versiones
+* [GitHub Desktop](https://desktop.github.com/) - Herramienta para gestionar repositorios en GitHub.
+* [Firefox Developer](https://www.mozilla.org/es-ES/firefox/all/#product-desktop-developer) - Navegador para Desarrolladores.
+* [MySQL Workbeanch](https://www.mysql.com/products/workbench/) - Herramienta para el modelado de bases de datos en MySQL.
+* [Software Ideas Modeler](https://www.softwareideas.net/en/download) - Herramienta para el modelado de UML.
+* [Laragon](https://github.com/leokhoa/laragon/releases) - Paquete Xampp para el Desarrollo en Local.
+* [PhpMyAdmin](https://www.phpmyadmin.net/) - Gestor de Bases de Datos MySQL Web.
+* [Composer](https://getcomposer.org/download/) - Herramienta para la gestión de dependencias en PHP
+* [JetBrains PhpStorm](https://www.jetbrains.com/es-es/phpstorm/download/#section=windows) - Potente IDE para el desarrollo de aplicaciones en PHP
+
+### Instalación
+
+1. Desde PhpStorm clonar el repositorio [https://github.com/EjemplosADSI/WebER.git](https://github.com/EjemplosADSI/WebER.git).
+2. Verificar lo siguientes requisitos en Laragon:
+    1. Php 7.4 o Superior.
+    2. Apache 2.4.43 o Superior.
+3. Una vez clonado el repositorio Ejecutar composer install

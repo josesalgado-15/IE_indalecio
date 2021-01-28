@@ -102,6 +102,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 <?php
                                 $arrAsistencias = AsistenciaController::getAll();
                                 /* @var $arrAsistencias \App\Models\Asistencia[] */

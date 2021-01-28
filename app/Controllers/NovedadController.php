@@ -94,50 +94,6 @@ class NovedadController
     }
 
 
-    static public function selectUsuario (array $params = []){
-
-        $params['isMultiple'] = $params['isMultiple'] ?? false;
-        $params['isRequired'] = $params['isRequired'] ?? true;
-        $params['id'] = $params['id'] ?? "administrador_id";
-        $params['name'] = $params['name'] ?? "administrador_id";
-        $params['defaultValue'] = $params['defaultValue'] ?? "";
-        $params['class'] = $params['class'] ?? "form-control";
-        $params['where'] = $params['where'] ?? "";
-        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
-        $params['request'] = $params['request'] ?? 'html';
-
-        $arrUsuario = array();
-        if($params['where'] != ""){
-            $base = "SELECT * FROM usuarios WHERE ";
-            $arrUsuario = Usuario::search($base.$params['where']);
-        }else{
-            $arrUsuario = Usuario::getAll();
-        }
-
-        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
-        $htmlSelect .= "<option value='' >Seleccione</option>";
-        if(count($arrUsuario) > 0){
-            /* @var $arrUsuario Usuario[] */
-            foreach ($arrUsuario as $usuario)
-                if (!UsuarioController::usuarioIsInArray($usuario->getId(),$params['arrExcluir']))
-                    $htmlSelect .= "<option ".(($usuario != "") ? (($params['defaultValue'] == $usuario->getId()) ? "selected" : "" ) : "")." value='".$usuario->getId() . "'>" . $usuario->getNombres() . " " . $usuario->getApellidos(). "</option>";
-        }
-        $htmlSelect .= "</select>";
-        return $htmlSelect;
-    }
-
-
-
-    public static function usuarioIsInArray($idUsuario, $ArrUsuario){
-        if(count($ArrUsuario) > 0){
-            foreach ($ArrUsuario as $Usuario){
-                if($Usuario->getId() == $idUsuario){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
 
     static public function selectAsistencia (array $params = []){

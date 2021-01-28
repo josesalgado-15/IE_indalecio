@@ -143,15 +143,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <label for="administrador_id" class="col-sm-2 col-form-label">Administrador</label>
                                                 <div class="col-sm-10">
 
-                                                    <?= NovedadController::selectUsuario(
-                                                        array(
-                                                            'id' => 'administrador_id',
-                                                            'name' => 'administrador_id',
-                                                            'defaultValue' => (!empty($DataNovedad)) ? $DataNovedad->getAdministrador()->getId() : '',
-                                                            'class' => 'form-control select2bs4 select2-info',
-                                                            'where' => "rol = 'Administrador' and estado = 'Activo'"
-                                                        )
-                                                    );
+                                                    <?= UsuarioController::selectUsuario(array (
+                                                        'id' => 'administrador_id',
+                                                        'name' => 'administrador_id',
+                                                        'defaultValue' => (!empty($DataNovedad)) ? $DataNovedad->getAdministradorId() : '',
+                                                        'class' => 'form-control select2bs4 select2-info',
+                                                        'where' => "rol = 'Administrador' and estado = 'Activo'"))
+
                                                     ?>
 
 

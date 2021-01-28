@@ -121,7 +121,7 @@ class HorarioController
             /* @var $arrHorario Horario[] */
             foreach ($arrHorario as $horario)
                 if (!HorarioController::horarioIsInArray($horario->getId(),$params['arrExcluir']))
-                    $htmlSelect .= "<option ".(($horario != "") ? (($params['defaultValue'] == $horario->getId()) ? "selected" : "" ) : "")." value='".$horario->getId() . "'>" . $horario->getSedesId() . " - " . $horario->getHoraEntradaSede() . " - ". $horario->getHoraSalida(). " - ". $horario->getHoraEntradaRestaurante(). "</option>";
+                    $htmlSelect .= "<option ".(($horario != "") ? (($params['defaultValue'] == $horario->getId()) ? "selected" : "" ) : "")." value='".$horario->getId() . "'>" . $horario->getSedesId() . " -Ingreso Institución: " . $horario->getHoraEntradaSede() . " -Salida: ". $horario->getHoraSalida(). " -Ingreso Restaurante: ". $horario->getHoraEntradaRestaurante(). "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

@@ -1,11 +1,22 @@
-<?php use Carbon\Carbon;
-require("../../partials/routes.php");;
+<?php
+require("../../partials/routes.php");
+//require_once("../../partials/check_login.php");
+
+
+use App\Controllers\DepartamentoController;
+use App\Controllers\MunicipioController;
+use App\Models\GeneralFunctions;
+use Carbon\Carbon;
+
+$nameModel = "Usuario";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Usuario | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -23,12 +34,13 @@ require("../../partials/routes.php");;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear un Nuevo Usuario</h1>
+                        <h1>Crear un Nuevo <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Usuario</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Crear</li>
                         </ol>
                     </div>
                 </div>
@@ -37,22 +49,15 @@ require("../../partials/routes.php");;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear el usuario: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensaje de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información del Usuario</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información del <?= $nameModel ?></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -66,36 +71,36 @@ require("../../partials/routes.php");;
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateUsuario"
-                                      name="frmCreateUsuario"
-                                      action="../../../app/Controllers/UsuarioController.php?action=create">
+                                <form class="form-horizontal" enctype="multipart/form-data" method="post" id="frmCreate<?= $nameModel ?>"
+                                      name="frmCreate<?= $nameModel ?>"
+                                      action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
                                         <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese sus nombres">
+                                                   placeholder="Ingrese sus nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="apellidos"
-                                                   name="apellidos" placeholder="Ingrese sus apellidos">
+                                                   name="apellidos" placeholder="Ingrese sus apellidos" value="<?= $frmSession['apellidos'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="edad" class="col-sm-2 col-form-label">Edad</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="1" class="form-control"
-                                                   id="edad" name="edad" placeholder="Ingrese su edad">
+                                                   id="edad" name="edad" placeholder="Ingrese su edad" value="<?= $frmSession['edad'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="6" class="form-control"
-                                                   id="telefono" name="telefono" placeholder="Ingrese su telefono">
+                                                   id="telefono" name="telefono" placeholder="Ingrese su telefono" value="<?= $frmSession['edad'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -103,7 +108,7 @@ require("../../partials/routes.php");;
                                         <label for="numero_documento" class="col-sm-2 col-form-label">Documento</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="6" class="form-control"
-                                                   id="numero_documento" name="numero_documento" placeholder="Ingrese su documento">
+                                                   id="numero_documento" name="numero_documento" placeholder="Ingrese su documento" value="<?= $frmSession['numero_documento'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -112,11 +117,13 @@ require("../../partials/routes.php");;
                                             Documento</label>
                                         <div class="col-sm-10">
                                             <select id="tipo_documento" name="tipo_documento" class="custom-select">
-                                                <option value="CC">Cedula de Ciudadania</option>
-                                                <option value="CE">Cedula de Extranjeria</option>
-                                                <option value="TI">Tarjeta de Identidad</option>
-                                                <option value="PASAPORTE">Pasaporte</option>
-                                                <option value="REGISTRO CIVIL">Registro Civil</option>
+
+                                                <option <?= (!empty($frmSession['tipo_documento']) && $frmSession['tipo_documento'] == "C.C") ? "selected" : ""; ?> value="C.C">Cedula de Ciudadania</option>
+                                                <option <?= (!empty($frmSession['tipo_documento']) && $frmSession['tipo_documento'] == "C.E") ? "selected" : ""; ?> value="C.E">Cedula de Extranjeria</option>
+                                                <option <?= (!empty($frmSession['tipo_documento']) && $frmSession['tipo_documento'] == "T.I") ? "selected" : ""; ?> value="T.I">Tarjeta de Identidad</option>
+                                                <option <?= (!empty($frmSession['tipo_documento']) && $frmSession['tipo_documento'] == "R.C") ? "selected" : ""; ?> value="R.C">Registro Civil</option>
+                                                <option <?= (!empty($frmSession['tipo_documento']) && $frmSession['tipo_documento'] == "Pasaporte") ? "selected" : ""; ?> value="Pasaporte">Pasaporte</option>
+
 
                                             </select>
                                         </div>
@@ -126,7 +133,8 @@ require("../../partials/routes.php");;
                                         <label for="fecha_nacimiento" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
                                         <div class="col-sm-10">
                                             <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha_nacimiento"
-                                                   name="fecha_nacimiento" placeholder="Ingrese su Fecha de Nacimiento">
+                                                   name="fecha_nacimiento" placeholder="Ingrese su Fecha de Nacimiento"
+                                                   value="<?= $frmSession['fecha_nacimiento'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -134,42 +142,57 @@ require("../../partials/routes.php");;
                                         <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="direccion"
-                                                   name="direccion" placeholder="Ingrese su direccion">
+                                                   name="direccion" placeholder="Ingrese su direccion" value="<?= $frmSession['edad'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
-                                        <div class="col-sm-10">
-                                            <select id="municipios_id" name="municipios_id" class="custom-select">
-                                                <option value="1">Ejemplo Municipio 1</option>
-                                                <option value="2">Ejemplo Municipio</option>
-                                                <option value="3">Ejemplo Municipio</option>
-                                                <option value="4">Ejemplo Municipio</option>
-                                                <option value="5">Ejemplo Municipio</option>
-
-                                            </select>
+                                        <div class="col-sm-5">
+                                            <?= DepartamentoController::selectDepartamentos(
+                                                array(
+                                                    'id' => 'departamento_id',
+                                                    'name' => 'departamento_id',
+                                                    'defaultValue' => '15', //Boyacá
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "estado = 'Activo'"
+                                                )
+                                            )
+                                            ?>
+                                        </div>
+                                        <div class="col-sm-5 ">
+                                            <?= MunicipioController::selectMunicipios(array (
+                                                'id' => 'municipios_id',
+                                                'name' => 'municipios_id',
+                                                'defaultValue' => (!empty($frmSession['municipios_id'])) ? $frmSession['municipios_id'] : '',
+                                                'class' => 'form-control select2bs4 select2-info',
+                                                'where' => "departamento_id = 15 and estado = 'Activo'"))
+                                            ?>
                                         </div>
                                     </div>
+
 
                                     <div class="form-group row">
                                         <label for="genero" class="col-sm-2 col-form-label">Género</label>
                                         <div class="col-sm-10">
                                             <select id="genero" name="genero" class="custom-select">
-                                                <option value="Masculino">Masculino</option>
-                                                <option value="Femenino">Femenino</option>
-                                                <option value="Otro">Otro</option>
+
+                                                <option <?= (!empty($frmSession['genero']) && $frmSession['genero'] == "Masculino") ? "selected" : ""; ?> value="Masculino">Masculino</option>
+                                                <option <?= (!empty($frmSession['genero']) && $frmSession['genero'] == "Femenino") ? "selected" : ""; ?> value="Femenino">Femenino</option>
+                                                <option <?= (!empty($frmSession['genero']) && $frmSession['genero'] == "Otro") ? "selected" : ""; ?> value="Otro">Otro</option>
 
                                             </select>
                                         </div>
                                     </div>
 
+
                                     <div class="form-group row">
                                         <label for="rol" class="col-sm-2 col-form-label">Rol</label>
                                         <div class="col-sm-10">
                                             <select id="rol" name="rol" class="custom-select">
-                                                <option value="Estudiante">Estudiante</option>
-                                                <option value="Administrador">Administrador</option>
+
+                                                <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Estudiante") ? "selected" : ""; ?> value="Estudiante">Estudiante</option>
+                                                <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Administrador") ? "selected" : ""; ?> value="Administrador">Administrador</option>
 
                                             </select>
                                         </div>
@@ -179,15 +202,15 @@ require("../../partials/routes.php");;
                                         <label for="correo" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                         <div class="col-sm-10">
                                             <input required type="email" class="form-control" id="correo"
-                                                   name="correo" placeholder="Ingrese su correo electrónico">
+                                                   name="correo" placeholder="Ingrese su correo electrónico" value="<?= $frmSession['correo'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
                                         <div class="col-sm-10">
-                                            <input required type="password" class="form-control" id="correo"
-                                                   name="contrasena" placeholder="Ingrese una contraseña">
+                                            <input required type="password" class="form-control" id="contrasena"
+                                                   name="contrasena" placeholder="Ingrese una contraseña" value="<?= $frmSession['contrasena'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -195,8 +218,8 @@ require("../../partials/routes.php");;
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
                                             <select id="estado" name="estado" class="custom-select">
-                                                <option value="Activo">Activo</option>
-                                                <option value="Inactivo">Inactivo</option>
+                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
+                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
 
                                             </select>
                                         </div>
@@ -207,7 +230,7 @@ require("../../partials/routes.php");;
                                         <label for="nombre_acudiente" class="col-sm-2 col-form-label">Nombres Acudientes</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre_acudiente" name="nombre_acudiente"
-                                                   placeholder="Ingrese sus nombres completos">
+                                                   placeholder="Ingrese sus nombres completos" value="<?= $frmSession['nombre_acudiente'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -215,7 +238,7 @@ require("../../partials/routes.php");;
                                         <label for="telefono_acudiente" class="col-sm-2 col-form-label">Telefono Acudiente</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="6" class="form-control"
-                                                   id="telefono_acudiente" name="telefono_acudiente" placeholder="Ingrese su telefono">
+                                                   id="telefono_acudiente" name="telefono_acudiente" placeholder="Ingrese su telefono" value="<?= $frmSession['telefono_acudiente'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -223,7 +246,7 @@ require("../../partials/routes.php");;
                                         <label for="correo_acudiente" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                         <div class="col-sm-10">
                                             <input required type="email" class="form-control" id="correo_acudiente"
-                                                   name="correo_acudiente" placeholder="Ingrese su correo electrónico">
+                                                   name="correo_acudiente" placeholder="Ingrese su correo electrónico" value="<?= $frmSession['correo_acudiente'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -231,49 +254,14 @@ require("../../partials/routes.php");;
                                         <label for="instituciones_id" class="col-sm-2 col-form-label">Sede Institución</label>
                                         <div class="col-sm-10">
                                             <select id="instituciones_id" name="instituciones_id" class="custom-select">
-                                                <option value="1">Sede Principal</option>
-                                                <option value="2">Sede Ejemplo</option>
+
+                                                <option <?= ( !empty($frmSession['instituciones_id']) && $frmSession['instituciones_id'] == "1") ? "selected" : ""; ?> value="1">Sede Principal</option>
+                                                <option <?= ( !empty($frmSession['instituciones_id']) && $frmSession['instituciones_id'] == "2") ? "selected" : ""; ?> value="2">Sede Ejemplo</option>
 
                                             </select>
                                         </div>
                                     </div>
 
-
-                                    <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>
-                                        <div class="form-group row">
-                                            <label for="user" class="col-sm-2 col-form-label">Usuario</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="user" name="user" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="password" class="col-sm-2 col-form-label">Password</label>
-                                            <div class="col-sm-10">
-                                                <input required type="password" class="form-control" id="password" name="password" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="rol" class="col-sm-2 col-form-label">Rol</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="rol" class="custom-select">
-                                                    <option value="Estudiante">Estudiante</option>
-                                                    <option value="Administrador">Administrador</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="Estado" class="custom-select">
-                                                    <option value="Activo">Activo</option>
-                                                    <option value="Inactivo">Inactivo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
 
                                     <hr>
                                     <button type="submit" class="btn btn-info">Enviar</button>
@@ -298,5 +286,26 @@ require("../../partials/routes.php");;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#departamento_id').on('change', function() {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipio&action=selectMunicipios", {
+                isMultiple: false,
+                isRequired: true,
+                id: "municipios_id",
+                nombre: "municipios_id",
+                defaultValue: "",
+                class: "form-control select2bs4 select2-info",
+                where: "departamento_id = "+$('#departamento_id').val()+" and estado = 'Activo'",
+                request: 'ajax'
+            }, function(e) {
+                if (e)
+                    console.log(e);
+                $("#municipios_id").html(e).select2({ height: '100px'});
+            });
+        });
+        $('.btn-file span').html('Seleccionar');
+    });
+</script>
 </body>
 </html>

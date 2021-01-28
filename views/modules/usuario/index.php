@@ -1,18 +1,22 @@
 <?php
-require_once("../../partials/routes.php");
 require_once("../../../app/Controllers/UsuarioController.php");
+require_once("../../partials/routes.php");
+//require_once("../../partials/check_login.php");
 
 use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use App\Models\Usuario;
+
+$nameModel = "Usuario";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar Usuarios</title>
-    <?php include_once ('../../partials/head_imports.php') ?>
-    <!-- DataTables -->
-    <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-    <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">
-    <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-buttons/css/buttons.bootstrap4.css">
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $pluralModel ?></title>
+    <?php require("../../partials/head_imports.php"); ?>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -42,25 +46,12 @@ use App\Controllers\UsuarioController;
 
         <!-- Main content -->
         <section class="content">
-
-            <?php if (!empty($_GET['respuesta']) && !empty($_GET['accion'])) { ?>
-                <?php if ($_GET['respuesta'] == "correcto") { ?>
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-check"></i> Correcto!</h5>
-                        <?php if ($_GET['accion'] == "create") { ?>
-                            El usuario ha sido registrado con exito!
-                        <?php } else if ($_GET['accion'] == "update") { ?>
-                            Los datos del usuario han sido actualizados correctamente!
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
-
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
             <!-- Default box -->
             <div class="card card-dark">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Usuarios</h3>
+                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar <?= $pluralModel ?></h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                 data-source="index.php" data-source-selector="#card-refresh-content"
@@ -98,7 +89,6 @@ use App\Controllers\UsuarioController;
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
                                     <th>Fecha de nacimiento</th>
-                                    <th>Dirección</th>
                                     <th>Municipio</th>
                                     <th>Género</th>
                                     <th>Rol</th>
@@ -127,9 +117,8 @@ use App\Controllers\UsuarioController;
                                         <td><?php echo $usuario->getTelefono(); ?></td>
                                         <td><?php echo $usuario->getNumeroDocumento(); ?></td>
                                         <td><?php echo $usuario->getTipoDocumento(); ?></td>
-                                        <td><?php echo $usuario->getFechaNacimiento(); ?></td>
-                                        <td><?php echo $usuario->getDireccion(); ?></td>
-                                        <td><?php echo $usuario->getMunicipiosId(); ?></td>
+                                        <td><?php echo $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
+                                        <td><?php echo $usuario->getDireccion(); ?>, <?= $usuario->getMunicipio()->getNombre(); ?></td>
                                         <td><?php echo $usuario->getGenero(); ?></td>
                                         <td><?php echo $usuario->getRol(); ?></td>
                                         <td><?php echo $usuario->getCorreo(); ?></td>
@@ -165,7 +154,6 @@ use App\Controllers\UsuarioController;
                                     <th>Típo de documento</th>
                                     <th>Fecha de nacimiento</th>
                                     <th>Dirección</th>
-                                    <th>Municipio</th>
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Correo</th>

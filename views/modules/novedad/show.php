@@ -60,7 +60,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
                                 $DataMatricula = MatriculaController::SearchForID(["id" => $_GET["id"]]);
-                                var_dump($DataMatricula);
 
                                 if (!empty($DataMatricula)) {
                                     ?>

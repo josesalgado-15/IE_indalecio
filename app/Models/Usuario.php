@@ -1,42 +1,45 @@
 <?php
-
 namespace App\Models;
-use App\Models\BasicModel;
+
+use App\Interfaces\Model;
 use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
 
-require_once('BasicModel.php');
-
-
-class Usuario extends BasicModel
+class Usuario extends AbstractDBConnection implements Model, JsonSerializable
 {
     //Propiedades
 
-    protected int $id; //Visibilidad (public, protected, private)
-    protected string $nombres;
-    protected string $apellidos;
-    protected int $edad;
-    protected int $telefono;
-    protected int $numero_documento;
-    protected string $tipo_documento;
-    protected string $fecha_nacimiento;
-    protected string $direccion;
+    private ?int $id; //Visibilidad (public, protected, private)
+    private string $nombres;
+    private string $apellidos;
+    private int $edad;
+    private int $telefono;
+    private int $numero_documento;
+    private string $tipo_documento;
+    private Carbon $fecha_nacimiento;
+    private string $direccion;
+    private int $municipios_id;
 
-    protected int $municipios_id;
-
-    protected string $genero;
-    protected string $rol;
-    protected string $correo;
-    protected ?string $contrasena;
-    protected string $estado;
-    protected string $nombre_acudiente;
-    protected string $telefono_acudiente;
-    protected string $correo_acudiente;
+    private string $genero;
+    private string $rol;
+    private ?string $correo;
+    private ?string $contrasena;
+    private string $estado;
+    private string $nombre_acudiente;
+    private string $telefono_acudiente;
+    private string $correo_acudiente;
 
 
-    protected int $instituciones_id;
-    protected string $created_at;
-    protected string $updated_at;
-    protected string $deleted_at;
+    private int $instituciones_id;
+    private Carbon $created_at;
+    private Carbon $updated_at;
+    private Carbon $deleted_at;
+
+    /* Relaciones */
+    private ?Municipio $municipio;
+    private ?Institucion $institucion;
+
 
 
 
@@ -48,35 +51,37 @@ class Usuario extends BasicModel
     //Metodo Constructor
     public function __construct ($usuario = array())
     {
-        parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->id = $usuario['id'] ?? 0;
-        $this->nombres = $usuario['nombres'] ?? '';
-        $this->apellidos = $usuario['apellidos'] ?? '';
-        $this->edad = $usuario['edad'] ?? 0;
-        $this->telefono = $usuario['telefono'] ?? 0;
-        $this->numero_documento = $usuario['numero_documento'] ?? 0;
-        $this->tipo_documento = $usuario['tipo_documento'] ?? '';
-        $this->fecha_nacimiento = $usuario['fecha_nacimiento'] ?? new Carbon();
-        $this->direccion = $usuario['direccion'] ?? '';
-        $this->municipios_id = $usuario['municipios_id'] ?? 0;
-        $this->genero = $usuario['genero'] ?? '';
-        $this->rol = $usuario['rol'] ?? '';
-        $this->correo = $usuario['correo'] ?? '';
-        $this->contrasena = $usuario['contrasena'] ?? null;
-        $this->estado = $usuario['estado'] ?? '';
-        $this->nombre_acudiente = $usuario['nombre_acudiente'] ?? '';
-        $this->telefono_acudiente = $usuario['telefono_acudiente'] ?? '';
-        $this->correo_acudiente = $usuario['correo_acudiente'] ?? '';
-        $this->instituciones_id = $usuario['instituciones_id'] ?? 0;
-        $this->created_at = $usuario['created_at'] ?? new Carbon();
-        $this->updated_at = $usuario['updated_at'] ?? new Carbon();
-        $this->deleted_at = $usuario['deleted_at'] ?? new Carbon();
+        parent::__construct();
+        $this->setId($usuario['id'] ?? NULL);
+        $this->setNombres($usuario['nombres'] ?? '');
+        $this->setApellidos($usuario['apellidos'] ?? '');
+        $this->setEdad($usuario['edad'] ?? 0);
+        $this->setTelefono($usuario['telefono'] ?? 0);
+        $this->setNumeroDocumento($usuario['numero_documento'] ?? 0);
+        $this->setTipoDocumento($usuario['tipo_documento'] ?? '');
+        $this->setFechaNacimiento( !empty($usuario['fecha_nacimiento']) ? Carbon::parse($usuario['fecha_nacimiento']) : new Carbon());
+        $this->setDireccion($usuario['direccion'] ?? '');
+        $this->setMunicipiosId($usuario['municipios_id'] ?? 0);
+        $this->setGenero($usuario['genero'] ?? '');
+        $this->setRol($usuario['rol'] ?? '');
+        $this->setCorreo($usuario['correo'] ?? '');
+        $this->setContrasena($usuario['contrasena'] ?? '');
+        $this->setNombreAcudiente($usuario['nombre_acudiente'] ?? '');
+        $this->setTelefonoAcudiente($usuario['telefono_acudiente'] ?? '');
+        $this->setCorreoAcudiente($usuario['correo_acudiente'] ?? '');
+        $this->setInstitucionesId($usuario['instituciones_id'] ?? 0);
+        $this->setEstado($usuario['estado'] ?? '');
+        $this->setCreatedAt(!empty($usuario['created_at']) ? Carbon::parse($usuario['created_at']) : new Carbon());
+        $this->setUpdatedAt(!empty($usuario['updated_at']) ? Carbon::parse($usuario['updated_at']) : new Carbon());
+        $this->setDeletedAt(!empty($usuario['created_at']) ? Carbon::parse($usuario['deleted_at']) : new Carbon());
     }
 
 
     function __destruct()
     {
-        //    $this->Disconnect(); // Cierro Conexiones
+        if($this->isConnected){
+            $this->Disconnect();
+        }
     }
 
     public static function usuarioRegistrado($numeroDocumento): bool
@@ -90,231 +95,241 @@ class Usuario extends BasicModel
     }
 
     /**
-     * @return int
+     * @return int|mixed|null
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int|mixed|null $id
      */
-    public function setId(int $id): void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getNombres(): string
+    public function getNombres()
     {
         return $this->nombres;
     }
 
     /**
-     * @param string $nombres
+     * @param mixed|string $nombres
      */
-    public function setNombres(string $nombres): void
+    public function setNombres($nombres): void
     {
         $this->nombres = $nombres;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getApellidos(): string
+    public function getApellidos()
     {
         return $this->apellidos;
     }
 
     /**
-     * @param string $apellidos
+     * @param mixed|string $apellidos
      */
-    public function setApellidos(string $apellidos): void
+    public function setApellidos($apellidos): void
     {
         $this->apellidos = $apellidos;
     }
 
     /**
-     * @return int
+     * @return int|mixed
      */
-    public function getEdad(): int
+    public function getEdad()
     {
         return $this->edad;
     }
 
     /**
-     * @param int $edad
+     * @param int|mixed $edad
      */
-    public function setEdad(int $edad): void
+    public function setEdad($edad): void
     {
         $this->edad = $edad;
     }
 
     /**
-     * @return int
+     * @return int|mixed
      */
-    public function getTelefono(): int
+    public function getTelefono()
     {
         return $this->telefono;
     }
 
     /**
-     * @param int $telefono
+     * @param int|mixed $telefono
      */
-    public function setTelefono(int $telefono): void
+    public function setTelefono($telefono): void
     {
         $this->telefono = $telefono;
     }
 
-
-
     /**
-     * @return int
+     * @return int|mixed
      */
-    public function getNumeroDocumento(): int
+    public function getNumeroDocumento()
     {
         return $this->numero_documento;
     }
 
     /**
-     * @param int $numero_documento
+     * @param int|mixed $numero_documento
      */
-    public function setNumeroDocumento(int $numero_documento): void
+    public function setNumeroDocumento($numero_documento): void
     {
         $this->numero_documento = $numero_documento;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getTipoDocumento(): string
+    public function getTipoDocumento()
     {
         return $this->tipo_documento;
     }
 
     /**
-     * @param string $tipo_documento
+     * @param mixed|string $tipo_documento
      */
-    public function setTipoDocumento(string $tipo_documento): void
+    public function setTipoDocumento($tipo_documento): void
     {
         $this->tipo_documento = $tipo_documento;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getFechaNacimiento(): string
+    public function getFechaNacimiento(): Carbon
     {
-        return $this->fecha_nacimiento;
+        return $this->fecha_nacimiento->locale('es');
     }
 
     /**
-     * @param string $fecha_nacimiento
+     * @param Carbon|mixed $fecha_nacimiento
      */
-    public function setFechaNacimiento(string $fecha_nacimiento): void
+    public function setFechaNacimiento($fecha_nacimiento): void
     {
         $this->fecha_nacimiento = $fecha_nacimiento;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getDireccion(): string
+    public function getDireccion()
     {
         return $this->direccion;
     }
 
     /**
-     * @param string $direccion
+     * @param mixed|string $direccion
      */
-    public function setDireccion(string $direccion): void
+    public function setDireccion($direccion): void
     {
         $this->direccion = $direccion;
     }
 
     /**
-     * @return string
+     * @return int|mixed
      */
-    public function getGenero(): string
+    public function getMunicipiosId()
+    {
+        return $this->municipios_id;
+    }
+
+    /**
+     * @param int|mixed $municipios_id
+     */
+    public function setMunicipiosId($municipios_id): void
+    {
+        $this->municipios_id = $municipios_id;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getGenero()
     {
         return $this->genero;
     }
 
     /**
-     * @param string $genero
+     * @param mixed|string $genero
      */
-    public function setGenero(string $genero): void
+    public function setGenero($genero): void
     {
         $this->genero = $genero;
     }
 
-
-
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getRol(): string
+    public function getRol()
     {
         return $this->rol;
     }
 
     /**
-     * @param string $rol
+     * @param mixed|string $rol
      */
-    public function setRol(string $rol): void
+    public function setRol($rol): void
     {
         $this->rol = $rol;
     }
 
     /**
-     * @return string
+     * @return mixed|string|null
      */
-    public function getCorreo(): string
+    public function getCorreo() : ?string
     {
         return $this->correo;
     }
 
     /**
-     * @param string $correo
+     * @param mixed|string|null $correo
      */
-    public function setCorreo(string $correo): void
+    public function setCorreo(?string $correo): void
     {
         $this->correo = $correo;
     }
 
     /**
-     * @return string|null
+     * @return mixed|string|null
      */
-    public function getContrasena(): ?string
+    public function getContrasena() : ?string
     {
         return $this->contrasena;
     }
 
     /**
-     * @param string|null $contrasena
+     * @param mixed|string|null $contrasena
      */
     public function setContrasena(?string $contrasena): void
     {
         $this->contrasena = $contrasena;
     }
 
-
-
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getEstado(): string
+    public function getEstado()
     {
         return $this->estado;
     }
 
     /**
-     * @param string $estado
+     * @param mixed|string $estado
      */
-    public function setEstado(string $estado): void
+    public function setEstado($estado): void
     {
         $this->estado = $estado;
     }
@@ -367,26 +382,8 @@ class Usuario extends BasicModel
         $this->correo_acudiente = $correo_acudiente;
     }
 
-
-
     /**
-     * @return int|mixed|string
-     */
-    public function getMunicipiosId()
-    {
-        return $this->municipios_id;
-    }
-
-    /**
-     * @param int|mixed|string $municipios_id
-     */
-    public function setMunicipiosId($municipios_id): void
-    {
-        $this->municipios_id = $municipios_id;
-    }
-
-    /**
-     * @return int|mixed|string
+     * @return int|mixed
      */
     public function getInstitucionesId()
     {
@@ -394,263 +391,296 @@ class Usuario extends BasicModel
     }
 
     /**
-     * @param int|mixed|string $instituciones_id
+     * @param int|mixed $instituciones_id
      */
     public function setInstitucionesId($instituciones_id): void
     {
         $this->instituciones_id = $instituciones_id;
     }
 
-
-
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-
-    public function getCreatedAt(): string
+    public function getCreatedAt()
     {
         return $this->created_at;
     }
 
     /**
-     * @param string $created_at
+     * @param Carbon|mixed $created_at
      */
-    public function setCreatedAt(string $created_at): void
+    public function setCreatedAt($created_at): void
     {
         $this->created_at = $created_at;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getUpdatedAt(): string
+    public function getUpdatedAt()
     {
         return $this->updated_at;
     }
 
     /**
-     * @param string $updated_at
+     * @param Carbon|mixed $updated_at
      */
-    public function setUpdatedAt(string $updated_at): void
+    public function setUpdatedAt($updated_at): void
     {
         $this->updated_at = $updated_at;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getDeletedAt(): string
+    public function getDeletedAt()
     {
         return $this->deleted_at;
     }
 
     /**
-     * @param string $deleted_at
+     * @param Carbon|mixed $deleted_at
      */
-    public function setDeletedAt(string $deleted_at): void
+    public function setDeletedAt($deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
-
-    //PENDIENTE CORREGIR ERROR El argumento 1 pasado a Dotenv \ Dotenv :: create () debe ser una instancia de Dotenv \ Repository \
-    // RepositoryInterface, cadena dada, llamada en C: \ laragon \ www \ institucion-educativa-indalecio- vasquez \ app \ Models \
-    // GeneralFunctions.php en la línea 14 y definido en C: \ laragon \ www \ institucion-educativa-indalecio-vasquez \ vendor \ vlucas \ phpdotenv \ src \ Dotenv.php en la línea 62
-
-    //No permite crear el usuario en la base de datos
-
-    public function create()
+    /**
+     * @return Municipio
+     */
+    public function getMunicipio(): ?Municipio
     {
-        var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.usuarios VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
+        if(!empty($this->municipio_id)){
+            $this->municipio = Municipio::searchForId($this->municipio_id) ?? new Municipio();
+            return $this->municipio;
+        }
+        return NULL;
+    }
 
-                $this->getNombres(),
-                $this->getApellidos(),
-                $this->getEdad(),
-                $this->getTelefono(),
-                $this->getNumeroDocumento(),
-                $this->getTipoDocumento(),
-                $this->getFechaNacimiento(),
-                $this->getDireccion(),
-                $this->getMunicipiosId(),
-                $this->getGenero(),
-                $this->getRol(),
-                $this->getCorreo(),
-                $this->getContrasena(),
-                $this->getEstado(),
-                $this->getNombreAcudiente(),
-                $this->getTelefonoAcudiente(),
-                $this->getCorreoAcudiente(),
-                $this->getInstitucionesId(),
-
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt()
+    /**
+     * @return Institucion|null
+     */
+    public function getInstitucion(): ?Institucion
+    {
+        if(!empty($this->instituciones_id)){
+            $this->institucion = Institucion::searchForId($this->instituciones_id) ?? new Institucion();
+            return $this->institucion;
+        }
+        return NULL;
+    }
 
 
-            )
-        );
+    protected function save(string $query): ?bool
+    {
+        $arrData = [
+            ':id' =>    $this->getId(),
+            ':nombres' =>   $this->getNombres(),
+            ':apellidos' =>   $this->getApellidos(),
+            ':edad' =>   $this->getEdad(),
+            ':telefono' =>   $this->getTelefono(),
+            ':numero_documento' =>   $this->getNumeroDocumento(),
+            ':tipo_documento' =>  $this->getTipoDocumento(),
+            ':fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
+            ':direccion' =>   $this->getDireccion(),
+            ':municipios_id' =>   $this->getMunicipiosId(),
+            ':genero' =>  $this->getGenero(),
+            ':rol' =>   $this->getRol(),
+            ':correo' =>   $this->getCorreo(),
+            ':contrasena' =>   $this->getContrasena(),
+            ':estado' =>   $this->getEstado(),
+            ':nombre_acudiente' =>   $this->getNombreAcudiente(),
+            ':telefono_acudiente' =>   $this->getTelefonoAcudiente(),
+            ':correo_acudiente' =>   $this->getCorreoAcudiente(),
+            ':instituciones_id' =>   $this->getInstitucionesId(),
+
+            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
-
     }
 
-    public function update()
+    /**
+     * @return bool|null
+     */
+    public function insert(): ?bool
     {
-        $result = $this->updateRow("UPDATE dbindalecio.usuarios SET nombres = ?, apellidos = ?, edad = ?, telefono = ?, numero_documento = ?, tipo_documento = ?, 
-            fecha_nacimiento = ?, direccion = ?, municipios_id = ?,  genero = ?,  rol = ?,  correo = ?, contrasena = ?, estado = ?, nombre_acudiente = ?, telefono_acudiente = ?, correo_acudiente = ?,  instituciones_id = ? WHERE id = ?", array(
-
-                $this->getNombres(),
-                $this->getApellidos(),
-                $this->getEdad(),
-                $this->getTelefono(),
-                $this->getNumeroDocumento(),
-                $this->getTipoDocumento(),
-                $this->getFechaNacimiento(),
-                $this->getDireccion(),
-                $this->getMunicipiosId(),
-                $this->getGenero(),
-                $this->getRol(),
-                $this->getCorreo(),
-                $this->getContrasena(),
-                $this->getEstado(),
-                $this->getNombreAcudiente(),
-                $this->getTelefonoAcudiente(),
-                $this->getCorreoAcudiente(),
-                $this->getInstitucionesId(),
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt(),
-                $this->getId()
-
-            )
-        );
-        $this->Disconnect();
-        return $this;
+        $query = "INSERT INTO dbindalecio.usuarios VALUES (
+            :id,:nombres,:apellidos,:edad,:telefono,
+            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municiopios_id,
+            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,instituciones,
+            :created_at,:updated_at,:deleted_at
+            
+            
+        )";
+        return $this->save($query);
     }
 
-    public function deleted($id)
+
+    /**
+     * @return bool|null
+     */
+    public function update(): ?bool
     {
-        $result = $this->updateRow('UPDATE dbindalecio.usuarios SET estado = ? WHERE id = ?', array(
-                'Inactivo',
-                $this->getId()
-            )
-        );
+        $query = "UPDATE dbindalecio.usuarios SET 
+            nombres = :nombres, apellidos = :apellidos, edad = :edad, 
+            telefono = :telefono, numero_documento = :numero_documento, tipo_documento = :tipo_documento, 
+            fecha_nacimiento = :fecha_nacimiento, direccion = :direccion, municipios_id = :municipios_id,  
+            genero = :genero, rol = :rol, correo = :correo, contrasena = :contrasena, estado = :estado, 
+            nombre_acudiente = :nombre_acudiente, telefono_acudiente = :telefono_acudiente, correo_acudiente = :correo_acudiente, 
+            instituciones_id = :instituciones_id, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+        return $this->save($query);
     }
 
-    public static function search($query)
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws Exception
+     */
+    public function deleted(): bool
     {
-        $arrUsuarios = array();
-        $tmp = new Usuario();
-        $getrows = $tmp->getRows($query);
+        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        return $this->update();                    //Guarda los cambios..
+    }
 
-        foreach ($getrows as $valor) {
+    /**
+     * @param $query
+     * @return Usuario|array
+     * @throws Exception
+     */
+    public static function search($query) : ?array
+    {
+        try {
+            $arrUsuarios = array();
+            $tmp = new Usuario();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
 
-            $Usuario = new Usuario();
-            $Usuario->setId($valor['id']);
-            $Usuario->setNombres($valor['nombres']);
-            $Usuario->setApellidos($valor['apellidos']);
-            $Usuario->setEdad($valor['edad']);
-            $Usuario->setTelefono($valor['telefono']);
-            $Usuario->setNumeroDocumento($valor['numero_documento']);
-            $Usuario->setTipoDocumento($valor['tipo_documento']);
-            $Usuario->setFechaNacimiento($valor['fecha_nacimiento']);
-            $Usuario->setDireccion($valor['direccion']);
-            $Usuario->setMunicipiosId($valor['municipios_id']);
-            $Usuario->setGenero($valor['genero']);
-            $Usuario->setRol($valor['rol']);
-            $Usuario->setCorreo($valor['correo']);
-            $Usuario->setContrasena($valor['contrasena']);
-            $Usuario->setEstado($valor['estado']);
-            $Usuario->setNombreAcudiente($valor['nombre_acudiente']);
-            $Usuario->setTelefonoAcudiente($valor['telefono_acudiente']);
-            $Usuario->setCorreoAcudiente($valor['correo_acudiente']);
-            $Usuario->setInstitucionesId($valor['instituciones_id']);
-            //$Usuario->setCreatedAt($valor['created_at']);
-            //$Usuario->setUpdatedAt($valor['updated_at']);
-            //$Usuario->setDeletedAt($valor['deleted_at']);
-            $Usuario->Disconnect();
-            array_push($arrUsuarios, $Usuario);
-
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Usuario = new Usuario($valor);
+                    array_push($arrUsuarios, $Usuario);
+                    unset($Usuario);
+                }
+                return $arrUsuarios;
+            }
+            return null;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        $tmp->Disconnect();
-        return $arrUsuarios;
-
+        return null;
     }
 
-    public static function getAll()
+    /**
+     * @param $id
+     * @return Usuario
+     * @throws Exception
+     */
+    public static function searchForId(int $id): ?Usuario
+    {
+        try {
+            if ($id > 0) {
+                $tmpUsuario = new Usuario();
+                $tmpUsuario->Connect();
+                $getrow = $tmpUsuario->getRow("SELECT * FROM dbindalecio.usuarios WHERE id =?", array($id));
+                $tmpUsuario->Disconnect();
+                return ($getrow) ? new Usuario($getrow) : null;
+            }else{
+                throw new Exception('Id de usuario Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll(): array
     {
         return Usuario::search("SELECT * FROM dbindalecio.usuarios");
     }
 
-    public static function searchForId($id)
+    /**
+     * @return string
+     */
+    public function nombresCompletos() : string
     {
-        $Usuario = null;
-        if ($id>0){
-            $Usuario = new Usuario();
-            $getrow = $Usuario->getRow("SELECT * FROM dbindalecio.usuarios WHERE id =?", array($id));
-            $Usuario->setId($getrow['id']);
-            $Usuario->setNombres($getrow['nombres']);
-            $Usuario->setApellidos($getrow['apellidos']);
-            $Usuario->setEdad($getrow['edad']);
-            $Usuario->setTelefono($getrow['telefono']);
-            $Usuario->setNumeroDocumento($getrow['numero_documento']);
-            $Usuario->setTipoDocumento($getrow['tipo_documento']);
-            $Usuario->setFechaNacimiento($getrow['fecha_nacimiento']);
-            $Usuario->setDireccion($getrow['direccion']);
-            $Usuario->setMunicipiosId($getrow['municipios_id']);
-            $Usuario->setGenero($getrow['genero']);
-            $Usuario->setRol($getrow['rol']);
-            $Usuario->setCorreo($getrow['correo']);
-            $Usuario->setContrasena($getrow['contrasena']);
-            $Usuario->setEstado($getrow['estado']);
-            $Usuario->setNombreAcudiente($getrow['nombre_acudiente']);
-            $Usuario->setTelefonoAcudiente($getrow['telefono_acudiente']);
-            $Usuario->setCorreoAcudiente($getrow['correo_acudiente']);
-            $Usuario->setInstitucionesId($getrow['instituciones_id']);
-            //$Usuario->setCreatedAt($getrow['created_at']);
-            //$Usuario->setUpdatedAt($getrow['updated_at']);
-            //$Usuario->setDeletedAt($getrow['deleted_at']);
-        }
-        $Usuario->Disconnect();
-        return $Usuario;
+        return $this->nombres . " " . $this->apellidos;
     }
 
 
 
-
-    public function __toString(): string
+    /**
+     * @return string
+     */
+    public function __toString() : string
     {
-        return
-            "<strong>Sus datos son:</strong> ".
-            "<br>".
-            "<br>".
-            "<strong>Id:</strong> " . $this->getId() . "<br/>" .
-            "<strong>Nombres:</strong> " . $this->getNombres() . "<br/>" .
-            "<strong>Apellidos:</strong> " . $this->getApellidos() . "<br/>".
-            "<strong>Edad:</strong> " . $this->getEdad() . "<br/>".
-            "<strong>Teléfono:</strong> " . $this->getTelefono() . "<br/>".
-            "<strong>Número de documento:</strong> " . $this->getNumeroDocumento() . "<br/>" .
-            "<strong>Tipo de documento:</strong> " . $this->getTipoDocumento() . "<br/>".
-            "<strong>Fecha de nacimiento:</strong> " . $this->getFechaNacimiento() . "<br/>".
-            "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>".
-            "<strong>Municipio:</strong> " . $this->getMunicipiosId() . "<br/>".
-            "<strong>Genero:</strong> " . $this->getGenero() . "<br/>".
-            "<strong>Rol:</strong> " . $this->getRol() . "<br/>".
-            "<strong>Correo:</strong> " . $this->getCorreo() . "<br/>".
-            "<strong>Contraseña:</strong> " . $this->getContrasena() . "<br/>".
-            "<strong>Estado:</strong> " . $this->getEstado() . "<br/>".
-            "<strong>Nombre de acudiente:</strong> " . $this->getNombreAcudiente() . "<br/>".
-            "<strong>Teléfono de acudiente:</strong> " . $this->getTelefonoAcudiente() . "<br/>".
-            "<strong>Correo de acudiente:</strong> " . $this->getCorreoAcudiente() . "<br/>".
-            "<strong>Institución:</strong> " . $this->getInstitucionesId() . "<br/>";
+        return "Nombres: $this->nombres, Apellidos: $this->apellidos, Edad: $this->edad, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipios_id,
+         genero: $this->genero, rol: $this->rol, Correo: $this->correo, contraseña: $this->contrasena, estado: $this->estado, Nombre De Acudiente: $this->nombre_acudiente, Telefono De Acudiente: $this->telefono_acudiente, Correo De Acudiente: $this->correo_acudiente, Institucion: $this->instituciones_id,";
+    }
 
-        /*
-            "<strong>Id de Institución:</strong> " . $this->getInstitucionIdInstitucion() . "<br/>";
-        */
+    public function Login($Correo, $Contrasena){
+        try {
+            $resultUsuarios = Usuario::search("SELECT * FROM usuarios WHERE correo = '$Correo'");
+            if(count($resultUsuarios) >= 1){
+                if($resultUsuarios[0]->contrasena == $Contrasena){
+                    if($resultUsuarios[0]->estado == 'Activo'){
+                        return $resultUsuarios[0];
+                    }else{
+                        return "Usuario Inactivo";
+                    }
+                }else{
+                    return "Contraseña Incorrecta";
+                }
+            }else{
+                return "Usuario Incorrecto";
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+            return "Error en Servidor";
+        }
+    }
 
+    public function jsonSerialize()
+    {
+        return [
 
+            'id' =>    $this->getId(),
+            'nombres' =>   $this->getNombres(),
+            'apellidos' =>   $this->getApellidos(),
+            'edad' =>   $this->getEdad(),
+            'telefono' =>   $this->getTelefono(),
+            'numero_documento' =>   $this->getNumeroDocumento(),
+            'tipo_documento' =>  $this->getTipoDocumento(),
+            'fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
+            'direccion' =>   $this->getDireccion(),
+            'municipios_id' =>   $this->getMunicipiosId(),
+            'genero' =>  $this->getGenero(),
+            'rol' =>   $this->getRol(),
+            'correo' =>   $this->getCorreo(),
+            'contrasena' =>   $this->getContrasena(),
+            'estado' =>   $this->getEstado(),
+            'nombre_acudiente' =>   $this->getNombreAcudiente(),
+            'telefono_acudiente' =>   $this->getTelefonoAcudiente(),
+            'correo_acudiente' =>   $this->getCorreoAcudiente(),
+            'instituciones_id' =>   $this->getInstitucionesId(),
 
+            'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+
+        ];
     }
 
 

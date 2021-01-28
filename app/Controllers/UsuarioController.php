@@ -2,202 +2,168 @@
 
 namespace App\Controllers;
 
-require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
-require_once(__DIR__ . '/../Models/Usuario.php');
-require_once(__DIR__ . '/../Models/GeneralFunctions.php');
-
+require (__DIR__.'/../../vendor/autoload.php');
 use App\Models\GeneralFunctions;
 use App\Models\Usuario;
 use Carbon\Carbon;
 
-if (!empty($_GET['action'])) {
-    UsuarioController::main($_GET['action']);
-}
-
 class UsuarioController
 {
+    private array $dataUsuario;
 
-    static function main($action)
+    public function __construct(array $_FORM)
     {
-        if ($action == "create") {
-            UsuarioController::create();
-        } else if ($action == "edit") {
-            UsuarioController::edit();
-        } else if ($action == "searchForID") {
-            UsuarioController::searchForID($_REQUEST['idPersona']);
-        } else if ($action == "searchAll") {
-            UsuarioController::getAll();
-        } else if ($action == "changeStatus") {
-            CarroController::changeStatus();
-        }
+        $this->dataUsuario = array();
+        $this->dataUsuario['id'] = $_FORM['id'] ?? NULL;
+        $this->dataUsuario['nombres'] = $_FORM['nombres'] ?? NULL;
+        $this->dataUsuario['apellidos'] = $_FORM['apellidos'] ?? null;
+        $this->dataUsuario['edad'] = $_FORM['edad'] ?? null;
+        $this->dataUsuario['telefono'] = $_FORM['telefono'] ?? null;
+        $this->dataUsuario['numero_documento'] = $_FORM['numero_documento'] ?? NULL;
+        $this->dataUsuario['tipo_documento'] = $_FORM['tipo_documento'] ?? NULL;
+        $this->dataUsuario['fecha_nacimiento'] = !empty($_FORM['fecha_nacimiento']) ? Carbon::parse($_FORM['fecha_nacimiento']) : new Carbon();
+        $this->dataUsuario['direccion'] = $_FORM['direccion'] ?? NULL;
+        $this->dataUsuario['municipios_id'] = $_FORM['municipios_id'] ?? NULL;
+        $this->dataUsuario['genero'] = $_FORM['genero'] ?? NULL;
+        $this->dataUsuario['rol'] = $_FORM['rol'] ?? 'Estudiante';
+        $this->dataUsuario['correo'] = $_FORM['correo'] ?? NULL;
+        $this->dataUsuario['contrasena'] = $_FORM['contrasena'] ?? NULL;
+        $this->dataUsuario['estado'] = $_FORM['estado'] ?? 'Activo';
+        $this->dataUsuario['nombre_acudiente'] = $_FORM['nombre_acudiente'] ?? NULL;
+        $this->dataUsuario['telefono_acudiente'] = $_FORM['telefono_acudiente'] ?? NULL;
+        $this->dataUsuario['correo_acudiente'] = $_FORM['correo_acudiente'] ?? NULL;
+        $this->dataUsuario['instituciones_id'] = $_FORM['instituciones_id'] ?? NULL;
+        var_dump($this->dataUsuario);
+
 
     }
 
-    static public function create()
-    {
+    public function create() {
         try {
-            $arrayUsuario = array();
-            $arrayUsuario['nombres'] = $_POST['nombres'];
-            $arrayUsuario['apellidos'] = $_POST['apellidos'];
-            $arrayUsuario['edad'] = $_POST['edad'];
-            $arrayUsuario['telefono'] = $_POST['telefono'];
-            $arrayUsuario['numero_documento'] = $_POST['numero_documento'];
-            $arrayUsuario['tipo_documento'] = $_POST['tipo_documento'];
-            $arrayUsuario['fecha_nacimiento'] = Carbon::parse($_POST['fecha_nacimiento']);
-            $arrayUsuario['direccion'] = $_POST['direccion'];
+            if (!empty($this->dataUsuario['numero_documento']) && !Usuario::usuarioRegistrado($this->dataUsuario['numero_documento'])) {
 
-            $arrayUsuario['municipios_id'] = ($_POST['municipios_id']);
-
-            $arrayUsuario['genero'] = $_POST['genero'];
-            $arrayUsuario['rol'] = $_POST['rol'];
-            $arrayUsuario['correo'] = $_POST['correo'];
-            $arrayUsuario['contrasena'] = $_POST['contrasena'] ?? null;
-            $arrayUsuario['estado'] = 'Activo';
-            $arrayUsuario['nombre_acudiente'] = $_POST['nombre_acudiente'];
-            $arrayUsuario['telefono_acudiente'] = $_POST['telefono_acudiente'];
-            $arrayUsuario['correo_acudiente'] = $_POST['correo_acudiente'];
-
-            $arrayUsuario['instituciones_id'] = ($_POST['instituciones_id']);
-
-            $arrayUsuario['created_at'] = Carbon::now(); //Fecha Actual
-
-            if (!Usuario::usuarioRegistrado($arrayUsuario['numero_documento'])) {
-                $Usuario = new Usuario ($arrayUsuario);
-                if ($Usuario->create()) {
-                    //var_dump($_POST);
-                    header("Location: ../../views/modules/usuario/index.php?accion=create&respuesta=correcto");
+                $Usuario = new Usuario ($this->dataUsuario);
+                if ($Usuario->insert()) {
+                  var_dump($this->dataUsuario);
+                    unset($_SESSION['frmUsuarios']);
+                    header("Location: ../../views/modules/usuario/index.php?respuesta=success&mensaje=Usuario Registrado");
                 }
             } else {
                 header("Location: ../../views/modules/usuario/create.php?respuesta=error&mensaje=Usuario ya registrado");
             }
-        } catch (Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/create.php?respuesta=error&mensaje=" . $e->getMessage());
-        }
-    }
-
-    static public function edit()
-    {
-        try {
-
-            $arrayUsuario = array();
-            $arrayUsuario['nombres'] = $_POST['nombres'];
-            $arrayUsuario['apellidos'] = $_POST['apellidos'];
-            $arrayUsuario['edad'] = $_POST['edad'];
-            $arrayUsuario['telefono'] = $_POST['telefono'];
-            $arrayUsuario['numero_documento'] = $_POST['numero_documento'];
-            $arrayUsuario['tipo_documento'] = $_POST['tipo_documento'];
-            $arrayUsuario['fecha_nacimiento'] = Carbon::parse($_POST['fecha_nacimiento']);
-            $arrayUsuario['direccion'] = $_POST['direccion'];
-
-            $arrayUsuario['municipios_id'] = ($_POST['municipios_id']);
-
-            $arrayUsuario['genero'] = $_POST['genero'];
-            $arrayUsuario['rol'] = $_POST['rol'];
-            $arrayUsuario['correo'] = $_POST['correo'];
-            $arrayUsuario['contrasena'] = $_POST['contrasena'] ?? null;
-            $arrayUsuario['estado'] = $_POST['estado'];
-            $arrayUsuario['nombre_acudiente'] = $_POST['nombre_acudiente'];
-            $arrayUsuario['telefono_acudiente'] = $_POST['telefono_acudiente'];
-            $arrayUsuario['correo_acudiente'] = $_POST['correo_acudiente'];
-            $arrayUsuario['instituciones_id'] = ($_POST['instituciones_id']);
-            //$arrayUsuario['created_at'] = Carbon::now(); //Fecha Actual
-            $arrayUsuario['id'] = $_POST['id'];
-
-            $usuario = new Usuario($arrayUsuario);
-            $usuario->update();
-
-            header("Location: ../../views/modules/usuario/show.php?id=" . $usuario->getId() . "&respuesta=correcto");
-
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuario/edit.php?respuesta=error&mensaje=".$e->getMessage());
+
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function searchForID($id)
+    public function edit()
     {
         try {
-            return Usuario::searchForId($id);
+
+            $user = new Usuario($this->dataUsuario);
+            if($user->update()){
+                unset($_SESSION['frmUsuarios']);
+            }
+
+            header("Location: ../../views/modules/usuario/show.php?id=" . $user->getId() . "&respuesta=success&mensaje=Usuario Actualizado");
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function getAll()
+    static public function searchForID(array $data)
     {
         try {
-            return Usuario::getAll();
+            $result = Usuario::searchForId($data['id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'log', 'errorStack');
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
     }
 
-    static public function activate()
+    static public function getAll(array $data = null)
     {
         try {
-            $ObjUsuario = Usuario::searchForId($_GET['Id']);
+            $result = Usuario::getAll();
+            if (!empty($data['request']) and $data['request'] === 'ajax') {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result);
+            }
+            return $result;
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+
+    static public function activate(int $id)
+    {
+        try {
+            $ObjUsuario = Usuario::searchForId($id);
             $ObjUsuario->setEstado("Activo");
             if ($ObjUsuario->update()) {
-                header("Location: ../../views/modules/usuarios/index.php");
+                header("Location: ../../views/modules/usuario/index.php");
             } else {
-                header("Location: ../../views/modules/usuarios/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/usuario/index.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/index.php?respuesta=error&mensaje=".$e->getMessage());
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function inactivate()
+    static public function inactivate(int $id)
     {
         try {
-            $ObjUsuario = Usuarios::searchForId($_GET['Id']);
+            $ObjUsuario = Usuario::searchForId($id);
             $ObjUsuario->setEstado("Inactivo");
             if ($ObjUsuario->update()) {
-                header("Location: ../../views/modules/usuarios/index.php");
+                header("Location: ../../views/modules/usuario/index.php");
             } else {
-                header("Location: ../../views/modules/usuarios/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/usuario/index.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/index.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
+    static public function selectUsuario(array $params = []) {
 
-    static public function selectUsuario($isMultiple = false,
-                                         $isRequired = true,
-                                         $id = "usuarios_id",
-                                         $nombre = "usuarios_id",
-                                         $defaultValue = "",
-                                         $class = "form-control",
-                                         $where = "",
-                                         $arrExcluir = array())
-    {
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "usuario_id";
+        $params['name'] = $params['name'] ?? "usuario_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
         $arrUsuarios = array();
-        if ($where != "") {
+        if ($params['where'] != "") {
             $base = "SELECT * FROM usuarios WHERE ";
-            $arrUsuarios = Usuario::search($base . ' ' . $where);
+            $arrUsuarios = Usuario::search($base . ' ' . $params['where']);
         } else {
             $arrUsuarios = Usuario::getAll();
         }
-
-        $htmlSelect = "<select " . (($isMultiple) ? "multiple" : "") . " " . (($isRequired) ? "required" : "") . " id= '" . $id . "' name='" . $nombre . "' class='" . $class . "' style='width: 100%;'>";
+        $htmlSelect = "<select " . (($params['isMultiple']) ? "multiple" : "") . " " . (($params['isRequired']) ? "required" : "") . " id= '" . $params['id'] . "' name='" . $params['name'] . "' class='" . $params['class'] . "' style='width: 100%;'>";
         $htmlSelect .= "<option value='' >Seleccione</option>";
         if (count($arrUsuarios) > 0) {
-            /* @var $arrUsuarios \App\Models\Usuario[] */
+            /* @var $arrUsuarios Usuario[] */
             foreach ($arrUsuarios as $usuario)
-                if (!UsuarioController::usuarioIsInArray($usuario->getId(), $arrExcluir))
-                    $htmlSelect .= "<option " . (($usuario != "") ? (($defaultValue == $usuario->getId()) ? "selected" : "") : "") . " value='" . $usuario->getId() . "'>" . $usuario->getNumeroDocumento() . " - " . $usuario->getNombres() . " " . $usuario->getApellidos() . "</option>";
+                if (!UsuarioController::usuarioIsInArray($usuario->getId(), $params['arrExcluir']))
+                    $htmlSelect .= "<option " . (($usuario != "") ? (($params['defaultValue'] == $usuario->getId()) ? "selected" : "") : "") . " value='" . $usuario->getId() . "'>" . $usuario->getNumeroDocumento() . " - " . $usuario->getNombres() . " " . $usuario->getApellidos() . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;
     }
 
-    public static function usuarioIsInArray($idUsuario, $ArrUsuarios)
+    private static function usuarioIsInArray($idUsuario, $ArrUsuarios)
     {
         if (count($ArrUsuarios) > 0) {
             foreach ($ArrUsuarios as $Usuario) {
@@ -211,10 +177,10 @@ class UsuarioController
 
     public static function login (){
         try {
-            if(!empty($_POST['user']) && !empty($_POST['password'])){
-                $tmpUser = new Usuarios();
-                $respuesta = $tmpUser->Login($_POST['user'], $_POST['password']);
-                if (is_a($respuesta,"App\Models\Usuarios")) {
+            if(!empty($_POST['correo']) && !empty($_POST['contrasena'])){
+                $tmpUser = new Usuario();
+                $respuesta = $tmpUser->Login($_POST['correo'], $_POST['contrasena']);
+                if (is_a($respuesta,"App\Models\Usuario")) {
                     $_SESSION['UserInSession'] = $respuesta->jsonSerialize();
                     header("Location: ../../views/index.php");
                 }else{
@@ -233,38 +199,5 @@ class UsuarioController
         session_destroy();
         header("Location: ../../views/modules/site/login.php");
     }
-    /*
-    public function buscar ($Query){
-        try {
-            return Persona::buscar($Query);
-        } catch (Exception $e) {
-            header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
-        }
-    }
-
-    static public function asociarEspecialidad (){
-        try {
-            $Persona = new Persona();
-            $Persona->asociarEspecialidad($_POST['Persona'],$_POST['Especialidad']);
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?respuesta=correcto&id=".$_POST['Persona']);
-        } catch (Exception $e) {
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?respuesta=error&mensaje=".$e->getMessage());
-        }
-    }
-
-    static public function eliminarEspecialidad (){
-        try {
-            $ObjPersona = new Persona();
-            if(!empty($_GET['Persona']) && !empty($_GET['Especialidad'])){
-                $ObjPersona->eliminarEspecialidad($_GET['Persona'],$_GET['Especialidad']);
-            }else{
-                throw new Exception('No se recibio la informacion necesaria.');
-            }
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?id=".$_GET['Persona']);
-        } catch (Exception $e) {
-            var_dump($e);
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
-        }
-    }*/
 
 }

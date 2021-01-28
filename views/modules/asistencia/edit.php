@@ -156,13 +156,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="form-group row">
                                                 <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
                                                 <div class="col-sm-10">
-                                                    <?= UsuarioController::selectUsuario(false,
-                                                        true,
-                                                        'usuarios_id',
-                                                        'usuarios_id',
-                                                        (!empty($dataAsistencia)) ? $dataAsistencia->getUsuario()->getId() : '',
-                                                        'form-control select2bs4 select2-info',
-                                                        "rol = 'Estudiante' and estado = 'Activo'")
+                                                    <?= UsuarioController::selectUsuario(array (
+                                                        'id' => 'usuarios_id',
+                                                        'name' => 'usuarios_id',
+                                                        'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId() : '',
+                                                        'class' => 'form-control select2bs4 select2-info',
+                                                        'where' => "rol = 'Estudiante' and estado = 'Activo'"))
+
                                                     ?>
                                                 </div>
                                             </div>

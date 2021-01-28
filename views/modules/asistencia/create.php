@@ -39,8 +39,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Asistencia</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Crear</li>
                         </ol>
                     </div>
                 </div>
@@ -106,19 +107,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
 
-                                    <!--
-
-                                    <div class="form-group row">
-                                        <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
-                                        <div class="col-sm-10">
-                                            <select id="tipo_ingreso" name="tipo_ingreso" class="custom-select">
-                                                <option value="Institución">Institución</option>
-                                                <option value="Restaurante">Restaurante</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    -->
 
 
                                     <div class="form-group row">
@@ -145,30 +133,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
 
-                                    <!--
-
-                                    <div class="form-group row">
-                                        <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" minlength="6" class="form-control"
-                                                   id="usuarios_id" name="usuarios_id" placeholder="Ingrese su documento">
-                                        </div>
-                                    </div>
-
-                                    -->
 
 
 
                                     <div class="form-group row">
                                         <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
                                         <div class="col-sm-10">
-                                            <?= UsuarioController::selectUsuario(false,
-                                                true,
-                                                'usuarios_id',
-                                                'usuarios_id',
-                                                (!empty($dataAsistencia)) ? $dataAsistencia->getUsuariosId()->getId() : '',
-                                                'form-control select2bs4 select2-info',
-                                                "rol = 'Estudiante' and estado = 'Activo'")
+                                            <?= UsuarioController::selectUsuario(array (
+                                                'id' => 'usuarios_id',
+                                                'name' => 'usuarios_id',
+                                                'defaultValue' => (!empty($frmSession['usuarios_id'])) ? $frmSession['usuarios_id'] : '',
+                                                'class' => 'form-control select2bs4 select2-info',
+                                                'where' => "rol = 'Estudiante' and estado = 'Activo'"))
+
                                             ?>
                                         </div>
                                     </div>

@@ -45,8 +45,8 @@ class DepartamentoController
     {
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
-        $params['id'] = $params['id'] ?? "departamento_id";
-        $params['name'] = $params['name'] ?? "departamento_id";
+        $params['id'] = $params['id'] ?? "municipio_id";
+        $params['name'] = $params['name'] ?? "municipio_id";
         $params['defaultValue'] = $params['defaultValue'] ?? "";
         $params['class'] = $params['class'] ?? "form-control";
         $params['where'] = $params['where'] ?? "";

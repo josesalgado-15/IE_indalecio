@@ -627,7 +627,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     public function __toString() : string
     {
         return "Nombres: $this->nombres, Apellidos: $this->apellidos, Edad: $this->edad, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipios_id,
-         genero: $this->genero, rol: $this->rol, Correo: $this->correo, contraseña: $this->contrasena, estado: $this->estado, Nombre De Acudiente: $this->nombre_acudiente, Telefono De Acudiente: $this->telefono_acudiente, Correo De Acudiente: $this->correo_acudiente, Institucion: $this->instituciones_id,";
+         genero: $this->genero, rol: $this->rol, Correo: $this->correo, contraseña: $this->contrasena, estado: $this->estado, Nombre De Acudiente: $this->nombre_acudiente, Telefono De Acudiente: $this->telefono_acudiente, Correo De Acudiente: $this->correo_acudiente, Institucion: $this->instituciones_id";
     }
 
     public function Login($Correo, $Contrasena){

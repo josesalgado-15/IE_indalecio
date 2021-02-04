@@ -90,6 +90,49 @@ class MatriculaController
     }
 
 
+    static public function selectMatricula(array $params = []) {
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "matriculas_id";
+        $params['name'] = $params['name'] ?? "matriculas_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrMatriculas = array();
+        if ($params['where'] != "") {
+            $base = "SELECT * FROM matriculas WHERE ";
+            $arrMatriculas = Matricula::search($base . ' ' . $params['where']);
+        } else {
+            $arrMatriculas = Matricula::getAll();
+        }
+        $htmlSelect = "<select " . (($params['isMultiple']) ? "multiple" : "") . " " . (($params['isRequired']) ? "required" : "") . " id= '" . $params['id'] . "' name='" . $params['name'] . "' class='" . $params['class'] . "' style='width: 100%;'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if (count($arrMatriculas) > 0) {
+            /* @var $arrMatriculas Matricula[] */
+            foreach ($arrMatriculas as $matricula)
+                if (!MatriculaController::matriculaIsInArray($matricula->getId(), $params['arrExcluir']))
+                    $htmlSelect .= "<option " . (($matricula != "") ? (($params['defaultValue'] == $matricula->getId()) ? "selected" : "") : "") . " value='" . $matricula->getId() . "'>" . $matricula->getUsuario()->getNombres() . " " . $matricula->getUsuario()->getApellidos() . " - " . $matricula->getCurso()->getNombre() . "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+    private static function matriculaIsInArray($idMatricula, $ArrMatriculas)
+    {
+        if (count($ArrMatriculas) > 0) {
+            foreach ($ArrMatriculas as $Matricula) {
+                if ($Matricula->getId() == $idMatricula) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
 
 }

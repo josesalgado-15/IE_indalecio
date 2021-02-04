@@ -17,13 +17,13 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
     protected string $observacion;
     protected string $tipo_ingreso;
     protected string $hora_salida;
-    protected int $usuarios_id;
+    protected int $matriculas_id;
     protected string $estado;
     protected Carbon $updated_at;
     protected Carbon $deleted_at;
 
     /* Relaciones */
-    private ?Usuario $usuario;
+    private ?Matricula $matricula;
 
 
 
@@ -42,7 +42,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $this->setObservacion($asistencia['observacion'] ?? '');
         $this->setTipoIngreso($asistencia['tipo_ingreso'] ?? '');
         $this->setHoraSalida($asistencia['hora_salida'] ?? '');
-        $this->setUsuariosId($asistencia['usuarios_id'] ?? 0);
+        $this->setMatriculasId($asistencia['matriculas_id'] ?? 0);
         $this->setEstado($asistencia['estado'] ?? '');
         $this->setUpdatedAt(!empty($asistencia['updated_at']) ? Carbon::parse($asistencia['updated_at']) : new Carbon());
         $this->setDeletedAt(!empty($asistencia['deleted_at']) ? Carbon::parse($asistencia['deleted_at']) : new Carbon());
@@ -156,17 +156,17 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return int
      */
-    public function getUsuariosId(): int
+    public function getMatriculasId(): int
     {
-        return $this->usuarios_id;
+        return $this->matriculas_id;
     }
 
     /**
-     * @param int $usuarios_id
+     * @param int $matriculas_id
      */
-    public function setUsuariosId(int $usuarios_id): void
+    public function setMatriculasId(int $matriculas_id): void
     {
-        $this->usuarios_id = $usuarios_id;
+        $this->matriculas_id = $matriculas_id;
     }
 
     /**
@@ -219,13 +219,13 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     /* Relaciones */
     /**
-     * @return Usuario|null
+     * @return Matricula|null
      */
-    public function getUsuario(): ?Usuario
+    public function getMatricula(): ?Matricula
     {
-        if(!empty($this->usuarios_id)){
-            $this->usuario = Usuario::searchForId($this->usuarios_id) ?? new Usuario();
-            return $this->usuario;
+        if(!empty($this->matriculas_id)){
+            $this->matricula = Matricula::searchForId($this->matriculas_id) ?? new Matricula();
+            return $this->matricula;
         }
         return NULL;
     }
@@ -245,7 +245,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
             ':tipo_ingreso' =>   $this->getTipoIngreso(),
 
             ':hora_salida' =>   $this->getHoraSalida(),
-            ':usuarios_id' =>   $this->getUsuariosId(),
+            ':matriculas_id' =>   $this->getMatriculasId(),
 
             ':estado' =>   $this->getEstado(),
             ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
@@ -265,7 +265,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:hora_ingreso,:observacion,:tipo_ingreso,:hora_salida,:usuarios_id,:estado,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:hora_ingreso,:observacion,:tipo_ingreso,:hora_salida,:matriculas_id,:estado,:updated_at,:deleted_at)";
         return $this->save($query);
     }
 
@@ -277,7 +277,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $query = "UPDATE dbindalecio.asistencias SET 
             fecha = :fecha, hora_ingreso = :hora_ingreso,
             observacion = :observacion, tipo_ingreso = :tipo_ingreso,
-            hora_salida = :hora_salida, usuarios_id = :usuarios_id,
+            hora_salida = :hora_salida, matriculas_id = :matriculas_id,
             estado = :estado, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
         return $this->save($query);
     }
@@ -353,9 +353,9 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         return Asistencia::search("SELECT * FROM dbindalecio.asistencias");
     }
 
-    static function asistenciaRegistrada($fecha, $hora_ingreso, $usuarios_id): bool
+    static function asistenciaRegistrada($fecha, $hora_ingreso, $matriculas_id): bool
     {
-        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."' and usuarios_id = '".$usuarios_id ."'" );
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."' and matriculas_id = '".$matriculas_id ."'" );
         if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
@@ -365,7 +365,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     public function __toString() : string
     {
-        return "Fecha: $this->fecha, Hora de Ingreso: $this->hora_ingreso, Observación: $this->observacion, Tipo de Ingreso: $this->tipo_ingreso, Hora de Salida: $this->hora_salida, Usuario: $this->usuarios_id, Estado: $this->estado";
+        return "Fecha: $this->fecha, Hora de Ingreso: $this->hora_ingreso, Observación: $this->observacion, Tipo de Ingreso: $this->tipo_ingreso, Hora de Salida: $this->hora_salida, Usuario: $this->matriculas_id, Estado: $this->estado";
     }
 
     /*
@@ -402,7 +402,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
             'observacion' =>  $this->getObservacion(),
             'tipo_ingreso' =>   $this->getTipoIngreso(),
             'hora_salida' =>   $this->getHoraSalida(),
-            'usuarios_id' =>   $this->getUsuariosId(),
+            'matriculas_id' =>   $this->getMatriculasId(),
             'estado' =>   $this->getEstado(),
             'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
             'deleted_at' =>  $this->getDeletedAt()->toDateTimeString() //YYYY-MM-DD HH:MM:SS

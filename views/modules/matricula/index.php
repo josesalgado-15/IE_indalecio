@@ -108,7 +108,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <tr>
                                         <td><?php echo $mastricula->getId(); ?></td>
                                         <td><?php echo $mastricula->getVigencia()->toDateString();  ?></td>
-                                        <td><?php echo $mastricula->getUsuario()->getNombres()," ", $mastricula->getUsuario()->getApellidos(),""; ?></td>
+                                        <td><?php echo $mastricula->getUsuario()->getNumeroDocumento(),"-",  $mastricula->getUsuario()->getNombres()," ",  $mastricula->getUsuario()->getApellidos(); ?></td>
                                         <td><?php echo $mastricula->getCurso()->getNombre(); ?></td>
                                         <td><?php echo $mastricula->getEstado(); ?></td>
                                         <td>

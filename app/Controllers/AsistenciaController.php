@@ -7,6 +7,7 @@ require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un ob
 use App\Models\GeneralFunctions;
 use App\Models\Asistencia;
 use App\Models\Usuario;
+use App\Models\Matricula;
 use Carbon\Carbon;
 
 
@@ -28,7 +29,7 @@ class AsistenciaController
         $this->dataAsistencia['observacion'] = $_FORM['observacion'] ?? NULL;
         $this->dataAsistencia['tipo_ingreso'] = $_FORM['tipo_ingreso'] ?? NULL;
         $this->dataAsistencia['hora_salida'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_salida']));
-        $this->dataAsistencia['usuarios_id'] = $_FORM['usuarios_id'] ?? 0;
+        $this->dataAsistencia['matriculas_id'] = $_FORM['matriculas_id'] ?? 0;
         $this->dataAsistencia['estado'] = $_FORM['estado'] ?? 'Activo';
 
 
@@ -36,7 +37,7 @@ class AsistenciaController
 
     public function create() {
         try {
-            if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['hora_ingreso'] and $this->dataAsistencia['usuarios_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['hora_ingreso'], $this->dataAsistencia['usuarios_id']))
+            if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['hora_ingreso'] and $this->dataAsistencia['matriculas_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['hora_ingreso'], $this->dataAsistencia['matriculas_id']))
 
             {
                 $Asistencia = new Asistencia ($this->dataAsistencia);
@@ -100,8 +101,8 @@ class AsistenciaController
 
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
-        $params['id'] = $params['id'] ?? "asistencia_id";
-        $params['name'] = $params['name'] ?? "asistencia_id";
+        $params['id'] = $params['id'] ?? "matriculas_id";
+        $params['name'] = $params['name'] ?? "matriculas_id";
         $params['defaultValue'] = $params['defaultValue'] ?? "";
         $params['class'] = $params['class'] ?? "form-control";
         $params['where'] = $params['where'] ?? "";
@@ -122,7 +123,7 @@ class AsistenciaController
             /* @var $arrAsistencia Asistencia[] */
             foreach ($arrAsistencia as $asistencia)
                 if (!AsistenciaController::asistenciaIsInArray($asistencia->getId(),$params['arrExcluir']))
-                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getUsuariosId()->getNombres(). " ". $asistencia->getUsuariosId()->getApellidos(). " - ". $asistencia->getFecha() . " - " . $asistencia->getTipoIngreso() . " - " . $asistencia->getHoraIngreso() . "</option>";
+                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getFecha() . " - " . $asistencia->getTipoIngreso() . " - " . $asistencia->getHoraIngreso() . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

@@ -1,0 +1,144 @@
+<?php
+
+namespace App\Controllers;
+
+require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
+
+use App\Models\GeneralFunctions;
+use App\Models\Asistencia;
+use App\Models\Usuario;
+use App\Models\Matricula;
+use Carbon\Carbon;
+
+
+
+class AsistenciaController
+{
+
+    private array $dataAsistencia;
+
+    public function __construct(array $_FORM)
+    {
+        $this->dataAsistencia = array();
+        $this->dataAsistencia['id'] = $_FORM['id'] ?? NULL;
+        $this->dataAsistencia['fecha'] = !empty($_FORM['fecha']) ? Carbon::parse($_FORM['fecha']) : new Carbon();
+
+        //Asi estaba:  $arrayAsistencia['hora_ingreso'] = $formated_time = date("H:i:s", strtotime($arrayAsistencia['hora_ingreso']));
+        $this->dataAsistencia['hora_ingreso'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_ingreso']));
+
+        $this->dataAsistencia['observacion'] = $_FORM['observacion'] ?? NULL;
+        $this->dataAsistencia['tipo_ingreso'] = $_FORM['tipo_ingreso'] ?? NULL;
+        $this->dataAsistencia['hora_salida'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_salida']));
+        $this->dataAsistencia['matriculas_id'] = $_FORM['matriculas_id'] ?? 0;
+        $this->dataAsistencia['estado'] = $_FORM['estado'] ?? 'Activo';
+
+
+    }
+
+    public function create() {
+        try {
+            if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['hora_ingreso'] and $this->dataAsistencia['matriculas_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['hora_ingreso'], $this->dataAsistencia['matriculas_id']))
+
+            {
+                $Asistencia = new Asistencia ($this->dataAsistencia);
+                if ($Asistencia->insert()) {
+                    unset($_SESSION['frmAsistencias']);
+                    header("Location: ../../views/modules/asistencia/index.php?respuesta=success&mensaje=Asistencia Registrada!");
+                }
+            } else {
+                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Asistencia ya registradas");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+
+    public function edit()
+    {
+        try {
+            $asistencia = new Asistencia($this->dataAsistencia);
+            if($asistencia->update()){
+                unset($_SESSION['frmAsistencias']);
+            }
+
+            header("Location: ../../views/modules/asistencia/show.php?id=" . $asistencia->getId() . "&respuesta=success&mensaje=Asistencia Actualizada");
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function searchForID (array $data){
+        try {
+            $result = Asistencia::searchForId($data['id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+
+    static public function getAll (array $data = null){
+        try {
+            $result = Asistencia::getAll();
+            if (!empty($data['request']) and $data['request'] === 'ajax') {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result);
+            }
+            return $result;
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+
+
+    static public function selectAsistencia (array $params = []){
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "matriculas_id";
+        $params['name'] = $params['name'] ?? "matriculas_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrAsistencia = array();
+        if($params['where'] != ""){
+            $base = "SELECT * FROM asistencias WHERE ";
+            $arrAsistencia = Asistencia::search($base.$params['where']);
+        }else{
+            $arrAsistencia = Asistencia::getAll();
+        }
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrAsistencia) > 0){
+            /* @var $arrAsistencia Asistencia[] */
+            foreach ($arrAsistencia as $asistencia)
+                if (!AsistenciaController::asistenciaIsInArray($asistencia->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getFecha() . " - " . $asistencia->getTipoIngreso() . " - " . $asistencia->getHoraIngreso() . "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+
+
+    public static function asistenciaIsInArray($idAsistencia, $ArrAsistencia){
+        if(count($ArrAsistencia) > 0){
+            foreach ($ArrAsistencia as $Asistencia){
+                if($Asistencia->getId() == $idAsistencia){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}

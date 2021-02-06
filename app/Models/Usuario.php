@@ -87,12 +87,15 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     public static function usuarioRegistrado($numeroDocumento): bool
     {
         $result = Usuario::search("SELECT * FROM dbindalecio.usuarios where numero_documento = " . $numeroDocumento);
-        if ( count ($result) > 0 ) {
+        if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
             return false;
         }
     }
+
+
+
 
     /**
      * @return int|mixed|null
@@ -451,8 +454,8 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
      */
     public function getMunicipio(): ?Municipio
     {
-        if(!empty($this->municipio_id)){
-            $this->municipio = Municipio::searchForId($this->municipio_id) ?? new Municipio();
+        if(!empty($this->municipios_id)){
+            $this->municipio = Municipio::searchForId($this->municipios_id) ?? new Municipio();
             return $this->municipio;
         }
         return NULL;
@@ -512,7 +515,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $query = "INSERT INTO dbindalecio.usuarios VALUES (
             :id,:nombres,:apellidos,:edad,:telefono,
             :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municiopios_id,
-            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,instituciones,
+            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,instituciones_id,
             :created_at,:updated_at,:deleted_at
             
             

@@ -105,7 +105,6 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Direccion</strong>
                                         <p class="text-muted"><?= $DataUsuario->getDireccion() ?>
                                             , <?= $DataUsuario->getMunicipio()->getNombre() ?>
-                                            - <?= $DataUsuario->getMunicipio()->getDepartamento()->getNombre() ?></p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Género</strong>

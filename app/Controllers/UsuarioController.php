@@ -33,7 +33,6 @@ class UsuarioController
         $this->dataUsuario['telefono_acudiente'] = $_FORM['telefono_acudiente'] ?? NULL;
         $this->dataUsuario['correo_acudiente'] = $_FORM['correo_acudiente'] ?? NULL;
         $this->dataUsuario['instituciones_id'] = $_FORM['instituciones_id'] ?? NULL;
-        var_dump($this->dataUsuario);
 
 
     }

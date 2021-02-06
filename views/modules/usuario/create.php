@@ -73,7 +73,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <!-- form start -->
                                 <form class="form-horizontal" enctype="multipart/form-data" method="post" id="frmCreate<?= $nameModel ?>"
                                       name="frmCreate<?= $nameModel ?>"
-                                      action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
+                                      action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
                                     <div class="form-group row">
                                         <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>

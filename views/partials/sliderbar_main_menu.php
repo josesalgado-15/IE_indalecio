@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="" class="brand-link">
         <img src="<?= $baseURL ?>/views/public/img/weber-icon.png"
              alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3"
@@ -37,7 +37,7 @@
                 <li class="nav-header">Modulos Principales</li>
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'usuario') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'usuario') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Usuarios
                             <i class="fas fa-angle-left right"></i>
@@ -60,34 +60,10 @@
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'horario') ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'horario') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
-                        <p>
-                            Horarios
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
 
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/horario/index.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Gestionar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/horario/create.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Registrar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'asistencias') ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'asistencias') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'asistencia') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'asistencia') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-school"></i>
                         <p>
                             Asistencias
                             <i class="fas fa-angle-left right"></i>
@@ -110,9 +86,10 @@
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'novedades') ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'novedades') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'novedad') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'novedad') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-comment-alt"></i>
+
                         <p>
                             Novedades
                             <i class="fas fa-angle-left right"></i>
@@ -136,9 +113,35 @@
                 </li>
 
 
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'horario') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'horario') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Horarios
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/horario/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/horario/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'grado') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'grado') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                        <i class="nav-icon fas fa-user-shield"></i>
                         <p>
                             Grados
                             <i class="fas fa-angle-left right"></i>
@@ -154,6 +157,57 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/grado/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>
+                            Cursos
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/curso/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/curso/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>
+                            Matriculas
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/matricula/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/matricula/create.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Registrar</p>
                             </a>

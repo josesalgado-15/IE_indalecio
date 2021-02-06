@@ -3,108 +3,143 @@
 namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
-require_once(__DIR__ . '/../Models/Novedad.php');
-require_once(__DIR__ . '/../Models/GeneralFunctions.php');
 
 use App\Models\GeneralFunctions;
 use App\Models\Novedad;
+use App\Models\Asistencia;
+use App\Models\Usuario;
 use Carbon\Carbon;
 
-if (!empty($_GET['action'])) {
-    NovedadController::main($_GET['action']);
-}
+
 
 class NovedadController
 {
 
-    static function main($action)
+    private array $dataNovedad;
+
+    public function __construct(array $_FORM)
     {
-        if ($action == "create") {
-            NovedadController::create();
-        } else if ($action == "edit") {
-            NovedadController::edit();
-        } else if ($action == "searchForID") {
-            NovedadController::searchForID($_REQUEST['idPersona']);
-        } else if ($action == "searchAll") {
-            NovedadController::getAll();
-        } else if ($action == "changeStatus") {
-            NovedadController::changeStatus();
-        }
+        $this->dataNovedad = array();
+        $this->dataNovedad['id'] = $_FORM['id'] ?? NULL;
+        $this->dataNovedad['tipo'] = $_FORM['tipo'] ?? NULL;
+        $this->dataNovedad['justificacion'] = $_FORM['justificacion'] ?? NULL;
+        $this->dataNovedad['observacion'] = $_FORM['observacion'] ?? NULL;
+        $this->dataNovedad['estado'] = $_FORM['estado'] ?? 'Activo';
+        $this->dataNovedad['administrador_id'] = $_FORM['administrador_id'] ?? 0;
+        $this->dataNovedad['asistencia_id'] = $_FORM['asistencia_id'] ?? 0;
+        var_dump($this->dataNovedad);
 
     }
 
-    static public function create()
-    {
+    public function create() {
         try {
+            if (!empty($this->dataNovedad['tipo'] and $this->dataNovedad['asistencia_id']  && !Novedad::novedadRegistrada($this->dataNovedad['tipo'], $this->dataNovedad['asistencia_id'])))
 
-            $arrayNovedad = array();
-            $arrayNovedad['tipo'] = $_POST['tipo'];
-            $arrayNovedad['justificacion'] = $_POST['justificacion'];
-            $arrayNovedad['observacion'] = $_POST['observacion'];
-            $arrayNovedad['estado'] = 'Activo';
-            $arrayNovedad['administrador_id'] = $_POST['administrador_id'];
-            $arrayNovedad['asistencias_id'] = $_POST['asistencias_id'];
-            $arrayNovedad['created_at'] = Carbon::now(); //Fecha Actual
+            {
+                $Novedad = new Novedad ($this->dataNovedad);
+                if ($Novedad->insert()) {
 
-
-            //Preguntar al ingeniero como definir la validación
-            if (!Novedad::novedadRegistrada($arrayNovedad['asistencias_id'])) {
-                $Novedad = new Novedad ($arrayNovedad);
-                if ($Novedad->create()) {
-                    //var_dump($_POST);
-                    header("Location: ../../views/modules/asistencia/index.php?accion=create&respuesta=correcto");
+                    unset($_SESSION['frmNovedades']);
+                    header("Location: ../../views/modules/novedad/index.php?respuesta=success&mensaje=Novedad Registrada!");
                 }
             } else {
-                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Usuario ya registrado");
+                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Novedad ya registradas");
             }
-        } catch (Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/create.php?respuesta=error&mensaje=" . $e->getMessage());
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function edit()
+
+    public function edit()
     {
         try {
+            $novedad = new Novedad($this->dataNovedad);
+            if($novedad->update()){
+                unset($_SESSION['frmNovedades']);
+            }
 
-            $arrayNovedad = array();
-            $arrayNovedad['tipo'] = $_POST['tipo'];
-            $arrayNovedad['justificacion'] = $_POST['justificacion'];
-            $arrayNovedad['observacion'] = $_POST['observacion'];
-            $arrayNovedad['estado'] = 'Activo';
-            $arrayNovedad['administrador_id'] = $_POST['administrador_id'];
-            $arrayNovedad['asistencias_id'] = $_POST['asistencias_id'];
-            $arrayNovedad['created_at'] = Carbon::now(); //Fecha Actual
-            $arrayNovedad['id'] = $_POST['id'];
-
-            $novedad = new Novedad($arrayNovedad);
-            $novedad->update();
-
-            header("Location: ../../views/modules/novedad/show.php?id=" . $novedad->getId() . "&respuesta=correcto");
-
+            header("Location: ../../views/modules/novedad/show.php?id=" . $novedad->getId() . "&respuesta=success&mensaje=Novedad Actualizada");
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuario/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function searchForID($id)
-    {
+    static public function searchForID (array $data){
         try {
-            return Novedad::searchForId($id);
+            $result = Novedad::searchForId($data['id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
     }
 
-    static public function getAll()
-    {
+    static public function getAll (array $data = null){
         try {
-            return Novedad::getAll();
+            $result = Novedad::getAll();
+            if (!empty($data['request']) and $data['request'] === 'ajax') {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result);
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'log', 'errorStack');
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
     }
+
+
+
+
+    static public function selectAsistencia (array $params = []){
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "asistencia_id";
+        $params['name'] = $params['name'] ?? "asistencia_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrAsistencia = array();
+        if($params['where'] != ""){
+            $base = "SELECT * FROM asistencias WHERE ";
+            $arrAsistencia = Asistencia::search($base.$params['where']);
+        }else{
+            $arrAsistencia = Asistencia::getAll();
+        }
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrAsistencia) > 0){
+            /* @var $arrAsistencia Asistencia[] */
+            foreach ($arrAsistencia as $asistencia)
+                if (!AsistenciaController::asistenciaIsInArray($asistencia->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getTipoIngreso() . " - " . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getFecha()->translatedFormat('l, j \\de F Y') . " - " . $asistencia->getHoraIngreso() . " - " . $asistencia->getHoraSalida(). "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
+    }
+
+
+
+    public static function asistenciaIsInArray($idAsistencia, $ArrAsistencia){
+        if(count($ArrAsistencia) > 0){
+            foreach ($ArrAsistencia as $Asistencia){
+                if($Asistencia->getId() == $idAsistencia){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

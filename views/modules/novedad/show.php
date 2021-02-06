@@ -1,13 +1,22 @@
 <?php
-require("../../partials/routes.php");
 
-require("../../../app/Controllers/NovedadController.php");
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
-use App\Controllers\NovedadController; ?>
+use App\Controllers\MatriculaController;
+use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use Carbon\Carbon;
+
+$nameModel = "Matricula";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la Novedad</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +34,7 @@ use App\Controllers\NovedadController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la Novedad</h1>
+                        <h1>Informacion del la <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -40,21 +49,9 @@ use App\Controllers\NovedadController; ?>
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] == "error") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar la novedad: <?= ($_GET['mensaje']) ?? "" ?>
-                    </div>
-                <?php } ?>
-            <?php } else if (empty($_GET['id'])) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                    Faltan criterios de busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                </div>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
 
             <div class="container-fluid">
                 <div class="row">
@@ -62,9 +59,12 @@ use App\Controllers\NovedadController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataNovedad = NovedadController::searchForID($_GET["id"]);
-                                if (!empty($DataNovedad)) {
+                                $DataMatricula = MatriculaController::SearchForID(["id" => $_GET["id"]]);
+
+                                if (!empty($DataMatricula)) {
                                     ?>
+
+
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-info"></i> &nbsp; Ver Información </h3>
                                         <div class="card-tools">
@@ -83,44 +83,27 @@ use App\Controllers\NovedadController; ?>
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Tipo</strong>
+                                            <strong><i class="fas fa-user mr-1"></i>Vigencia</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getTipo() ?>
+                                            <?= $DataMatricula->getVigencia()->toDateString();  ?>
                                         </p>
                                         <hr>
 
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Justificación</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Usuario</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getJustificacion() ?>
+                                            <?= $DataMatricula->getUsuario()->getNombres()," ", $DataMatricula->getUsuario()->getApellidos() ?>
                                         </p>
                                         <hr>
 
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Observación</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Curso</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getObservacion() ?>
+                                            <?= $DataMatricula->getCurso()->getNombre(); ?>
                                         </p>
                                         <hr>
-
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Administrador ID</strong>
-                                        <p class="text-muted">
-                                            <?= $DataNovedad->getAdministradorId() ?>
-                                        </p>
-                                        <hr>
-
-                                        <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Asistencia ID</strong>
-                                        <p class="text-muted">
-                                            <?= $DataNovedad->getAsistenciasId() ?>
-                                        </p>
-                                        <hr>
-
 
                                         <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>
                                         <p class="text-muted">
-                                            <?= $DataNovedad->getEstado() ?>
+                                            <?= $DataMatricula->getEstado() ?>
                                         </p>
 
 
@@ -130,13 +113,13 @@ use App\Controllers\NovedadController; ?>
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Novedades
+                                                    <i class="fas fa-tasks"></i> Gestionar Matriculas
                                                 </a>
                                             </div>
                                             <div class="col-auto">
                                                 <a role="button" href="create.php" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Novedades
+                                                    <i class="fas fa-plus"></i> Crear Matriculas
                                                 </a>
                                             </div>
                                         </div>

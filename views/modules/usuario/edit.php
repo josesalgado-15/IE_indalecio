@@ -1,16 +1,24 @@
 <?php
 require("../../partials/routes.php");
+require_once("../../partials/check_login.php");
 require("../../../app/Controllers/UsuarioController.php");
 
+use App\Controllers\DepartamentoController;
+use App\Controllers\MunicipioController;
 use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use App\Models\Usuario;
 use Carbon\Carbon;
 
+$nameModel = "Usuario";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar Usuario</title>
+    <title><?= $_ENV['TITLE_SITE']  ?> | Editar <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -32,8 +40,9 @@ use Carbon\Carbon;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Usuario</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Editar</li>
                         </ol>
                     </div>
                 </div>
@@ -42,22 +51,16 @@ use Carbon\Carbon;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear el usuario: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información del Usuario</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información del <?= $nameModel ?></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -73,18 +76,17 @@ use Carbon\Carbon;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataUsuario = UsuarioController::searchForID($_GET["id"]);
+                                $DataUsuario = UsuarioController::searchForID(["id" => $_GET["id"]]);
+
                                 if (!empty($DataUsuario)) {
                                     ?>
-
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" method="post" id="frmEditUsuario"
-                                              name="frmEditUsuario"
-                                              action="../../../app/Controllers/UsuarioController.php?action=edit">
-
-                                            <input id="id" name="id" value="<?php echo $DataUsuario->getId(); ?>" hidden
+                                        <form class="form-horizontal" enctype="multipart/form-data" method="post" id="frmEdit<?= $nameModel ?>"
+                                              name="frmEdit<?= $nameModel ?>"
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
+                                            <input id="id" name="id" value="<?= $DataUsuario->getId(); ?>" hidden
                                                    required="required" type="text">
 
                                             <div class="form-group row">
@@ -133,23 +135,37 @@ use Carbon\Carbon;
                                                     Documento</label>
                                                 <div class="col-sm-10">
                                                     <select id="tipo_documento" name="tipo_documento" class="custom-select">
-                                                        <option <?= ($DataUsuario->getTipoDocumento() == "CC") ? "selected" : ""; ?> value="CC">Cedula de Ciudadania</option>
-                                                        <option <?= ($DataUsuario->getTipoDocumento() == "CE") ? "selected" : ""; ?> value="CE">Cedula de Extranjeria</option>
-                                                        <option <?= ($DataUsuario->getTipoDocumento() == "TI") ? "selected" : ""; ?> value="TI">Tarjeta de Identidad</option>
-                                                        <option <?= ($DataUsuario->getTipoDocumento() == "PASAPORTE") ? "selected" : ""; ?> value="PASAPORTE">Pasaporte</option>
-                                                        <option <?= ($DataUsuario->getTipoDocumento() == "REGISTRO CIVIL") ? "selected" : ""; ?> value="REGISTRO CIVIL">Registro Civil</option>
+
+                                                        <option <?= ($DataUsuario->getTipoDocumento() == "C.C") ? "selected" : ""; ?>
+                                                                value="C.C">Cedula de Ciudadania
+                                                        </option>
+                                                        <option <?= ($DataUsuario->getTipoDocumento() == "T.I") ? "selected" : ""; ?>
+                                                                value="T.I">Tarjeta de Identidad
+                                                        </option>
+                                                        <option <?= ($DataUsuario->getTipoDocumento() == "R.C") ? "selected" : ""; ?>
+                                                                value="R.C">Registro Civil
+                                                        </option>
+                                                        <option <?= ($DataUsuario->getTipoDocumento() == "Pasaporte") ? "selected" : ""; ?>
+                                                                value="Pasaporte">Pasaporte
+                                                        </option>
+                                                        <option <?= ($DataUsuario->getTipoDocumento() == "C.E") ? "selected" : ""; ?>
+                                                                value="C.E">Cedula de Extranjeria
+                                                        </option>
 
                                                     </select>
                                                 </div>
                                             </div>
 
+
                                             <div class="form-group row">
                                                 <label for="fecha_nacimiento" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" value="<?= $DataUsuario->getFechaNacimiento(); ?>" class="form-control" id="fecha_nacimiento"
+                                                    <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>"
+                                                           value="<?= $DataUsuario->getFechaNacimiento()->toDateString(); ?>" class="form-control" id="fecha_nacimiento"
                                                            name="fecha_nacimiento" placeholder="Ingrese su Fecha de Nacimiento">
                                                 </div>
                                             </div>
+
 
                                             <div class="form-group row">
                                                 <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
@@ -159,19 +175,34 @@ use Carbon\Carbon;
                                                 </div>
                                             </div>
 
+
                                             <div class="form-group row">
                                                 <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
-                                                <div class="col-sm-10">
-                                                    <select id="municipios_id" name="municipios_id" class="custom-select">
-                                                        <option <?= ($DataUsuario->getMunicipiosId() == "1") ? "selected" : ""; ?> value="1">Ejemplo Municipio 1</option>
-                                                        <option <?= ($DataUsuario->getMunicipiosId() == "2") ? "selected" : ""; ?> value="2">Ejemplo Municipio</option>
-                                                        <option <?= ($DataUsuario->getMunicipiosId() == "3") ? "selected" : ""; ?> value="3">Ejemplo Municipio</option>
-                                                        <option <?= ($DataUsuario->getMunicipiosId() == "4") ? "selected" : ""; ?> value="4">Ejemplo Municipio</option>
-                                                        <option <?= ($DataUsuario->getMunicipiosId() == "5") ? "selected" : ""; ?> value="5">Ejemplo Municipio</option>
-
-                                                    </select>
+                                                <div class="col-sm-5">
+                                                    <?= DepartamentoController::selectDepartamentos(
+                                                        array(
+                                                            'id' => 'departamento_id',
+                                                            'name' => 'departamento_id',
+                                                            'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipio()->getDepartamento()->getId() : '15',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "estado = 'Activo'"
+                                                        )
+                                                    )
+                                                    ?>
+                                                </div>
+                                                <div class="col-sm-5 ">
+                                                    <?= MunicipioController::selectMunicipios(
+                                                        array (
+                                                            'id' => 'municipio_id',
+                                                            'name' => 'municipio_id',
+                                                            'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipiosId() : '',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "departamento_id = ".$DataUsuario->getMunicipio()->getDepartamento()->getId()." and estado = 'Activo'")
+                                                    )
+                                                    ?>
                                                 </div>
                                             </div>
+
 
                                             <div class="form-group row">
                                                 <label for="genero" class="col-sm-2 col-form-label">Género</label>

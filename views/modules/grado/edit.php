@@ -1,16 +1,22 @@
 <?php
-require("../../partials/routes.php");
-require("../../../app/Controllers/GradoController.php");
+
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
 use App\Controllers\GradoController;
-use Carbon\Carbon;
+use App\Models\GeneralFunctions;
+
+
+$nameModel = "Grado";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar Grado</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Editar <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -28,7 +34,7 @@ use Carbon\Carbon;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Editar Grado</h1>
+                        <h1>Editar <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -42,15 +48,9 @@ use Carbon\Carbon;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear el grado: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -73,26 +73,37 @@ use Carbon\Carbon;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataGrado = GradoController::searchForID($_GET["id"]);
+                                $DataGrado = GradoController::searchForID(["id" => $_GET["id"]]);
+
                                 if (!empty($DataGrado)) {
                                     ?>
 
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" method="post" id="frmEditGrado"
-                                              name="frmEditGrado"
-                                              action="../../../app/Controllers/GradoController.php?action=edit">
+                                        <form class="form-horizontal" method="post" id="frmEdit<?= $nameModel ?>"
+                                              name="frmEdit<?= $nameModel ?>"
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
 
-                                            <input id="id" name="id" value="<?php echo $DataGrado->getId(); ?>" hidden
+
+                                        <input id="id" name="id" value="<?php echo $DataGrado->getId(); ?>" hidden
                                                    required="required" type="text">
 
                                             <div class="form-group row">
                                                 <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombre"
-                                                           name="nombre" value="<?= $DataGrado->getNombre(); ?>"
-                                                           placeholder="Ingrese el nombre de grado ">
+                                                    <select id="nombre" name="nombre" class="custom-select">
+
+
+                                                        <option <?= ($DataGrado->getNombre() == "Sexto") ? "selected" : ""; ?> value="Sexto">Sexto</option>
+                                                        <option <?= ($DataGrado->getNombre() == "Séptimo") ? "selected" : ""; ?> value="Séptimo">Séptimo</option>
+                                                        <option <?= ($DataGrado->getNombre() == "Octavo") ? "selected" : ""; ?> value="Octavo">Octavo</option>
+                                                        <option <?= ($DataGrado->getNombre() == "Noveno") ? "selected" : ""; ?> value="Noveno">Noveno</option>
+                                                        <option <?= ($DataGrado->getNombre() == "Décimo") ? "selected" : ""; ?> value="Décimo">Décimo</option>
+                                                        <option <?= ($DataGrado->getNombre() == "Once") ? "selected" : ""; ?> value="Once">Once</option>
+
+
+                                                    </select>
                                                 </div>
                                             </div>
 

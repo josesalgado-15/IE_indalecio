@@ -1,11 +1,21 @@
-<?php use Carbon\Carbon;
+<?php
+
+//require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
+
+use App\Controllers\HorarioController;
+use App\Models\GeneralFunctions;
+
+$nameModel = "Horario";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Horario | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -23,12 +33,13 @@ require("../../partials/routes.php");;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear un Nuevo Horario</h1>
+                        <h1>Crear un Nuevo <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Horario</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Crear</li>
                         </ol>
                     </div>
                 </div>
@@ -37,15 +48,8 @@ require("../../partials/routes.php");;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear el horario: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensaje de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -66,22 +70,25 @@ require("../../partials/routes.php");;
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" method="post" id="frmCreateHorario"
-                                      name="frmCreateHorario"
-                                      action="../../../app/Controllers/HorarioController.php?action=create">
+                                <form class="form-horizontal" method="post" id="frmCreate<?= $nameModel ?>"
+                                      name="frmCreate<?= $nameModel ?>"
+                                      action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
+
                                     <div class="form-group row">
                                         <label for="hora_entrada_sede" class="col-sm-2 col-form-label">Hora de Entrada a Institución</label>
                                         <div class="col-sm-10">
                                             <input required type="time" class="form-control" id="hora_entrada_sede" name="hora_entrada_sede"
-                                                   placeholder="Ingrese la hora de ingreso a institución">
+                                                   placeholder="Ingrese la hora de ingreso" value="<?= $frmSession['hora_entrada_sede'] ?? '' ?>">
                                         </div>
                                     </div>
+
+
 
                                     <div class="form-group row">
                                         <label for="hora_salida" class="col-sm-2 col-form-label">Hora de Salida</label>
                                         <div class="col-sm-10">
                                             <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                   placeholder="Ingrese la hora de salida">
+                                                   placeholder="Ingrese la hora de salida" value="<?= $frmSession['hora_salida'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -89,78 +96,33 @@ require("../../partials/routes.php");;
                                         <label for="hora_entrada_restaurante" class="col-sm-2 col-form-label">Hora de Entrada a Restaurante</label>
                                         <div class="col-sm-10">
                                             <input required type="time" class="form-control" id="hora_entrada_restaurante" name="hora_entrada_restaurante"
-                                                   placeholder="Ingrese la hora de ingreso a restaurante">
+                                                   placeholder="Ingrese la hora de entrada a restaurante" value="<?= $frmSession['hora_entrada_restaurante'] ?? '' ?>">
                                         </div>
                                     </div>
+
 
                                     <div class="form-group row">
-                                        <label for="fecha_horario" class="col-sm-2 col-form-label">Fecha de Horario</label>
+                                        <label for="fecha" class="col-sm-2 col-form-label">Fecha de Horario</label>
                                         <div class="col-sm-10">
-                                            <input required type="date" class="form-control" id="fecha_horario"
-                                                   name="fecha_horario" placeholder="Ingrese la fecha">
+                                            <input required type="date" class="form-control" id="fecha"
+                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? '' ?>">
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                        <div class="col-sm-10">
-                                            <select id="estado" name="estado" class="custom-select">
-                                                <option value="Activo">Activo</option>
-                                                <option value="Inactivo">Inactivo</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <!--PENDIENTE ACTUALIZAR DE ACUERDO A SEBASTIAN-->
 
                                     <div class="form-group row">
                                         <label for="sedes_id" class="col-sm-2 col-form-label">Sede Institución</label>
                                         <div class="col-sm-10">
                                             <select id="sedes_id" name="sedes_id" class="custom-select">
-                                                <option value="1">Sede Principal</option>
-                                                <option value="2">Sede Ejemplo</option>
+
+                                                <option <?= (!empty($frmSession['sedes_id']) && $frmSession['sedes_id'] == "1") ? "selected" : ""; ?> value="1">1</option>
+                                                <option <?= (!empty($frmSession['sedes_id']) && $frmSession['sedes_id'] == "2") ? "selected" : ""; ?> value="2">2</option>
 
                                             </select>
                                         </div>
                                     </div>
 
-
-
-
-                                    <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>
-                                        <div class="form-group row">
-                                            <label for="user" class="col-sm-2 col-form-label">Usuario</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="user" name="user" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="password" class="col-sm-2 col-form-label">Password</label>
-                                            <div class="col-sm-10">
-                                                <input required type="password" class="form-control" id="password" name="password" placeholder="Ingrese su Usuario">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="rol" class="col-sm-2 col-form-label">Rol</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="rol" class="custom-select">
-                                                    <option value="Estudiante">Estudiante</option>
-                                                    <option value="Administrador">Administrador</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                            <div class="col-sm-10">
-                                                <select id="rol" name="Estado" class="custom-select">
-                                                    <option value="Activo">Activo</option>
-                                                    <option value="Inactivo">Inactivo</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
 
                                     <hr>
                                     <button type="submit" class="btn btn-info">Enviar</button>

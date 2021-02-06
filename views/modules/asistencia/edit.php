@@ -1,16 +1,23 @@
 <?php
-require("../../partials/routes.php");
-require("../../../app/Controllers/AsistenciaController.php");
+
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
 use Carbon\Carbon;
+
+$nameModel = "Asistencia";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar Asistencia</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Editar <?= $nameModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -28,7 +35,7 @@ use Carbon\Carbon;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Editar Asistencia</h1>
+                        <h1>Editar <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -42,15 +49,10 @@ use Carbon\Carbon;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear la asistencia: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -73,25 +75,26 @@ use Carbon\Carbon;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataAsistencia = AsistenciaController::searchForID($_GET["id"]);
+                                $DataAsistencia = AsistenciaController::searchForID(["id" => $_GET["id"]]);
+
                                 if (!empty($DataAsistencia)) {
                                     ?>
 
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" method="post" id="frmEditAsistencia"
-                                              name="frmEditAsistencia"
-                                              action="../../../app/Controllers/AsistenciaController.php?action=edit">
+                                        <form class="form-horizontal" method="post" id="frmEdit<?= $nameModel ?>"
+                                              name="frmEdit<?= $nameModel ?>"
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
 
-                                            <input id="id" name="id" value="<?php echo $DataAsistencia->getId(); ?>" hidden
+                                        <input id="id" name="id" value="<?= $DataAsistencia->getId(); ?>" hidden
                                                    required="required" type="text">
 
                                             <div class="form-group row">
                                                 <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>" class="form-control" id="fecha"
-                                                           name="fecha"  value="<?= $DataAsistencia->getFecha(); ?> "  placeholder="Ingrese la fecha">
+                                                    <input required type="date" max="<?= Carbon::now()->format('Y-m-d') ?>" value="<?= $DataAsistencia->getFecha()->toDateString(); ?>" class="form-control" id="fecha"
+                                                           name="fecha" placeholder="Ingrese la fecha">
                                                 </div>
                                             </div>
 
@@ -99,9 +102,10 @@ use Carbon\Carbon;
                                                 <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
                                                 <div class="col-sm-10">
                                                     <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                           value="<?= $DataAsistencia->getHoraIngreso(); ?> placeholder="Ingrese la hora de ingreso">
+                                                           value="<?= $DataAsistencia->getHoraIngreso(); ?>">
                                                 </div>
                                             </div>
+
 
                                             <div class="form-group row">
                                                 <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
@@ -118,16 +122,17 @@ use Carbon\Carbon;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="usuarios_id" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
+                                                <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
                                                 <div class="col-sm-4">
 
                                                     <div class="form-group">
-                                                        <select multiple class="form-control">
-                                                            <option value="Institución">Institución</option>
-                                                            <option <?= ($DataAsistencia->getTipoIngreso() == "Institución") ? "selected" : ""; ?> value="Institución">Institución</option>
-                                                            <option value="Restaurante">Restaurante</option>
+                                                        <select id="tipo_ingreso" name="tipo_ingreso" multiple class="form-control">
+
+                                                            <option <?= ($DataAsistencia->getTipoIngreso() == "Institucion") ? "selected" : ""; ?> value="Institucion">Institución</option>
                                                             <option <?= ($DataAsistencia->getTipoIngreso() == "Restaurante") ? "selected" : ""; ?> value="Restaurante">Restaurante</option>
+
                                                         </select>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,15 +141,29 @@ use Carbon\Carbon;
                                                 <label for="hora_salida" class="col-sm-2 col-form-label">Hora De Salida</label>
                                                 <div class="col-sm-10">
                                                     <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                           value="<?= $DataAsistencia->getHoraSalida(); ?> placeholder="Ingrese la hora de salida">
+                                                           value="<?= $DataAsistencia->getHoraSalida(); ?>">
                                                 </div>
                                             </div>
 
+
+                                            <?php
+                                            $dataAsistencia = null;
+                                            if (!empty($_GET['id'])) {
+                                                $dataAsistencia = AsistenciaController::searchForID(["id" => $_GET["id"]]);
+                                            }
+                                            ?>
+
                                             <div class="form-group row">
-                                                <label for="usuarios_id" class="col-sm-2 col-form-label">Documento Estudiante</label>
+                                                <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="number" minlength="6" class="form-control"
-                                                           id="usuarios_id" name="usuarios_id"  value="<?= $DataAsistencia->getUsuariosId(); ?> placeholder="Ingrese su documento">
+                                                    <?= UsuarioController::selectUsuario(array (
+                                                        'id' => 'matriculas_id',
+                                                        'name' => 'matriculas_id',
+                                                        'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getMatriculasId() : '',
+                                                        'class' => 'form-control select2bs4 select2-info',
+                                                        'where' => "rol = 'Estudiante' and estado = 'Activo'"))
+
+                                                    ?>
                                                 </div>
                                             </div>
 

@@ -1,144 +1,140 @@
 <?php
-
-
 namespace App\Models;
-use App\Models\BasicModel;
+
+use App\Interfaces\Model;
 use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
 
-require_once('BasicModel.php');
-
-
-class Horario extends BasicModel
+class Horario extends AbstractDBConnection implements Model, JsonSerializable
 {
     //Propiedades
 
-    protected int $id; //Visibilidad (public, protected, private)
-    protected string $horario_entrada_sede;
-    protected string $horario_salida;
-    protected string $horario_entrada_restaurante;
-    protected string $fecha;
+    protected ?int $id; //Visibilidad (public, protected, private)
+    protected string $hora_entrada_sede;
+    protected string $hora_salida;
+    protected string $hora_entrada_restaurante;
+    protected Carbon $fecha;
     protected string $estado;
     protected int $sedes_id;
-    protected string $created_at;
-    protected string $updated_at;
-    protected string $deleted_at;
+    protected Carbon $created_at;
+    protected Carbon $updated_at;
+    protected Carbon $deleted_at;
 
-
+    /* Relaciones */
+    private ?Sede $sede;
 
     /**
-     * Horario constructor.
-     *
+     * Asistencia constructor. Recibe un array asociativo
+     * @param array $horario
      */
 
     //Metodo Constructor
-    public function __construct ($horario = array())
+    public function __construct (array $horario = [])
     {
-
-        parent::__construct();
-        $this->id = $horario['id'] ?? 0;
-        $this->horario_entrada_sede = $horario['horario_entrada_sede'] ?? '';
-        $this->horario_salida = $horario['horario_salida'] ?? '';
-        $this->horario_entrada_restaurante = $horario['horario_entrada_restaurante'] ?? '';
-        $this->fecha = $horario['fecha'] ?? new Carbon();
-        $this->estado = $horario['estado'] ?? '';
-        $this->sedes_id = $horario['sedes_id'] ?? 0;
-        $this->created_at = $horario['created_at'] ?? new Carbon();
-        $this->updated_at = $horario['updated_at'] ?? new Carbon();
-        $this->deleted_at = $horario['deleted_at'] ?? new Carbon();
-
-
-
+        parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
+        $this->setId($horario['id'] ?? NULL);
+        $this->setHoraEntradaSede($horario['hora_entrada_sede'] ?? '');
+        $this->setHoraSalida($horario['hora_salida'] ?? '');
+        $this->setHoraEntradaRestaurante($horario['hora_entrada_restaurante'] ?? '');
+        $this->setFecha( !empty($horario['fecha']) ? Carbon::parse($horario['fecha']) : new Carbon());
+        $this->setEstado($horario['estado'] ?? '');
+        $this->setSedesId($horario['sedes_id'] ?? 0);
+        $this->setCreatedAt(!empty($horario['created_at']) ? Carbon::parse($horario['created_at']) : new Carbon());
+        $this->setUpdatedAt(!empty($horario['updated_at']) ? Carbon::parse($horario['updated_at']) : new Carbon());
+        $this->setDeletedAt(!empty($horario['deleted_at']) ? Carbon::parse($horario['deleted_at']) : new Carbon());
     }
 
 
     function __destruct()
     {
-        //    $this->Disconnect(); // Cierro Conexiones
+        if($this->isConnected){
+            $this->Disconnect();
+        }
     }
 
-
     /**
-     * @return int
+     * @return int|mixed
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param int|null $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getHorarioEntradaSede(): string
+    public function getHoraEntradaSede(): string
     {
-        return $this->horario_entrada_sede;
+        return $this->hora_entrada_sede;
     }
 
     /**
-     * @param string $horario_entrada_sede
+     * @param mixed|string $hora_entrada_sede
      */
-    public function setHorarioEntradaSede(string $horario_entrada_sede): void
+    public function setHoraEntradaSede(string $hora_entrada_sede): void
     {
-        $this->horario_entrada_sede = $horario_entrada_sede;
+        $this->hora_entrada_sede = $hora_entrada_sede;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getHorarioSalida(): string
+    public function getHoraSalida(): string
     {
-        return $this->horario_salida;
+        return $this->hora_salida;
     }
 
     /**
-     * @param string $horario_salida
+     * @param mixed|string $hora_salida
      */
-    public function setHorarioSalida(string $horario_salida): void
+    public function setHoraSalida(string $hora_salida): void
     {
-        $this->horario_salida = $horario_salida;
+        $this->hora_salida = $hora_salida;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
-    public function getHorarioEntradaRestaurante(): string
+    public function getHoraEntradaRestaurante(): string
     {
-        return $this->horario_entrada_restaurante;
+        return $this->hora_entrada_restaurante;
     }
 
     /**
-     * @param string $horario_entrada_restaurante
+     * @param mixed|string $hora_entrada_restaurante
      */
-    public function setHorarioEntradaRestaurante(string $horario_entrada_restaurante): void
+    public function setHoraEntradaRestaurante(string $hora_entrada_restaurante): void
     {
-        $this->horario_entrada_restaurante = $horario_entrada_restaurante;
+        $this->hora_entrada_restaurante = $hora_entrada_restaurante;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getFecha(): string
+    public function getFecha(): Carbon
     {
-        return $this->fecha;
+        return $this->fecha->locale('es');
     }
 
     /**
-     * @param string $fecha
+     * @param Carbon|mixed $fecha
      */
-    public function setFecha(string $fecha): void
+    public function setFecha(Carbon $fecha): void
     {
         $this->fecha = $fecha;
     }
 
     /**
-     * @return string
+     * @return mixed|string
      */
     public function getEstado(): string
     {
@@ -146,7 +142,7 @@ class Horario extends BasicModel
     }
 
     /**
-     * @param string $estado
+     * @param mixed|string $hora_ingreso
      */
     public function setEstado(string $estado): void
     {
@@ -154,7 +150,7 @@ class Horario extends BasicModel
     }
 
     /**
-     * @return int
+     * @return int|mixed
      */
     public function getSedesId(): int
     {
@@ -169,170 +165,244 @@ class Horario extends BasicModel
         $this->sedes_id = $sedes_id;
     }
 
-
-
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): Carbon
     {
-        return $this->created_at;
+        return $this->created_at->locale('es');
     }
 
     /**
-     * @param string $created_at
+     * @param Carbon|mixed $created_at
      */
-    public function setCreatedAt(string $created_at): void
+    public function setCreatedAt(Carbon $created_at): void
     {
         $this->created_at = $created_at;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): Carbon
     {
-        return $this->updated_at;
+        return $this->updated_at->locale('es');
     }
 
     /**
-     * @param string $updated_at
+     * @param Carbon|mixed $updated_at
      */
-    public function setUpdatedAt(string $updated_at): void
+    public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
 
     /**
-     * @return string
+     * @return Carbon|mixed
      */
-    public function getDeletedAt(): string
+    public function getDeletedAt(): Carbon
     {
-        return $this->deleted_at;
+        return $this->deleted_at->locale('es');
     }
 
     /**
-     * @param string $deleted_at
+     * @param Carbon|mixed $deleted_at
      */
-    public function setDeletedAt(string $deleted_at): void
+    public function setDeletedAt(Carbon $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
 
-
-
-
-
-    public function create()
+    /**
+     * @return Sede|null
+     */
+    public function getSede(): ?Sede
     {
-
-        var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.horarios VALUES (NULL, ?, ?, ?, ?, ?, ?, NOW() , NULL ,NULL)", array(
-
-                $this->getHorarioEntradaSede(),
-                $this->getHorarioSalida(),
-                $this->getHorarioEntradaRestaurante(),
-                $this->getFecha(),
-                $this->getEstado(),
-                $this->getSedesId()
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt()
+        if(!empty($this->sedes_id_id)){
+            $this->sede = Sede::searchForId($this->sedes_id_id) ?? new Sede();
+            return $this->sede;
+        }
+        return NULL;
+    }
 
 
-            )
-        );
+    /**
+     * @param string $query
+     * @return bool|null
+     */
+    protected function save(string $query): ?bool
+    {
+        $arrData = [
+            ':id' =>    $this->getId(),
+            ':hora_entrada_sede' =>  $this->getHoraEntradaSede(),
+            ':hora_salida' =>   $this->getHoraSalida(),
+            ':hora_entrada_restaurante' =>  $this->getHoraEntradaRestaurante(),
+            ':fecha' =>   $this->getFecha()->toDateTimeString(),
+            ':estado' =>   $this->getEstado(),
+            ':sedes_id' =>   $this->getSedesId(),
+            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
-
     }
 
-    public function update()
+
+    /**
+     * @return bool|null
+     */
+
+    function insert(): ?bool
     {
-        $result = $this->updateRow("UPDATE dbindalecio.horarios SET hora_entrada_sede = ?, hora_salida = ?, hora_entrada_restaurante = ?, fecha = ?, estado = ?, sedes_id = ? WHERE id = ?", array(
-
-                $this->getHorarioEntradaSede(),
-                $this->getHorarioSalida(),
-                $this->getHorarioEntradaRestaurante(),
-                $this->getFecha(),
-                $this->getEstado(),
-                $this->getSedesId(),
-                //$this->getCreatedAt(),
-                //$this->getUpdatedAt(),
-                //$this->getDeletedAt(),
-                $this->getId()
-
-            )
-        );
-        $this->Disconnect();
-        return $this;
+        $query = "INSERT INTO dbindalecio.horarios VALUES (:id,:hora_entrada_sede,:hora_salida,:hora_entrada_restaurante,:fecha,:estado,:sedes_id,:created_at,:updated_at,:deleted_at)";
+        return $this->save($query);
     }
 
-    public function deleted($id)
+
+    /**
+     * @return bool|null
+     */
+    public function update() : ?bool
     {
-        $result = $this->updateRow('UPDATE dbindalecio.horarios SET estado = ? WHERE id = ?', array(
-                'Inactivo',
-                $this->getId()
-            )
-        );
+        $query = "UPDATE dbindalecio.horarios SET 
+            hora_entrada_restaurante = :hora_entrada_restaurante, hora_salida = :hora_salida,
+            hora_entrada_restaurante = :hora_entrada_restaurante, fecha = :fecha,
+            estado = :estado, sedes_id = :sedes_id, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+        return $this->save($query);
     }
 
-    public static function search($query)
+
+    /**
+     * @return mixed
+     */
+    public function deleted() : bool
     {
-        $arrHorarios = array();
-        $tmp = new Horario();
-        $getrows = $tmp->getRows($query);
+        $this->setEstado("Inactivo"); //Cambia el estado
+        return $this->update();                    //Guarda los cambios..
+    }
 
-        foreach ($getrows as $valor) {
 
-            $Horario = new Horario();
-            $Horario->setId($valor['id']);
-            $Horario->setHorarioEntradaSede($valor['hora_entrada_sede']);
-            $Horario->setHorarioSalida($valor['hora_salida']);
-            $Horario->setHorarioEntradaRestaurante($valor['hora_entrada_restaurante']);
-            $Horario->setFecha($valor['fecha']);
-            $Horario->setEstado($valor['estado']);
-            $Horario->setSedesId($valor['sedes_id']);
-            //$Horario->setCreatedAt($valor['created_at']);
-            //$Horario->setUpdatedAt($valor['updated_at']);
-            //$Horario->setDeletedAt($valor['deleted_at']);
-            $Horario->Disconnect();
-            array_push($arrHorarios, $Horario);
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public static function search($query) : ?array
+    {
+        try {
+            $arrHorarios = array();
+            $tmp = new Horario();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
 
+            foreach ($getrows as $valor) {
+                $Horario = new Horario($valor);
+                array_push($arrHorarios, $Horario);
+                unset($Horario);
+            }
+            return $arrHorarios;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        $tmp->Disconnect();
-        return $arrHorarios;
-
+        return NULL;
     }
 
-    public static function getAll()
+
+    /**
+     * @param $id
+     * @return Horario
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Horario
+    {
+        try {
+            if ($id > 0) {
+                $Horario = new Horario();
+                $Horario->Connect();
+                $getrow = $Horario->getRow("SELECT * FROM dbindalecio.horarios WHERE id =?", array($id));
+
+                $Horario->Disconnect();
+                return ($getrow) ? new Horario($getrow) : null;
+            }else{
+                throw new Exception('Id de Horario Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
+
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : array
     {
         return Horario::search("SELECT * FROM dbindalecio.horarios");
     }
 
-    public static function searchForId($id)
+    static function horarioRegistrado($hora_entrada_sede, $hora_salida, $hora_entrada_restaurante, $sedes_id): bool
     {
-        $Horario = null;
-        if ($id>0){
-            $Horario = new Horario();
-            $getrow = $Horario->getRow("SELECT * FROM dbindalecio.horarios WHERE id =?", array($id));
-
-            $Horario->setId($getrow['id']);
-            $Horario->setHorarioEntradaSede($getrow['hora_entrada_sede']);
-            $Horario->setHorarioSalida($getrow['hora_salida']);
-            $Horario->setHorarioEntradaRestaurante($getrow['hora_entrada_restaurante']);
-            $Horario->setFecha($getrow['fecha']);
-            $Horario->setEstado($getrow['estado']);
-            $Horario->setSedesId($getrow['sedes_id']);
-            //$Horario->setCreatedAt($getrow['created_at']);
-            //$Horario->setUpdatedAt($getrow['updated_at']);
-            //$Horario->setDeletedAt($getrow['deleted_at']);
-
-
+        $result = Horario::search("SELECT * FROM dbindalecio.horarios where hora_entrada_sede = '" . $hora_entrada_sede. "' and hora_salida = '".$hora_salida ."'  and hora_entrada_restaurante = '".$hora_entrada_restaurante ."' and $sedes_id = '".$sedes_id ."'" );
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
         }
-        $Horario->Disconnect();
-        return $Horario;
     }
 
+    public function __toString() : string
+    {
+        return "Hora de entrada a Sede: $this->hora_entrada_sede, Hora de salida: $this->hora_salida, Hora de entrada a Restaurante: $this->hora_entrada_restaurante, Fecha: $this->fecha,  Sede: $this->sedes_id, Estado: $this->estado";
+    }
+
+    /*
+    public function Login($User, $Password){
+        try {
+            $resultUsuarios = Usuarios::search("SELECT * FROM usuarios WHERE user = '$User'");
+            if(count($resultUsuarios) >= 1){
+                if($resultUsuarios[0]->password == $Password){
+                    if($resultUsuarios[0]->estado == 'Activo'){
+                        return $resultUsuarios[0];
+                    }else{
+                        return "Usuario Inactivo";
+                    }
+                }else{
+                    return "Contraseña Incorrecta";
+                }
+            }else{
+                return "Usuario Incorrecto";
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+            return "Error en Servidor";
+        }
+    }
+*/
+
+
+    public function jsonSerialize()
+    {
+        return [
+
+            'id' =>    $this->getId(),
+            'hora_entrada_sede' =>  $this->getHoraEntradaSede(),
+            'hora_salida' =>   $this->getHoraSalida(),
+            'hora_entrada_restaurante' =>  $this->getHoraEntradaRestaurante(),
+            'fecha' =>   $this->getFecha()->toDateTimeString(),
+            'estado' =>   $this->getEstado(),
+            'sedes_id' =>   $this->getSedesId(),
+            'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
+            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+
+
+        ];
+    }
 
 }

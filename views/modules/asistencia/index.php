@@ -1,13 +1,22 @@
 <?php
-require_once("../../partials/routes.php");
-require_once("../../../app/Controllers/AsistenciaController.php");
+
+//require_once("../../partials/check_login.php");
+require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use Carbon\Carbon;
+
+$nameModel = "Asistencia";
+$pluralModel = $nameModel.'s';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar Asistencias</title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar <?= $pluralModel ?></title>
     <?php include_once ('../../partials/head_imports.php') ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -43,20 +52,11 @@ use App\Controllers\AsistenciaController;
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta']) && !empty($_GET['accion'])) { ?>
-                <?php if ($_GET['respuesta'] == "correcto") { ?>
-                    <div class="alert alert-success alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-check"></i> Correcto!</h5>
-                        <?php if ($_GET['accion'] == "create") { ?>
-                            La asistencia se ha sido registrado con exito!
-                        <?php } else if ($_GET['accion'] == "update") { ?>
-                            Los datos de la asistencia han sido actualizados correctamente!
-                        <?php } ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
-
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
             <!-- Default box -->
             <div class="card card-dark">
                 <div class="card-header">
@@ -98,11 +98,11 @@ use App\Controllers\AsistenciaController;
                                     <th>Hora De Salida</th>
                                     <th># Documento</th>
                                     <th>Estado</th>
-                                    <th>Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 <?php
                                 $arrAsistencias = AsistenciaController::getAll();
                                 /* @var $arrAsistencias \App\Models\Asistencia[] */
@@ -110,14 +110,13 @@ use App\Controllers\AsistenciaController;
                                     ?>
                                     <tr>
                                         <td><?php echo $asistencia->getId(); ?></td>
-                                        <td><?php echo $asistencia->getFecha(); ?></td>
+                                        <td><?php echo $asistencia->getFecha()->translatedFormat('l, j \\de F Y');  ?></td>
+                                        <td><?php echo $asistencia->getTipoIngreso(); ?></td>
                                         <td><?php echo $asistencia->getHoraIngreso(); ?></td>
                                         <td><?php echo $asistencia->getObservacion(); ?></td>
-                                        <td><?php echo $asistencia->getTipoIngreso(); ?></td>
                                         <td><?php echo $asistencia->getHoraSalida(); ?></td>
-                                        <td><?php echo $asistencia->getUsuariosId(); ?></td>
+                                        <td><?php echo $asistencia->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getUsuario()->getNombres(); ?></td>
                                         <td><?php echo $asistencia->getEstado(); ?></td>
-                                        <td><?php echo $asistencia->getCreatedAt(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
@@ -142,7 +141,6 @@ use App\Controllers\AsistenciaController;
                                     <th>Hora De Salida</th>
                                     <th># Documento</th>
                                     <th>Estado</th>
-                                    <th>Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </tfoot>
@@ -157,7 +155,9 @@ use App\Controllers\AsistenciaController;
                 <!-- /.card-footer-->
             </div>
             <!-- /.card -->
-
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
     </div>
@@ -165,43 +165,13 @@ use App\Controllers\AsistenciaController;
 
     <?php include_once ('../../partials/footer.php') ?>
 </div>
+
+<?php require('../../partials/footer.php'); ?>
+</div>
 <!-- ./wrapper -->
+<?php require('../../partials/scripts.php'); ?>
+<!-- Scripts requeridos para las datatables -->
+<?php require('../../partials/datatables_scripts.php'); ?>
 
-<?php include_once ('../../partials/scripts.php') ?>
-<!-- DataTables -->
-<script src="<?= $adminlteURL ?>/plugins/datatables/jquery.dataTables.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-responsive/js/dataTables.responsive.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/dataTables.buttons.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.bootstrap4.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/jszip/jszip.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/pdfmake/pdfmake.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.html5.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.print.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.colVis.js"></script>
-
-<script>
-    $(function () {
-        $('.datatable').DataTable({
-            "dom": 'Bfrtip',
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "language": {
-                "url": "../../public/Spanish.json" //Idioma
-            },
-            "buttons": [
-                'copy', 'print', 'excel', 'pdf'
-            ],
-            "pagingType": "full_numbers",
-            "responsive": true,
-            "stateSave": true, //Guardar la configuracion del usuario
-        });
-    });
-</script>
 </body>
 </html>

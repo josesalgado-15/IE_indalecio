@@ -3,109 +3,127 @@
 namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
-require_once(__DIR__ . '/../Models/Grado.php');
-require_once(__DIR__ . '/../Models/GeneralFunctions.php');
 
 use App\Models\GeneralFunctions;
 use App\Models\Grado;
 use Carbon\Carbon;
 
-if (!empty($_GET['action'])) {
-    GradoController::main($_GET['action']);
-}
+
 
 class GradoController
 {
 
-    static function main($action)
+    private array $dataGrado;
+
+    public function __construct(array $_FORM)
     {
-        if ($action == "create") {
-            GradoController::create();
-        } else if ($action == "edit") {
-            GradoController::edit();
-        } else if ($action == "searchForID") {
-            GradoController::searchForID($_REQUEST['idGrado']);
-        } else if ($action == "searchAll") {
-            GradoController::getAll();
-        } else if ($action == "changeStatus") {
-            GradoController::changeStatus();
-        }
+        $this->dataGrado = array();
+        $this->dataGrado['id'] = $_FORM['id'] ?? NULL;
+        $this->dataGrado['nombre'] = $_FORM['nombre'] ?? NULL;
+        $this->dataGrado['estado'] = $_FORM['estado'] ?? 'Activo';
+
 
     }
 
-    static public function create()
-    {
+    public function create() {
         try {
-            $arrayGrado = array();
-            $arrayGrado['nombre'] = $_POST['nombre'];
-            $arrayGrado['estado'] = 'Activo';
-            $arrayGrado['created_at'] = Carbon::now(); //Fecha Actual
+            if (!empty($this->dataGrado['nombre'] && !Grado::gradoRegistrado($this->dataGrado['nombre'])))
 
-
-            if (!Grado::gradoRegistrado($arrayGrado['nombre'])) {
-                $Grado = new Grado ($arrayGrado);
-                if ($Grado->create()) {
-                    //var_dump($_POST);
-                    header("Location: ../../views/modules/grado/index.php?accion=create&respuesta=correcto");
-
+            {
+                $Grado = new Grado ($this->dataGrado);
+                if ($Grado->insert()) {
+                    unset($_SESSION['frmGrados']);
+                    header("Location: ../../views/modules/grado/index.php?respuesta=success&mensaje=Grado Registrado!");
                 }
             } else {
-                //echo "Grado ya creado";
                 header("Location: ../../views/modules/grado/create.php?respuesta=error&mensaje=Grado ya registrado");
             }
-        } catch (Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/grado/create.php?respuesta=error&mensaje=" . $e->getMessage());
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function edit()
+    public function edit()
     {
         try {
+            $grado = new Grado($this->dataGrado);
+            if($grado->update()){
+                unset($_SESSION['frmGrados']);
+            }
 
-            $arrayGrado = array();
-            $arrayGrado['nombre'] = $_POST['nombre'];
-            $arrayGrado['estado'] = $_POST['estado'];
-            $arrayGrado['id'] = $_POST['id'];
-
-            $grado = new Grado($arrayGrado);
-            $grado->update();
-
-            header("Location: ../../views/modules/grado/show.php?id=" . $grado->getId() . "&respuesta=correcto");
-
+            header("Location: ../../views/modules/grado/show.php?id=" . $grado->getId() . "&respuesta=success&mensaje=Grado Actualizado");
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/grado/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function searchForID($id)
-    {
+    static public function searchForID (array $data){
         try {
-            return Grado::searchForId($id);
+            $result = Grado::searchForId($data['id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/grado/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
     }
 
-    static public function getAll()
-    {
+    static public function getAll (array $data = null){
         try {
-            return Grado::getAll();
+            $result = Grado::getAll();
+            if (!empty($data['request']) and $data['request'] === 'ajax') {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result);
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'log', 'errorStack');
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
+        return null;
+    }
+
+
+    static public function selectGrado (array $params = []){
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "grados_id";
+        $params['name'] = $params['name'] ?? "grados_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
+        $arrGrado = array();
+        if($params['where'] != ""){
+            $base = "SELECT * FROM grados WHERE ";
+            $arrGrado = Grado::search($base.$params['where']);
+        }else{
+            $arrGrado = Grado::getAll();
+        }
+
+        $htmlSelect = "<select ".(($params['isMultiple']) ? "multiple" : "")." ".(($params['isRequired']) ? "required" : "")." id= '".$params['id']."' name='".$params['name']."' class='".$params['class']."'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrGrado) > 0){
+            /* @var $arrGrado Grado[] */
+            foreach ($arrGrado as $grado)
+                if (!GradoController::gradoIsInArray($grado->getId(),$params['arrExcluir']))
+                    $htmlSelect .= "<option ".(($grado != "") ? (($params['defaultValue'] == $grado->getId()) ? "selected" : "" ) : "")." value='".$grado->getId() . "'>" . $grado->getNombre() . "</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
     }
 
 
 
-    private static function usuarioIsInArray($idUsuario, $ArrUsuarios)
-    {
-        if (count($ArrUsuarios) > 0) {
-            foreach ($ArrUsuarios as $Usuario) {
-                if ($Usuario->getId() == $idUsuario) {
+    public static function gradoIsInArray($idGrado, $ArrGrado){
+        if(count($ArrGrado) > 0){
+            foreach ($ArrGrado as $Grado){
+                if($Grado->getId() == $idGrado){
                     return true;
                 }
             }
@@ -113,62 +131,5 @@ class GradoController
         return false;
     }
 
-    public static function login (){
-        try {
-            if(!empty($_POST['user']) && !empty($_POST['password'])){
-                $tmpUser = new Usuarios();
-                $respuesta = $tmpUser->Login($_POST['user'], $_POST['password']);
-                if (is_a($respuesta,"App\Models\Usuarios")) {
-                    $_SESSION['UserInSession'] = $respuesta->jsonSerialize();
-                    header("Location: ../../views/index.php");
-                }else{
-                    header("Location: ../../views/modules/site/login.php?respuesta=error&mensaje=".$respuesta);
-                }
-            }else{
-                header("Location: ../../views/modules/site/login.php?respuesta=error&mensaje=Datos Vacíos");
-            }
-        } catch (\Exception $e) {
-            header("Location: ../../views/modules/site/login.php?respuesta=error".$e->getMessage());
-        }
-    }
-
-    public static function cerrarSession (){
-        session_unset();
-        session_destroy();
-        header("Location: ../../views/modules/site/login.php");
-    }
-    /*
-    public function buscar ($Query){
-        try {
-            return Persona::buscar($Query);
-        } catch (Exception $e) {
-            header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
-        }
-    }
-
-    static public function asociarEspecialidad (){
-        try {
-            $Persona = new Persona();
-            $Persona->asociarEspecialidad($_POST['Persona'],$_POST['Especialidad']);
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?respuesta=correcto&id=".$_POST['Persona']);
-        } catch (Exception $e) {
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?respuesta=error&mensaje=".$e->getMessage());
-        }
-    }
-
-    static public function eliminarEspecialidad (){
-        try {
-            $ObjPersona = new Persona();
-            if(!empty($_GET['Persona']) && !empty($_GET['Especialidad'])){
-                $ObjPersona->eliminarEspecialidad($_GET['Persona'],$_GET['Especialidad']);
-            }else{
-                throw new Exception('No se recibio la informacion necesaria.');
-            }
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?id=".$_GET['Persona']);
-        } catch (Exception $e) {
-            var_dump($e);
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
-        }
-    }*/
 
 }

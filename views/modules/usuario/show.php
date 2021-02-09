@@ -86,12 +86,6 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Edad</strong>
-                                        <p class="text-muted">
-                                            <?= $DataUsuario->getEdad() ?>
-                                        </p>
-                                        <hr>
-
                                         <strong><i class="fas fa-phone mr-1"></i>Telefono</strong>
                                         <p class="text-muted"><?= $DataUsuario->getTelefono() ?></p>
                                         <hr>
@@ -100,13 +94,18 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         <p class="text-muted"><?= $DataUsuario->getTipoDocumento() . ": " . $DataUsuario->getNumeroDocumento() ?></p>
                                         <hr>
 
-                                        <strong><i class="fas fa-calendar mr-1"></i>Fecha Nacimiento</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getFechaNacimiento() ?></p>
+                                        <strong><i class="fas fa-calendar mr-1"></i> Fecha Nacimiento</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?>
+                                            &nbsp;
+                                            🎉Tienes: <?= $DataUsuario->getFechaNacimiento()->diffInYears(); ?>
+                                            Años🤡
+                                        </p>
                                         <hr>
 
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Direccion</strong>
                                         <p class="text-muted"><?= $DataUsuario->getDireccion() ?>
                                             , <?= $DataUsuario->getMunicipio()->getNombre() ?>
+                                            - <?= $DataUsuario->getMunicipio()->getDepartamento()->getNombre() ?></p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Género</strong>
@@ -147,6 +146,11 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
 
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i>Institución</strong>
                                         <p class="text-muted"><?= $DataUsuario->getInstitucionesId() ?></p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-calendar-check mr-1"></i> Fecha
+                                            Registro</strong>
+                                        <p class="text-muted"><?= $DataUsuario->getCreatedat()->toDateTimeString(); ?></p>
                                         <hr>
 
                                         <strong><i class="far fa-file-alt mr-1"></i> Estado y Rol</strong>

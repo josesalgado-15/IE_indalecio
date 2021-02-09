@@ -70,11 +70,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <!-- form start -->
-                                <form class="form-horizontal" enctype="multipart/form-data" method="post" id="frmCreate<?= $nameModel ?>"
+                                <form class="form-horizontal" method="post" id="frmCreate<?= $nameModel ?>"
                                       name="frmCreate<?= $nameModel ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
-                                    <div class="form-group row">
+                                <div class="form-group row">
                                         <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombres" name="nombres"
@@ -89,17 +89,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="edad" class="col-sm-2 col-form-label">Edad</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" minlength="1" class="form-control"
-                                                   id="edad" name="edad" placeholder="Ingrese su edad" value="<?= $frmSession['edad'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="6" class="form-control"
-                                                   id="telefono" name="telefono" placeholder="Ingrese su telefono" value="<?= $frmSession['edad'] ?? '' ?>">
+                                                   id="telefono" name="telefono" placeholder="Ingrese su telefono" value="<?= $frmSession['telefono'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -141,7 +134,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="direccion"
-                                                   name="direccion" placeholder="Ingrese su direccion" value="<?= $frmSession['edad'] ?? '' ?>">
+                                                   name="direccion" placeholder="Ingrese su direccion" value="<?= $frmSession['direccion'] ?? '' ?>">
                                         </div>
                                     </div>
 

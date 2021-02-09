@@ -17,7 +17,6 @@ class UsuarioController
         $this->dataUsuario['id'] = $_FORM['id'] ?? NULL;
         $this->dataUsuario['nombres'] = $_FORM['nombres'] ?? NULL;
         $this->dataUsuario['apellidos'] = $_FORM['apellidos'] ?? null;
-        $this->dataUsuario['edad'] = $_FORM['edad'] ?? null;
         $this->dataUsuario['telefono'] = $_FORM['telefono'] ?? null;
         $this->dataUsuario['numero_documento'] = $_FORM['numero_documento'] ?? NULL;
         $this->dataUsuario['tipo_documento'] = $_FORM['tipo_documento'] ?? NULL;
@@ -33,13 +32,13 @@ class UsuarioController
         $this->dataUsuario['telefono_acudiente'] = $_FORM['telefono_acudiente'] ?? NULL;
         $this->dataUsuario['correo_acudiente'] = $_FORM['correo_acudiente'] ?? NULL;
         $this->dataUsuario['instituciones_id'] = $_FORM['instituciones_id'] ?? NULL;
-
-
     }
 
     public function create() {
         try {
             if (!empty($this->dataUsuario['numero_documento']) && !Usuario::usuarioRegistrado($this->dataUsuario['numero_documento'])) {
+
+             var_dump($this->dataUsuario);
 
                 $Usuario = new Usuario ($this->dataUsuario);
                 if ($Usuario->insert()) {

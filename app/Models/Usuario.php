@@ -13,7 +13,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     private ?int $id; //Visibilidad (public, protected, private)
     private string $nombres;
     private string $apellidos;
-    private int $edad;
     private int $telefono;
     private int $numero_documento;
     private string $tipo_documento;
@@ -29,8 +28,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     private string $nombre_acudiente;
     private string $telefono_acudiente;
     private string $correo_acudiente;
-
-
     private int $instituciones_id;
     private Carbon $created_at;
     private Carbon $updated_at;
@@ -55,7 +52,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $this->setId($usuario['id'] ?? NULL);
         $this->setNombres($usuario['nombres'] ?? '');
         $this->setApellidos($usuario['apellidos'] ?? '');
-        $this->setEdad($usuario['edad'] ?? 0);
         $this->setTelefono($usuario['telefono'] ?? 0);
         $this->setNumeroDocumento($usuario['numero_documento'] ?? 0);
         $this->setTipoDocumento($usuario['tipo_documento'] ?? '');
@@ -100,7 +96,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return int|mixed|null
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -108,7 +104,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @param int|mixed|null $id
      */
-    public function setId($id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -143,22 +139,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     public function setApellidos($apellidos): void
     {
         $this->apellidos = $apellidos;
-    }
-
-    /**
-     * @return int|mixed
-     */
-    public function getEdad()
-    {
-        return $this->edad;
-    }
-
-    /**
-     * @param int|mixed $edad
-     */
-    public function setEdad($edad): void
-    {
-        $this->edad = $edad;
     }
 
     /**
@@ -404,15 +384,15 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return Carbon|mixed
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): Carbon
     {
-        return $this->created_at;
+        return $this->created_at->locale('es');
     }
 
     /**
      * @param Carbon|mixed $created_at
      */
-    public function setCreatedAt($created_at): void
+    public function setCreatedAt(Carbon $created_at): void
     {
         $this->created_at = $created_at;
     }
@@ -420,15 +400,15 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return Carbon|mixed
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): Carbon
     {
-        return $this->updated_at;
+        return $this->updated_at->locale('es');
     }
 
     /**
      * @param Carbon|mixed $updated_at
      */
-    public function setUpdatedAt($updated_at): void
+    public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
     }
@@ -436,15 +416,15 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return Carbon|mixed
      */
-    public function getDeletedAt()
+    public function getDeletedAt(): Carbon
     {
-        return $this->deleted_at;
+        return $this->deleted_at->locale('es');
     }
 
     /**
      * @param Carbon|mixed $deleted_at
      */
-    public function setDeletedAt($deleted_at): void
+    public function setDeletedAt(Carbon $deleted_at): void
     {
         $this->deleted_at = $deleted_at;
     }
@@ -481,7 +461,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
             ':id' =>    $this->getId(),
             ':nombres' =>   $this->getNombres(),
             ':apellidos' =>   $this->getApellidos(),
-            ':edad' =>   $this->getEdad(),
             ':telefono' =>   $this->getTelefono(),
             ':numero_documento' =>   $this->getNumeroDocumento(),
             ':tipo_documento' =>  $this->getTipoDocumento(),
@@ -497,7 +476,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
             ':telefono_acudiente' =>   $this->getTelefonoAcudiente(),
             ':correo_acudiente' =>   $this->getCorreoAcudiente(),
             ':instituciones_id' =>   $this->getInstitucionesId(),
-
             ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
             ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
@@ -514,13 +492,10 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     public function insert(): ?bool
     {
         $query = "INSERT INTO dbindalecio.usuarios VALUES (
-            :id,:nombres,:apellidos,:edad,:telefono,
-            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municiopio_id,
+            :id,:nombres,:apellidos,:telefono,
+            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municipio_id,
             :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,instituciones_id,
-            :created_at,:updated_at,:deleted_at
-            
-            
-        )";
+            :created_at,:updated_at,:deleted_at)";
         return $this->save($query);
     }
 
@@ -531,7 +506,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     public function update(): ?bool
     {
         $query = "UPDATE dbindalecio.usuarios SET 
-            nombres = :nombres, apellidos = :apellidos, edad = :edad, 
+            nombres = :nombres, apellidos = :apellidos, 
             telefono = :telefono, numero_documento = :numero_documento, tipo_documento = :tipo_documento, 
             fecha_nacimiento = :fecha_nacimiento, direccion = :direccion, municipio_id = :municipio_id,  
             genero = :genero, rol = :rol, correo = :correo, contrasena = :contrasena, estado = :estado, 
@@ -630,7 +605,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
      */
     public function __toString() : string
     {
-        return "Nombres: $this->nombres, Apellidos: $this->apellidos, Edad: $this->edad, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipio_id,
+        return "Nombres: $this->nombres, Apellidos: $this->apellidos, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipio_id,
          genero: $this->genero, rol: $this->rol, Correo: $this->correo, contraseña: $this->contrasena, estado: $this->estado, Nombre De Acudiente: $this->nombre_acudiente, Telefono De Acudiente: $this->telefono_acudiente, Correo De Acudiente: $this->correo_acudiente, Institucion: $this->instituciones_id";
     }
 
@@ -663,7 +638,6 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
             'id' =>    $this->getId(),
             'nombres' =>   $this->getNombres(),
             'apellidos' =>   $this->getApellidos(),
-            'edad' =>   $this->getEdad(),
             'telefono' =>   $this->getTelefono(),
             'numero_documento' =>   $this->getNumeroDocumento(),
             'tipo_documento' =>  $this->getTipoDocumento(),

@@ -116,7 +116,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?php echo $novedad->getJustificacion(); ?></td>
                                         <td><?php echo $novedad->getObservacion(); ?></td>
                                         <td><?php echo $novedad->getAdministrador()->getNombres()," ", $novedad->getAdministrador()->getApellidos(),""; ?></td>
-                                        <td><?php echo $novedad->getAsistencia()->getTipoIngreso()," ",$novedad->getAsistencia()->getUsuario()->getNombres()," ",$novedad->getAsistencia()->getUsuario()->getApellidos()," ",$novedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')," ",$novedad->getAsistencia()->getHoraIngreso()," ",$novedad->getAsistencia()->getHoraSalida() ; ?></td>
+                                        <td><?php echo $novedad->getAsistencia()->getTipoIngreso()," - ",$novedad->getAsistencia()->getMatricula()->getCurso()->getNombre()," - ",$novedad->getAsistencia()->getMatricula()->getUsuario()->getNombres()," ",$novedad->getAsistencia()->getMatricula()->getUsuario()->getApellidos()," ",$novedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')," - ",$novedad->getAsistencia()->getHoraIngreso()," ",$novedad->getAsistencia()->getHoraSalida();
+; ?></td>
                                         <td><?php echo $novedad->getEstado(); ?></td>
                                         <td><?php echo $novedad->getCreatedAt(); ?></td>
                                         <td>

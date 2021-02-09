@@ -77,16 +77,17 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <p>
                                 <?php
                                 $DataUsuario = UsuarioController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataUsuario Usuario */
+
                                 if (!empty($DataUsuario)) {
                                     ?>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" enctype="multipart/form-data" method="post" id="frmEdit<?= $nameModel ?>"
+                                        <form class="form-horizontal" method="post" id="frmEdit<?= $nameModel ?>"
                                               name="frmEdit<?= $nameModel ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
-                                            <input id="id" name="id" value="<?= $DataUsuario->getId(); ?>" hidden
+
+                                        <input id="id" name="id" value="<?= $DataUsuario->getId(); ?>" hidden
                                                    required="required" type="text">
 
                                             <div class="form-group row">
@@ -106,13 +107,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="edad" class="col-sm-2 col-form-label">Edad</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="number" minlength="1" class="form-control"
-                                                           id="edad" name="edad" value="<?= $DataUsuario->getEdad(); ?>" placeholder="Ingrese su edad">
-                                                </div>
-                                            </div>
 
                                             <div class="form-group row">
                                                 <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>

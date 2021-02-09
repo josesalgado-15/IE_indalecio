@@ -89,7 +89,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Edad</th>
                                     <th>Teléfono</th>
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
@@ -118,11 +117,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?php echo $usuario->getId(); ?></td>
                                         <td><?php echo $usuario->getNombres(); ?></td>
                                         <td><?php echo $usuario->getApellidos(); ?></td>
-                                        <td><?php echo $usuario->getEdad(); ?></td>
                                         <td><?php echo $usuario->getTelefono(); ?></td>
                                         <td><?php echo $usuario->getNumeroDocumento(); ?></td>
                                         <td><?php echo $usuario->getTipoDocumento(); ?></td>
-                                        <td><?php echo $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
+                                        <td><?php echo $usuario->getFechaNacimiento()->diffInYears(); ?> Años - <?= $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
                                         <td><?php echo $usuario->getDireccion(); ?>, <?= $usuario->getMunicipio()->getNombre(); ?></td>
                                         <td><?php echo $usuario->getGenero(); ?></td>
                                         <td><?php echo $usuario->getRol(); ?></td>
@@ -153,7 +151,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Edad</th>
                                     <th>Teléfono</th>
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>

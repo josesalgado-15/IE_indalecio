@@ -46,7 +46,7 @@ class AsistenciaController
                     header("Location: ../../views/modules/asistencia/index.php?respuesta=success&mensaje=Asistencia Registrada!");
                 }
             } else {
-                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Asistencia ya registradas");
+                header("Location: ../../views/modules/asistencia/create.php?respuesta=error&mensaje=Asistencia ya registrada");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');

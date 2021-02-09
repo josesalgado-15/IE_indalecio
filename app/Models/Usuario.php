@@ -19,7 +19,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     private string $tipo_documento;
     private Carbon $fecha_nacimiento;
     private string $direccion;
-    private int $municipios_id;
+    private int $municipio_id;
 
     private string $genero;
     private string $rol;
@@ -37,7 +37,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     private Carbon $deleted_at;
 
     /* Relaciones */
-    private ?Municipio $municipio;
+    private ?Municipios $municipio;
     private ?Institucion $institucion;
 
 
@@ -61,7 +61,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $this->setTipoDocumento($usuario['tipo_documento'] ?? '');
         $this->setFechaNacimiento( !empty($usuario['fecha_nacimiento']) ? Carbon::parse($usuario['fecha_nacimiento']) : new Carbon());
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setMunicipiosId($usuario['municipios_id'] ?? 0);
+        $this->setMunicipioId($usuario['municipio_id'] ?? 0);
         $this->setGenero($usuario['genero'] ?? '');
         $this->setRol($usuario['rol'] ?? '');
         $this->setCorreo($usuario['correo'] ?? '');
@@ -244,17 +244,17 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return int|mixed
      */
-    public function getMunicipiosId()
+    public function getMunicipioId()
     {
-        return $this->municipios_id;
+        return $this->municipio_id;
     }
 
     /**
-     * @param int|mixed $municipios_id
+     * @param int|mixed $municipio_id
      */
-    public function setMunicipiosId($municipios_id): void
+    public function setMunicipioId($municipio_id): void
     {
-        $this->municipios_id = $municipios_id;
+        $this->municipio_id = $municipio_id;
     }
 
     /**
@@ -449,13 +449,14 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $this->deleted_at = $deleted_at;
     }
 
+
     /**
-     * @return Municipio
+     * @return Municipios
      */
-    public function getMunicipio(): ?Municipio
+    public function getMunicipio(): ?Municipios
     {
-        if(!empty($this->municipios_id)){
-            $this->municipio = Municipio::searchForId($this->municipios_id) ?? new Municipio();
+        if(!empty($this->municipio_id)){
+            $this->municipio = Municipios::searchForId($this->municipio_id) ?? new Municipios();
             return $this->municipio;
         }
         return NULL;
@@ -486,7 +487,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
             ':tipo_documento' =>  $this->getTipoDocumento(),
             ':fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
             ':direccion' =>   $this->getDireccion(),
-            ':municipios_id' =>   $this->getMunicipiosId(),
+            ':municipio_id' =>   $this->getMunicipioId(),
             ':genero' =>  $this->getGenero(),
             ':rol' =>   $this->getRol(),
             ':correo' =>   $this->getCorreo(),
@@ -514,7 +515,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     {
         $query = "INSERT INTO dbindalecio.usuarios VALUES (
             :id,:nombres,:apellidos,:edad,:telefono,
-            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municiopios_id,
+            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municiopio_id,
             :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,instituciones_id,
             :created_at,:updated_at,:deleted_at
             
@@ -532,7 +533,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $query = "UPDATE dbindalecio.usuarios SET 
             nombres = :nombres, apellidos = :apellidos, edad = :edad, 
             telefono = :telefono, numero_documento = :numero_documento, tipo_documento = :tipo_documento, 
-            fecha_nacimiento = :fecha_nacimiento, direccion = :direccion, municipios_id = :municipios_id,  
+            fecha_nacimiento = :fecha_nacimiento, direccion = :direccion, municipio_id = :municipio_id,  
             genero = :genero, rol = :rol, correo = :correo, contrasena = :contrasena, estado = :estado, 
             nombre_acudiente = :nombre_acudiente, telefono_acudiente = :telefono_acudiente, correo_acudiente = :correo_acudiente, 
             instituciones_id = :instituciones_id, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
@@ -629,7 +630,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
      */
     public function __toString() : string
     {
-        return "Nombres: $this->nombres, Apellidos: $this->apellidos, Edad: $this->edad, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipios_id,
+        return "Nombres: $this->nombres, Apellidos: $this->apellidos, Edad: $this->edad, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipio_id,
          genero: $this->genero, rol: $this->rol, Correo: $this->correo, contraseña: $this->contrasena, estado: $this->estado, Nombre De Acudiente: $this->nombre_acudiente, Telefono De Acudiente: $this->telefono_acudiente, Correo De Acudiente: $this->correo_acudiente, Institucion: $this->instituciones_id";
     }
 
@@ -668,7 +669,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
             'tipo_documento' =>  $this->getTipoDocumento(),
             'fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
             'direccion' =>   $this->getDireccion(),
-            'municipios_id' =>   $this->getMunicipiosId(),
+            'municipio_id' =>   $this->getMunicipioId(),
             'genero' =>  $this->getGenero(),
             'rol' =>   $this->getRol(),
             'correo' =>   $this->getCorreo(),

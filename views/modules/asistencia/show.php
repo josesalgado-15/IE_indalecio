@@ -34,12 +34,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la <?= $nameModel ?></h1>
+                        <h1>Informacion De La <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a
+                                        href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Ver</li>
                         </ol>
                     </div>
                 </div>
@@ -113,7 +115,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                         <strong><i class="fas fa-user mr-1"></i># Documento</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getUsuario()->getNumeroDocumento(),"-",  $DataAsistencia->getUsuario()->getNombres(); ?>
+                                            <?= $DataAsistencia->getMatricula()->getCurso()->getNombre()," - ",$DataAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $DataAsistencia->getMatricula()->getUsuario()->getNombres()," ",  $DataAsistencia->getMatricula()->getUsuario()->getApellidos(); ?>
                                         </p>
                                         <hr>
 
@@ -121,8 +123,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <p class="text-muted">
                                             <?= $DataAsistencia->getEstado() ?>
                                         </p>
-
-
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">

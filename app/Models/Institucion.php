@@ -39,7 +39,7 @@ class Institucion extends BasicModel
         $this->nombre = $Institucion['nombre'] ?? '';
         $this->nit = $Institucion ['nit'] ?? '';
         $this->direccion = $Institucion['direccion'] ?? '';
-        $this->municipios_id = $Institucion['municipios_id'] ?? 0 ;
+        $this->municipios_id = $Institucion['municipio_id'] ?? 0 ;
         $this->rector_id = $Institucion['rector_id'] ?? '';
         $this->telefono = $Institucion['telefono'] ?? '';
         $this->correo = $Institucion['correo'] ?? '';
@@ -304,7 +304,7 @@ class Institucion extends BasicModel
 
     public function update()
     {
-        $result = $this->updateRow("UPDATE dbindalecio.instituciones SET nombre = ?, nit = ?,  direccion = ?, municipios_id = ?, rector_id = ?,  telefono = ?,
+        $result = $this->updateRow("UPDATE dbindalecio.instituciones SET nombre = ?, nit = ?,  direccion = ?, municipio_id = ?, rector_id = ?,  telefono = ?,
           correo = ?, estado = ? /*created_at = ?, updated_at = ?, deleted_at = ?*/   WHERE id = ?", array(
 
                 $this->getNombre(),
@@ -360,7 +360,7 @@ class Institucion extends BasicModel
             $Institucion->setNombre($valor['nombre']);
             $Institucion->setNit($valor ['nit']);
             $Institucion->setDireccion($valor['direccion']);
-            $Institucion->setMunicipiosId($valor['municipios_id']);
+            $Institucion->setMunicipiosId($valor['municipio_id']);
             $Institucion->setRectorId($valor['rector_id']);
             $Institucion->setTelefono($valor['telefono']);
             $Institucion->setCorreo($valor['correo']);
@@ -398,7 +398,7 @@ class Institucion extends BasicModel
             $Institucion->setNit($getrow['nit']);
             $Institucion->setNombre($getrow['nombre']);
             $Institucion->setDireccion($getrow['direccion']);
-            $Institucion->setMunicipiosId($getrow['municipios_id']);
+            $Institucion->setMunicipiosId($getrow['municipio_id']);
             $Institucion->setRectorId($getrow['rector_id']);
             $Institucion->setTelefono($getrow['telefono']);
             $Institucion->setCorreo($getrow['correo']);

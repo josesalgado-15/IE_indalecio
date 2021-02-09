@@ -4,6 +4,7 @@
 require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;
+use App\Controllers\MatriculaController;
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
@@ -156,14 +157,16 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="form-group row">
                                                 <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
                                                 <div class="col-sm-10">
-                                                    <?= UsuarioController::selectUsuario(array (
+                                                    <?= MatriculaController::selectMatricula(array (
                                                         'id' => 'matriculas_id',
                                                         'name' => 'matriculas_id',
-                                                        'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getMatriculasId() : '',
+                                                        'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getMatricula()->getId() : '',
                                                         'class' => 'form-control select2bs4 select2-info',
-                                                        'where' => "rol = 'Estudiante' and estado = 'Activo'"))
+                                                        'where' => "estado = 'Activo'"))
 
                                                     ?>
+
+
                                                 </div>
                                             </div>
 

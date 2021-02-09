@@ -1,10 +1,10 @@
 <?php
 require("../../partials/routes.php");
-require_once("../../partials/check_login.php");
+//require_once("../../partials/check_login.php");
 require("../../../app/Controllers/UsuarioController.php");
 
-use App\Controllers\DepartamentoController;
-use App\Controllers\MunicipioController;
+use App\Controllers\DepartamentosController;
+use App\Controllers\MunicipiosController;
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use App\Models\Usuario;
@@ -77,7 +77,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <p>
                                 <?php
                                 $DataUsuario = UsuarioController::searchForID(["id" => $_GET["id"]]);
-
+                                /* @var $DataUsuario Usuario */
                                 if (!empty($DataUsuario)) {
                                     ?>
                                     <!-- /.card-header -->
@@ -85,7 +85,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <!-- form start -->
                                         <form class="form-horizontal" enctype="multipart/form-data" method="post" id="frmEdit<?= $nameModel ?>"
                                               name="frmEdit<?= $nameModel ?>"
-                                              action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
                                             <input id="id" name="id" value="<?= $DataUsuario->getId(); ?>" hidden
                                                    required="required" type="text">
 
@@ -175,11 +175,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
 
-
                                             <div class="form-group row">
-                                                <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
+                                                <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
                                                 <div class="col-sm-5">
-                                                    <?= DepartamentoController::selectDepartamentos(
+                                                    <?= DepartamentosController::selectDepartamentos(
                                                         array(
                                                             'id' => 'departamento_id',
                                                             'name' => 'departamento_id',
@@ -191,18 +190,17 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     ?>
                                                 </div>
                                                 <div class="col-sm-5 ">
-                                                    <?= MunicipioController::selectMunicipios(
+                                                    <?= MunicipiosController::selectMunicipios(
                                                         array (
                                                             'id' => 'municipio_id',
                                                             'name' => 'municipio_id',
-                                                            'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipiosId() : '',
+                                                            'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipioId() : '',
                                                             'class' => 'form-control select2bs4 select2-info',
                                                             'where' => "departamento_id = ".$DataUsuario->getMunicipio()->getDepartamento()->getId()." and estado = 'Activo'")
                                                     )
                                                     ?>
                                                 </div>
                                             </div>
-
 
                                             <div class="form-group row">
                                                 <label for="genero" class="col-sm-2 col-form-label">Género</label>
@@ -324,5 +322,28 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#departamento_id').on('change', function() {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
+                isMultiple: false,
+                isRequired: true,
+                id: "municipio_id",
+                nombre: "municipio_id",
+                defaultValue: "",
+                class: "form-control select2bs4 select2-info",
+                where: "departamento_id = "+$('#departamento_id').val()+" and estado = 'Activo'",
+                request: 'ajax'
+            }, function(e) {
+                if (e)
+                    console.log(e);
+                $("#municipio_id").html(e).select2({ height: '100px'});
+            })
+        });
+        $('#foto').on("change", function(){
+            $( "#thumbFoto" ).remove();
+        });
+    });
+</script>
 </body>
 </html>

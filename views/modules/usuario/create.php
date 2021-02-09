@@ -2,9 +2,8 @@
 require("../../partials/routes.php");
 //require_once("../../partials/check_login.php");
 
-
-use App\Controllers\DepartamentoController;
-use App\Controllers\MunicipioController;
+use App\Controllers\DepartamentosController;
+use App\Controllers\MunicipiosController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -147,9 +146,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
+                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
                                         <div class="col-sm-5">
-                                            <?= DepartamentoController::selectDepartamentos(
+                                            <?= DepartamentosController::selectDepartamentos(
                                                 array(
                                                     'id' => 'departamento_id',
                                                     'name' => 'departamento_id',
@@ -161,10 +160,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             ?>
                                         </div>
                                         <div class="col-sm-5 ">
-                                            <?= MunicipioController::selectMunicipios(array (
-                                                'id' => 'municipios_id',
-                                                'name' => 'municipios_id',
-                                                'defaultValue' => (!empty($frmSession['municipios_id'])) ? $frmSession['municipios_id'] : '',
+                                            <?= MunicipiosController::selectMunicipios(array (
+                                                'id' => 'municipio_id',
+                                                'name' => 'municipio_id',
+                                                'defaultValue' => (!empty($frmSession['municipio_id'])) ? $frmSession['municipio_id'] : '',
                                                 'class' => 'form-control select2bs4 select2-info',
                                                 'where' => "departamento_id = 15 and estado = 'Activo'"))
                                             ?>
@@ -289,11 +288,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <script>
     $(function() {
         $('#departamento_id').on('change', function() {
-            $.post("../../../app/Controllers/MainController.php?controller=Municipio&action=selectMunicipios", {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
                 isMultiple: false,
                 isRequired: true,
-                id: "municipios_id",
-                nombre: "municipios_id",
+                id: "municipio_id",
+                nombre: "municipio_id",
                 defaultValue: "",
                 class: "form-control select2bs4 select2-info",
                 where: "departamento_id = "+$('#departamento_id').val()+" and estado = 'Activo'",
@@ -301,7 +300,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             }, function(e) {
                 if (e)
                     console.log(e);
-                $("#municipios_id").html(e).select2({ height: '100px'});
+                $("#municipio_id").html(e).select2({ height: '100px'});
             });
         });
         $('.btn-file span').html('Seleccionar');

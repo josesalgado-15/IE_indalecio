@@ -3,25 +3,25 @@
 
 namespace App\Controllers;
 
+require(__DIR__ . '/../../vendor/autoload.php');
 
 use App\Models\GeneralFunctions;
-use App\Models\Departamento;
+use App\Models\Municipios;
 
-
-class DepartamentoController
+class MunicipiosController
 {
 
     static public function searchForID(array $data)
     {
         try {
-            $result = Departamento::searchForId($data['id']);
+            $result = Municipios::searchForId($data['id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
                 header('Content-type: application/json; charset=utf-8');
                 $result = json_encode($result->jsonSerialize());
             }
             return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
         return null;
     }
@@ -29,19 +29,19 @@ class DepartamentoController
     static public function getAll(array $data = null)
     {
         try {
-            $result = Departamento::getAll();
+            $result = Municipios::getAll();
             if (!empty($data['request']) and $data['request'] === 'ajax') {
                 header('Content-type: application/json; charset=utf-8');
                 $result = json_encode($result);
             }
             return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
         return null;
     }
 
-    static public function selectDepartamentos (array $params = [])
+    static public function selectMunicipios(array $params = [])
     {
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
@@ -53,31 +53,30 @@ class DepartamentoController
         $params['arrExcluir'] = $params['arrExcluir'] ?? array();
         $params['request'] = $params['request'] ?? 'html';
 
-        $arrDepartamento = array();
+        $arrMunicipios = array();
         if ($params['where'] != "") {
-            $base = "SELECT * FROM departamentos WHERE ";
-            $arrDepartamento = Departamento::search($base . ' ' . $params['where']);
+            $base = "SELECT * FROM municipios WHERE ";
+            $arrMunicipios = Municipios::search($base . $params['where']);
         } else {
-            $arrDepartamento = Departamento::getAll();
+            $arrMunicipios = Municipios::getAll();
         }
-
         $htmlSelect = "<select " . (($params['isMultiple']) ? "multiple" : "") . " " . (($params['isRequired']) ? "required" : "") . " id= '" . $params['id'] . "' name='" . $params['name'] . "' class='" . $params['class'] . "' style='width: 100%;'>";
         $htmlSelect .= "<option value='' >Seleccione</option>";
-        if (count($arrDepartamento) > 0) {
-            /* @var $arrDepartamento Departamento[] */
-            foreach ($arrDepartamento as $departamento)
-                if (!DepartamentoController::departamentoIsInArray($departamento->getId(), $params['arrExcluir']))
-                    $htmlSelect .= "<option " . (($departamento != "") ? (($params['defaultValue'] == $departamento->getId()) ? "selected" : "") : "") . " value='" . $departamento->getId() . "'>" . $departamento->getNombre() . "</option>";
+        if (count($arrMunicipios) > 0) {
+            /* @var $arrMunicipios Municipios[] */
+            foreach ($arrMunicipios as $municipio)
+                if (!MunicipiosController::municipioIsInArray($municipio->getId(), $params['arrExcluir']))
+                    $htmlSelect .= "<option " . (($municipio != "") ? (($params['defaultValue'] == $municipio->getId()) ? "selected" : "") : "") . " value='" . $municipio->getId() . "'>" . $municipio->getNombre() . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;
     }
 
-    private static function departamentoIsInArray($idDepartamento, $ArrDepartamento)
+    private static function municipioIsInArray($idMunicipio, $ArrMunicipios)
     {
-        if (count($ArrDepartamento) > 0) {
-            foreach ($ArrDepartamento as $Departamento) {
-                if ($Departamento->getId == $idDepartamento) {
+        if (count($ArrMunicipios) > 0) {
+            foreach ($ArrMunicipios as $Usuario) {
+                if ($Usuario->getId() == $idMunicipio) {
                     return true;
                 }
             }

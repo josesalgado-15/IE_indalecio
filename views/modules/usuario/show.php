@@ -1,7 +1,6 @@
 <?php
 require("../../partials/routes.php");
 //require_once("../../partials/check_login.php");
-require("../../../app/Controllers/UsuarioController.php");
 
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
@@ -31,6 +30,9 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Informacion del <?= $nameModel ?></h1>
+                    </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a
@@ -149,10 +151,7 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
 
                                         <strong><i class="far fa-file-alt mr-1"></i> Estado y Rol</strong>
                                         <p class="text-muted"><?= $DataUsuario->getEstado() . " - " . $DataUsuario->getRol() ?></p>
-                                        </p>
 
-
-                                        </p>
 
                                     </div>
                                     <div class="card-footer">

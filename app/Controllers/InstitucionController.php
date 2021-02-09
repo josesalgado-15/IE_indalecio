@@ -40,7 +40,7 @@ class InstitucionController
             $arrayInstitucion['nombre'] = $_POST['nombre'];
             $arrayInstitucion['nit'] = $_POST['nit'];
             $arrayInstitucion['direccion'] = $_POST['direccion'];
-            $arrayInstitucion['municipios_id'] = $_POST['municipios_id'];
+            $arrayInstitucion['municipio_id'] = $_POST['municipio_id'];
             $arrayInstitucion['rector_id'] = $_POST['rector_id'];
             $arrayInstitucion['telefono'] = $_POST['telefono'];
             $arrayInstitucion['correo'] = $_POST['correo'];
@@ -71,7 +71,7 @@ class InstitucionController
             $arrayInstitucion['nombre'] = $_POST['nombre'];
             $arrayInstitucion['nit'] = $_POST['nit'];
             $arrayInstitucion['direccion'] = $_POST['direccion'];
-            $arrayInstitucion['municipios_id'] = ($_POST['municipios_id']);
+            $arrayInstitucion['municipio_id'] = ($_POST['municipio_id']);
             $arrayInstitucion['rector_id'] = $_POST['rector_id'];
             $arrayInstitucion['telefono'] = $_POST['telefono'];
             $arrayInstitucion['correo'] = $_POST['correo'];

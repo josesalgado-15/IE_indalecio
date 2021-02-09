@@ -96,7 +96,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Hora De Ingreso</th>
                                     <th>Observación</th>
                                     <th>Hora De Salida</th>
-                                    <th># Documento</th>
+                                    <th>Estudiante</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -115,7 +115,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?php echo $asistencia->getHoraIngreso(); ?></td>
                                         <td><?php echo $asistencia->getObservacion(); ?></td>
                                         <td><?php echo $asistencia->getHoraSalida(); ?></td>
-                                        <td><?php echo $asistencia->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getUsuario()->getNombres(); ?></td>
+                                        <td><?php echo $asistencia->getMatricula()->getCurso()->getNombre()," - ",$asistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getMatricula()->getUsuario()->getNombres()," ",  $asistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
                                         <td><?php echo $asistencia->getEstado(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"
@@ -139,7 +139,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Hora De Ingreso</th>
                                     <th>Observación</th>
                                     <th>Hora De Salida</th>
-                                    <th># Documento</th>
+                                    <th>Estudiante</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -166,7 +166,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     <?php include_once ('../../partials/footer.php') ?>
 </div>
 
-<?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

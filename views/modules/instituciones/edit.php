@@ -8,7 +8,7 @@ use App\Controllers\InstitucionController;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar Institucion</title>
+    <title> Editar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">

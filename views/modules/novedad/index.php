@@ -18,8 +18,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar Novedades</title>
-    <?php include_once ('../../partials/head_imports.php') ?>
+    <title> Gestionar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
+    <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">
@@ -99,8 +99,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Observación</th>
                                     <th>Administrador ID</th>
                                     <th>Asistencia ID</th>
-                                    <th>Estado</th>
                                     <th>Creación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -118,8 +118,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?php echo $novedad->getAdministrador()->getNombres()," ", $novedad->getAdministrador()->getApellidos(),""; ?></td>
                                         <td><?php echo $novedad->getAsistencia()->getTipoIngreso()," - ",$novedad->getAsistencia()->getMatricula()->getCurso()->getNombre()," - ",$novedad->getAsistencia()->getMatricula()->getUsuario()->getNombres()," ",$novedad->getAsistencia()->getMatricula()->getUsuario()->getApellidos()," ",$novedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')," - ",$novedad->getAsistencia()->getHoraIngreso()," ",$novedad->getAsistencia()->getHoraSalida();
 ; ?></td>
+                                        <td><?php echo $novedad->getCreatedAt()->translatedFormat('l, j \\de F Y'); ?></td>
                                         <td><?php echo $novedad->getEstado(); ?></td>
-                                        <td><?php echo $novedad->getCreatedAt(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $novedad->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
@@ -129,6 +129,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
+
+                                            <?php if ($novedad->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $novedad->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Activar"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-check-square"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $novedad->getId(); ?>"
+                                                   data-toggle="tooltip" title="Inactivar"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-times-circle"></i></a>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -142,8 +155,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Observación</th>
                                     <th>Administrador ID</th>
                                     <th>Asistencia ID</th>
-                                    <th>Estado</th>
                                     <th>Creación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </tfoot>

@@ -19,6 +19,8 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
     protected string $hora_salida;
     protected int $matriculas_id;
     protected string $estado;
+
+    protected Carbon $created_at;
     protected Carbon $updated_at;
     protected Carbon $deleted_at;
 
@@ -44,6 +46,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $this->setHoraSalida($asistencia['hora_salida'] ?? '');
         $this->setMatriculasId($asistencia['matriculas_id'] ?? 0);
         $this->setEstado($asistencia['estado'] ?? '');
+        $this->setCreatedAt(!empty($asistencia['created_at']) ? Carbon::parse($asistencia['created_at']) : new Carbon());
         $this->setUpdatedAt(!empty($asistencia['updated_at']) ? Carbon::parse($asistencia['updated_at']) : new Carbon());
         $this->setDeletedAt(!empty($asistencia['deleted_at']) ? Carbon::parse($asistencia['deleted_at']) : new Carbon());
     }
@@ -188,6 +191,22 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return Carbon|mixed
      */
+    public function getCreatedAt(): Carbon
+    {
+        return $this->created_at->locale('es');
+    }
+
+    /**
+     * @param Carbon|mixed $created_at
+     */
+    public function setCreatedAt(Carbon $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return Carbon|mixed
+     */
     public function getUpdatedAt(): Carbon
     {
         return $this->updated_at->locale('es');
@@ -247,9 +266,8 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
             ':hora_salida' =>   $this->getHoraSalida(),
             ':matriculas_id' =>   $this->getMatriculasId(),
 
-            ':estado' =>   $this->getEstado(),
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString() //YYYY-MM-DD HH:MM:SS
+            ':estado' =>   $this->getEstado()
+
 
         ];
         $this->Connect();
@@ -265,7 +283,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:hora_ingreso,:observacion,:tipo_ingreso,:hora_salida,:matriculas_id,:estado,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:hora_ingreso,:observacion,:tipo_ingreso,:hora_salida,:matriculas_id,:estado,NOW(),NULL)";
         return $this->save($query);
     }
 
@@ -278,7 +296,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
             fecha = :fecha, hora_ingreso = :hora_ingreso,
             observacion = :observacion, tipo_ingreso = :tipo_ingreso,
             hora_salida = :hora_salida, matriculas_id = :matriculas_id,
-            estado = :estado, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            estado = :estado, created_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 

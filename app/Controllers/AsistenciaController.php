@@ -96,6 +96,36 @@ class AsistenciaController
         return null;
     }
 
+    static public function activate(int $id)
+    {
+        try {
+            $ObjAsistencia = Asistencia::searchForId($id);
+            $ObjAsistencia->setEstado("Activo");
+            if ($ObjAsistencia->update()) {
+                header("Location: ../../views/modules/asistencia/index.php");
+            } else {
+                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function inactivate(int $id)
+    {
+        try {
+            $ObjAsistencia = Asistencia::searchForId($id);
+            $ObjAsistencia->setEstado("Inactivo");
+            if ($ObjAsistencia->update()) {
+                header("Location: ../../views/modules/asistencia/index.php");
+            } else {
+                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
 
     static public function selectAsistencia (array $params = []){
 

@@ -15,7 +15,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del <?= $nameModel ?></title>
+    <title> Datos Del <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -115,7 +115,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i>Sede</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getSedesId() ?>
+                                            <?= $DataHorario->getSede()->getNombre()?>
                                         </p>
 
 

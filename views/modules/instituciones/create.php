@@ -9,7 +9,7 @@ use Carbon\Carbon;
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Institucion | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title> Crear <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">

@@ -260,10 +260,8 @@ class Novedad extends AbstractDBConnection implements Model, JsonSerializable
             ':observacion' =>  $this->getObservacion(),
             ':estado' =>   $this->getEstado(),
             ':administrador_id' =>   $this->getAdministradorId(),
-            ':asistencia_id' =>   $this->getAsistenciaId(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+            ':asistencia_id' =>   $this->getAsistenciaId()
+
 
 
         ];
@@ -275,7 +273,7 @@ class Novedad extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.novedades VALUES (:id,:tipo,:justificacion,:observacion,:estado,:administrador_id,:asistencia_id,:created_at,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.novedades VALUES (:id,:tipo,:justificacion,:observacion,:estado,:administrador_id,:asistencia_id,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -287,8 +285,7 @@ class Novedad extends AbstractDBConnection implements Model, JsonSerializable
         $query = "UPDATE dbindalecio.novedades SET 
             tipo = :tipo, justificacion = :justificacion,
             observacion = :observacion, estado = :estado,
-            administrador_id = :administrador_id, asistencia_id = :asistencia_id,
-            created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            administrador_id = :administrador_id, asistencia_id = :asistencia_id, updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 

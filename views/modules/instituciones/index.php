@@ -7,8 +7,8 @@ use App\Controllers\InstitucionController;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar Instituciones</title>
-    <?php include_once ('../../partials/head_imports.php') ?>
+    <title> Gestionar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
+    <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">

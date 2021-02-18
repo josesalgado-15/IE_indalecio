@@ -225,10 +225,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
             ':vigencia' =>  $this->getVigencia()->toDateTimeString(),
             ':usuarios_id' =>   $this->getUsuariosId(),
             ':cursos_id' =>  $this->getCursosId(),
-            ':estado' =>   $this->getEstado(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+            ':estado' =>   $this->getEstado()
 
         ];
         $this->Connect();
@@ -244,7 +241,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:estado,:created_at,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:estado,NOW(),NULL,NULL))";
         return $this->save($query);
     }
 
@@ -255,7 +252,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     {
         $query = "UPDATE dbindalecio.matriculas SET 
             vigencia = :vigencia, usuarios_id = :usuarios_id,
-            cursos_id = :cursos_id, estado = :estado,created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            cursos_id = :cursos_id, estado = :estado, updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 

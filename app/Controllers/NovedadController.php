@@ -94,6 +94,35 @@ class NovedadController
     }
 
 
+    static public function activate(int $id)
+    {
+        try {
+            $ObjNovedad = Novedad::searchForId($id);
+            $ObjNovedad->setEstado("Activo");
+            if ($ObjNovedad->update()) {
+                header("Location: ../../views/modules/novedad/index.php");
+            } else {
+                header("Location: ../../views/modules/novedad/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function inactivate(int $id)
+    {
+        try {
+            $ObjNovedad = Novedad::searchForId($id);
+            $ObjNovedad->setEstado("Inactivo");
+            if ($ObjNovedad->update()) {
+                header("Location: ../../views/modules/novedad/index.php");
+            } else {
+                header("Location: ../../views/modules/novedad/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
 
 
     static public function selectAsistencia (array $params = []){

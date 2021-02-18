@@ -89,6 +89,35 @@ class MatriculaController
         return null;
     }
 
+    static public function activate(int $id)
+    {
+        try {
+            $ObjMatricula = Matricula::searchForId($id);
+            $ObjMatricula->setEstado("Activo");
+            if ($ObjMatricula->update()) {
+                header("Location: ../../views/modules/matricula/index.php");
+            } else {
+                header("Location: ../../views/modules/matricula/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function inactivate(int $id)
+    {
+        try {
+            $ObjMatricula = Matricula::searchForId($id);
+            $ObjMatricula->setEstado("Inactivo");
+            if ($ObjMatricula->update()) {
+                header("Location: ../../views/modules/matricula/index.php");
+            } else {
+                header("Location: ../../views/modules/matricula/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
 
     static public function selectMatricula(array $params = []) {
 

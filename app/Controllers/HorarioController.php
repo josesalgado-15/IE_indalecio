@@ -19,9 +19,9 @@ class HorarioController
     {
         $this->dataHorario = array();
         $this->dataHorario['id'] = $_FORM['id'] ?? NULL;
-        $this->dataHorario['hora_entrada_sede'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_entrada_sede']));
-        $this->dataHorario['hora_salida'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_salida']));
-        $this->dataHorario['hora_entrada_restaurante'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_entrada_restaurante']));
+        $this->dataHorario['hora_entrada_sede'] = (!empty($_FORM['hora_entrada_sede']) ? date("H:i:s", strtotime($_FORM['hora_entrada_sede'])) : date("H:i:s"));
+        $this->dataHorario['hora_salida'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_salida'])) ?? date("H:i:s");
+        $this->dataHorario['hora_entrada_restaurante'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_entrada_restaurante'])) ?? date("H:i:s");
         $this->dataHorario['fecha'] = !empty($_FORM['fecha']) ? Carbon::parse($_FORM['fecha']) : new Carbon();
         $this->dataHorario['estado'] = $_FORM['estado'] ?? 'Activo';
         $this->dataHorario['sedes_id'] = $_FORM['sedes_id'] ?? 0;
@@ -94,6 +94,38 @@ class HorarioController
         }
         return null;
     }
+
+
+    static public function activate(int $id)
+    {
+        try {
+            $ObjHorario = Horario::searchForId($id);
+            $ObjHorario->setEstado("Activo");
+            if ($ObjHorario->update()) {
+                header("Location: ../../views/modules/horario/index.php");
+            } else {
+                header("Location: ../../views/modules/horario/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function inactivate(int $id)
+    {
+        try {
+            $ObjHorario = Horario::searchForId($id);
+            $ObjHorario->setEstado("Inactivo");
+            if ($ObjHorario->update()) {
+                header("Location: ../../views/modules/horario/index.php");
+            } else {
+                header("Location: ../../views/modules/horario/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
 
     static public function selectHorario (array $params = []){
 

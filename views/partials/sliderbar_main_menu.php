@@ -138,7 +138,7 @@
                     </ul>
                 </li>
 
-
+<!--
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'grado') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'grado') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-user-shield"></i>
@@ -163,6 +163,8 @@
                         </li>
                     </ul>
                 </li>
+
+                -->
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'active' : '' ?>">
@@ -194,7 +196,7 @@
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-user-shield"></i>
                         <p>
-                            Matriculas
+                            Matrículas
                             <i class="fas fa-angle-left right"></i>
                         </p>
 
@@ -217,7 +219,7 @@
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'instituciones') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'instituciones') ? 'active' : '' ?>">
-                        <i class="nav-icon far fa-user"></i>
+                        <i class="nav-icon fas fa-school"></i>
                         <p>
                             Instituciones
                             <i class="fas fa-angle-left right"></i>
@@ -233,6 +235,31 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/instituciones/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'sede') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'sede') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-school"></i>
+                        <p>
+                            Sedes
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/sede/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/sede/create.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Registrar</p>
                             </a>

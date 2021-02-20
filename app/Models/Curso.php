@@ -384,6 +384,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
 
     static function cursoRegistrado($nombre, $director): bool
     {
+        $nombre = strtolower(trim($nombre));
         $result = Curso::search("SELECT * FROM dbindalecio.cursos where nombre = '" . $nombre. "' and director = '".$director ."'" );
         if ( !empty($result) && count ($result) > 0 ) {
             return true;

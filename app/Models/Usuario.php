@@ -10,91 +10,75 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
 {
     //Propiedades
 
-    private ?int $id; //Visibilidad (public, protected, private)
-    private string $nombres;
-    private string $apellidos;
-    private int $telefono;
-    private int $numero_documento;
-    private string $tipo_documento;
-    private Carbon $fecha_nacimiento;
-    private string $direccion;
-    private int $municipio_id;
+    protected ?int $id; //Visibilidad (public, protected, private)
+    protected string $nombres;
+    protected string $apellidos;
+    protected int $telefono;
+    protected int $numero_documento;
+    protected string $tipo_documento;
+    protected Carbon $fecha_nacimiento;
+    protected string $direccion;
+    protected int $municipios_id;
+    protected string $genero;
+    protected ?string $rol;
+    protected string $correo;
+    protected ?string $contrasena;
+    protected string $estado;
+    protected ?string $nombre_acudiente;
+    protected ?int $telefono_acudiente;
+    protected ?string $correo_acudiente;
+    protected int $instituciones_id;
+    protected Carbon $created_at;
+    protected Carbon $updated_at;
 
-    private string $genero;
-    private string $rol;
-    private ?string $correo;
-    private ?string $contrasena;
-    private string $estado;
-    private string $nombre_acudiente;
-    private string $telefono_acudiente;
-    private string $correo_acudiente;
-    private int $instituciones_id;
-    private Carbon $created_at;
-    private Carbon $updated_at;
-    private Carbon $deleted_at;
 
     /* Relaciones */
     private ?Municipios $municipio;
     private ?Institucion $institucion;
-
-
-
+    private ?array $matriculas;
+    private ?array $novedades;
+    private ?array $asistencias;
 
     /**
-     * Usuario constructor.
-     *
+     * Usuarios constructor. Recibe un array asociativo
+     * @param array $usuario
      */
 
-    //Metodo Constructor
-    public function __construct ($usuario = array())
+    public function __construct(array $usuario = [])
     {
-        parent::__construct();
+        parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
         $this->setId($usuario['id'] ?? NULL);
         $this->setNombres($usuario['nombres'] ?? '');
         $this->setApellidos($usuario['apellidos'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? 0);
         $this->setNumeroDocumento($usuario['numero_documento'] ?? 0);
         $this->setTipoDocumento($usuario['tipo_documento'] ?? '');
-        $this->setFechaNacimiento( !empty($usuario['fecha_nacimiento']) ? Carbon::parse($usuario['fecha_nacimiento']) : new Carbon());
+        $this->setFechaNacimiento(!empty($usuario['fecha_nacimiento']) ? Carbon::parse($usuario['fecha_nacimiento']) : new Carbon());
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setMunicipioId($usuario['municipio_id'] ?? 0);
+        $this->setMunicipiosId($usuario['municipio_id'] ?? 0);
         $this->setGenero($usuario['genero'] ?? '');
         $this->setRol($usuario['rol'] ?? '');
         $this->setCorreo($usuario['correo'] ?? '');
         $this->setContrasena($usuario['contrasena'] ?? '');
+        $this->setEstado($usuario['estado'] ?? '');
         $this->setNombreAcudiente($usuario['nombre_acudiente'] ?? '');
-        $this->setTelefonoAcudiente($usuario['telefono_acudiente'] ?? '');
+        $this->setTelefonoAcudiente($usuario['telefono_acudiente'] ?? 0);
         $this->setCorreoAcudiente($usuario['correo_acudiente'] ?? '');
         $this->setInstitucionesId($usuario['instituciones_id'] ?? 0);
-        $this->setEstado($usuario['estado'] ?? '');
         $this->setCreatedAt(!empty($usuario['created_at']) ? Carbon::parse($usuario['created_at']) : new Carbon());
-        $this->setUpdatedAt(!empty($usuario['updated_at']) ? Carbon::parse($usuario['updated_at']) : new Carbon());
-        $this->setDeletedAt(!empty($usuario['created_at']) ? Carbon::parse($usuario['deleted_at']) : new Carbon());
+        $this->setUpdatedAt(!empty($usuario['updated_at']) ? Carbon::parse($usuario['updated_at']) : new Carbon());;
     }
 
 
     function __destruct()
     {
-        if($this->isConnected){
+        if ($this->isConnected) {
             $this->Disconnect();
         }
     }
 
-    public static function usuarioRegistrado($numeroDocumento): bool
-    {
-        $result = Usuario::search("SELECT * FROM dbindalecio.usuarios where numero_documento = " . $numeroDocumento);
-        if ( !empty($result) && count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-
-
     /**
-     * @return int|mixed|null
+     * @return int
      */
     public function getId(): ?int
     {
@@ -102,7 +86,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @param int|mixed|null $id
+     * @param int $id
      */
     public function setId(?int $id): void
     {
@@ -110,87 +94,89 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getNombres()
+    public function getNombres(): string
     {
-        return $this->nombres;
+        return ucwords($this->nombres);
     }
 
     /**
-     * @param mixed|string $nombres
+     * @param string $nombres
      */
-    public function setNombres($nombres): void
+    public function setNombres(string $nombres): void
     {
-        $this->nombres = $nombres;
+        $this->nombres = trim(mb_strtolower($nombres, 'UTF-8'));
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getApellidos()
+    public function getApellidos(): string
     {
-        return $this->apellidos;
+        return ucwords($this->apellidos);
     }
 
     /**
-     * @param mixed|string $apellidos
+     * @param string $apellidos
      */
-    public function setApellidos($apellidos): void
+    public function setApellidos(string $apellidos): void
     {
-        $this->apellidos = $apellidos;
+        $this->apellidos = trim(mb_strtolower($apellidos, 'UTF-8'));
     }
 
+
     /**
-     * @return int|mixed
+     * @return int
      */
-    public function getTelefono()
+    public function getTelefono(): int
     {
         return $this->telefono;
     }
 
     /**
-     * @param int|mixed $telefono
+     * @param int $telefono
      */
-    public function setTelefono($telefono): void
+    public function setTelefono(int $telefono): void
     {
         $this->telefono = $telefono;
     }
 
+
     /**
-     * @return int|mixed
+     * @return int
      */
-    public function getNumeroDocumento()
+    public function getNumeroDocumento(): int
     {
         return $this->numero_documento;
     }
 
     /**
-     * @param int|mixed $numero_documento
+     * @param int $numero_documento
      */
-    public function setNumeroDocumento($numero_documento): void
+    public function setNumeroDocumento(int $numero_documento): void
     {
         $this->numero_documento = $numero_documento;
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getTipoDocumento()
+    public function getTipoDocumento(): string
     {
         return $this->tipo_documento;
     }
 
     /**
-     * @param mixed|string $tipo_documento
+     * @param string $tipo_documento
      */
-    public function setTipoDocumento($tipo_documento): void
+    public function setTipoDocumento(string $tipo_documento): void
     {
         $this->tipo_documento = $tipo_documento;
     }
 
     /**
-     * @return Carbon|mixed
+     * @return string
      */
     public function getFechaNacimiento(): Carbon
     {
@@ -198,65 +184,50 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @param Carbon|mixed $fecha_nacimiento
+     * @param string $fecha_nacimiento
      */
-    public function setFechaNacimiento($fecha_nacimiento): void
+    public function setFechaNacimiento(Carbon $fecha_nacimiento): void
     {
         $this->fecha_nacimiento = $fecha_nacimiento;
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getDireccion()
+    public function getDireccion(): string
     {
         return $this->direccion;
     }
 
     /**
-     * @param mixed|string $direccion
+     * @param string $direccion
      */
-    public function setDireccion($direccion): void
+    public function setDireccion(string $direccion): void
     {
         $this->direccion = $direccion;
     }
 
     /**
-     * @return int|mixed
+     * @return string
      */
-    public function getMunicipioId()
-    {
-        return $this->municipio_id;
-    }
-
-    /**
-     * @param int|mixed $municipio_id
-     */
-    public function setMunicipioId($municipio_id): void
-    {
-        $this->municipio_id = $municipio_id;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getGenero()
+    public function getGenero(): string
     {
         return $this->genero;
     }
 
     /**
-     * @param mixed|string $genero
+     * @param string $genero
      */
-    public function setGenero($genero): void
+    public function setGenero(string $genero): void
     {
         $this->genero = $genero;
     }
 
+
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getRol()
+    public function getRol(): ?string
     {
         return $this->rol;
     }
@@ -264,109 +235,127 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @param mixed|string $rol
      */
-    public function setRol($rol): void
+    public function setRol(?string $rol): void
     {
         $this->rol = $rol;
     }
 
     /**
-     * @return mixed|string|null
+     * @return string
      */
-    public function getCorreo() : ?string
+    public function getCorreo(): string
     {
         return $this->correo;
     }
 
     /**
-     * @param mixed|string|null $correo
+     * @param string $correo
      */
-    public function setCorreo(?string $correo): void
+    public function setCorreo(string $correo): void
     {
         $this->correo = $correo;
     }
 
     /**
-     * @return mixed|string|null
+     * @return string|null
      */
-    public function getContrasena() : ?string
+    public function getContrasena(): ?string
     {
         return $this->contrasena;
     }
 
     /**
-     * @param mixed|string|null $contrasena
+     * @param string|null $contrasena
      */
     public function setContrasena(?string $contrasena): void
     {
         $this->contrasena = $contrasena;
     }
 
+
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getEstado()
+    public function getEstado(): string
     {
         return $this->estado;
     }
 
     /**
-     * @param mixed|string $estado
+     * @param string $estado
      */
-    public function setEstado($estado): void
+    public function setEstado(string $estado): void
     {
         $this->estado = $estado;
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getNombreAcudiente()
+    public function getNombreAcudiente(): string
     {
         return $this->nombre_acudiente;
     }
 
     /**
-     * @param mixed|string $nombre_acudiente
+     * @param string $nombre_acudiente
      */
-    public function setNombreAcudiente($nombre_acudiente): void
+    public function setNombreAcudiente(string $nombre_acudiente): void
     {
         $this->nombre_acudiente = $nombre_acudiente;
     }
 
+
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getTelefonoAcudiente()
+    public function getTelefonoAcudiente(): int
     {
         return $this->telefono_acudiente;
     }
 
     /**
-     * @param mixed|string $telefono_acudiente
+     * @param string $telefono_acudiente
      */
-    public function setTelefonoAcudiente($telefono_acudiente): void
+    public function setTelefonoAcudiente(int $telefono_acudiente): void
     {
         $this->telefono_acudiente = $telefono_acudiente;
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
-    public function getCorreoAcudiente()
+    public function getCorreoAcudiente(): string
     {
         return $this->correo_acudiente;
     }
 
     /**
-     * @param mixed|string $correo_acudiente
+     * @param string $correo_acudiente
      */
-    public function setCorreoAcudiente($correo_acudiente): void
+    public function setCorreoAcudiente(string $correo_acudiente): void
     {
         $this->correo_acudiente = $correo_acudiente;
     }
 
     /**
-     * @return int|mixed
+     * @return int|mixed|string
+     */
+    public function getMunicipiosId()
+    {
+        return $this->municipios_id;
+    }
+
+    /**
+     * @param int|mixed|string $municipios_id
+     */
+    public function setMunicipiosId($municipios_id): void
+    {
+        $this->municipios_id = $municipios_id;
+    }
+
+    /**
+     * @return int|mixed|string
      */
     public function getInstitucionesId()
     {
@@ -374,23 +363,25 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @param int|mixed $instituciones_id
+     * @param int|mixed|string $instituciones_id
      */
     public function setInstitucionesId($instituciones_id): void
     {
         $this->instituciones_id = $instituciones_id;
     }
 
+
     /**
-     * @return Carbon|mixed
+     * @return string
      */
+
     public function getCreatedAt(): Carbon
     {
         return $this->created_at->locale('es');
     }
 
     /**
-     * @param Carbon|mixed $created_at
+     * @param string $created_at
      */
     public function setCreatedAt(Carbon $created_at): void
     {
@@ -398,7 +389,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @return Carbon|mixed
+     * @return string
      */
     public function getUpdatedAt(): Carbon
     {
@@ -406,27 +397,11 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @param Carbon|mixed $updated_at
+     * @param string $updated_at
      */
     public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
-    }
-
-    /**
-     * @return Carbon|mixed
-     */
-    public function getDeletedAt(): Carbon
-    {
-        return $this->deleted_at->locale('es');
-    }
-
-    /**
-     * @param Carbon|mixed $deleted_at
-     */
-    public function setDeletedAt(Carbon $deleted_at): void
-    {
-        $this->deleted_at = $deleted_at;
     }
 
 
@@ -435,86 +410,88 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
      */
     public function getMunicipio(): ?Municipios
     {
-        if(!empty($this->municipio_id)){
-            $this->municipio = Municipios::searchForId($this->municipio_id) ?? new Municipios();
+        if (!empty($this->municipios_id)) {
+            $this->municipio = Municipios::searchForId($this->municipios_id) ?? new Municipios();
             return $this->municipio;
         }
         return NULL;
     }
 
     /**
-     * @return Institucion|null
+     * @return Institucion
      */
     public function getInstitucion(): ?Institucion
     {
-        if(!empty($this->instituciones_id)){
+        if (!empty($this->instituciones_id)) {
             $this->institucion = Institucion::searchForId($this->instituciones_id) ?? new Institucion();
             return $this->institucion;
         }
         return NULL;
     }
 
-
+    /**
+     * @param string $query
+     * @return bool|null
+     */
     protected function save(string $query): ?bool
     {
         $arrData = [
-            ':id' =>    $this->getId(),
-            ':nombres' =>   $this->getNombres(),
-            ':apellidos' =>   $this->getApellidos(),
-            ':telefono' =>   $this->getTelefono(),
-            ':numero_documento' =>   $this->getNumeroDocumento(),
-            ':tipo_documento' =>  $this->getTipoDocumento(),
-            ':fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
-            ':direccion' =>   $this->getDireccion(),
-            ':municipio_id' =>   $this->getMunicipioId(),
-            ':genero' =>  $this->getGenero(),
-            ':rol' =>   $this->getRol(),
-            ':correo' =>   $this->getCorreo(),
-            ':contrasena' =>   $this->getContrasena(),
-            ':estado' =>   $this->getEstado(),
-            ':nombre_acudiente' =>   $this->getNombreAcudiente(),
-            ':telefono_acudiente' =>   $this->getTelefonoAcudiente(),
-            ':correo_acudiente' =>   $this->getCorreoAcudiente(),
-            ':instituciones_id' =>   $this->getInstitucionesId(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+            ':id' => $this->getId(),
+            ':nombres' => $this->getNombres(),
+            ':apellidos' => $this->getApellidos(),
+            ':telefono' => $this->getTelefono(),
+            ':numero_documento' => $this->getNumeroDocumento(),
+            ':tipo_documento' => $this->getTipoDocumento(),
+            ':fecha_nacimiento' => $this->getFechaNacimiento()->toDateString(),
+            ':direccion' => $this->getDireccion(),
+            ':municipio_id' => $this->getMunicipiosId(),
+            ':genero' => $this->getGenero(),
+            ':rol' => $this->getRol(),
+            ':correo' => $this->getCorreo(),
+            ':contrasena' => $this->getContrasena(),
+            ':estado' => $this->getEstado(),
+            ':nombre_acudiente' => $this->getNombreAcudiente(),
+            ':telefono_acudiente' => $this->getTelefonoAcudiente(),
+            ':correo_acudiente' => $this->getCorreoAcudiente(),
+            ':instituciones_id' => $this->getInstitucionesId(),
+            ':created_at' => $this->getCreatedAt()->toDateTimeString(),
+            ':updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
+
     }
 
-    /**
-     * @return bool|null
-     */
     public function insert(): ?bool
     {
         $query = "INSERT INTO dbindalecio.usuarios VALUES (
             :id,:nombres,:apellidos,:telefono,
             :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municipio_id,
-            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,instituciones_id,
-            :created_at,:updated_at,:deleted_at)";
+            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,:instituciones_id,:created_at,:updated_at
+        )";
         return $this->save($query);
     }
-
 
     /**
      * @return bool|null
      */
+
     public function update(): ?bool
     {
         $query = "UPDATE dbindalecio.usuarios SET 
-            nombres = :nombres, apellidos = :apellidos, 
-            telefono = :telefono, numero_documento = :numero_documento, tipo_documento = :tipo_documento, 
-            fecha_nacimiento = :fecha_nacimiento, direccion = :direccion, municipio_id = :municipio_id,  
-            genero = :genero, rol = :rol, correo = :correo, contrasena = :contrasena, estado = :estado, 
-            nombre_acudiente = :nombre_acudiente, telefono_acudiente = :telefono_acudiente, correo_acudiente = :correo_acudiente, 
-            instituciones_id = :instituciones_id, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            nombres = :nombres, apellidos = :apellidos, telefono = :telefono,
+            numero_documento = :numero_documento, tipo_documento = :tipo_documento, fecha_nacimiento = :fecha_nacimiento,
+            direccion = :direccion, municipio_id = :municipio_id,
+            genero = :genero, rol = :rol, correo = :correo, contrasena = :contrasena, estado = :estado,
+            nombre_acudiente = :nombre_acudiente, telefono_acudiente = :telefono_acudiente, correo_acudiente = :correo_acudiente,
+          instituciones_id = :instituciones_id, created_At = :created_at, updated_at = :updated_at
+          WHERE id = :id";
+
         return $this->save($query);
     }
-
 
     /**
      * @param $id
@@ -527,12 +504,13 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         return $this->update();                    //Guarda los cambios..
     }
 
+
     /**
      * @param $query
      * @return Usuario|array
      * @throws Exception
      */
-    public static function search($query) : ?array
+    public static function search($query): ?array
     {
         try {
             $arrUsuarios = array();
@@ -551,7 +529,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
             }
             return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
         return null;
     }
@@ -570,16 +548,14 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
                 $getrow = $tmpUsuario->getRow("SELECT * FROM dbindalecio.usuarios WHERE id =?", array($id));
                 $tmpUsuario->Disconnect();
                 return ($getrow) ? new Usuario($getrow) : null;
-            }else{
+            } else {
                 throw new Exception('Id de usuario Invalido');
             }
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
         return null;
     }
-
-
 
     /**
      * @return array
@@ -591,42 +567,55 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
-     * @return string
+     * @param $documento
+     * @return bool
+     * @throws Exception
      */
-    public function nombresCompletos() : string
+    public static function usuarioRegistrado($documento): bool
     {
-        return $this->nombres . " " . $this->apellidos;
+        $result = Usuario::search("SELECT * FROM dbindalecio.usuarios where numero_documento = " . $documento);
+        if (!empty($result) && count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-
 
     /**
      * @return string
      */
-    public function __toString() : string
+    public function nombresCompletos(): string
     {
-        return "Nombres: $this->nombres, Apellidos: $this->apellidos, Numero De Documento: $this->numero_documento, tipo_documento: $this->tipo_documento, Fecha De Nacimiento: $this->fecha_nacimiento->toDateTimeString(), Direccion: $this->direccion, Municipio: $this->municipio_id,
-         genero: $this->genero, rol: $this->rol, Correo: $this->correo, contraseña: $this->contrasena, estado: $this->estado, Nombre De Acudiente: $this->nombre_acudiente, Telefono De Acudiente: $this->telefono_acudiente, Correo De Acudiente: $this->correo_acudiente, Institucion: $this->instituciones_id";
+        return $this->nombres . " " . $this->apellidos;
     }
 
-    public function Login($Correo, $Contrasena){
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return "Nombres: $this->nombres, Apellidos: $this->nombres, Tipo Documento: $this->tipo_documento, Documento: $this->numero_documento, Telefono: $this->telefono, Direccion: $this->direccion, Direccion: $this->fecha_nacimiento->toDateTimeString()";
+    }
+
+    public function Login($correo, $contrasena)
+    {
         try {
-            $resultUsuarios = Usuario::search("SELECT * FROM usuarios WHERE correo = '$Correo'");
-            if(count($resultUsuarios) >= 1){
-                if($resultUsuarios[0]->contrasena == $Contrasena){
-                    if($resultUsuarios[0]->estado == 'Activo'){
+            $resultUsuarios = Usuario::search("SELECT * FROM usuarios WHERE correo = '$correo'");
+            if (count($resultUsuarios) >= 1) {
+                if ($resultUsuarios[0]->contrasena == $contrasena) {
+                    if ($resultUsuarios[0]->estado == 'Activo') {
                         return $resultUsuarios[0];
-                    }else{
+                    } else {
                         return "Usuario Inactivo";
                     }
-                }else{
+                } else {
                     return "Contraseña Incorrecta";
                 }
-            }else{
+            } else {
                 return "Usuario Incorrecto";
             }
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e, 'error');
             return "Error en Servidor";
         }
     }
@@ -634,32 +623,27 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     public function jsonSerialize()
     {
         return [
-
-            'id' =>    $this->getId(),
-            'nombres' =>   $this->getNombres(),
-            'apellidos' =>   $this->getApellidos(),
-            'telefono' =>   $this->getTelefono(),
-            'numero_documento' =>   $this->getNumeroDocumento(),
-            'tipo_documento' =>  $this->getTipoDocumento(),
-            'fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
-            'direccion' =>   $this->getDireccion(),
-            'municipio_id' =>   $this->getMunicipioId(),
-            'genero' =>  $this->getGenero(),
-            'rol' =>   $this->getRol(),
-            'correo' =>   $this->getCorreo(),
-            'contrasena' =>   $this->getContrasena(),
-            'estado' =>   $this->getEstado(),
-            'nombre_acudiente' =>   $this->getNombreAcudiente(),
-            'telefono_acudiente' =>   $this->getTelefonoAcudiente(),
-            'correo_acudiente' =>   $this->getCorreoAcudiente(),
-            'instituciones_id' =>   $this->getInstitucionesId(),
-
-            'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
-
+            'id' => $this->getId(),
+            'nombres' => $this->getNombres(),
+            'apellidos' => $this->getApellidos(),
+            'telefono' => $this->getTelefono(),
+            'numero_documento' => $this->getNumeroDocumento(),
+            'tipo_documento' => $this->getTipoDocumento(),
+            'fecha_nacimiento' => $this->getFechaNacimiento()->toDateString(),
+            'direccion' => $this->getDireccion(),
+            'municipio_id' => $this->getMunicipiosId(),
+            'genero' => $this->getGenero(),
+            'rol' => $this->getRol(),
+            'correo' => $this->getCorreo(),
+            'contrasena' => $this->getContrasena(),
+            'estado' => $this->getEstado(),
+            'nombre_acudiente' => $this->getNombreAcudiente(),
+            'telegono_acudiente' => $this->getTelefonoAcudiente(),
+            'correo_acudiente' => $this->getCorreoAcudiente(),
+            'instituciones_id' => $this->getInstitucionesId(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
         ];
     }
-
 
 }

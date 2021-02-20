@@ -19,7 +19,7 @@ $Institucion->setId(7); //Propiedad recibida y asigna a una propiedad de la clas
 $Institucion->setNombre('Juan Andres Perea Padilla');
 $Institucion->setNit(8031231590);
 $Institucion->setDireccion('Calle 2 sur#3-09');
-$Institucion->setMunicipiosId('1');
+$Institucion->setMunicipioId('1');
 $Institucion->setRectorId('10');
 $Institucion->setTelefono(3132594565);
 $Institucion->setCorreo('juancamar@gmail.com');

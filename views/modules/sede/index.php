@@ -89,10 +89,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Direccion</th>
+                                                <th>Dirección</th>
                                                 <th>Municipio</th>
-                                                <th>Telefono</th>
-                                                <th>Institucion</th>
+                                                <th>Teléfono</th>
+                                                <th>Institución</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -110,7 +110,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td> <?= $sede->getMunicipio()->getNombre() ?>
                                                         - <?= $sede->getMunicipio()->getDepartamento()->getNombre() ?></td>
                                                     <td><?= $sede->getTelefono(); ?></td>
-                                                    <td><?= $sede->getInstitucionesId(); ?></td>
+                                                    <td><?= $sede->getInstitucion()->getNombre(); ?></td>
                                                     <td><?= $sede->getEstado(); ?></td>
                                                     <td>
                                                         <a href="edit.php?id=<?php echo $sede->getId(); ?>"
@@ -143,10 +143,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
-                                                <th>Direccion</th>
+                                                <th>Dirección</th>
                                                 <th>Municipio</th>
-                                                <th>Telefono</th>
-                                                <th>Institucion</th>
+                                                <th>Teléfono</th>
+                                                <th>Institución</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>

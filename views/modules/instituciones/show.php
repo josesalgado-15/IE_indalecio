@@ -1,14 +1,23 @@
 <?php
 require("../../partials/routes.php");
-
+//require_once("../../partials/check_login.php");
 require("../../../app/Controllers/InstitucionController.php");
 
-use App\Controllers\InstitucionController; ?>
+use App\Controllers\InstitucionController;
+use App\Models\GeneralFunctions;
+use App\Models\Institucion;
+
+$nameModel = "Institucion";
+$pluralModel = $nameModel . 'es';
+$frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Datos De La <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title> Datos de <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
+</
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -25,12 +34,14 @@ use App\Controllers\InstitucionController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion de la institucion</h1>
+                        <h1>Información <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a
+                                        href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Ver</li>
                         </ol>
                     </div>
                 </div>
@@ -40,21 +51,9 @@ use App\Controllers\InstitucionController; ?>
         <!-- Main content -->
         <section class="content">
 
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] == "error") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar la institucion: <?= ($_GET['mensaje']) ?? "" ?>
-                    </div>
-                <?php } ?>
-            <?php } else if (empty($_GET['id'])) { ?>
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                    Faltan criterios de busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                </div>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
 
             <div class="container-fluid">
                 <div class="row">
@@ -62,7 +61,8 @@ use App\Controllers\InstitucionController; ?>
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataInstitucion = InstitucionController::searchForID($_GET["id"]);
+                                $DataInstitucion = InstitucionController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataUsuario Institucion */
                                 if (!empty($DataInstitucion)) {
                                     ?>
                                     <div class="card-header">
@@ -86,25 +86,26 @@ use App\Controllers\InstitucionController; ?>
                                         <p>
                                             <strong><i class="fas fa-book mr-1"></i> Nombre</strong>
                                         <p class="text-muted">
-                                            <?= $DataInstitucion->getNombre()?>
+                                            <?= $DataInstitucion->getNombre() ?>
                                         </p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Nit</strong>
-                                        <p class="text-muted"><?= $DataInstitucion->getNit() ?></p>
-                                        <hr>
-
-                                        <strong><i class="fas fa-user mr-1"></i> Direccion</strong>
-                                        <p class="text-muted">
-                                            <?= $DataInstitucion->getDireccion() ?>
+                                        <p class="text-muted"><?= $DataInstitucion->getNit() ?>
                                         </p>
                                         <hr>
-                                        <strong><i class="fas fa-map-marker-alt mr-1"></i>Municipio</strong>
-                                        <p class="text-muted"><?= $DataInstitucion->getMunicipiosId() ?></p>
+                                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Direccion</strong>
+                                        <p class="text-muted"><?= $DataInstitucion->getDireccion() ?>
+                                            , <?= $DataInstitucion->getMunicipio()->getNombre() ?>
+                                        </p>
                                         <hr>
-                                        <strong><i class="fas fa-user mr-1"></i> Rector </strong>
-                                        <p class="text-muted"><?= $DataInstitucion->getRectorId() ?></p>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Rector</strong>
+                                        <p class="text-muted">
+                                            <?= $DataInstitucion->getRector()->getNombres()," ", $DataInstitucion->getRector()->getApellidos(),""; ?>
+                                        </p>
                                         <hr>
+
                                         <strong><i class="fas fa-phone mr-1"></i> Telefono </strong>
                                         <p class="text-muted"><?= $DataInstitucion->getTelefono() ?></p>
                                         <hr>
@@ -123,13 +124,14 @@ use App\Controllers\InstitucionController; ?>
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Instituciones
+                                                    <i class="fas fa-tasks"></i> Gestionar <?= $pluralModel ?>
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="create.php" class="btn btn-primary float-right"
+                                                <a role="button" href="create.php?id=<?= $DataInstitucion->getId(); ?>"
+                                                   class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Institucion
+                                                    <i class="fas fa-plus"></i> Editar <?= $nameModel ?>
                                                 </a>
                                             </div>
                                         </div>

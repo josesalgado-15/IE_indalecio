@@ -2,9 +2,12 @@
 
 namespace App\Controllers;
 
-require (__DIR__.'/../../vendor/autoload.php');
+require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
+
+
 use App\Models\GeneralFunctions;
 use App\Models\Usuario;
+
 use Carbon\Carbon;
 
 class UsuarioController
@@ -17,7 +20,7 @@ class UsuarioController
         $this->dataUsuario['id'] = $_FORM['id'] ?? NULL;
         $this->dataUsuario['nombres'] = $_FORM['nombres'] ?? NULL;
         $this->dataUsuario['apellidos'] = $_FORM['apellidos'] ?? null;
-        $this->dataUsuario['telefono'] = $_FORM['telefono'] ?? null;
+        $this->dataUsuario['telefono'] = $_FORM['telefono'] ?? NULL;
         $this->dataUsuario['numero_documento'] = $_FORM['numero_documento'] ?? NULL;
         $this->dataUsuario['tipo_documento'] = $_FORM['tipo_documento'] ?? NULL;
         $this->dataUsuario['fecha_nacimiento'] = !empty($_FORM['fecha_nacimiento']) ? Carbon::parse($_FORM['fecha_nacimiento']) : new Carbon();
@@ -33,16 +36,12 @@ class UsuarioController
         $this->dataUsuario['correo_acudiente'] = $_FORM['correo_acudiente'] ?? NULL;
         $this->dataUsuario['instituciones_id'] = $_FORM['instituciones_id'] ?? NULL;
     }
-
-    public function create() {
+    public function create($withFiles = null) {
         try {
             if (!empty($this->dataUsuario['numero_documento']) && !Usuario::usuarioRegistrado($this->dataUsuario['numero_documento'])) {
 
-             var_dump($this->dataUsuario);
-
                 $Usuario = new Usuario ($this->dataUsuario);
                 if ($Usuario->insert()) {
-                  var_dump($this->dataUsuario);
                     unset($_SESSION['frmUsuarios']);
                     header("Location: ../../views/modules/usuario/index.php?respuesta=success&mensaje=Usuario Registrado");
                 }
@@ -50,21 +49,19 @@ class UsuarioController
                 header("Location: ../../views/modules/usuario/create.php?respuesta=error&mensaje=Usuario ya registrado");
             }
         } catch (\Exception $e) {
-
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    public function edit()
+    public function edit($withFiles = null)
     {
         try {
-
             $user = new Usuario($this->dataUsuario);
             if($user->update()){
                 unset($_SESSION['frmUsuarios']);
             }
 
-            header("Location: ../../views/modules/usuario/show.php?id=" . $user->getId() . "&respuesta=success&mensaje=Usuario Actualizado");
+            header("Location: ../../views/modules/usuario/show.php?id=". $user->getId() ."&respuesta=success&mensaje=Usuario Actualizado");
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
@@ -172,6 +169,7 @@ class UsuarioController
         }
         return false;
     }
+
 
     public static function login (){
         try {

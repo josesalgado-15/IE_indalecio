@@ -20,7 +20,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-buttons/css/buttons.bootstrap4.css">
-
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -92,17 +91,16 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
                                     <th>Fecha de nacimiento</th>
-                                    <th>Municipio</th>
+                                    <th>Dirección</th>
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Correo</th>
-                                    <th>Contraseña</th>
-                                    <th>Estado</th>
                                     <th>Nombres de acudiente</th>
                                     <th>Télefono de acudiente</th>
                                     <th>Correo de acudiente</th>
                                     <th>Institución</th>
                                     <th>Creación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -113,24 +111,23 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 foreach ($arrUsuarios as $usuario) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $usuario->getId(); ?></td>
-                                        <td><?php echo $usuario->getNombres(); ?></td>
-                                        <td><?php echo $usuario->getApellidos(); ?></td>
-                                        <td><?php echo $usuario->getTelefono(); ?></td>
-                                        <td><?php echo $usuario->getNumeroDocumento(); ?></td>
-                                        <td><?php echo $usuario->getTipoDocumento(); ?></td>
-                                        <td><?php echo $usuario->getFechaNacimiento()->diffInYears(); ?> Años - <?= $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
-                                        <td><?php echo $usuario->getDireccion(); ?>, <?= $usuario->getMunicipio()->getNombre(); ?></td>
-                                        <td><?php echo $usuario->getGenero(); ?></td>
-                                        <td><?php echo $usuario->getRol(); ?></td>
-                                        <td><?php echo $usuario->getCorreo(); ?></td>
-                                        <td><?php echo $usuario->getContrasena(); ?></td>
-                                        <td><?php echo $usuario->getEstado(); ?></td>
-                                        <td><?php echo $usuario->getNombreAcudiente(); ?></td>
-                                        <td><?php echo $usuario->getTelefonoAcudiente(); ?></td>
-                                        <td><?php echo $usuario->getCorreoAcudiente(); ?></td>
-                                        <td><?php echo $usuario->getInstitucionesId(); ?></td>
-                                        <td><?php echo $usuario->getCreatedAt(); ?></td>
+                                        <td><?=  $usuario->getId(); ?></td>
+                                        <td><?=  $usuario->getNombres(); ?></td>
+                                        <td><?=  $usuario->getApellidos(); ?></td>
+                                        <td><?=  $usuario->getTelefono(); ?></td>
+                                        <td><?=  $usuario->getNumeroDocumento(); ?></td>
+                                        <td><?=  $usuario->getTipoDocumento(); ?></td>
+                                        <td><?=  $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
+                                        <td><?=  $usuario->getDireccion(); ?>, <?=  $usuario->getMunicipio()->getNombre(); ?></td>
+                                        <td><?=  $usuario->getGenero(); ?></td>
+                                        <td><?=  $usuario->getRol(); ?></td>
+                                        <td><?=  $usuario->getCorreo(); ?></td>
+                                        <td><?=  $usuario->getNombreAcudiente(); ?></td>
+                                        <td><?=  $usuario->getTelefonoAcudiente(); ?></td>
+                                        <td><?=  $usuario->getCorreoAcudiente(); ?></td>
+                                        <td> <?= $usuario->getInstitucion()->getNombre() ?></td>
+                                        <td><?=  $usuario->getEstado(); ?></td>
+                                        <td><?=  $usuario->getCreatedAt(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $usuario->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
@@ -140,6 +137,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
+
+                                            <?php if ($usuario->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $usuario->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Activar"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-check-square"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $usuario->getId(); ?>"
+                                                   data-toggle="tooltip" title="Inactivar"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-times-circle"></i></a>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -158,14 +168,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Correo</th>
-                                    <th>Contraseña</th>
-                                    <th>Estado</th>
                                     <th>Nombres de acudiente</th>
                                     <th>Télefono de acudiente</th>
                                     <th>Correo de acudiente</th>
                                     <th>Institución</th>
                                     <th>Creación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
+
                                 </tr>
                                 </tfoot>
                             </table>

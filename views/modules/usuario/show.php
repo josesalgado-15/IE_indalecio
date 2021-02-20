@@ -1,6 +1,7 @@
 <?php
 require("../../partials/routes.php");
 //require_once("../../partials/check_login.php");
+require("../../../app/Controllers/UsuarioController.php");
 
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
@@ -31,7 +32,7 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del <?= $nameModel ?></h1>
+                        <h1>Informacion <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -69,7 +70,7 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                                     data-source="show.php" data-source-selector="#card-refresh-content"
                                                     data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                                    class="fas fa-expand"></i></button>
+                                                        class="fas fa-expand"></i></button>
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse"
                                                     data-toggle="tooltip" title="Collapse">
                                                 <i class="fas fa-minus"></i></button>
@@ -80,11 +81,12 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                        <strong><i class="fas fa-user mr-1"></i>Nombres y Apellidos</strong>
+                                            <strong><i class="fas fa-user mr-1"></i>Nombres y Apellidos</strong>
                                         <p class="text-muted">
                                             <?= $DataUsuario->getNombres() . " " . $DataUsuario->getApellidos() ?>
                                         </p>
                                         <hr>
+
 
                                         <strong><i class="fas fa-phone mr-1"></i>Telefono</strong>
                                         <p class="text-muted"><?= $DataUsuario->getTelefono() ?></p>
@@ -94,18 +96,17 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         <p class="text-muted"><?= $DataUsuario->getTipoDocumento() . ": " . $DataUsuario->getNumeroDocumento() ?></p>
                                         <hr>
 
-                                        <strong><i class="fas fa-calendar mr-1"></i> Fecha Nacimiento</strong>
+                                        <strong><i class="fas fa-calendar mr-1"></i>Fecha Nacimiento</strong>
                                         <p class="text-muted"><?= $DataUsuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?>
-                                            &nbsp;
                                             🎉Tienes: <?= $DataUsuario->getFechaNacimiento()->diffInYears(); ?>
                                             Años🤡
                                         </p>
-                                        <hr>
 
+                                        <hr>
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Direccion</strong>
                                         <p class="text-muted"><?= $DataUsuario->getDireccion() ?>
                                             , <?= $DataUsuario->getMunicipio()->getNombre() ?>
-                                            - <?= $DataUsuario->getMunicipio()->getDepartamento()->getNombre() ?></p>
+                                        </p>
                                         <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Género</strong>
@@ -114,15 +115,23 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         </p>
                                         <hr>
 
+                                        <strong><i class="fas fa-user mr-1"></i>Rol</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getRol()?>
+                                        </p>
+                                        <hr>
+
+
                                         <strong><i class="fas fa-user mr-1"></i>Correo</strong>
                                         <p class="text-muted">
                                             <?= $DataUsuario->getCorreo()?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Contraseña</strong>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Estado</strong>
                                         <p class="text-muted">
-                                            <?= $DataUsuario->getContrasena()?>
+                                            <?= $DataUsuario->getEstado()?>
                                         </p>
                                         <hr>
 
@@ -145,16 +154,14 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         <hr>
 
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i>Institución</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getInstitucionesId() ?></p>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getInstitucion()->getNombre() ?></p>
                                         <hr>
 
                                         <strong><i class="fas fa-calendar-check mr-1"></i> Fecha
                                             Registro</strong>
                                         <p class="text-muted"><?= $DataUsuario->getCreatedat()->toDateTimeString(); ?></p>
                                         <hr>
-
-                                        <strong><i class="far fa-file-alt mr-1"></i> Estado y Rol</strong>
-                                        <p class="text-muted"><?= $DataUsuario->getEstado() . " - " . $DataUsuario->getRol() ?></p>
 
 
                                     </div>
@@ -163,13 +170,14 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Usuarios
+                                                    <i class="fas fa-tasks"></i> Gestionar <?= $pluralModel ?>
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="create.php" class="btn btn-primary float-right"
+                                                <a role="button" href="create.php?id=<?= $DataUsuario->getId(); ?>"
+                                                   class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Usuario
+                                                    <i class="fas fa-edit"></i> Editar <?= $nameModel ?>
                                                 </a>
                                             </div>
                                         </div>

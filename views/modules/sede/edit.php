@@ -3,6 +3,7 @@ require("../../partials/routes.php");
 require("../../../app/Controllers/SedeController.php");
 
 use App\Controllers\DepartamentosController;
+use App\Controllers\InstitucionController;
 use App\Controllers\MunicipiosController;
 use App\Controllers\SedeController;
 use App\Models\GeneralFunctions;
@@ -139,12 +140,18 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="instituciones_id" class="col-sm-2 col-form-label">institucion</label>
+                                                        <label for="instituciones_id" class="col-sm-2 col-form-label">Institución Sede</label>
                                                         <div class="col-sm-10">
-                                                            <select required id="instituciones_id" name="instituciones_id" class="custom-select">
-                                                                <option <?= ($DataSede->getInstitucionesId() == "Activo") ? "selected" : ""; ?> value="1">Sede Principal</option>
-                                                                <option <?= ($DataSede->getInstitucionesId() == "Inactivo") ? "selected" : ""; ?> value="2">Sede Ejemplo</option>
-                                                            </select>
+                                                            <?= InstitucionController::selectInstitucion(
+                                                                array(
+                                                                    'id' => 'instituciones_id',
+                                                                    'name' => 'instituciones_id',
+                                                                    'defaultValue' => (!empty($DataSede)) ? $DataSede->getInstitucion()->getId() : '',
+                                                                    'class' => 'form-control select2bs4 select2-info',
+                                                                    'where' => "estado = 'Activo'"
+                                                                )
+                                                            );
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">

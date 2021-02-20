@@ -21,6 +21,7 @@ class Sede extends AbstractDBConnection implements Model, JsonSerializable
 
     /* Relaciones */
     private ?Municipios $municipio;
+    private ?Institucion $institucion;
 
     /**
      * Usuarios constructor. Recibe un array asociativo
@@ -203,6 +204,19 @@ class Sede extends AbstractDBConnection implements Model, JsonSerializable
         return NULL;
     }
 
+    /**
+     * Retorna el objeto asistencia
+     * @return Institucion|null
+     */
+    public function getInstitucion(): ?Institucion
+    {
+        if(!empty($this->instituciones_id)){
+            $this->institucion = Institucion::searchForId($this->instituciones_id) ?? new Institucion();
+            return $this->institucion;
+        }
+        return NULL;
+    }
+
     protected function save(string $query): ?bool
     {
         $arrData = [
@@ -226,8 +240,8 @@ class Sede extends AbstractDBConnection implements Model, JsonSerializable
         $query = "INSERT INTO dbindalecio.sedes VALUES (
             :id,:nombre,:direccion,:municipio_id,
             :telefono,:instituciones_id,
-            :estado,NOW(),NULL)
-        )";
+            :estado,NOW(),NULL)";
+
         return $this->save($query);
     }
 

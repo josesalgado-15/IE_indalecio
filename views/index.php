@@ -1,6 +1,6 @@
-<?php use Carbon\Carbon;
-require("partials/routes.php");
-?>
+<?php require("partials/routes.php"); ?>
+<?php require("partials/check_login.php"); ?>
+
 
 <!DOCTYPE html>
 <html>

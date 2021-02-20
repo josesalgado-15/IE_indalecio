@@ -1,13 +1,13 @@
 <?php
 require_once("../../../app/Controllers/UsuarioController.php");
-require_once("../../partials/routes.php");
+require("../../partials/routes.php");
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Login</title>
-    <?php require("../../partials/head_imports.php"); ?>
+    <title> Login | <?= $_ENV['TITLE_SITE'] ?></title>
+    <?php include_once ('../../partials/head_imports.php') ?>
 </head>
 <body class="hold-transition login-page">
 
@@ -19,9 +19,10 @@ require_once("../../partials/routes.php");
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
-            <form action="../../../app/Controllers/MainController.php?controller=Usuarios&action=login" method="post">
+            <form action="../../../app/Controllers/MainController.php?controller=Usuario&action=login" method="post">
+
                 <div class="input-group mb-3">
-                    <input type="text" id="correo" name="correo" class="form-control" placeholder="Correo">
+                    <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>

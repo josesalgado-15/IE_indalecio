@@ -1,8 +1,21 @@
 <?php
 require("../../partials/routes.php");
-require("../../../app/Controllers/InstitucionController.php");
+require_once("../../../app/Controllers/InstitucionController.php");
+require_once("../../../app/Controllers/UsuarioController.php");
+
 
 use App\Controllers\InstitucionController;
+use App\Controllers\DepartamentosController;
+use App\Controllers\MunicipiosController;
+use App\Controllers\UsuarioController;
+use App\Models\GeneralFunctions;
+use App\Models\Institucion;
+use Carbon\Carbon;
+
+$nameModel = "Institucion";
+$pluralModel = $nameModel.'es';
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
 
 <!DOCTYPE html>
@@ -10,6 +23,7 @@ use App\Controllers\InstitucionController;
 <head>
     <title> Editar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
+    <!-- DataTables -->
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -30,8 +44,9 @@ use App\Controllers\InstitucionController;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Institucion</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Editar</li>
                         </ol>
                     </div>
                 </div>
@@ -40,30 +55,25 @@ use App\Controllers\InstitucionController;
 
         <!-- Main content -->
         <section class="content">
-            <?php if (!empty($_GET['respuesta'])) { ?>
-                <?php if ($_GET['respuesta'] != "correcto") { ?>
-                    <div class="alert alert-danger alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear la institucion: <?= $_GET['mensaje'] ?>
-                    </div>
-                <?php } ?>
-            <?php } ?>
+            <!-- Generar Mensajes de alerta -->
+            <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información de la Institución</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Información de <?= $nameModel ?></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
                                             data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                            class="fas fa-expand"></i></button>
+                                                class="fas fa-expand"></i></button>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                            class="fas fa-minus"></i></button>
+                                                class="fas fa-minus"></i></button>
                                 </div>
                             </div>
 
@@ -71,16 +81,17 @@ use App\Controllers\InstitucionController;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataInstitucion = InstitucionController::searchForID($_GET["id"]);
+                                $DataInstitucion = InstitucionController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataUsuario Institucion */
                                 if (!empty($DataInstitucion)) {
                                     ?>
 
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <!-- form start -->
-                                        <form class="form-horizontal" method="post" id="frmEditInstitucion"
-                                              name="frmEditInstitucion"
-                                              action="../../../app/Controllers/InstitucionController.php?action=edit">
+                                        <form class="form-horizontal"  enctype="multipart/form-data" method="post" id="frmEdit<?= $nameModel ?>"
+                                              name="frmEdit<?= $nameModel ?>"
+                                              action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=edit">
 
                                             <input id="id" name="id" value="<?php echo $DataInstitucion->getId(); ?>" hidden
                                                    required="required" type="text">
@@ -99,7 +110,7 @@ use App\Controllers\InstitucionController;
                                                 <div class="col-sm-10">
                                                     <input required type="text" class="form-control" id="nit"
                                                            name="nit" value="<?= $DataInstitucion->getNit(); ?>"
-                                                           placeholder="Ingrese su direccion">
+                                                           placeholder="Ingrese su NIT">
                                                 </div>
                                             </div>
 
@@ -113,29 +124,46 @@ use App\Controllers\InstitucionController;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
-                                                <div class="col-sm-10">
-                                                    <select id="municipios_id" name="municipios_id" class="custom-select">
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "1") ? "selected" : ""; ?> value="1">Ejemplo Municipio 1</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "2") ? "selected" : ""; ?> value="2">Ejemplo Municipio</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "3") ? "selected" : ""; ?> value="3">Ejemplo Municipio</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "4") ? "selected" : ""; ?> value="4">Ejemplo Municipio</option>
-                                                        <option <?= ($DataInstitucion->getMunicipiosId() == "5") ? "selected" : ""; ?> value="5">Ejemplo Municipio</option>
+                                                <label for="municipios_id" class="col-sm-2 col-form-label">Departamento</label>
+                                                <div class="col-sm-5">
+                                                    <?= DepartamentosController::selectDepartamentos(
+                                                        array(
+                                                            'id' => 'departamentos_id',
+                                                            'name' => 'departamentos_id',
+                                                            'defaultValue' => (!empty($DataInstitucion)) ? $DataInstitucion->getMunicipio()->getDepartamento()->getId() : '15',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "estado = 'Activo'"
+                                                        )
+                                                    )
+                                                    ?>
 
-                                                    </select>
+                                                </div>
+                                                <div class="col-sm-5 ">
+
+                                                    <?= MunicipiosController::selectMunicipios(array (
+                                                        'id' => 'municipio_id',
+                                                        'name' => 'municipio_id',
+                                                        'defaultValue' => (!empty($DataInstitucion))  ? $DataInstitucion->getMunicipioId(): '',
+                                                        'class' => 'form-control select2bs4 select2-info',
+                                                        'where' => "departamento_id = " .$DataInstitucion->getMunicipio()->getDepartamento()->getId()." and estado = 'Activo'"))
+                                                    ?>
                                                 </div>
                                             </div>
+
 
                                             <div class="form-group row">
                                                 <label for="rector_id" class="col-sm-2 col-form-label">Rector</label>
                                                 <div class="col-sm-10">
-                                                    <select id="rector_id" name="rector_id" class="custom-select">
-                                                        <option <?= ($DataInstitucion->getRectorId() == "10") ? "selected" : ""; ?> value="10">Juan Andrés Pérez</option>
-                                                        <option <?= ($DataInstitucion->getRectorId() == "5") ? "selected" : ""; ?> value="5">Leopoldo López</option>
-                                                        <option <?= ($DataInstitucion->getRectorId() == "7") ? "selected" : ""; ?> value="7">Leandro Castellanos</option>
 
-
-                                                    </select>
+                                                    <?= UsuarioController::selectUsuario(
+                                                        array (
+                                                            'id' => 'rector_id',
+                                                            'name' =>'rector_id',
+                                                            'defaultValue' => (!empty($DataInstitucion)) ? $DataInstitucion->getRectorId(): '',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "rol = 'Administrador' and estado = 'Activo'")
+                                                    )
+                                                    ?>
                                                 </div>
                                             </div>
 

@@ -2,6 +2,7 @@
 require("../../partials/routes.php");
 
 use App\Controllers\DepartamentosController;
+use App\Controllers\InstitucionController;
 use App\Controllers\MunicipiosController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
@@ -80,7 +81,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
+                                        <label for="direccion" class="col-sm-2 col-form-label">Dirección</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="direccion"
                                                    name="direccion" placeholder="Ingrese la direccion" value="<?= $frmSession['direccion'] ?? '' ?>">
@@ -112,25 +113,27 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
+                                        <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
                                         <div class="col-sm-10">
                                             <input required type="number" minlength="6" class="form-control"
-                                                   id="telefono" name="telefono" placeholder="Ingrese su telefono"
+                                                   id="telefono" name="telefono" placeholder="Ingrese telefono"
                                                    value="<?= $frmSession['telefono'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="instituciones_id" class="col-sm-2 col-form-label">Sede Institución</label>
-                                        <div class="col-sm-4">
-
-                                            <div class="form-group">
-                                                <select multiple class="form-control" id="instituciones_id" name="instituciones_id">
-                                                    <option <?= (!empty($frmSession['instituciones_id']) && $frmSession['instituciones_id'] == "1") ? "selected" : ""; ?> value="1">Sede Principal</option>
-                                                    <option <?= (!empty($frmSession['instituciones_id']) && $frmSession['instituciones_id'] == "2") ? "selected" : ""; ?> value="2">Sede Ejemplo</option>
-
-                                                </select>
-                                            </div>
+                                        <label for="instituciones_id" class="col-sm-2 col-form-label">Institución Sede</label>
+                                        <div class="col-sm-10">
+                                            <?= InstitucionController::selectInstitucion(
+                                                array(
+                                                    'id' => 'instituciones_id',
+                                                    'name' => 'instituciones_id',
+                                                    'defaultValue' => (!empty($frmSession['instituciones_id'])) ? $frmSession['instituciones_id'] : '',
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "estado = 'Activo'"
+                                                )
+                                            );
+                                            ?>
                                         </div>
                                     </div>
                                     <hr>

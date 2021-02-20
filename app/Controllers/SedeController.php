@@ -27,7 +27,6 @@ class SedeController
 
     public function create() {
         try {
-            var_dump($this->dataSede);
             if (!empty($this->dataSede['nombre']) && !Sede::sedesRegistrado($this->dataSede['nombre']))
 
             {

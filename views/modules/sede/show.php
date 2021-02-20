@@ -14,7 +14,7 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Datos De La <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title> Datos de la <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -95,8 +95,8 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                                 <strong><i class="fas fa-phone mr-1"></i> Telefono</strong>
                                                 <p class="text-muted"><?= $DataSede->getTelefono() ?></p>
                                                 <hr>
-                                                <strong><i class="fas fa-calendar-check mr-1"></i> Institucion </strong>
-                                                <p class="text-muted"><?= $DataSede->getInstitucionesId(); ?></p>
+                                                <strong><i class="fas fa-calendar-check mr-1"></i> Institución </strong>
+                                                <p class="text-muted"><?= $DataSede->getInstitucion()->getNit(); ?> - <?= $DataSede->getInstitucion()->getNombre(); ?> - <?= $DataSede->getInstitucion()->getTelefono(); ?></p>
                                                 <hr>
                                                 <strong><i class="far fa-file-alt mr-1"></i> Estado y Rol</strong>
                                                 <p class="text-muted"><?= $DataSede->getEstado() ?></p>

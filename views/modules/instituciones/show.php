@@ -128,7 +128,7 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="create.php?id=<?= $DataInstitucion->getId(); ?>"
+                                                <a role="button" href="edit.php?id=<?= $DataInstitucion->getId(); ?>"
                                                    class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
                                                     <i class="fas fa-plus"></i> Editar <?= $nameModel ?>

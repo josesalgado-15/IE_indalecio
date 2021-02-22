@@ -159,9 +159,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                                 <div class="col-sm-5 ">
                                                     <?= MunicipiosController::selectMunicipios(array (
-                                                        'id' => 'municipio_id',
-                                                        'name' => 'municipio_id',
-                                                        'defaultValue' => (!empty($frmSession['municipio_id'])) ? $frmSession['municipio_id'] : '',
+                                                        'id' => 'municipios_id',
+                                                        'name' => 'municipios_id',
+                                                        'defaultValue' => (!empty($frmSession['municipios_id'])) ? $frmSession['municipios_id'] : '',
                                                         'class' => 'form-control select2bs4 select2-info',
                                                         'where' => "departamento_id = 15 and estado = 'Activo'"))
                                                     ?>
@@ -190,49 +190,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     </select>
                                                 </div>
                                             </div>
-
-
-                                            <?php  if (!empty($_SESSION['UserInSession']) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>
-                                                <div class="form-group row">
-                                                    <label for="numero_documento" class="col-sm-2 col-form-label">Usuario</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" id="numero_documento" name="numero_documento"
-                                                               placeholder="Ingrese su Usuario" value="<?= $frmSession['user'] ?? '' ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="password" class="form-control" id="contrasena"
-                                                               name="contrasena" placeholder="Ingrese una contraseña">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <label for="rol" class="col-sm-2 col-form-label">Rol</label>
-                                                    <div class="col-sm-10">
-                                                        <select required id="rol" name="rol" class="custom-select">
-                                                            <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Administrador") ? "selected" : ""; ?> value="Administrador">Administrador</option>
-                                                            <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Estudiante") ? "selected" : ""; ?> value="Estudiante">Estudiante</option>
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="form-group row">
-                                                    <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                                    <div class="col-sm-10">
-                                                        <select required id="estado" name="estado" class="custom-select">
-                                                            <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                            <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-
-                                            <?php } ?>
-
 
 
 
@@ -306,34 +263,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                                 </div>
                                             </div>
-
-
-                                            <?php if ((!empty($_SESSION['UserInSession']['rol'])) && $_SESSION['UserInSession']['rol'] == 'Administrador'){ ?>
-                                                <div class="form-group row">
-                                                    <label for="numero_documento" class="col-sm-2 col-form-label">Usuario</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" id="numero_documento" name="numero_documento"
-                                                               placeholder="Ingrese su Documento" value="<?= $frmSession['numero_documento'] ?? '' ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="password" class="form-control" id="contrasena"
-                                                               name="contrasena" placeholder="Ingrese una contraseña">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                                    <div class="col-sm-10">
-                                                        <select required id="estado" name="estado" class="custom-select">
-                                                            <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                            <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            <?php } ?>
 
                                             <hr>
                                             <button type="submit" class="btn btn-info">Enviar</button>

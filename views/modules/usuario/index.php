@@ -118,7 +118,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?=  $usuario->getNumeroDocumento(); ?></td>
                                         <td><?=  $usuario->getTipoDocumento(); ?></td>
                                         <td><?=  $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
-                                        <td><?=  $usuario->getDireccion(); ?>, <?=  $usuario->getMunicipio()->getNombre(); ?></td>
+                                        <td><?=  $usuario->getDireccion(); ?>, <?=  $usuario->getMunicipio()->getNombre() ; ?> - <?= $usuario->getMunicipio()->getDepartamento()->getNombre(); ?></td>
                                         <td><?=  $usuario->getGenero(); ?></td>
                                         <td><?=  $usuario->getRol(); ?></td>
                                         <td><?=  $usuario->getCorreo(); ?></td>

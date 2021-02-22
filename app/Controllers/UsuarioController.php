@@ -25,7 +25,7 @@ class UsuarioController
         $this->dataUsuario['tipo_documento'] = $_FORM['tipo_documento'] ?? NULL;
         $this->dataUsuario['fecha_nacimiento'] = !empty($_FORM['fecha_nacimiento']) ? Carbon::parse($_FORM['fecha_nacimiento']) : new Carbon();
         $this->dataUsuario['direccion'] = $_FORM['direccion'] ?? NULL;
-        $this->dataUsuario['municipio_id'] = $_FORM['municipio_id'] ?? NULL;
+        $this->dataUsuario['municipios_id'] = $_FORM['municipios_id'] ?? NULL;
         $this->dataUsuario['genero'] = $_FORM['genero'] ?? NULL;
         $this->dataUsuario['rol'] = $_FORM['rol'] ?? 'Estudiante';
         $this->dataUsuario['correo'] = $_FORM['correo'] ?? NULL;
@@ -36,7 +36,7 @@ class UsuarioController
         $this->dataUsuario['correo_acudiente'] = $_FORM['correo_acudiente'] ?? NULL;
         $this->dataUsuario['instituciones_id'] = $_FORM['instituciones_id'] ?? NULL;
     }
-    public function create($withFiles = null) {
+    public function create() {
         try {
             if (!empty($this->dataUsuario['numero_documento']) && !Usuario::usuarioRegistrado($this->dataUsuario['numero_documento'])) {
 
@@ -53,15 +53,15 @@ class UsuarioController
         }
     }
 
-    public function edit($withFiles = null)
+    public function edit()
     {
         try {
-            $user = new Usuario($this->dataUsuario);
-            if($user->update()){
+            $Usuario = new Usuario($this->dataUsuario);
+            if($Usuario->update()){
                 unset($_SESSION['frmUsuarios']);
             }
 
-            header("Location: ../../views/modules/usuario/show.php?id=". $user->getId() ."&respuesta=success&mensaje=Usuario Actualizado");
+            header("Location: ../../views/modules/usuario/show.php?id=". $Usuario->getId() ."&respuesta=success&mensaje=Usuario Actualizado");
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }

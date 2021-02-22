@@ -161,28 +161,28 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label for="municipios_id" class="col-sm-2 col-form-label">Departamento</label>
+                                                        <label for="municipios_id" class="col-sm-2 col-form-label">Municipios</label>
                                                         <div class="col-sm-5">
                                                             <?= DepartamentosController::selectDepartamentos(
                                                                 array(
-                                                                    'id' => 'departamentos_id',
-                                                                    'name' => 'departamentos_id',
+                                                                    'id' => 'departamento_id',
+                                                                    'name' => 'departamento_id',
                                                                     'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipio()->getDepartamento()->getId() : '15',
                                                                     'class' => 'form-control select2bs4 select2-info',
                                                                     'where' => "estado = 'Activo'"
                                                                 )
                                                             )
                                                             ?>
-
                                                         </div>
                                                         <div class="col-sm-5 ">
-
-                                                            <?= MunicipiosController::selectMunicipios(array (
-                                                                'id' => 'municipio_id',
-                                                                'name' => 'municipio_id',
-                                                                'defaultValue' => (!empty($DataUsuario))  ? $DataUsuario->getMunicipiosId(): '',
-                                                                'class' => 'form-control select2bs4 select2-info',
-                                                                'where' => "departamento_id = " .$DataUsuario->getMunicipio()->getDepartamento()->getId()." and estado = 'Activo'"))
+                                                            <?= MunicipiosController::selectMunicipios(
+                                                                array (
+                                                                    'id' => 'municipios_id',
+                                                                    'name' => 'municipios_id',
+                                                                    'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipiosId(): '',
+                                                                    'class' => 'form-control select2bs4 select2-info',
+                                                                    'where' => "departamento_id = ".$DataUsuario->getMunicipio()->getDepartamento()->getId()." and estado = 'Activo'")
+                                                            )
                                                             ?>
                                                         </div>
                                                     </div>
@@ -268,18 +268,20 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="instituciones_id" class="col-sm-2 col-form-label">Institución</label>
                                                         <div class="col-sm-10">
-
-                                                            <?= InstitucionController::selectInstitucion(array (
-                                                                'id' => 'instituciones_id',
-                                                                'name' => 'instituciones_id',
-                                                                'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getInstitucion()->getId() : '',
-                                                                'class' => 'form-control select2bs4 select2-info',
-                                                                'where' => "estado = 'Activo'"))
+                                                            <?= InstitucionController::selectInstitucion(
+                                                                array(
+                                                                    'id' => 'instituciones_id',
+                                                                    'name' => 'instituciones_id',
+                                                                    'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getInstitucion()->getId() : '',
+                                                                    'class' => 'form-control select2bs4 select2-info',
+                                                                    'where' => "estado = 'Activo'"
+                                                                )
+                                                            );
                                                             ?>
-
-
                                                         </div>
                                                     </div>
+
+
 
                                                     <hr>
                                                     <button type="submit" class="btn btn-info">Enviar</button>
@@ -315,5 +317,25 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#departamento_id').on('change', function() {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
+                isMultiple: false,
+                isRequired: true,
+                id: "municipio_id",
+                nombre: "municipio_id",
+                defaultValue: "",
+                class: "form-control select2bs4 select2-info",
+                where: "departamento_id = "+$('#departamento_id').val()+" and estado = 'Activo'",
+                request: 'ajax'
+            }, function(e) {
+                if (e)
+                    console.log(e);
+                $("#municipio_id").html(e).select2({ height: '100px'});
+            })
+        });
+    });
+</script>
 </body>
 </html>

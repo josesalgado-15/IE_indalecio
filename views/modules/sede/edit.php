@@ -105,7 +105,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="municipios_id" class="col-sm-2 col-form-label">Municipios</label>
+                                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipios</label>
                                                         <div class="col-sm-5">
                                                             <?= DepartamentosController::selectDepartamentos(
                                                                 array(

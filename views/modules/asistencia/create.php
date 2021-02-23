@@ -94,37 +94,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </div>
                                         </div>
 
-                                    <div class="form-group row">
-                                        <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
-                                        <div class="col-sm-10">
-                                            <input required type="date" class="form-control" id="fecha"
-                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? '' ?>">
-                                        </div>
-                                    </div>
-
-
-                                        <div class="form-group row">
-                                            <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
-                                            <div class="col-sm-4">
-
-                                                <div class="form-group">
-                                                    <select multiple class="form-control" id="tipo_ingreso" name="tipo_ingreso">
-                                                        <option <?= (!empty($frmSession['tipo_ingreso']) && $frmSession['tipo_ingreso'] == "Institución") ? "selected" : ""; ?> value="Institución">Institución</option>
-                                                        <option <?= (!empty($frmSession['tipo_ingreso']) && $frmSession['tipo_ingreso'] == "Restaurante") ? "selected" : ""; ?> value="Restaurante">Restaurante</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    <div class="form-group row">
-                                        <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
-                                        <div class="col-sm-10">
-                                            <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                   placeholder="Ingrese la hora de ingreso" value="<?= $frmSession['hora_ingreso'] ?? '' ?>">
-                                        </div>
-                                    </div>
 
                                     <div class="form-group row">
                                         <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
@@ -132,24 +101,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <select id="observacion" name="observacion" class="custom-select">
 
                                                 <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ninguna") ? "selected" : ""; ?> value="Ninguna">Ninguna</option>
-                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
-                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
-                                                <option <?= (!empty($frmSession['observacion']) && $frmSession['observacion'] == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
+                                                <option <?= (!empty($frmSession['Justificada']) && $frmSession['Justificada'] == "Justificada") ? "selected" : ""; ?> value="Justificada">Justificada</option>
+                                                <option <?= (!empty($frmSession['Injustificada']) && $frmSession['Injustificada'] == "Injustificada") ? "selected" : ""; ?> value="Injustificada">Injustificada</option>
+                                                <option <?= (!empty($frmSession['Retraso']) && $frmSession['Retraso'] == "Retraso") ? "selected" : ""; ?> value="Retraso">Retraso</option>
 
                                             </select>
                                         </div>
                                     </div>
-
-
-                                    <div class="form-group row">
-                                        <label for="hora_salida" class="col-sm-2 col-form-label">Hora De Salida</label>
-                                        <div class="col-sm-10">
-                                            <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                   placeholder="16:05" value="<?= $frmSession['hora_salida'] ?? '' ?>">
-                                        </div>
-                                    </div>
-
-
 
 
                                     <hr>

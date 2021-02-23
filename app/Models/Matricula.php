@@ -241,7 +241,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:estado,NOW(),NULL,NULL))";
+        $query = "INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:estado,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -326,9 +326,9 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
         return Matricula::search("SELECT * FROM dbindalecio.matriculas");
     }
 
-    static function matriculaRegistrada($usuarios_id, $cursos_id): bool
+    static function matriculaRegistrada($vigencia, $usuarios_id, $cursos_id): bool
     {
-        $result = Matricula::search("SELECT * FROM dbindalecio.matriculas where usuarios_id = '" . $usuarios_id. "' and cursos_id = '".$cursos_id ."'" );
+        $result = Matricula::search("SELECT * FROM dbindalecio.matriculas where vigencia = '" . $vigencia. "' and usuarios_id = '" . $usuarios_id. "' and cursos_id =  '".$cursos_id ."'" );
         if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {

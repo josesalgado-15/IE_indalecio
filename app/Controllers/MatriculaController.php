@@ -30,7 +30,7 @@ class MatriculaController
 
     public function create() {
         try {
-            if (!empty($this->dataMatricula['usuarios_id'] and $this->dataMatricula['cursos_id']) && !Matricula::matriculaRegistrada($this->dataMatricula['usuarios_id'], $this->dataMatricula['cursos_id']))
+            if (!empty($this->dataMatricula['vigencia'] and $this->dataMatricula['usuarios_id'] or $this->dataMatricula['cursos_id']) && !Matricula::matriculaRegistrada($this->dataMatricula['vigencia'], $this->dataMatricula['usuarios_id'], $this->dataMatricula['cursos_id']))
 
             {
                 $Matricula = new Matricula($this->dataMatricula);

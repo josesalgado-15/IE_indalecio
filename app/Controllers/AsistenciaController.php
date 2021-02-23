@@ -22,22 +22,18 @@ class AsistenciaController
         $this->dataAsistencia = array();
         $this->dataAsistencia['id'] = $_FORM['id'] ?? NULL;
         $this->dataAsistencia['fecha'] = !empty($_FORM['fecha']) ? Carbon::parse($_FORM['fecha']) : new Carbon();
-
-        //Asi estaba:  $arrayAsistencia['hora_ingreso'] = $formated_time = date("H:i:s", strtotime($arrayAsistencia['hora_ingreso']));
-        $this->dataAsistencia['hora_ingreso'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_ingreso']));
-
         $this->dataAsistencia['observacion'] = $_FORM['observacion'] ?? NULL;
-        $this->dataAsistencia['tipo_ingreso'] = $_FORM['tipo_ingreso'] ?? NULL;
-        $this->dataAsistencia['hora_salida'] = $formated_time = date("H:i:s", strtotime($_FORM['hora_salida']));
         $this->dataAsistencia['matriculas_id'] = $_FORM['matriculas_id'] ?? 0;
         $this->dataAsistencia['estado'] = $_FORM['estado'] ?? 'Activo';
+        $this->dataAsistencia['reporte'] = $_FORM['reporte'] ?? 'Asiste';
+        $this->dataAsistencia['created_at'] = !empty($_FORM['created_at']) ? Carbon::parse($_FORM['created_at']) : new Carbon();
 
 
     }
 
     public function create() {
         try {
-            if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['hora_ingreso'] and $this->dataAsistencia['matriculas_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['hora_ingreso'], $this->dataAsistencia['matriculas_id']))
+            if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['matriculas_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['matriculas_id']))
 
             {
                 $Asistencia = new Asistencia ($this->dataAsistencia);
@@ -116,6 +112,36 @@ class AsistenciaController
         try {
             $ObjAsistencia = Asistencia::searchForId($id);
             $ObjAsistencia->setEstado("Inactivo");
+            if ($ObjAsistencia->update()) {
+                header("Location: ../../views/modules/asistencia/index.php");
+            } else {
+                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function asiste(int $id)
+    {
+        try {
+            $ObjAsistencia = Asistencia::searchForId($id);
+            $ObjAsistencia->setReporte("Asiste");
+            if ($ObjAsistencia->update()) {
+                header("Location: ../../views/modules/asistencia/index.php");
+            } else {
+                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function no_asiste(int $id)
+    {
+        try {
+            $ObjAsistencia = Asistencia::searchForId($id);
+            $ObjAsistencia->setReporte("No asiste");
             if ($ObjAsistencia->update()) {
                 header("Location: ../../views/modules/asistencia/index.php");
             } else {

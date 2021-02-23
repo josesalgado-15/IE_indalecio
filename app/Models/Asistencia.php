@@ -13,13 +13,10 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     protected ?int $id; //Visibilidad (public, protected, private)
     protected Carbon $fecha;
-    protected string $hora_ingreso;
     protected string $observacion;
-    protected string $tipo_ingreso;
-    protected string $hora_salida;
     protected int $matriculas_id;
     protected string $estado;
-
+    protected string $reporte;
     protected Carbon $created_at;
     protected Carbon $updated_at;
     protected Carbon $deleted_at;
@@ -40,15 +37,12 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
         $this->setId($asistencia['id'] ?? NULL);
         $this->setFecha( !empty($asistencia['fecha']) ? Carbon::parse($asistencia['fecha']) : new Carbon());
-        $this->setHoraIngreso($asistencia['hora_ingreso'] ?? '');
         $this->setObservacion($asistencia['observacion'] ?? '');
-        $this->setTipoIngreso($asistencia['tipo_ingreso'] ?? '');
-        $this->setHoraSalida($asistencia['hora_salida'] ?? '');
         $this->setMatriculasId($asistencia['matriculas_id'] ?? 0);
         $this->setEstado($asistencia['estado'] ?? '');
+        $this->setReporte($asistencia['reporte'] ?? '');
         $this->setCreatedAt(!empty($asistencia['created_at']) ? Carbon::parse($asistencia['created_at']) : new Carbon());
         $this->setUpdatedAt(!empty($asistencia['updated_at']) ? Carbon::parse($asistencia['updated_at']) : new Carbon());
-        $this->setDeletedAt(!empty($asistencia['deleted_at']) ? Carbon::parse($asistencia['deleted_at']) : new Carbon());
     }
 
     function __destruct()
@@ -92,21 +86,6 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $this->fecha = $fecha;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getHoraIngreso(): string
-    {
-        return $this->hora_ingreso;
-    }
-
-    /**
-     * @param mixed|string $hora_ingreso
-     */
-    public function setHoraIngreso(string $hora_ingreso): void
-    {
-        $this->hora_ingreso = $hora_ingreso;
-    }
 
     /**
      * @return mixed|string
@@ -124,37 +103,6 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $this->observacion = $observacion;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getTipoIngreso(): string
-    {
-        return $this->tipo_ingreso;
-    }
-
-    /**
-     * @param mixed|string $tipo_ingreso
-     */
-    public function setTipoIngreso(string $tipo_ingreso): void
-    {
-        $this->tipo_ingreso = $tipo_ingreso;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getHoraSalida(): string
-    {
-        return $this->hora_salida;
-    }
-
-    /**
-     * @param mixed|string $hora_salida
-     */
-    public function setHoraSalida(string $hora_salida): void
-    {
-        $this->hora_salida = $hora_salida;
-    }
 
     /**
      * @return int
@@ -189,6 +137,24 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getReporte(): string
+    {
+        return $this->reporte;
+    }
+
+    /**
+     * @param string $reporte
+     */
+    public function setReporte(string $reporte): void
+    {
+        $this->reporte = $reporte;
+    }
+
+
+
+    /**
      * @return Carbon|mixed
      */
     public function getCreatedAt(): Carbon
@@ -220,21 +186,6 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $this->updated_at = $updated_at;
     }
 
-    /**
-     * @return Carbon
-     */
-    public function getDeletedAt(): Carbon
-    {
-        return $this->deleted_at->locale('es');
-    }
-
-    /**
-     * @param Carbon $deleted_at
-     */
-    public function setDeletedAt(Carbon $deleted_at): void
-    {
-        $this->deleted_at = $deleted_at;
-    }
 
     /* Relaciones */
     /**
@@ -259,14 +210,10 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         $arrData = [
             ':id' =>    $this->getId(),
             ':fecha' =>  $this->getFecha()->toDateString(), //YYYY-MM-DD
-            ':hora_ingreso' =>   $this->getHoraIngreso(),
             ':observacion' =>  $this->getObservacion(),
-            ':tipo_ingreso' =>   $this->getTipoIngreso(),
-
-            ':hora_salida' =>   $this->getHoraSalida(),
             ':matriculas_id' =>   $this->getMatriculasId(),
-
-            ':estado' =>   $this->getEstado()
+            ':estado' =>   $this->getEstado(),
+            ':reporte' =>   $this->getReporte()
 
 
         ];
@@ -283,7 +230,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:hora_ingreso,:observacion,:tipo_ingreso,:hora_salida,:matriculas_id,:estado,NOW(),NULL)";
+        $query = "INSERT INTO dbindalecio.asistencias VALUES (:id,:fecha,:observacion,:matriculas_id,:estado,:reporte, NOW(),NULL)";
         return $this->save($query);
     }
 
@@ -293,10 +240,8 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
     public function update() : ?bool
     {
         $query = "UPDATE dbindalecio.asistencias SET 
-            fecha = :fecha, hora_ingreso = :hora_ingreso,
-            observacion = :observacion, tipo_ingreso = :tipo_ingreso,
-            hora_salida = :hora_salida, matriculas_id = :matriculas_id,
-            estado = :estado, created_at = NOW() WHERE id = :id";
+            fecha = :fecha,observacion = :observacion,matriculas_id = :matriculas_id,
+            estado = :estado, reporte = :reporte, updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 
@@ -371,9 +316,10 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         return Asistencia::search("SELECT * FROM dbindalecio.asistencias");
     }
 
-    static function asistenciaRegistrada($fecha, $hora_ingreso, $matriculas_id): bool
+    static function asistenciaRegistrada($fecha, $matriculas_id): bool
     {
-        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha. "' and hora_ingreso = '".$hora_ingreso ."' and matriculas_id = '".$matriculas_id ."'" );
+        $fecha= strtotime(date_create_from_format('d M, Y', '00:00:00'));
+        $result = Asistencia::search("SELECT * FROM dbindalecio.asistencias where fecha = '" . $fecha ."' and matriculas_id = '".$matriculas_id ."'" );
         if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
@@ -383,7 +329,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
     public function __toString() : string
     {
-        return "Fecha: $this->fecha, Hora de Ingreso: $this->hora_ingreso, Observación: $this->observacion, Tipo de Ingreso: $this->tipo_ingreso, Hora de Salida: $this->hora_salida, Usuario: $this->matriculas_id, Estado: $this->estado";
+        return "Fecha: $this->fecha, Observación: $this->observacion, Usuario: $this->matriculas_id, Estado: $this->estado";
     }
 
     /*
@@ -416,12 +362,10 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
 
             'id' =>    $this->getId(),
             'fecha' =>  $this->getFecha()->toDateString(), //YYYY-MM-DD
-            'hora_ingreso' =>   $this->getHoraIngreso(),
             'observacion' =>  $this->getObservacion(),
-            'tipo_ingreso' =>   $this->getTipoIngreso(),
-            'hora_salida' =>   $this->getHoraSalida(),
             'matriculas_id' =>   $this->getMatriculasId(),
             'estado' =>   $this->getEstado(),
+            'reporte' =>   $this->getReporte(),
             'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
             'deleted_at' =>  $this->getDeletedAt()->toDateTimeString() //YYYY-MM-DD HH:MM:SS
 

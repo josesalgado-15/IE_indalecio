@@ -78,6 +78,21 @@ class AsistenciaController
         return null;
     }
 
+    static public function searchForCurso (array $data){
+        try {
+            $result = Asistencia::searchForCurso($data['cursos_id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+
+
     static public function getAll (array $data = null){
         try {
             $result = Asistencia::getAll();

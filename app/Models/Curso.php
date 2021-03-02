@@ -307,7 +307,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
             nombre = :nombre, director = :director,
             representante = :representante, cantidad = :cantidad,
             grados_id = :grados_id, horarios_id = :horarios_id,
-            estado = :estado,created_at = :created_at, updated_at = NOW() WHERE id = :id";
+            estado = :estado,updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 

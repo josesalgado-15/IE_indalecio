@@ -151,7 +151,7 @@ class NovedadController
             /* @var $arrAsistencia Asistencia[] */
             foreach ($arrAsistencia as $asistencia)
                 if (!AsistenciaController::asistenciaIsInArray($asistencia->getId(),$params['arrExcluir']))
-                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getTipoIngreso() . " - " . $asistencia->getMatricula()->getCurso()->getNombre().  " - " . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getFecha()->translatedFormat('l, j \\de F Y') . " - " . $asistencia->getHoraIngreso() . " - " . $asistencia->getHoraSalida(). "</option>";
+                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getMatricula()->getCurso()->getNombre().  " - " . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getReporte(). " - ". $asistencia->getFecha()->translatedFormat('l, j \\de F Y') . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

@@ -162,13 +162,16 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>#</th>
                                     <th>Fecha</th>
                                     <th>Curso</th>
                                     <th>Estudiante</th>
                                     <th>Observación</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
+                                    <!--<th></th> Si se quieren mostrar todos los registros en una vista-->
                                 </tr>
                                 </tfoot>
                             </table>

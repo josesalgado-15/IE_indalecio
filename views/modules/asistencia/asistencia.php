@@ -3,18 +3,16 @@
 //require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
 
-use App\Controllers\NovedadController;
 use App\Controllers\AsistenciaController;
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Novedad";
-$pluralModel = $nameModel.'es';
+$nameModel = "Asistencia";
+$pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,12 +37,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestionar Novedades</h1>
+                        <h1>Gestionar Asistencias</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                            <li class="breadcrumb-item active">Gestionar Novedades</li>
+                            <li class="breadcrumb-item active">Gestionar Asistencias</li>
                         </ol>
                     </div>
                 </div>
@@ -56,14 +54,15 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
             <!-- Generar Mensajes de alerta -->
             <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-
             <!-- Default box -->
             <div class="card card-dark">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Novedades</h3>
+                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Asistencias</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                 data-source="index.php" data-source-selector="#card-refresh-content"
@@ -84,79 +83,111 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <div class="col-auto">
                             <a role="button" href="create.php" class="btn btn-primary float-right"
                                style="margin-right: 5px;">
-                                <i class="fas fa-plus"></i> Crear Novedad
+                                <i class="fas fa-plus"></i> Crear Asistencia
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblNovedades" class="datatable table table-bordered table-striped">
+                            <table id="tblAsistencias" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tipo</th>
-                                    <th>Justificación</th>
+                                    <th>Fecha</th>
+                                    <th>Curso</th>
+                                    <th>Estudiante</th>
                                     <th>Observación</th>
-                                    <th>Administrador ID</th>
-                                    <th>Asistencia ID</th>
-                                    <th>Creación</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                $arrNovedades = NovedadController::getAll();
-                                /* @var $arrNovedades \App\Models\Novedad[] */
-                                foreach ($arrNovedades as $novedad) {
-                                    ?>
+
+                                <?php if (!empty($_GET["cursos_id"]) && isset($_GET["cursos_id"])) {
+                                $DataAsistencia = AsistenciaController::searchForMatricula(["cursos_id" => $_GET["cursos_id"]]);
+
+                                if (!empty($DataAsistencia)) {
+                                ?>
+
                                     <tr>
-                                        <td><?php echo $novedad->getId(); ?></td>
-                                        <td><?php echo $novedad->getTipo(); ?></td>
-                                        <td><?php echo $novedad->getJustificacion(); ?></td>
-                                        <td><?php echo $novedad->getObservacion(); ?></td>
-                                        <td><?php echo $novedad->getAdministrador()->getNombres()," ", $novedad->getAdministrador()->getApellidos(),""; ?></td>
-                                        <td><?php echo $novedad->getAsistencia()->getMatricula()->getCurso()->getNombre()," - ",$novedad->getAsistencia()->getMatricula()->getUsuario()->getNombres()," - ",$novedad->getAsistencia()->getMatricula()->getUsuario()->getApellidos()," - ",$novedad->getAsistencia()->getReporte()," - ", $novedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y'); ?></td>
-                                        <td><?php echo $novedad->getCreatedAt()->translatedFormat('l, j \\de F Y'); ?></td>
-                                        <td><?php echo $novedad->getEstado(); ?></td>
+                                        <td><?php echo $DataAsistencia->getId(); ?></td>
+                                        <td><?php echo $DataAsistencia->getFecha()->translatedFormat('l, j \\de F Y'),".";  ?></td>
+                                        <td><?php echo $DataAsistencia->getMatricula()->getCurso()->getNombre(); ?></td>
+                                        <td><?php echo $DataAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $DataAsistencia->getMatricula()->getUsuario()->getNombres()," ",  $DataAsistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
+                                        <td><?php echo $DataAsistencia->getObservacion(); ?></td>
+                                        <td><?php echo $DataAsistencia->getEstado(); ?></td>
+                                        <td><?php echo $DataAsistencia->getReporte(); ?></td>
                                         <td>
-                                            <a href="edit.php?id=<?php echo $novedad->getId(); ?>"
+
+
+                                            <?php if ($DataAsistencia->getReporte() != "Asiste") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $DataAsistencia->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Asiste"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-hand-paper"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?= $DataAsistencia->getId(); ?>"
+                                                   data-toggle="tooltip" title="No asiste"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-user-times"></i></a>
+                                            <?php } ?>
+                                            <a href="edit.php?id=<?php echo $DataAsistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
                                                class="btn docs-tooltip btn-primary btn-xs"><i
                                                         class="fa fa-edit"></i></a>
-                                            <a href="show.php?id=<?php echo $novedad->getId(); ?>"
+                                            <a href="show.php?id=<?php echo $DataAsistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
 
-                                            <?php if ($novedad->getEstado() != "Activo") { ?>
-                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $novedad->getId(); ?>"
+
+                                            <?php if ($DataAsistencia->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $DataAsistencia->getId(); ?>"
                                                    type="button" data-toggle="tooltip" title="Activar"
                                                    class="btn docs-tooltip btn-success btn-xs"><i
                                                             class="fa fa-check-square"></i></a>
                                             <?php } else { ?>
                                                 <a type="button"
-                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $novedad->getId(); ?>"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $DataAsistencia->getId(); ?>"
                                                    data-toggle="tooltip" title="Inactivar"
                                                    class="btn docs-tooltip btn-danger btn-xs"><i
                                                             class="fa fa-times-circle"></i></a>
                                             <?php } ?>
+
+
+
                                         </td>
                                     </tr>
-                                <?php } ?>
+
+
+                                <?php } else { ?>
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                        No se encontro ningun registro con estos parametros de
+                                        busqueda <?= ($_GET['mensaje']) ?? "" ?>
+                                    </div>
+                                <?php }
+                                } ?>
+
 
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>#</th>
-                                    <th>Tipo</th>
-                                    <th>Justificación</th>
+                                    <th>Fecha</th>
+                                    <th>Curso</th>
+                                    <th>Estudiante</th>
                                     <th>Observación</th>
-                                    <th>Administrador ID</th>
-                                    <th>Asistencia ID</th>
-                                    <th>Creación</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
+                                    <!--<th></th> Si se quieren mostrar todos los registros en una vista-->
                                 </tr>
                                 </tfoot>
                             </table>
@@ -170,7 +201,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                 <!-- /.card-footer-->
             </div>
             <!-- /.card -->
-
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
     </div>
@@ -178,43 +211,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
     <?php include_once ('../../partials/footer.php') ?>
 </div>
+
+</div>
 <!-- ./wrapper -->
+<?php require('../../partials/scripts.php'); ?>
+<!-- Scripts requeridos para las datatables -->
+<?php require('../../partials/datatables_scripts.php'); ?>
 
-<?php include_once ('../../partials/scripts.php') ?>
-<!-- DataTables -->
-<script src="<?= $adminlteURL ?>/plugins/datatables/jquery.dataTables.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-responsive/js/dataTables.responsive.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-responsive/js/responsive.bootstrap4.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/dataTables.buttons.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.bootstrap4.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/jszip/jszip.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/pdfmake/pdfmake.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.html5.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.print.js"></script>
-<script src="<?= $adminlteURL ?>/plugins/datatables-buttons/js/buttons.colVis.js"></script>
-
-<script>
-    $(function () {
-        $('.datatable').DataTable({
-            "dom": 'Bfrtip',
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true,
-            "language": {
-                "url": "../../public/Spanish.json" //Idioma
-            },
-            "buttons": [
-                'copy', 'print', 'excel', 'pdf'
-            ],
-            "pagingType": "full_numbers",
-            "responsive": true,
-            "stateSave": true, //Guardar la configuracion del usuario
-        });
-    });
-</script>
 </body>
 </html>

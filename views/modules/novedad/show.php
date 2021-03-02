@@ -114,8 +114,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <strong><i class="fas fa-user mr-1"></i>Asistencia</strong>
                                         <p class="text-muted">
 
-                                            <?= $DataNovedad->getAsistencia()->getTipoIngreso()," - ",$DataNovedad->getAsistencia()->getMatricula()->getCurso()->getNombre()," - ",$DataNovedad->getAsistencia()->getMatricula()->getUsuario()->getNombres()," ",$DataNovedad->getAsistencia()->getMatricula()->getUsuario()->getApellidos()," ",$DataNovedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')," - ",$DataNovedad->getAsistencia()->getHoraIngreso()," ",$DataNovedad->getAsistencia()->getHoraSalida();
-                                            ; ?>
+                                            <?= $DataNovedad->getAsistencia()->getMatricula()->getCurso()->getNombre()," - ",$DataNovedad->getAsistencia()->getMatricula()->getUsuario()->getNombres()," - ",$DataNovedad->getAsistencia()->getMatricula()->getUsuario()->getApellidos()," - ",$DataNovedad->getAsistencia()->getReporte()," - ", $DataNovedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')  ; ?>
+
                                         </p>
                                         <hr>
 

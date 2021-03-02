@@ -89,7 +89,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblAsistencias" class="datatable table table-bordered table-striped">
+                            <table id="tblCursos" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>

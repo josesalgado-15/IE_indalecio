@@ -60,6 +60,31 @@
                     </ul>
                 </li>
 
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>
+                            Matrículas
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/matricula/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/matricula/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'asistencia') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'asistencia') ? 'active' : '' ?>">
@@ -70,7 +95,29 @@
                         </p>
 
                     </a>
+
+
+
                     <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/asistencia/consulta.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Consultar</p>
+                            </a>
+
+
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/asistencia/asistencia.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar 1</p>
+                            </a>
+
+
+                        </li>
+
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/asistencia/index.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -191,31 +238,6 @@
                     </ul>
                 </li>
 
-
-                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'matricula') ? 'active' : '' ?>">
-                        <i class="nav-icon fas fa-user-shield"></i>
-                        <p>
-                            Matrículas
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/matricula/index.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Gestionar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/matricula/create.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Registrar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'instituciones') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'instituciones') ? 'active' : '' ?>">

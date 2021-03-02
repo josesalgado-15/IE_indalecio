@@ -305,6 +305,25 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         return NULL;
     }
 
+    public static function searchForCurso($cursos_id) : ?Asistencia
+    {
+        try {
+            if ($cursos_id > 0) {
+                $Asistencia = new Asistencia();
+                $Asistencia->Connect();
+                $getrow = $Asistencia->getRow("SELECT * FROM dbindalecio.matriculas WHERE cursos_id =?", array($cursos_id));
+
+                $Asistencia->Disconnect();
+                return ($getrow) ? new Asistencia($getrow) : null;
+            }else{
+                throw new Exception('Id de Matricula Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
+
 
 
     /**
@@ -366,8 +385,7 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
             'matriculas_id' =>   $this->getMatriculasId(),
             'estado' =>   $this->getEstado(),
             'reporte' =>   $this->getReporte(),
-            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            'deleted_at' =>  $this->getDeletedAt()->toDateTimeString() //YYYY-MM-DD HH:MM:SS
+            'updated_at' =>  $this->getUpdatedAt()->toDateTimeString()
 
         ];
     }

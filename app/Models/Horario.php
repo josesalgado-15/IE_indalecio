@@ -218,8 +218,8 @@ class Horario extends AbstractDBConnection implements Model, JsonSerializable
      */
     public function getSede(): ?Sede
     {
-        if(!empty($this->sedes_id_id)){
-            $this->sede = Sede::searchForId($this->sedes_id_id) ?? new Sede();
+        if(!empty($this->sedes_id)){
+            $this->sede = Sede::searchForId($this->sedes_id) ?? new Sede();
             return $this->sede;
         }
         return NULL;
@@ -239,10 +239,8 @@ class Horario extends AbstractDBConnection implements Model, JsonSerializable
             ':hora_entrada_restaurante' =>  $this->getHoraEntradaRestaurante(),
             ':fecha' =>   $this->getFecha()->toDateTimeString(),
             ':estado' =>   $this->getEstado(),
-            ':sedes_id' =>   $this->getSedesId(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+            ':sedes_id' =>   $this->getSedesId()
+
 
         ];
         $this->Connect();
@@ -258,7 +256,7 @@ class Horario extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.horarios VALUES (:id,:hora_entrada_sede,:hora_salida,:hora_entrada_restaurante,:fecha,:estado,:sedes_id,:created_at,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.horarios VALUES (:id,:hora_entrada_sede,:hora_salida,:hora_entrada_restaurante,:fecha,:estado,:sedes_id,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -271,7 +269,7 @@ class Horario extends AbstractDBConnection implements Model, JsonSerializable
         $query = "UPDATE dbindalecio.horarios SET 
             hora_entrada_restaurante = :hora_entrada_restaurante, hora_salida = :hora_salida,
             hora_entrada_restaurante = :hora_entrada_restaurante, fecha = :fecha,
-            estado = :estado, sedes_id = :sedes_id, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            estado = :estado, sedes_id = :sedes_id, updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 

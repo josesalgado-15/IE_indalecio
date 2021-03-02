@@ -1,18 +1,15 @@
 <?php
+require_once("../../../app/Controllers/SedeController.php");
+require_once("../../partials/routes.php");
 
-//require_once("../../partials/check_login.php");
-require("../../partials/routes.php");;
-
-use App\Controllers\GradoController;
+use App\Controllers\SedeController;
 use App\Models\GeneralFunctions;
+use App\Models\Sede;
 
-
-$nameModel = "Grado";
+$nameModel = "Sede";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +21,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-buttons/css/buttons.bootstrap4.css">
 </head>
 <body class="hold-transition sidebar-mini">
+
 <!-- Site wrapper -->
 <div class="wrapper">
-    <?php include_once ('../../partials/navbar_customization.php') ?>
+    <?php require_once("../../partials/navbar_customization.php"); ?>
 
-    <?php include_once ('../../partials/sliderbar_main_menu.php') ?>
+    <?php require_once("../../partials/sliderbar_main_menu.php"); ?>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -37,12 +35,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestionar <?= $pluralModel ?></h1>
+                        <h1>Pagina Principal</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                            <li class="breadcrumb-item active">Gestionar Grados</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item active"><?= $pluralModel ?></li>
                         </ol>
                     </div>
                 </div>
@@ -51,7 +49,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Generar Mensajes de alerta -->
             <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
             <div class="container-fluid">
@@ -60,7 +57,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Default box -->
                         <div class="card card-dark">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Grados</h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar <?= $pluralModel ?></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="index.php" data-source-selector="#card-refresh-content"
@@ -81,40 +78,62 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <div class="col-auto">
                                         <a role="button" href="create.php" class="btn btn-primary float-right"
                                            style="margin-right: 5px;">
-                                            <i class="fas fa-plus"></i> Crear Grado
+                                            <i class="fas fa-plus"></i> Crear <?= $nameModel ?>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <table id="tblAsistencias" class="datatable table table-bordered table-striped">
+                                        <table id="tbl<?= $pluralModel ?>" class="datatable table table-bordered table-striped">
                                             <thead>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
+                                                <th>Dirección</th>
+                                                <th>Municipio</th>
+                                                <th>Teléfono</th>
+                                                <th>Institución</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $arrGrados = GradoController::getAll();
-                                            /* @var $arrGrados \App\Models\Grado[] */
-                                            foreach ($arrGrados as $grado) {
+                                            $arrSedes = SedeController::getAll();
+                                            /* @var $arrSedes Sede[] */
+                                            foreach ($arrSedes as $sede) {
                                                 ?>
                                                 <tr>
-                                                    <td><?php echo $grado->getId(); ?></td>
-                                                    <td><?php echo $grado->getNombre();  ?></td>
-                                                    <td><?php echo $grado->getEstado(); ?></td>
+                                                    <td><?= $sede->getId(); ?></td>
+                                                    <td><?= $sede->getNombre(); ?></td>
+                                                    <td><?= $sede->getDireccion(); ?> </td>
+                                                    <td> <?= $sede->getMunicipio()->getNombre() ?>
+                                                        - <?= $sede->getMunicipio()->getDepartamento()->getNombre() ?></td>
+                                                    <td><?= $sede->getTelefono(); ?></td>
+                                                    <td><?= $sede->getInstitucion()->getNombre(); ?></td>
+                                                    <td><?= $sede->getEstado(); ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?php echo $grado->getId(); ?>"
+                                                        <a href="edit.php?id=<?php echo $sede->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
                                                            class="btn docs-tooltip btn-primary btn-xs"><i
                                                                     class="fa fa-edit"></i></a>
-                                                        <a href="show.php?id=<?php echo $grado->getId(); ?>"
+                                                        <a href="show.php?id=<?php echo $sede->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Ver"
                                                            class="btn docs-tooltip btn-warning btn-xs"><i
                                                                     class="fa fa-eye"></i></a>
+
+                                                        <?php if ($sede->getEstado() != "Activo") { ?>
+                                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $sede->getId(); ?>"
+                                                               type="button" data-toggle="tooltip" title="Activar"
+                                                               class="btn docs-tooltip btn-success btn-xs"><i
+                                                                        class="fa fa-check-square"></i></a>
+                                                        <?php } else { ?>
+                                                            <a type="button"
+                                                               href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $sede->getId(); ?>"
+                                                               data-toggle="tooltip" title="Inactivar"
+                                                               class="btn docs-tooltip btn-danger btn-xs"><i
+                                                                        class="fa fa-times-circle"></i></a>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -124,6 +143,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombre</th>
+                                                <th>Dirección</th>
+                                                <th>Municipio</th>
+                                                <th>Teléfono</th>
+                                                <th>Institución</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -147,8 +170,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     </div>
     <!-- /.content-wrapper -->
 
-
-<?php require('../../partials/footer.php'); ?>
+    <?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

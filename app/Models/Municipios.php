@@ -6,11 +6,11 @@ use Carbon\Carbon;
 use Exception;
 use JsonSerializable;
 
-final class Municipio extends AbstractDBConnection implements Model, JsonSerializable
+final class Municipios extends AbstractDBConnection implements Model, JsonSerializable
 {
     private ?int $id;
     private string $nombre;
-    private int $departamentos_id;
+    private int $departamento_id;
     private string $acortado;
     private string $estado;
     private Carbon $created_at;
@@ -18,10 +18,10 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
     private Carbon $deleted_at;
 
     /* Relaciones */
-    private ?Departamento $departamento;
+    private ?Departamentos $departamento;
 
     /**
-     * Municipio constructor. Recibe un array asociativo
+     * Municipios constructor. Recibe un array asociativo
      * @param array $municipio
      * @throws Exception
      */
@@ -30,7 +30,7 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
         parent::__construct();
         $this->setId($municipio['id'] ?? NULL);
         $this->setNombre($municipio['nombre'] ?? '');
-        $this->setDepartamentosId($municipio['departamentos_id'] ?? 0);
+        $this->setDepartamentoId($municipio['departamento_id'] ?? 0);
         $this->setAcortado($municipio['acortado'] ?? '');
         $this->setEstado($municipio['estado'] ?? '');
         $this->setCreatedAt(!empty($municipio['created_at']) ? Carbon::parse($municipio['created_at']) : new Carbon());
@@ -55,9 +55,9 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
 
     /**
      * @param int|null $id
-     * @return Municipio
+     * @return Municipios
      */
-    public function setId(?int $id): Municipio
+    public function setId(?int $id): Municipios
     {
         $this->id = $id;
         return $this;
@@ -73,9 +73,9 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
 
     /**
      * @param string $nombre
-     * @return Municipio
+     * @return Municipios
      */
-    public function setNombre(string $nombre): Municipio
+    public function setNombre(string $nombre): Municipios
     {
         $this->nombre = $nombre;
         return $this;
@@ -84,17 +84,17 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
     /**
      * @return int
      */
-    public function getDepartamentosId(): int
+    public function getDepartamentoId(): int
     {
-        return $this->departamentos_id;
+        return $this->departamento_id;
     }
 
     /**
-     * @param int $departamentos_id
+     * @param int $departamento_id
      */
-    public function setDepartamentosId(int $departamentos_id): void
+    public function setDepartamentoId(int $departamento_id): void
     {
-        $this->departamentos_id = $departamentos_id;
+        $this->departamento_id = $departamento_id;
     }
 
     /**
@@ -180,12 +180,12 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
     /**
      * Relacion con departamento
      *
-     * @return Departamento
+     * @return Departamentos
      */
-    public function getDepartamento(): ?Departamento
+    public function getDepartamento(): ?Departamentos
     {
-        if(!empty($this->departamentos_id)){
-            $this->departamento = Departamento::searchForId($this->departamentos_id) ?? new Departamento();
+        if(!empty($this->departamento_id)){
+            $this->departamento = Departamentos::searchForId($this->departamento_id) ?? new Departamentos();
             return $this->departamento;
         }
         return null;
@@ -195,13 +195,13 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
     {
         try {
             $arrMunicipios = array();
-            $tmp = new Municipio();
+            $tmp = new Municipios();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Municipio = new Municipio($valor);
+                $Municipio = new Municipios($valor);
                 array_push($arrMunicipios, $Municipio);
                 unset($Municipio);
             }
@@ -214,18 +214,18 @@ final class Municipio extends AbstractDBConnection implements Model, JsonSeriali
 
     static function getAll(): array
     {
-        return Municipio::search("SELECT * FROM dbindalecio.municipios");
+        return Municipios::search("SELECT * FROM dbindalecio.municipios");
     }
 
     static function searchForId(int $id): ?object
     {
         try {
             if ($id > 0) {
-                $tmpMun = new Municipio();
+                $tmpMun = new Municipios();
                 $tmpMun->Connect();
                 $getrow = $tmpMun->getRow("SELECT * FROM dbindalecio.municipios WHERE id =?", array($id));
                 $tmpMun->Disconnect();
-                return ($getrow) ? new Municipio($getrow) : null;
+                return ($getrow) ? new Municipios($getrow) : null;
             }else{
                 throw new Exception('Id de municipio Invalido');
             }

@@ -3,20 +3,22 @@
 //require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
 
-use App\Controllers\MatriculaController;
+use App\Controllers\NovedadController;
+use App\Controllers\AsistenciaController;
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Matricula";
-$pluralModel = $nameModel.'s';
+$nameModel = "Novedad";
+$pluralModel = $nameModel.'es';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la <?= $nameModel ?></title>
+    <title> Datos De La <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -34,12 +36,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la <?= $nameModel ?></h1>
+                        <h1>Informacion De La <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a
+                                        href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Ver</li>
                         </ol>
                     </div>
                 </div>
@@ -59,9 +63,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataMatricula = MatriculaController::SearchForID(["id" => $_GET["id"]]);
+                                $DataNovedad = NovedadController::SearchForID(["id" => $_GET["id"]]);
 
-                                if (!empty($DataMatricula)) {
+                                if (!empty($DataNovedad)) {
                                     ?>
 
 
@@ -83,27 +87,41 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     </div>
                                     <div class="card-body">
                                         <p>
-                                            <strong><i class="fas fa-user mr-1"></i>Vigencia</strong>
+                                            <strong><i class="fas fa-user mr-1"></i>Tipo</strong>
                                         <p class="text-muted">
-                                            <?= $DataMatricula->getVigencia()->toDateString();  ?>
+                                            <?= $DataNovedad->getTipo();  ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Usuario</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Justificación</strong>
                                         <p class="text-muted">
-                                            <?= $DataMatricula->getUsuario()->getNombres()," ", $DataMatricula->getUsuario()->getApellidos() ?>
+                                            <?= $DataNovedad->getJustificacion(); ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Curso</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Observación</strong>
                                         <p class="text-muted">
-                                            <?= $DataMatricula->getCurso()->getNombre(); ?>
+                                            <?= $DataNovedad->getObservacion(); ?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Administrador</strong>
+                                        <p class="text-muted">
+                                            <?= $DataNovedad->getAdministrador()->getNombres()," ", $DataNovedad->getAdministrador()->getApellidos(),""; ?>
+                                        </p>
+                                        <hr>
+
+                                        <strong><i class="fas fa-user mr-1"></i>Asistencia</strong>
+                                        <p class="text-muted">
+
+                                            <?= $DataNovedad->getAsistencia()->getMatricula()->getCurso()->getNombre()," - ",$DataNovedad->getAsistencia()->getMatricula()->getUsuario()->getNombres()," - ",$DataNovedad->getAsistencia()->getMatricula()->getUsuario()->getApellidos()," - ",$DataNovedad->getAsistencia()->getReporte()," - ", $DataNovedad->getAsistencia()->getFecha()->translatedFormat('l, j \\de F Y')  ; ?>
+
                                         </p>
                                         <hr>
 
                                         <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>
                                         <p class="text-muted">
-                                            <?= $DataMatricula->getEstado() ?>
+                                            <?= $DataNovedad->getEstado() ?>
                                         </p>
 
 
@@ -113,13 +131,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="col-auto mr-auto">
                                                 <a role="button" href="index.php" class="btn btn-success float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-tasks"></i> Gestionar Matriculas
+                                                    <i class="fas fa-tasks"></i> Gestionar Novedades
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="create.php" class="btn btn-primary float-right"
+                                                <a role="button" href="edit.php?id=<?= $DataNovedad->getId(); ?>"
+                                                   class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Matriculas
+                                                    <i class="fas fa-edit"></i> Editar <?= $nameModel ?>
                                                 </a>
                                             </div>
                                         </div>

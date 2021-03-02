@@ -94,6 +94,35 @@ class NovedadController
     }
 
 
+    static public function activate(int $id)
+    {
+        try {
+            $ObjNovedad = Novedad::searchForId($id);
+            $ObjNovedad->setEstado("Activo");
+            if ($ObjNovedad->update()) {
+                header("Location: ../../views/modules/novedad/index.php");
+            } else {
+                header("Location: ../../views/modules/novedad/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function inactivate(int $id)
+    {
+        try {
+            $ObjNovedad = Novedad::searchForId($id);
+            $ObjNovedad->setEstado("Inactivo");
+            if ($ObjNovedad->update()) {
+                header("Location: ../../views/modules/novedad/index.php");
+            } else {
+                header("Location: ../../views/modules/novedad/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
 
 
     static public function selectAsistencia (array $params = []){
@@ -122,7 +151,7 @@ class NovedadController
             /* @var $arrAsistencia Asistencia[] */
             foreach ($arrAsistencia as $asistencia)
                 if (!AsistenciaController::asistenciaIsInArray($asistencia->getId(),$params['arrExcluir']))
-                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getTipoIngreso() . " - " . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getFecha()->translatedFormat('l, j \\de F Y') . " - " . $asistencia->getHoraIngreso() . " - " . $asistencia->getHoraSalida(). "</option>";
+                    $htmlSelect .= "<option ".(($asistencia != "") ? (($params['defaultValue'] == $asistencia->getId()) ? "selected" : "" ) : "")." value='".$asistencia->getId() . "'>" . $asistencia->getMatricula()->getCurso()->getNombre().  " - " . $asistencia->getMatricula()->getUsuario()->getNombres(). " ". $asistencia->getMatricula()->getUsuario()->getApellidos(). " - ". $asistencia->getReporte(). " - ". $asistencia->getFecha()->translatedFormat('l, j \\de F Y') . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

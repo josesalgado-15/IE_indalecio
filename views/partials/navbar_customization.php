@@ -11,6 +11,7 @@
     <ul class="navbar-nav ml-auto">
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item d-none d-sm-inline-block">
+
             <a href="<?= $baseURL; ?>/app/Controllers/UsuarioController.php?action=cerrarSession" class="nav-link">Cerrar Session</a>
         </li>
         <li class="nav-item">

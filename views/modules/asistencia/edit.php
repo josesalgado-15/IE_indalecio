@@ -4,6 +4,7 @@
 require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;
+use App\Controllers\MatriculaController;
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Editar <?= $nameModel ?></title>
+    <title> Editar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -39,8 +40,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Asistencia</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Editar</li>
                         </ol>
                     </div>
                 </div>
@@ -90,21 +92,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <input id="id" name="id" value="<?= $DataAsistencia->getId(); ?>" hidden
                                                    required="required" type="text">
 
-                                            <div class="form-group row">
-                                                <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="date" max="<?= Carbon::now()->format('Y-m-d') ?>" value="<?= $DataAsistencia->getFecha()->toDateString(); ?>" class="form-control" id="fecha"
-                                                           name="fecha" placeholder="Ingrese la fecha">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="hora_ingreso" class="col-sm-2 col-form-label">Hora De Ingreso</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="time" class="form-control" id="hora_ingreso" name="hora_ingreso"
-                                                           value="<?= $DataAsistencia->getHoraIngreso(); ?>">
-                                                </div>
-                                            </div>
 
 
                                             <div class="form-group row">
@@ -113,37 +100,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <select id="observacion" name="observacion" class="custom-select">
 
                                                         <option <?= ($DataAsistencia->getObservacion() == "Ninguna") ? "selected" : ""; ?> value="Ninguna">Ninguna</option>
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ejemplo1") ? "selected" : ""; ?> value="Ejemplo1">Ejemplo1</option>
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ejemplo2") ? "selected" : ""; ?> value="Ejemplo2">Ejemplo2</option>
-                                                        <option <?= ($DataAsistencia->getObservacion() == "Ejemplo3") ? "selected" : ""; ?> value="Ejemplo3">Ejemplo3</option>
+                                                        <option <?= ($DataAsistencia->getObservacion() == "Justificada") ? "selected" : ""; ?> value="Justificada">Justificada</option>
+                                                        <option <?= ($DataAsistencia->getObservacion() == "Injustificada") ? "selected" : ""; ?> value="Injustificada">Injustificada</option>
+                                                        <option <?= ($DataAsistencia->getObservacion() == "Retraso") ? "selected" : ""; ?> value="Retraso">Retraso</option>
 
                                                     </select>
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="tipo_ingreso" class="col-sm-2 col-form-label">Tipo De Ingreso</label>
-                                                <div class="col-sm-4">
-
-                                                    <div class="form-group">
-                                                        <select id="tipo_ingreso" name="tipo_ingreso" multiple class="form-control">
-
-                                                            <option <?= ($DataAsistencia->getTipoIngreso() == "Institucion") ? "selected" : ""; ?> value="Institucion">Institución</option>
-                                                            <option <?= ($DataAsistencia->getTipoIngreso() == "Restaurante") ? "selected" : ""; ?> value="Restaurante">Restaurante</option>
-
-                                                        </select>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="hora_salida" class="col-sm-2 col-form-label">Hora De Salida</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="time" class="form-control" id="hora_salida" name="hora_salida"
-                                                           value="<?= $DataAsistencia->getHoraSalida(); ?>">
-                                                </div>
-                                            </div>
 
 
                                             <?php
@@ -156,14 +120,16 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <div class="form-group row">
                                                 <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
                                                 <div class="col-sm-10">
-                                                    <?= UsuarioController::selectUsuario(array (
+                                                    <?= MatriculaController::selectMatricula(array (
                                                         'id' => 'matriculas_id',
                                                         'name' => 'matriculas_id',
-                                                        'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getMatriculasId() : '',
+                                                        'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getMatricula()->getId() : '',
                                                         'class' => 'form-control select2bs4 select2-info',
-                                                        'where' => "rol = 'Estudiante' and estado = 'Activo'"))
+                                                        'where' => "estado = 'Activo'"))
 
                                                     ?>
+
+
                                                 </div>
                                             </div>
 
@@ -174,6 +140,17 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <select id="estado" name="estado" class="custom-select">
                                                         <option <?= ($DataAsistencia->getEstado() == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
                                                         <option <?= ($DataAsistencia->getEstado() == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="reporte" class="col-sm-2 col-form-label">Reporte</label>
+                                                <div class="col-sm-10">
+                                                    <select id="reporte" name="reporte" class="custom-select">
+                                                        <option <?= ($DataAsistencia->getEstado() == "Asiste") ? "selected" : ""; ?> value="Asiste">Asiste</option>
+                                                        <option <?= ($DataAsistencia->getEstado() == "No asiste") ? "selected" : ""; ?> value="No asiste">No asiste</option>
 
                                                     </select>
                                                 </div>

@@ -3,18 +3,16 @@
 //require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
 
-use App\Controllers\CursoController;
-use App\Controllers\GradoController;
-use App\Controllers\HorarioController;
+use App\Controllers\AsistenciaController;
+use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Curso";
+$nameModel = "Asistencia";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,12 +37,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestionar Cursos</h1>
+                        <h1>Gestionar Asistencias</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                            <li class="breadcrumb-item active">Gestionar Cursos</li>
+                            <li class="breadcrumb-item active">Gestionar Asistencias</li>
                         </ol>
                     </div>
                 </div>
@@ -56,13 +54,15 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
             <!-- Generar Mensajes de alerta -->
             <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
             <!-- Default box -->
             <div class="card card-dark">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Cursos</h3>
+                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Asistencias</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                 data-source="index.php" data-source-selector="#card-refresh-content"
@@ -83,87 +83,111 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <div class="col-auto">
                             <a role="button" href="create.php" class="btn btn-primary float-right"
                                style="margin-right: 5px;">
-                                <i class="fas fa-plus"></i> Crear Cursos
+                                <i class="fas fa-plus"></i> Crear Asistencia
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblCursos" class="datatable table table-bordered table-striped">
+                            <table id="tblAsistencias" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Director</th>
-                                    <th>Representante</th>
-                                    <th>Cantidad</th>
-                                    <th>Grado</th>
-                                    <th>Horario</th>
+                                    <th>Fecha</th>
+                                    <th>Curso</th>
+                                    <th>Estudiante</th>
+                                    <th>Observación</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                $arrCursos = CursoController::getAll();
-                                /* @var $arrCursos \App\Models\Curso[] */
-                                foreach ($arrCursos as $curso) {
-                                    ?>
+
+                                <?php if (!empty($_GET["matriculas_id"]) && isset($_GET["matriculas_id"])) {
+                                $DataAsistencia = AsistenciaController::searchForMatricula(["matriculas_id" => $_GET["matriculas_id"]]);
+
+                                if (!empty($DataAsistencia)) {
+                                ?>
+
                                     <tr>
-                                        <td><?php echo $curso->getId(); ?></td>
-                                        <td><?php echo $curso->getNombre(); ?></td>
-                                        <td><?php echo $curso->getDirector(); ?></td>
-                                        <td><?php echo $curso->getRepresentante(); ?></td>
-                                        <td><?php echo $curso->getCantidad(); ?></td>
-                                        <td><?php echo $curso->getGrado()->getNombre(); ?></td>
-                                        <td><?php echo $curso->getHorario()->getSedesId(); ?></td>
-                                        <td><?php echo $curso->getEstado(); ?></td>
+                                        <td><?php echo $DataAsistencia->getId(); ?></td>
+                                        <td><?php echo $DataAsistencia->getFecha()->translatedFormat('l, j \\de F Y'),".";  ?></td>
+                                        <td><?php echo $DataAsistencia->getMatricula()->getCurso()->getNombre(); ?></td>
+                                        <td><?php echo $DataAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $DataAsistencia->getMatricula()->getUsuario()->getNombres()," ",  $DataAsistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
+                                        <td><?php echo $DataAsistencia->getObservacion(); ?></td>
+                                        <td><?php echo $DataAsistencia->getEstado(); ?></td>
+                                        <td><?php echo $DataAsistencia->getReporte(); ?></td>
                                         <td>
 
-                                            <a href="../asistencia/asistencia.php?idCurso=<?= $curso->getId(); ?>"
-                                            <a href="show.php?id=<?php echo $curso->getId(); ?>"
-                                               type="button" data-toggle="tooltip" title="Gestionar Asistencias"
-                                               class="btn docs-tooltip btn-warning btn-xs"><i
-                                                        class="fa fa-list"></i></a>
 
-
-                                            <a href="edit.php?id=<?php echo $curso->getId(); ?>"
+                                            <?php if ($DataAsistencia->getReporte() != "Asiste") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $DataAsistencia->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Asiste"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-hand-paper"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?= $DataAsistencia->getId(); ?>"
+                                                   data-toggle="tooltip" title="No asiste"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-user-times"></i></a>
+                                            <?php } ?>
+                                            <a href="edit.php?id=<?php echo $DataAsistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
                                                class="btn docs-tooltip btn-primary btn-xs"><i
                                                         class="fa fa-edit"></i></a>
-                                            <a href="show.php?id=<?php echo $curso->getId(); ?>"
+                                            <a href="show.php?id=<?php echo $DataAsistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
 
-                                            <?php if ($curso->getEstado() != "Activo") { ?>
-                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $curso->getId(); ?>"
+
+                                            <?php if ($DataAsistencia->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $DataAsistencia->getId(); ?>"
                                                    type="button" data-toggle="tooltip" title="Activar"
                                                    class="btn docs-tooltip btn-success btn-xs"><i
                                                             class="fa fa-check-square"></i></a>
                                             <?php } else { ?>
                                                 <a type="button"
-                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $curso->getId(); ?>"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $DataAsistencia->getId(); ?>"
                                                    data-toggle="tooltip" title="Inactivar"
                                                    class="btn docs-tooltip btn-danger btn-xs"><i
                                                             class="fa fa-times-circle"></i></a>
                                             <?php } ?>
+
+
+
                                         </td>
                                     </tr>
-                                <?php } ?>
+
+
+                                <?php } else { ?>
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                        No se encontro ningun registro con estos parametros de
+                                        busqueda <?= ($_GET['mensaje']) ?? "" ?>
+                                    </div>
+                                <?php }
+                                } ?>
+
 
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>#</th>
-                                    <th>Nombre</th>
-                                    <th>Director</th>
-                                    <th>Representante</th>
-                                    <th>Cantidad</th>
-                                    <th>Grado</th>
-                                    <th>Horario</th>
+                                    <th>Fecha</th>
+                                    <th>Curso</th>
+                                    <th>Estudiante</th>
+                                    <th>Observación</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
+                                    <!--<th></th> Si se quieren mostrar todos los registros en una vista-->
                                 </tr>
                                 </tfoot>
                             </table>
@@ -188,7 +212,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     <?php include_once ('../../partials/footer.php') ?>
 </div>
 
-<?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

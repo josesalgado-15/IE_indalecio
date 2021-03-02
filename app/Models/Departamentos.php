@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use JsonSerializable;
 
-final class Departamento extends AbstractDBConnection implements Model, JsonSerializable
+final class Departamentos extends AbstractDBConnection implements Model, JsonSerializable
 {
 
     private ?int $id;
@@ -161,7 +161,7 @@ final class Departamento extends AbstractDBConnection implements Model, JsonSeri
     public function getMunicipiosDepartamento(): ?array
     {
         if(!empty($this-> MunicipiosDepartamento)){
-            $this-> MunicipiosDepartamento = Municipio::search("SELECT * FROM dbindalecio.municipios WHERE departamentos_id = ".$this->id);
+            $this-> MunicipiosDepartamento = Municipios::search("SELECT * FROM dbindalecio.municipios WHERE departamento_id = ".$this->id);
             return $this-> MunicipiosDepartamento;
         }
         return null;
@@ -171,13 +171,13 @@ final class Departamento extends AbstractDBConnection implements Model, JsonSeri
     {
         try {
             $arrDepartamentos = array();
-            $tmp = new Departamento();
+            $tmp = new Departamentos();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Departamento = new Departamento($valor);
+                $Departamento = new Departamentos($valor);
                 array_push($arrDepartamentos, $Departamento);
                 unset($Departamento);
             }
@@ -188,15 +188,15 @@ final class Departamento extends AbstractDBConnection implements Model, JsonSeri
         return null;
     }
 
-    static function searchForId(int $id): ?Departamento
+    static function searchForId(int $id): ?Departamentos
     {
         try {
             if ($id > 0) {
-                $tmpDepartamento = new Departamento();
+                $tmpDepartamento = new Departamentos();
                 $tmpDepartamento->Connect();
                 $getrow = $tmpDepartamento->getRow("SELECT * FROM dbindalecio.departamentos WHERE id =?", array($id));
                 $tmpDepartamento->Disconnect();
-                return ($getrow) ? new Departamento($getrow) : null;
+                return ($getrow) ? new Departamentos($getrow) : null;
             }else{
                 throw new Exception('Id de departamento Invalido');
             }
@@ -208,7 +208,7 @@ final class Departamento extends AbstractDBConnection implements Model, JsonSeri
 
     static function getAll(): array
     {
-        return Departamento::search("SELECT * FROM dbindalecio.departamentos");
+        return Departamentos::search("SELECT * FROM dbindalecio.departamentos");
     }
 
     public function __toString() : string

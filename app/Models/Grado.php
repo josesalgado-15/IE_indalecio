@@ -149,10 +149,7 @@ class Grado extends AbstractDBConnection implements Model, JsonSerializable
         $arrData = [
             ':id' =>    $this->getId(),
             ':nombre' =>  $this->getNombre(),
-            ':estado' =>   $this->getEstado(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+            ':estado' =>   $this->getEstado()
 
         ];
         $this->Connect();
@@ -167,7 +164,7 @@ class Grado extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.grados VALUES (:id,:nombre,:estado,:created_at,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.grados VALUES (:id,:nombre,:estado,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -178,7 +175,7 @@ class Grado extends AbstractDBConnection implements Model, JsonSerializable
     public function update() : ?bool
     {
         $query = "UPDATE dbindalecio.grados SET 
-            nombre = :nombre, estado = :estado, created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            nombre = :nombre, estado = :estado, created_at = :created_at, updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 

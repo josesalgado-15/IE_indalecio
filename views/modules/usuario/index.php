@@ -14,14 +14,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar <?= $pluralModel ?></title>
-    <?php include_once ('../../partials/head_imports.php') ?>
+    <title> Gestionar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
+    <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-buttons/css/buttons.bootstrap4.css">
-
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
@@ -51,26 +49,30 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
         <!-- Main content -->
         <section class="content">
+
             <!-- Generar Mensajes de alerta -->
             <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
-            <!-- Default box -->
-            <div class="card card-dark">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar <?= $pluralModel ?></h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
-                                data-source="index.php" data-source-selector="#card-refresh-content"
-                                data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                    class="fas fa-expand"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                data-toggle="tooltip" title="Collapse">
-                            <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove"
-                                data-toggle="tooltip" title="Remove">
-                            <i class="fas fa-times"></i></button>
-                    </div>
-                </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Default box -->
+                        <div class="card card-dark">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Asistencias</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
+                                            data-source="index.php" data-source-selector="#card-refresh-content"
+                                            data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
+                                                class="fas fa-expand"></i></button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                            data-toggle="tooltip" title="Collapse">
+                                        <i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove"
+                                            data-toggle="tooltip" title="Remove">
+                                        <i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-auto mr-auto"></div>
@@ -89,22 +91,20 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Edad</th>
                                     <th>Teléfono</th>
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
                                     <th>Fecha de nacimiento</th>
-                                    <th>Municipio</th>
+                                    <th>Dirección</th>
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Correo</th>
-                                    <th>Contraseña</th>
-                                    <th>Estado</th>
                                     <th>Nombres de acudiente</th>
                                     <th>Télefono de acudiente</th>
                                     <th>Correo de acudiente</th>
                                     <th>Institución</th>
                                     <th>Creación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -115,25 +115,23 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 foreach ($arrUsuarios as $usuario) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $usuario->getId(); ?></td>
-                                        <td><?php echo $usuario->getNombres(); ?></td>
-                                        <td><?php echo $usuario->getApellidos(); ?></td>
-                                        <td><?php echo $usuario->getEdad(); ?></td>
-                                        <td><?php echo $usuario->getTelefono(); ?></td>
-                                        <td><?php echo $usuario->getNumeroDocumento(); ?></td>
-                                        <td><?php echo $usuario->getTipoDocumento(); ?></td>
-                                        <td><?php echo $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
-                                        <td><?php echo $usuario->getDireccion(); ?>, <?= $usuario->getMunicipio()->getNombre(); ?></td>
-                                        <td><?php echo $usuario->getGenero(); ?></td>
-                                        <td><?php echo $usuario->getRol(); ?></td>
-                                        <td><?php echo $usuario->getCorreo(); ?></td>
-                                        <td><?php echo $usuario->getContrasena(); ?></td>
-                                        <td><?php echo $usuario->getEstado(); ?></td>
-                                        <td><?php echo $usuario->getNombreAcudiente(); ?></td>
-                                        <td><?php echo $usuario->getTelefonoAcudiente(); ?></td>
-                                        <td><?php echo $usuario->getCorreoAcudiente(); ?></td>
-                                        <td><?php echo $usuario->getInstitucionesId(); ?></td>
-                                        <td><?php echo $usuario->getCreatedAt(); ?></td>
+                                        <td><?=  $usuario->getId(); ?></td>
+                                        <td><?=  $usuario->getNombres(); ?></td>
+                                        <td><?=  $usuario->getApellidos(); ?></td>
+                                        <td><?=  $usuario->getTelefono(); ?></td>
+                                        <td><?=  $usuario->getNumeroDocumento(); ?></td>
+                                        <td><?=  $usuario->getTipoDocumento(); ?></td>
+                                        <td><?=  $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
+                                        <td><?=  $usuario->getDireccion(); ?>, <?=  $usuario->getMunicipio()->getNombre() ; ?> - <?= $usuario->getMunicipio()->getDepartamento()->getNombre(); ?></td>
+                                        <td><?=  $usuario->getGenero(); ?></td>
+                                        <td><?=  $usuario->getRol(); ?></td>
+                                        <td><?=  $usuario->getCorreo(); ?></td>
+                                        <td><?=  $usuario->getNombreAcudiente(); ?></td>
+                                        <td><?=  $usuario->getTelefonoAcudiente(); ?></td>
+                                        <td><?=  $usuario->getCorreoAcudiente(); ?></td>
+                                        <td> <?= $usuario->getInstitucion()->getNombre() ?></td>
+                                        <td><?=  $usuario->getEstado(); ?></td>
+                                        <td><?=  $usuario->getCreatedAt(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $usuario->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
@@ -143,6 +141,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
+
+                                            <?php if ($usuario->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $usuario->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Activar"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-check-square"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $usuario->getId(); ?>"
+                                                   data-toggle="tooltip" title="Inactivar"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-times-circle"></i></a>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -153,7 +164,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Edad</th>
                                     <th>Teléfono</th>
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
@@ -162,14 +172,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Correo</th>
-                                    <th>Contraseña</th>
-                                    <th>Estado</th>
                                     <th>Nombres de acudiente</th>
                                     <th>Télefono de acudiente</th>
                                     <th>Correo de acudiente</th>
                                     <th>Institución</th>
                                     <th>Creación</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
+
                                 </tr>
                                 </tfoot>
                             </table>

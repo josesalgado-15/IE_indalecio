@@ -86,6 +86,32 @@
                 </li>
 
 
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-user-shield"></i>
+                        <p>
+                            Cursos
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/curso/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/curso/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'asistencia') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'asistencia') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-school"></i>
@@ -95,8 +121,6 @@
                         </p>
 
                     </a>
-
-
 
                     <ul class="nav nav-treeview">
 
@@ -133,6 +157,8 @@
                     </ul>
                 </li>
 
+                <!--
+
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'novedad') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'novedad') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-comment-alt"></i>
@@ -160,6 +186,7 @@
                 </li>
 
 
+
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'horario') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'horario') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-clock"></i>
@@ -184,7 +211,7 @@
                         </li>
                     </ul>
                 </li>
-
+ -->
 <!--
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'grado') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'grado') ? 'active' : '' ?>">
@@ -213,30 +240,6 @@
 
                 -->
 
-                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'active' : '' ?>">
-                        <i class="nav-icon fas fa-user-shield"></i>
-                        <p>
-                            Cursos
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/curso/index.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Gestionar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/curso/create.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Registrar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
 
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'instituciones') ? 'menu-open' : '' ?>">

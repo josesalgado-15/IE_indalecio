@@ -78,9 +78,9 @@ class AsistenciaController
         return null;
     }
 
-    static public function searchForCurso (array $data){
+    static public function searchForMatricula (array $data){
         try {
-            $result = Asistencia::searchForCurso($data['cursos_id']);
+            $result = Asistencia::searchForMatricula($data['matriculas_id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
                 header('Content-type: application/json; charset=utf-8');
                 $result = json_encode($result->jsonSerialize());

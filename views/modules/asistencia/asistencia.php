@@ -104,8 +104,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </thead>
                                 <tbody>
 
-                                <?php if (!empty($_GET["cursos_id"]) && isset($_GET["cursos_id"])) {
-                                $DataAsistencia = AsistenciaController::searchForMatricula(["cursos_id" => $_GET["cursos_id"]]);
+                                <?php if (!empty($_GET["matriculas_id"]) && isset($_GET["matriculas_id"])) {
+                                $DataAsistencia = AsistenciaController::searchForMatricula(["matriculas_id" => $_GET["matriculas_id"]]);
 
                                 if (!empty($DataAsistencia)) {
                                 ?>

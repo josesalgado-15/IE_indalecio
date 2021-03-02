@@ -305,13 +305,13 @@ class Asistencia extends AbstractDBConnection implements Model, JsonSerializable
         return NULL;
     }
 
-    public static function searchForCurso($cursos_id) : ?Asistencia
+    public static function searchForMatricula($matriculas_id) : ?Asistencia
     {
         try {
-            if ($cursos_id > 0) {
+            if ($matriculas_id > 0) {
                 $Asistencia = new Asistencia();
                 $Asistencia->Connect();
-                $getrow = $Asistencia->getRow("SELECT * FROM dbindalecio.matriculas WHERE cursos_id =?", array($cursos_id));
+                $getrow = $Asistencia->getRow("SELECT * FROM dbindalecio.asistencias WHERE matriculas_id =?", array($matriculas_id));
 
                 $Asistencia->Disconnect();
                 return ($getrow) ? new Asistencia($getrow) : null;

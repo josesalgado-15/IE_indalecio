@@ -119,6 +119,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?php echo $curso->getHorario()->getSedesId(); ?></td>
                                         <td><?php echo $curso->getEstado(); ?></td>
                                         <td>
+
+                                            <a href="../asistencia/asistencia.php?idCurso=<?= $curso->getId(); ?>"
+                                            <a href="show.php?id=<?php echo $curso->getId(); ?>"
+                                               type="button" data-toggle="tooltip" title="Gestionar Asistencias"
+                                               class="btn docs-tooltip btn-warning btn-xs"><i
+                                                        class="fa fa-list"></i></a>
+
+
                                             <a href="edit.php?id=<?php echo $curso->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
                                                class="btn docs-tooltip btn-primary btn-xs"><i

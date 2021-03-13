@@ -1,4 +1,6 @@
-<?php require("partials/routes.php"); ?>
+<?php require("partials/routes.php");
+//require_once("../views/partials/check_login.php");
+?>
 
 
 <!DOCTYPE html>

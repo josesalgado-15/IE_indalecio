@@ -74,7 +74,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <div class="card-body">
                                     <form class="form-horizontal" method="post" id="frmConsulta<?= $nameModel ?>"
                                           name="frmConsulta<?= $nameModel ?>"
-                                          action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=consulta">
+                                          action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=index">
 
 
                                         <div class="form-group row">

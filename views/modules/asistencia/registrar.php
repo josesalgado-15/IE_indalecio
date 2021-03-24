@@ -24,7 +24,7 @@ if (!empty($_GET['id'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
+    <title> Crear <?= $pluralModel ?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -162,6 +162,7 @@ if (!empty($_GET['id'])) {
                                             </tr>
                                             </thead>
                                             <tbody>
+
                                             <?php
                                             if (!empty($dataAsistencia) and !empty($dataAsistencia->getId())) {
                                                 $arrDetalleAsistencia = \App\Models\Asistencia::search("SELECT * FROM dbindalecio.asistencias  WHERE id = ".$dataAsistencia->getId());
@@ -173,16 +174,51 @@ if (!empty($_GET['id'])) {
                                                             <td><?php echo $detalleAsistencia->getId(); ?></td>
                                                             <td><?php echo $detalleAsistencia->getFecha()->translatedFormat('l, j \\de F Y'),".";  ?></td>
                                                             <td><?php echo $detalleAsistencia->getMatricula()->getCurso()->getNombre(); ?></td>
-                                                            <td><?php echo $detalleAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getMatricula()->getUsuario()->getNombres()," ",  $asistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
+                                                            <td><?php echo $detalleAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $detalleAsistencia->getMatricula()->getUsuario()->getNombres()," ",  $detalleAsistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
                                                             <td><?php echo $detalleAsistencia->getObservacion(); ?></td>
                                                             <td><?php echo $detalleAsistencia->getEstado(); ?></td>
                                                             <td><?php echo $detalleAsistencia->getReporte(); ?></td>
                                                             <td>
-                                                                <a type="button"
-                                                                   href="../../../app/Controllers/MainController.php?controller=DetalleVentas&action=deleted&id=<?= $detalleVenta->getId(); ?>"
-                                                                   data-toggle="tooltip" title="Eliminar"
-                                                                   class="btn docs-tooltip btn-danger btn-xs"><i
-                                                                            class="fa fa-times-circle"></i></a>
+
+
+
+                                                                <?php if ($detalleAsistencia->getReporte() != "Asiste") { ?>
+                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $detalleAsistencia->getId(); ?>"
+                                                                       type="button" data-toggle="tooltip" title="Asiste"
+                                                                       class="btn docs-tooltip btn-success btn-xs"><i
+                                                                                class="fa fa-hand-paper"></i></a>
+                                                                <?php } else { ?>
+                                                                    <a type="button"
+                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?= $detalleAsistencia->getId(); ?>"
+                                                                       data-toggle="tooltip" title="No asiste"
+                                                                       class="btn docs-tooltip btn-danger btn-xs"><i
+                                                                                class="fa fa-user-times"></i></a>
+                                                                <?php } ?>
+                                                                <a href="edit.php?id=<?php echo $detalleAsistencia->getId(); ?>"
+                                                                   type="button" data-toggle="tooltip" title="Actualizar"
+                                                                   class="btn docs-tooltip btn-primary btn-xs"><i
+                                                                            class="fa fa-edit"></i></a>
+                                                                <a href="show.php?id=<?php echo $detalleAsistencia->getId(); ?>"
+                                                                   type="button" data-toggle="tooltip" title="Ver"
+                                                                   class="btn docs-tooltip btn-warning btn-xs"><i
+                                                                            class="fa fa-eye"></i></a>
+
+
+                                                                <?php if ($detalleAsistencia->getEstado() != "Activo") { ?>
+                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $detalleAsistencia->getId(); ?>"
+                                                                       type="button" data-toggle="tooltip" title="Activar"
+                                                                       class="btn docs-tooltip btn-success btn-xs"><i
+                                                                                class="fa fa-check-square"></i></a>
+                                                                <?php } else { ?>
+                                                                    <a type="button"
+                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $detalleAsistencia->getId(); ?>"
+                                                                       data-toggle="tooltip" title="Inactivar"
+                                                                       class="btn docs-tooltip btn-danger btn-xs"><i
+                                                                                class="fa fa-times-circle"></i></a>
+                                                                <?php } ?>
+
+
+
                                                             </td>
                                                         </tr>
                                                     <?php }

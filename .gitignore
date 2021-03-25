@@ -3,3 +3,5 @@
 composer.lock
 /vendor/
 /.idea/
+/package-lock.json
+/resources/logs/general.log

@@ -24,9 +24,6 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     private ?Usuario $usuario;
     private ?Curso $curso;
 
-
-
-
     /**
      * Matricula constructor. Recibe un array asociativo
      * @param array $matricula

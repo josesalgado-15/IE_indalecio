@@ -4,7 +4,7 @@ require_once("../../partials/check_login.php");
 
 use App\Controllers\CursoController;
 use App\Controllers\MatriculaController;
-use App\Models\Asistencia;
+use App\Models\Matricula;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -14,11 +14,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
 
 <?php
-$dataAsistencia = null;
-if (!empty($_GET['id'])) {
-    $dataAsistencia = \App\Controllers\AsistenciaController::searchForID(["id" => $_GET['id']]);
-
-}
+    $dataCurso = null;
+    $fechaReporte = null;
+    if (!empty($_POST['cursos_id'])) {
+        $dataCurso = \App\Controllers\CursoController::searchForID(["id" => $_POST['cursos_id']]);
+        $fechaReporte = $_POST['fecha'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +85,7 @@ if (!empty($_GET['id'])) {
 
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="frmCreate<?= $nameModel ?>" name="frmCreate<?= $nameModel ?>"
-                                      action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
+                                      action="#">
 
                                     <div class="form-group row">
                                         <label for="fecha" class="col-sm-4 col-form-label">Fecha</label>
@@ -132,7 +133,7 @@ if (!empty($_GET['id'])) {
                     <div class="col-md-8">
                         <div class="card card-lightblue">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-parachute-box"></i> &nbsp; Detalle Asistencia</h3>
+                                <h3 class="card-title"><i class="fas fa-parachute-box"></i> &nbsp; Listado de Alumnos</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -153,34 +154,32 @@ if (!empty($_GET['id'])) {
                                             <tr>
                                                 <th>#</th>
                                                 <th>Fecha</th>
+                                                <th>Nombres</th>
+                                                <th>Apellidos</th>
                                                 <th>Curso</th>
-                                                <th>Estudiante</th>
-                                                <th>Observación</th>
                                                 <th>Estado</th>
-                                                <th>Reporte</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                            if (!empty($dataAsistencia) and !empty($dataAsistencia->getId())) {
-                                                $arrDetalleAsistencia = \App\Models\Asistencia::search("SELECT * FROM dbindalecio.asistencias  WHERE id = ".$dataAsistencia->getId());
-                                                if(count($arrDetalleAsistencia) > 0) {
-                                                    /* @var $arrDetalleAsistencia Asistencia[] */
-                                                    foreach ($arrDetalleAsistencia as $detalleAsistencia) {
+                                            if (!empty($dataCurso) and !empty($dataCurso->getId())) {
+                                                $arrMatriculasCurso = $dataCurso->getMatriculasCurso();
+                                                if(count($arrMatriculasCurso) > 0) {
+                                                    /* @var $arrMatriculasCurso Matricula[] */
+                                                    foreach ($arrMatriculasCurso as $detalleMatricula) {
                                                         ?>
                                                         <tr>
-                                                            <td><?php echo $detalleAsistencia->getId(); ?></td>
-                                                            <td><?php echo $detalleAsistencia->getFecha()->translatedFormat('l, j \\de F Y'),".";  ?></td>
-                                                            <td><?php echo $detalleAsistencia->getMatricula()->getCurso()->getNombre(); ?></td>
-                                                            <td><?php echo $detalleAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getMatricula()->getUsuario()->getNombres()," ",  $asistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
-                                                            <td><?php echo $detalleAsistencia->getObservacion(); ?></td>
-                                                            <td><?php echo $detalleAsistencia->getEstado(); ?></td>
-                                                            <td><?php echo $detalleAsistencia->getReporte(); ?></td>
+                                                            <td><?php echo $detalleMatricula->getId(); ?></td>
+                                                            <td><?php echo Carbon::parse($_POST['fecha'])->locale('es')->translatedFormat('l, j \\de F Y'); ?></td>
+                                                            <td><?php echo $detalleMatricula->getUsuario()->getNombres();  ?></td>
+                                                            <td><?php echo $detalleMatricula->getUsuario()->getApellidos();  ?></td>
+                                                            <td><?php echo $detalleMatricula->getCurso()->getNombre(); ?></td>
+                                                            <td><?php echo $detalleMatricula->getEstado(); ?></td>
                                                             <td>
                                                                 <a type="button"
-                                                                   href="../../../app/Controllers/MainController.php?controller=DetalleVentas&action=deleted&id=<?= $detalleVenta->getId(); ?>"
-                                                                   data-toggle="tooltip" title="Eliminar"
+                                                                   href="../../../app/Controllers/MainController.php?controller=Asistencia&action=registrar&id=<?= $detalleMatricula->getId(); ?>&fecha=<?= $_POST['fecha']; ?>"
+                                                                   data-toggle="tooltip" title="Registrar Inasistencia"
                                                                    class="btn docs-tooltip btn-danger btn-xs"><i
                                                                             class="fa fa-times-circle"></i></a>
                                                             </td>
@@ -188,17 +187,15 @@ if (!empty($_GET['id'])) {
                                                     <?php }
                                                 }
                                             }?>
-
                                             </tbody>
                                             <tfoot>
                                             <tr>
                                                 <th>#</th>
                                                 <th>Fecha</th>
+                                                <th>Nombres</th>
+                                                <th>Apellidos</th>
                                                 <th>Curso</th>
-                                                <th>Estudiante</th>
-                                                <th>Observación</th>
                                                 <th>Estado</th>
-                                                <th>Reporte</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>
@@ -217,139 +214,12 @@ if (!empty($_GET['id'])) {
     </div>
     <!-- /.content-wrapper -->
 
-    <div id="modals">
-        <div class="modal fade" id="modal-add-producto">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Agregar Producto a Venta</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="../../../app/Controllers/MainController.php?controller=DetalleVentas&action=create" method="post">
-                        <div class="modal-body">
-                            <input id="venta_id" name="venta_id" value="<?= !empty($dataVenta) ? $dataVenta->getId() : ''; ?>" hidden
-                                   required="required" type="text">
-                            <div class="form-group row">
-                                <label for="producto_id" class="col-sm-4 col-form-label">Producto</label>
-                                <div class="col-sm-8">
-                                    <?= ProductosController::selectProducto(
-                                        array (
-                                            'id' => 'producto_id',
-                                            'name' => 'producto_id',
-                                            'defaultValue' => '',
-                                            'class' => 'form-control select2bs4 select2-info',
-                                            'where' => "estado = 'Activo' and stock > 0"
-                                        )
-                                    )
-                                    ?>
-                                    <div id="divResultProducto">
-                                        <span class="text-muted">Precio Base: </span> <span id="spPrecio"></span>,
-                                        <span class="text-muted">Precio Venta: </span> <span id="spPrecioVenta"></span>,
-                                        <span class="text-muted">Stock: </span> <span id="spStock"></span>.
-                                        <span class="badge badge-info" id="spFoto" data-toggle="tooltip" data-html="true"
-                                              title="<img class='img-thumbnail' src='../../public/uploadFiles/photos/products/'>">Foto
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="cantidad" class="col-sm-4 col-form-label">Cantidad</label>
-                                <div class="col-sm-8">
-                                    <input required type="number" min="1" class="form-control" step="1" id="cantidad" name="cantidad"
-                                           placeholder="Ingrese la cantidad">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="precio_venta" class="col-sm-4 col-form-label">Precio Unitario</label>
-                                <div class="col-sm-8">
-                                    <input required readonly type="number" min="1" class="form-control" id="precio_venta" name="precio_venta"
-                                           placeholder="0.0">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="total_producto" class="col-sm-4 col-form-label">Total Producto</label>
-                                <div class="col-sm-8">
-                                    <input required readonly type="number" min="1" class="form-control" id="total_producto" name="total_producto"
-                                           placeholder="0.0">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-    </div>
-
     <?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
 <!-- Scripts requeridos para las datatables -->
 <?php require('../../partials/datatables_scripts.php'); ?>
-
-<script>
-
-    $(function () {
-
-        $("#divResultProducto").hide();
-
-        $('#producto_id').on('select2:select', function (e) {
-            var dataSelect = e.params.data;
-            var dataProducto = null;
-            if(dataSelect.id !== ""){
-                $.post("../../../app/Controllers/MainController.php?controller=Productos&action=searchForID",
-                    {
-                        id: dataSelect.id,
-                        request: 'ajax'
-                    }, "json"
-                )
-                    .done(function( resultProducto ) {
-                        dataProducto = resultProducto;
-                    })
-                    .fail(function(err) {
-                        console.log( "Error al realizar la consulta"+err );
-                    })
-                    .always(function() {
-                        updateDataProducto(dataProducto);
-                    });
-            }else{
-                updateDataProducto(dataProducto);
-            }
-        });
-
-        function updateDataProducto(dataProducto){
-            if(dataProducto !== null){
-                $("#divResultProducto").slideDown();
-                $("#spPrecio").html("$"+dataProducto.precio);
-                $("#spPrecioVenta").html("$"+dataProducto.precio_venta);
-                $("#spStock").html(dataProducto.stock+" Unidad(es)");
-                $("#cantidad").attr("max",dataProducto.stock);
-                $("#precio_venta").val(dataProducto.precio_venta);
-            }else{
-                $("#divResultProducto").slideUp();
-                $("#spPrecio").html("");
-                $("#spPrecioVenta").html("");
-                $("#spStock").html("");
-                $("#cantidad").removeAttr("max").val('0');
-                $("#precio_venta").val('0.0');
-                $("#total_producto").val('0.0');
-            }
-        }
-
-        $( "#cantidad" ).on( "change keyup focusout", function() {
-            $("#total_producto").val($( "#cantidad" ).val() *  $("#precio_venta").val());
-        });
-
-    });
-</script>
 
 
 </body>

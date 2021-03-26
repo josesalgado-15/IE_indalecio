@@ -154,10 +154,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Fecha</th>
-                                                <th>Nombres</th>
-                                                <th>Apellidos</th>
+                                                <th>Nombre</th>
                                                 <th>Curso</th>
                                                 <th>Estado</th>
+                                                <th>Reporte</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
@@ -166,23 +166,53 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             if (!empty($dataCurso) and !empty($dataCurso->getId())) {
                                                 $arrMatriculasCurso = $dataCurso->getMatriculasCurso();
                                                 if(count($arrMatriculasCurso) > 0) {
-                                                    /* @var $arrMatriculasCurso Matricula[] */
+                                                    /* @var $arrMatriculasCurso Matricula[]  */
                                                     foreach ($arrMatriculasCurso as $detalleMatricula) {
                                                         ?>
                                                         <tr>
                                                             <td><?php echo $detalleMatricula->getId(); ?></td>
                                                             <td><?php echo Carbon::parse($_POST['fecha'])->locale('es')->translatedFormat('l, j \\de F Y'); ?></td>
-                                                            <td><?php echo $detalleMatricula->getUsuario()->getNombres();  ?></td>
-                                                            <td><?php echo $detalleMatricula->getUsuario()->getApellidos();  ?></td>
+                                                            <td><?php echo $detalleMatricula->getUsuario()->getNombres()," ",  $detalleMatricula->getUsuario()->getApellidos(); ?></td>
                                                             <td><?php echo $detalleMatricula->getCurso()->getNombre(); ?></td>
+                                                            <td><?php echo $detalleMatricula->getReporteAsistencia(); ?></td>
+
                                                             <td><?php echo $detalleMatricula->getEstado(); ?></td>
+
                                                             <td>
                                                                 <a type="button"
                                                                    href="../../../app/Controllers/MainController.php?controller=Asistencia&action=registrar&id=<?= $detalleMatricula->getId(); ?>&fecha=<?= $_POST['fecha']; ?>"
                                                                    data-toggle="tooltip" title="Registrar Inasistencia"
                                                                    class="btn docs-tooltip btn-danger btn-xs"><i
                                                                             class="fa fa-times-circle"></i></a>
+
+                                                                <?php if ($detalleMatricula->getReporteAsistencia() != "Asiste") { ?>
+                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $detalleMatricula->getId(); ?>"
+                                                                       type="button" data-toggle="tooltip" title="Asiste"
+                                                                       class="btn docs-tooltip btn-success btn-xs"><i
+                                                                                class="fa fa-hand-paper"></i></a>
+                                                                <?php } else { ?>
+                                                                    <a type="button"
+                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?= $detalleMatricula->getId(); ?>"
+                                                                       data-toggle="tooltip" title="No asiste"
+                                                                       class="btn docs-tooltip btn-danger btn-xs"><i
+                                                                                class="fa fa-user-times"></i></a>
+                                                                <?php } ?>
+
+                                                                <?php if ($detalleMatricula->getEstado() != "Activo") { ?>
+                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $detalleMatricula->getId(); ?>"
+                                                                       type="button" data-toggle="tooltip" title="Activar"
+                                                                       class="btn docs-tooltip btn-success btn-xs"><i
+                                                                                class="fa fa-check-square"></i></a>
+                                                                <?php } else { ?>
+                                                                    <a type="button"
+                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $detalleMatricula->getId(); ?>"
+                                                                       data-toggle="tooltip" title="Inactivar"
+                                                                       class="btn docs-tooltip btn-danger btn-xs"><i
+                                                                                class="fa fa-times-circle"></i></a>
+                                                                <?php } ?>
                                                             </td>
+
+
                                                         </tr>
                                                     <?php }
                                                 }
@@ -192,10 +222,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Fecha</th>
-                                                <th>Nombres</th>
-                                                <th>Apellidos</th>
+                                                <th>Nombre</th>
                                                 <th>Curso</th>
                                                 <th>Estado</th>
+                                                <th>Reporte</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>

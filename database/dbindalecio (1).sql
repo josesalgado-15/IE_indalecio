@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 12-03-2021 a las 17:37:05
+-- Tiempo de generación: 25-03-2021 a las 20:45:52
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.10
 
@@ -43,7 +43,7 @@ CREATE TABLE `asistencias` (
 --
 
 INSERT INTO `asistencias` (`id`, `fecha`, `observacion`, `matriculas_id`, `estado`, `reporte`, `created_at`, `updated_at`) VALUES
-(1, '2021-02-22', 'Justificada', 1, 'Activo', 'No asiste', '2021-02-22', '2021-03-01 23:26:53'),
+(1, '2021-02-22', 'Justificada', 1, 'Inactivo', 'No asiste', '2021-02-22', '2021-03-26 01:22:09'),
 (2, '2021-02-08', 'Ninguna', 1, 'Activo', 'No asiste', '2021-02-22', '2021-03-01 23:48:59'),
 (3, '2021-02-08', 'Ninguna', 2, 'Activo', 'No asiste', '2021-02-08', '2021-02-24 15:19:07'),
 (4, '2021-02-17', 'Ninguna', 3, 'Activo', 'No asiste', '2021-02-17', '2021-02-24 15:16:35'),
@@ -251,6 +251,7 @@ CREATE TABLE `matriculas` (
   `vigencia` date NOT NULL,
   `usuarios_id` bigint(20) UNSIGNED NOT NULL,
   `cursos_id` bigint(20) UNSIGNED NOT NULL,
+  `reporte_asistencia` enum('Asiste','No asiste') DEFAULT NULL,
   `estado` enum('Activo','Inactivo') NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -261,11 +262,11 @@ CREATE TABLE `matriculas` (
 -- Volcado de datos para la tabla `matriculas`
 --
 
-INSERT INTO `matriculas` (`id`, `vigencia`, `usuarios_id`, `cursos_id`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '2021-12-31', 3, 6, 'Activo', '2021-01-18 18:43:44', '2021-01-18 23:43:44', '2021-01-18 23:43:44'),
-(2, '2021-12-31', 5, 6, 'Activo', '2021-01-18 18:44:53', '2021-01-18 23:44:53', '2021-01-18 23:44:53'),
-(3, '2021-12-31', 6, 6, 'Activo', '2021-02-03 23:51:05', '2021-02-04 04:51:05', '2021-02-04 04:51:05'),
-(4, '2021-12-31', 7, 7, 'Activo', '2021-02-22 16:14:26', NULL, NULL);
+INSERT INTO `matriculas` (`id`, `vigencia`, `usuarios_id`, `cursos_id`, `reporte_asistencia`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '2021-12-31', 3, 6, 'Asiste', 'Activo', '2021-01-18 18:43:44', '2021-01-18 23:43:44', '2021-01-18 23:43:44'),
+(2, '2021-12-31', 5, 6, 'Asiste', 'Activo', '2021-01-18 18:44:53', '2021-01-18 23:44:53', '2021-01-18 23:44:53'),
+(3, '2021-12-31', 6, 6, 'Asiste', 'Activo', '2021-02-03 23:51:05', '2021-02-04 04:51:05', '2021-02-04 04:51:05'),
+(4, '2021-12-31', 7, 7, 'Asiste', 'Activo', '2021-02-22 16:14:26', NULL, NULL);
 
 -- --------------------------------------------------------
 

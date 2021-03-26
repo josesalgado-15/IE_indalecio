@@ -1,1 +1,532 @@
 [2021-03-24T23:47:11.397920+00:00] General.ERROR: Clase no encontrada {"descripcion":"La clase App\\Controllers\\AsistenciasController no fue encontrada "} 
+[2021-03-25T19:23:24.335208-05:00] General.ERROR: Action no encontrada {"descripcion":"La accion registrar no fue encontrada en el controlador App\\Controllers\\AsistenciaController"} 
+[2021-03-25T19:44:52.053083-05:00] General.ERROR: Exception  
+[2021-03-25T19:44:52.056504-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T19:44:52.056998-05:00] General.ERROR: Line: 127  
+[2021-03-25T19:44:52.057315-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_matriculas_asistencias1` FOREIGN KEY (`asistencias_id`) REFERENCES `asistencias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)  
+[2021-03-25T19:44:52.058031-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 127
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 263
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:asistencias_id,:estado,NOW(),NULL)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 3
+                            [:cursos_id] => 6
+                            [:asistencias_id] => 0
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 276
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:asistencias_id,:estado,NOW(),NULL)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 38
+            [function] => insert
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => create
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T19:46:20.820688-05:00] General.ERROR: Exception  
+[2021-03-25T19:46:20.822526-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T19:46:20.822940-05:00] General.ERROR: Line: 127  
+[2021-03-25T19:46:20.823235-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_matriculas_asistencias1` FOREIGN KEY (`asistencias_id`) REFERENCES `asistencias` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION)  
+[2021-03-25T19:46:20.823614-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 127
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 263
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:asistencias_id,:estado,NOW(),NULL)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 3
+                            [:cursos_id] => 6
+                            [:asistencias_id] => 0
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 276
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:asistencias_id,:estado,NOW(),NULL)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 38
+            [function] => insert
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => create
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:02:33.003389-05:00] General.ERROR: Exception  
+[2021-03-25T20:02:33.027416-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:02:33.028098-05:00] General.ERROR: Line: 101  
+[2021-03-25T20:02:33.028495-05:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'asistencias_id' in 'where clause'  
+[2021-03-25T20:02:33.028810-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 101
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Asistencia.php
+            [line] => 268
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM asistencias WHERE asistencias_id = 7
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Asistencia
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM asistencias WHERE asistencias_id = 7
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 167
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:02:33.196284-05:00] General.ERROR: Exception  
+[2021-03-25T20:02:33.197599-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:02:33.197956-05:00] General.ERROR: Line: 104  
+[2021-03-25T20:02:33.198238-05:00] General.ERROR: Mensaje: Consulta vacía o errónea  
+[2021-03-25T20:02:33.198595-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 277
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Matricula
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 167
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:03:32.037549-05:00] General.ERROR: Exception  
+[2021-03-25T20:03:32.041193-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:03:32.041858-05:00] General.ERROR: Line: 104  
+[2021-03-25T20:03:32.042141-05:00] General.ERROR: Mensaje: Consulta vacía o errónea  
+[2021-03-25T20:03:32.042422-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 277
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Matricula
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 167
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:03:52.015313-05:00] General.ERROR: Exception  
+[2021-03-25T20:03:52.020391-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:03:52.021489-05:00] General.ERROR: Line: 104  
+[2021-03-25T20:03:52.024637-05:00] General.ERROR: Mensaje: Consulta vacía o errónea  
+[2021-03-25T20:03:52.025306-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 277
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Matricula
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 167
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:12:31.584948-05:00] General.ERROR: Exception  
+[2021-03-25T20:12:31.587283-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:12:31.587807-05:00] General.ERROR: Line: 104  
+[2021-03-25T20:12:31.588189-05:00] General.ERROR: Mensaje: Consulta vacía o errónea  
+[2021-03-25T20:12:31.588642-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 276
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Matricula
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 168
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:13:59.980222-05:00] General.ERROR: Exception  
+[2021-03-25T20:13:59.982054-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:13:59.982519-05:00] General.ERROR: Line: 104  
+[2021-03-25T20:13:59.982811-05:00] General.ERROR: Mensaje: Consulta vacía o errónea  
+[2021-03-25T20:13:59.983312-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 276
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Matricula
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 168
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-03-25T20:18:29.977486-05:00] General.ERROR: Exception  
+[2021-03-25T20:18:29.978946-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-03-25T20:18:29.979748-05:00] General.ERROR: Line: 104  
+[2021-03-25T20:18:29.980148-05:00] General.ERROR: Mensaje: Consulta vacía o errónea  
+[2021-03-25T20:18:29.980405-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 276
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php
+            [line] => 273
+            [function] => search
+            [class] => App\Models\Matricula
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 168
+            [function] => getMatriculasCurso
+            [class] => App\Models\Curso
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

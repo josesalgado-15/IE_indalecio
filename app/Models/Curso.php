@@ -277,6 +277,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
     }
 
 
+
     /**
      * @param string $query
      * @return bool|null

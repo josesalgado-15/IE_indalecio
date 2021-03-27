@@ -16,9 +16,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <?php
     $dataCurso = null;
     $fechaReporte = null;
-    if (!empty($_POST['cursos_id'])) {
-        $dataCurso = \App\Controllers\CursoController::searchForID(["id" => $_POST['cursos_id']]);
-        $fechaReporte = $_POST['fecha'];
+    if (!empty($_GET['cursos_id'])) {
+        $dataCurso = \App\Controllers\CursoController::searchForID(["id" => $_GET['cursos_id']]);
+        $fechaReporte = $_GET['fecha'];
     }
 ?>
 
@@ -84,7 +84,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             </div>
 
                             <div class="card-body">
-                                <form class="form-horizontal" method="post" id="frmCreate<?= $nameModel ?>" name="frmCreate<?= $nameModel ?>"
+                                <form class="form-horizontal" method="get" id="frmCreate<?= $nameModel ?>" name="frmCreate<?= $nameModel ?>"
                                       action="#">
 
                                     <div class="form-group row">
@@ -95,6 +95,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
 
+
+
+
                                     <div class="form-group row">
                                         <label for="cursos_id" class="col-sm-4 col-form-label">Curso</label>
                                         <div class="col-sm-8">
@@ -102,7 +105,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 array(
                                                     'id' => 'cursos_id',
                                                     'name' => 'cursos_id',
-                                                    'defaultValue' => (!empty($dataAsistencia)) ? $dataAsistencia->getMatricula()->getCurso()->getId() : '',
+                                                    'defaultValue' => (!empty($dataCurso)) ? $dataCurso->getId() : '',
                                                     'class' => 'form-control select2bs4 select2-info',
                                                     'where' => "estado = 'Activo'"
                                                 )
@@ -121,10 +124,16 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <?= $dataAsistencia->getFecha() ?>
                                             </div>
                                         </div>
+
+                                        <div class="form-group row">
+                                            <label for="Curso" class="col-sm-4 col-form-label">Curso</label>
+                                            <div class="col-sm-8">
+                                                <?= $dataAsistencia->getMatricula()->getCurso()->getId() ?>
+                                            </div>
+                                        </div>
                                     <?php } ?>
                                     <hr>
                                     <button type="submit" class="btn btn-info">Enviar</button>
-                                    <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
                                 </form>
                             </div>
                         </div>
@@ -162,7 +171,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </tr>
                                             </thead>
                                             <tbody>
+
                                             <?php
+
                                             if (!empty($dataCurso) and !empty($dataCurso->getId())) {
                                                 $arrMatriculasCurso = $dataCurso->getMatriculasCurso();
                                                 if(count($arrMatriculasCurso) > 0) {
@@ -170,23 +181,26 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     foreach ($arrMatriculasCurso as $detalleMatricula) {
                                                         ?>
                                                         <tr>
+
+
                                                             <td><?php echo $detalleMatricula->getId(); ?></td>
-                                                            <td><?php echo Carbon::parse($_POST['fecha'])->locale('es')->translatedFormat('l, j \\de F Y'); ?></td>
+                                                            <td><?php echo Carbon::parse($_GET['fecha'])->locale('es')->translatedFormat('l, j \\de F Y'); ?></td>
                                                             <td><?php echo $detalleMatricula->getUsuario()->getNombres()," ",  $detalleMatricula->getUsuario()->getApellidos(); ?></td>
                                                             <td><?php echo $detalleMatricula->getCurso()->getNombre(); ?></td>
+                                                            <td><?php echo $detalleMatricula->getEstado(); ?></td>
                                                             <td><?php echo $detalleMatricula->getReporteAsistencia(); ?></td>
 
-                                                            <td><?php echo $detalleMatricula->getEstado(); ?></td>
-
                                                             <td>
+                                                                <!--
                                                                 <a type="button"
-                                                                   href="../../../app/Controllers/MainController.php?controller=Asistencia&action=registrar&id=<?= $detalleMatricula->getId(); ?>&fecha=<?= $_POST['fecha']; ?>"
+                                                                   href="../../../app/Controllers/MainController.php?controller=Asistencia&action=registrar&id=<?= $detalleMatricula->getId(); ?>&fecha=<?= $_GET['fecha']; ?>"
                                                                    data-toggle="tooltip" title="Registrar Inasistencia"
                                                                    class="btn docs-tooltip btn-danger btn-xs"><i
                                                                             class="fa fa-times-circle"></i></a>
-
+                                                                    -->
                                                                 <?php if ($detalleMatricula->getReporteAsistencia() != "Asiste") { ?>
-                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $detalleMatricula->getId(); ?>"
+
+                                                                    <a  href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $detalleMatricula->getId();  ?>"
                                                                        type="button" data-toggle="tooltip" title="Asiste"
                                                                        class="btn docs-tooltip btn-success btn-xs"><i
                                                                                 class="fa fa-hand-paper"></i></a>

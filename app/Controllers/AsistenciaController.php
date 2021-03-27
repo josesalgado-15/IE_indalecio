@@ -125,12 +125,12 @@ class AsistenciaController
     static public function inactivate(int $id)
     {
         try {
-            $ObjAsistencia = Asistencia::searchForId($id);
+            $ObjAsistencia = Matricula::searchForId($id);
             $ObjAsistencia->setEstado("Inactivo");
             if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/index.php");
+                header("Location: ../../views/modules/asistencia/registrar.php");
             } else {
-                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
@@ -140,12 +140,12 @@ class AsistenciaController
     static public function asiste(int $id)
     {
         try {
-            $ObjAsistencia = Asistencia::searchForId($id);
-            $ObjAsistencia->setReporte("Asiste");
+            $ObjAsistencia = Matricula::searchForId($id);
+            $ObjAsistencia->setReporteAsistencia("Asiste");
             if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/index.php");
+                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&respuesta=success&mensaje=Estudiante Actualizado");
             } else {
-                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
@@ -155,12 +155,12 @@ class AsistenciaController
     static public function no_asiste(int $id)
     {
         try {
-            $ObjAsistencia = Asistencia::searchForId($id);
-            $ObjAsistencia->setReporte("No asiste");
+            $ObjAsistencia = Matricula::searchForId($id);
+            $ObjAsistencia->setReporteAsistencia("No asiste");
             if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/index.php");
+                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&respuesta=success&mensaje=Estudiante Actualizado");
             } else {
-                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');

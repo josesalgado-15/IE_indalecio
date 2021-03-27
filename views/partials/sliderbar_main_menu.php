@@ -93,14 +93,6 @@
                         </li>
 
 
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/asistencia/asistencia.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Gestionar 1</p>
-                            </a>
-
-
-                        </li>
 
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/asistencia/index.php" class="nav-link">

@@ -530,3 +530,43 @@
 
 )
   
+[2021-03-27T14:19:11.076942-05:00] General.ERROR: Exception  
+[2021-03-27T14:19:11.096680-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Curso.php  
+[2021-03-27T14:19:11.097291-05:00] General.ERROR: Line: 379  
+[2021-03-27T14:19:11.098968-05:00] General.ERROR: Mensaje: Id de Curso Invalido  
+[2021-03-27T14:19:11.102872-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\CursoController.php
+            [line] => 69
+            [function] => searchForId
+            [class] => App\Models\Curso
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\views\modules\asistencia\registrar.php
+            [line] => 20
+            [function] => searchForID
+            [class] => App\Controllers\CursoController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 
+                        )
+
+                )
+
+        )
+
+)
+  

@@ -74,14 +74,6 @@
 
                     <ul class="nav nav-treeview">
 
-                        <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/asistencia/consulta.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Consultar 1</p>
-                            </a>
-
-
-                        </li>
 
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/asistencia/registrar.php" class="nav-link">
@@ -94,7 +86,7 @@
 
 
 
-                        <li class="nav-item">
+                        <!--<li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/asistencia/index.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Gestionar</p>
@@ -106,6 +98,8 @@
                                 <p>Registrar</p>
                             </a>
                         </li>
+
+                        -->
                     </ul>
                 </li>
 

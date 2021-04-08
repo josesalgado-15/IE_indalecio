@@ -570,3 +570,258 @@
 
 )
   
+[2021-04-08T17:55:47.968336-05:00] General.ERROR: Exception  
+[2021-04-08T17:55:47.980879-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-04-08T17:55:47.981292-05:00] General.ERROR: Line: 127  
+[2021-04-08T17:55:47.981603-05:00] General.ERROR: Mensaje: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'reporte_asistencia' at row 1  
+[2021-04-08T17:55:47.981943-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 127
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:vigencia] => 2021-12-21 00:00:00
+                            [:usuarios_id] => 7
+                            [:cursos_id] => 7
+                            [:reporte_asistencia] => 
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 262
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 38
+            [function] => insert
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => create
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-04-08T17:56:49.097454-05:00] General.ERROR: Exception  
+[2021-04-08T17:56:49.099170-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-04-08T17:56:49.099471-05:00] General.ERROR: Line: 127  
+[2021-04-08T17:56:49.099713-05:00] General.ERROR: Mensaje: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'reporte_asistencia' at row 1  
+[2021-04-08T17:56:49.100097-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 127
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:vigencia] => 2021-04-08 00:00:00
+                            [:usuarios_id] => 3
+                            [:cursos_id] => 6
+                            [:reporte_asistencia] => 
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 262
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 38
+            [function] => insert
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => create
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-04-08T18:02:29.989406-05:00] General.ERROR: Exception  
+[2021-04-08T18:02:29.991517-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-04-08T18:02:29.991816-05:00] General.ERROR: Line: 127  
+[2021-04-08T18:02:29.992062-05:00] General.ERROR: Mensaje: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'reporte_asistencia' at row 1  
+[2021-04-08T18:02:29.992317-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 127
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:vigencia] => 2021-04-08 00:00:00
+                            [:usuarios_id] => 3
+                            [:cursos_id] => 12
+                            [:reporte_asistencia] => 
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 262
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 38
+            [function] => insert
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => create
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

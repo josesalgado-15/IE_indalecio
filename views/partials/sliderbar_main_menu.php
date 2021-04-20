@@ -129,8 +129,8 @@
                 </li>
 
 
-                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'curso') ? 'active' : '' ?>">
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'curso/') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'curso/') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-user-shield"></i>
                         <p>
                             Cursos

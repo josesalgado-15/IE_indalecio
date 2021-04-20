@@ -91,7 +91,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <label for="fecha" class="col-sm-4 col-form-label">Fecha</label>
                                         <div class="col-sm-8">
                                             <input required type="date" class="form-control datetimepicker-input"  id="fecha"
-                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? '' ?>">
+                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? $_GET['fecha'] ?>">
                                         </div>
                                     </div>
 
@@ -200,14 +200,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                     -->
                                                                 <?php if ($detalleMatricula->getReporteAsistencia() != "Asiste") { ?>
 
-                                                                    <a  href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $detalleMatricula->getId();  ?>"
-                                                                       type="button" data-toggle="tooltip" title="Asiste"
+                                                                    <a  href="#"
+                                                                       type="button" onclick="saveAsistencia(<?= $detalleMatricula->getId(); ?>, 'Asiste')" data-toggle="tooltip" title="Asiste"
                                                                        class="btn docs-tooltip btn-success btn-xs"><i
                                                                                 class="fa fa-hand-paper"></i></a>
                                                                 <?php } else { ?>
                                                                     <a type="button"
-                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?= $detalleMatricula->getId(); ?>"
-                                                                       data-toggle="tooltip" title="No asiste"
+                                                                       href="#"
+                                                                       data-toggle="tooltip" onclick="saveAsistencia(<?= $detalleMatricula->getId(); ?>, 'No Asiste')" title="No asiste"
                                                                        class="btn docs-tooltip btn-danger btn-xs"><i
                                                                                 class="fa fa-user-times"></i></a>
                                                                 <?php } ?>
@@ -265,6 +265,57 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!-- Scripts requeridos para las datatables -->
 <?php require('../../partials/datatables_scripts.php'); ?>
 
+<script>
+    function saveAsistencia(matriculas_id, reporte) {
+
+        if(matriculas_id !== "") {
+            $.post("../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=registrarAsistencia",
+                {
+                    fecha: "<?= $_GET['fecha']?>",
+                    observacion: "No justificada",
+                    matriculas_id: matriculas_id,
+                    estado: "Activo",
+                    reporte: reporte,
+                    request: 'ajax'
+                }, "json"
+            )
+            .done(function( resultProducto ) {
+                alert(resultProducto)
+            })
+            .fail(function(err) {
+                console.log( "Error al realizar la consulta"+err );
+            })
+        }
+
+    }
+
+    $(function () {
+
+
+            /*var dataSelect = e.params.data;
+            var dataProducto = null;
+            if(dataSelect.id !== ""){
+                $.post("../../../app/Controllers/MainController.php?controller=Productos&action=searchForID",
+                    {
+                        id: dataSelect.id,
+                        request: 'ajax'
+                    }, "json"
+                )
+                    .done(function( resultProducto ) {
+                        dataProducto = resultProducto;
+                    })
+                    .fail(function(err) {
+                        console.log( "Error al realizar la consulta"+err );
+                    })
+                    .always(function() {
+                        updateDataProducto(dataProducto);
+                    });
+            }else{
+                updateDataProducto(dataProducto);
+            }*/
+
+    });
+</script>
 
 </body>
 </html>

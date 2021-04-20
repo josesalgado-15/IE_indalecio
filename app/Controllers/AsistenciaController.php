@@ -34,7 +34,6 @@ class AsistenciaController
     public function create() {
         try {
             if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['matriculas_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['matriculas_id']))
-
             {
                 $Asistencia = new Asistencia ($this->dataAsistencia);
                 if ($Asistencia->insert()) {
@@ -137,36 +136,17 @@ class AsistenciaController
         }
     }
 
-    static public function asiste(int $id)
+    static public function registrarAsistencia(array $data)
     {
         try {
-            $ObjAsistencia = Matricula::searchForId($id);
-            $ObjAsistencia->setReporteAsistencia("Asiste");
-            if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&respuesta=success&mensaje=Estudiante Actualizado");
-            } else {
-                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
+            $Asistencia = new Asistencia ($data);
+            if ($Asistencia->insert()) {
+                echo "Asistencia Registrada";
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
-
-    static public function no_asiste(int $id)
-    {
-        try {
-            $ObjAsistencia = Matricula::searchForId($id);
-            $ObjAsistencia->setReporteAsistencia("No asiste");
-            if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&respuesta=success&mensaje=Estudiante Actualizado");
-            } else {
-                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
-            }
-        } catch (\Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
-        }
-    }
-
 
     static public function selectAsistencia (array $params = []){
 

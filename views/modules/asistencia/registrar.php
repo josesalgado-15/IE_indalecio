@@ -91,7 +91,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <label for="fecha" class="col-sm-4 col-form-label">Fecha</label>
                                         <div class="col-sm-8">
                                             <input required type="date" class="form-control datetimepicker-input"  id="fecha"
-                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? $_GET['fecha'] ?>">
+                                                   name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? ($_GET['fecha'] ?? "") ?>">
                                         </div>
                                     </div>
 

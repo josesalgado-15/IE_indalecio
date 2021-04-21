@@ -82,7 +82,8 @@ class AsistenciaController
             $result = Asistencia::searchForMatricula($data['matriculas_id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
                 header('Content-type: application/json; charset=utf-8');
-                $result = json_encode($result->jsonSerialize());
+                $result = json_encode($result
+                    ->jsonSerialize());
             }
             return $result;
         } catch (\Exception $e) {
@@ -147,6 +148,37 @@ class AsistenciaController
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
+
+    static public function asiste(int $id)
+    {
+        try {
+            $ObjAsistencia = Matricula::searchForId($id);
+            $ObjAsistencia->setReporteAsistencia("Asiste");
+            if ($ObjAsistencia->update()) {
+                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&fecha=".$_GET['fecha']."&cursos_id=".$ObjAsistencia->getCursosId()."&respuesta=success&mensaje=Estudiante Actualizado");
+            } else {
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function no_asiste(int $id)
+    {
+        try {
+            $ObjAsistencia = Matricula::searchForId($id);
+            $ObjAsistencia->setReporteAsistencia("No asiste");
+            if ($ObjAsistencia->update()) {
+                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&fecha=".$_GET['fecha']."&cursos_id=".$ObjAsistencia->getCursosId()."&respuesta=success&mensaje=Estudiante Actualizado");
+            } else {
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
 
     static public function selectAsistencia (array $params = []){
 

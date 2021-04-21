@@ -25,7 +25,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
+    <title> Crear Asistencia | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -200,14 +200,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                     -->
                                                                 <?php if ($detalleMatricula->getReporteAsistencia() != "Asiste") { ?>
 
-                                                                    <a  href="#"
-                                                                       type="button" onclick="saveAsistencia(<?= $detalleMatricula->getId(); ?>, 'Asiste')" data-toggle="tooltip" title="Asiste"
-                                                                       class="btn docs-tooltip btn-success btn-xs"><i
+                                                                    <a  href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?=$detalleMatricula->getId();?>&fecha=<?=$_GET['fecha'];?>&cursos_id=<?=$_GET['cursos_id'];  ?>"
+                                                                        type="button" data-toggle="tooltip" title="Asiste"
+                                                                        class="btn docs-tooltip btn-success btn-xs"><i
                                                                                 class="fa fa-hand-paper"></i></a>
                                                                 <?php } else { ?>
                                                                     <a type="button"
-                                                                       href="#"
-                                                                       data-toggle="tooltip" onclick="saveAsistencia(<?= $detalleMatricula->getId(); ?>, 'No Asiste')" title="No asiste"
+                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?=$detalleMatricula->getId();?>&fecha=<?=$_GET['fecha'];?>&cursos_id=<?=$_GET['cursos_id'];  ?>"
+                                                                       data-toggle="tooltip" title="No asiste"
                                                                        class="btn docs-tooltip btn-danger btn-xs"><i
                                                                                 class="fa fa-user-times"></i></a>
                                                                 <?php } ?>

@@ -165,7 +165,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="text" class="form-control" id="direccion"
+                                                            <input type="text" class="form-control" id="direccion"
                                                                    name="direccion" value="<?= $DataUsuario->getDireccion(); ?>" placeholder="Ingrese su direccion">
                                                         </div>
                                                     </div>
@@ -234,7 +234,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="number" minlength="6" class="form-control"
+                                                            <input type="number" minlength="6" class="form-control"
                                                                    id="telefono" name="telefono" value="<?= $DataUsuario->getTelefono(); ?>" placeholder="Ingrese su telefono">
                                                         </div>
                                                     </div>
@@ -244,7 +244,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="fecha_nacimiento" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>"
+                                                            <input type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>"
                                                                    value="<?= $DataUsuario->getFechaNacimiento()->toDateString(); ?>" class="form-control" id="fecha_nacimiento"
                                                                    name="fecha_nacimiento" placeholder="Ingrese su Fecha de Nacimiento">
                                                         </div>
@@ -254,7 +254,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="correo" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="email" class="form-control" id="correo"
+                                                            <input type="email" class="form-control" id="correo"
                                                                    name="correo"  value="<?= $DataUsuario->getCorreo(); ?>"
                                                                    placeholder="Ingrese su correo electrónico">
                                                         </div>
@@ -263,7 +263,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="password" class="form-control" id="contrasena"
+                                                            <input type="password" class="form-control" id="contrasena"
                                                                    name="contrasena"  value="<?= $DataUsuario->getContrasena(); ?>"
                                                                    placeholder="Ingrese su contraseña">
                                                         </div>
@@ -273,7 +273,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="nombre_acudiente" class="col-sm-2 col-form-label">Nombres Acudientes</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="text" class="form-control" id="nombre_acudiente" name="nombre_acudiente"
+                                                            <input type="text" class="form-control" id="nombre_acudiente" name="nombre_acudiente"
                                                                    value="<?= $DataUsuario->getNombreAcudiente(); ?>" placeholder="Ingrese sus nombres completos">
                                                         </div>
                                                     </div>
@@ -281,7 +281,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="telefono_acudiente" class="col-sm-2 col-form-label">Telefono Acudiente</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="number" minlength="6" class="form-control"
+                                                            <input type="number" minlength="6" class="form-control"
                                                                    id="telefono_acudiente" name="telefono_acudiente" value="<?= $DataUsuario->getTelefonoAcudiente(); ?>" placeholder="Ingrese su telefono">
                                                         </div>
                                                     </div>
@@ -289,7 +289,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <div class="form-group row">
                                                         <label for="correo_acudiente" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="email" class="form-control" id="correo_acudiente"
+                                                            <input type="email" class="form-control" id="correo_acudiente"
                                                                    name="correo_acudiente" value="<?= $DataUsuario->getCorreoAcudiente(); ?>" placeholder="Ingrese su correo electrónico">
                                                         </div>
                                                     </div>

@@ -27,8 +27,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
     /* Relaciones */
     private ?Grado $grado;
     private ?Horario $horario;
-
-
+    private ?array $MatriculasCurso;
 
 
     /**
@@ -264,6 +263,20 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
         return NULL;
     }
 
+    /**
+     * retorna un array de matriculas que perteneces a un Curso
+     * @return array
+     */
+    public function getMatriculasCurso(): ?array
+    {
+        if(!empty($this->id)){
+            $this-> MatriculasCurso = Matricula::search("SELECT * FROM matriculas WHERE cursos_id = ".$this->id);
+            return $this-> MatriculasCurso;
+        }
+        return null;
+    }
+
+
 
     /**
      * @param string $query
@@ -279,11 +292,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
             ':cantidad' =>   $this->getCantidad(),
             ':grados_id' =>   $this->getGradosId(),
             ':horarios_id' =>   $this->getHorariosId(),
-            ':estado' =>   $this->getEstado(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
-
+            ':estado' =>   $this->getEstado()
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -298,7 +307,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.cursos VALUES (:id,:nombre,:director,:representante,:cantidad,:grados_id,:horarios_id,:estado,:created_at,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.cursos VALUES (:id,:nombre,:director,:representante,:cantidad,:grados_id,:horarios_id,:estado,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -311,7 +320,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
             nombre = :nombre, director = :director,
             representante = :representante, cantidad = :cantidad,
             grados_id = :grados_id, horarios_id = :horarios_id,
-            estado = :estado,created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            estado = :estado,updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 
@@ -388,6 +397,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
 
     static function cursoRegistrado($nombre, $director): bool
     {
+        $nombre = strtolower(trim($nombre));
         $result = Curso::search("SELECT * FROM dbindalecio.cursos where nombre = '" . $nombre. "' and director = '".$director ."'" );
         if ( !empty($result) && count ($result) > 0 ) {
             return true;

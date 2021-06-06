@@ -1,75 +1,69 @@
 <?php
-
 namespace App\Models;
-use App\Controllers\InstitucionController;
-use App\Models\BasicModel;
+
+use App\Interfaces\Model;
+use App\Models\Municipios;
 use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
+use function Symfony\Component\Translation\t;
 
-require_once('BasicModel.php');
-
-
-class Institucion extends BasicModel
-
+class Institucion extends AbstractDBConnection implements Model, JsonSerializable
 {
-    protected int $id; //Visibilidad (public, protected, private)
+    protected ?int $id; //Visibilidad (public, protected, private)
     protected string $nombre;
     protected string $nit;
     protected string $direccion;
-    protected string $municipios_id;
+    protected string $municipio_id;
     protected string $rector_id;
-    protected string $telefono;
+    protected int $telefono;
     protected string $correo;
     protected string $estado;
 
-    protected string $created_at;
-    protected string $updated_at;
-    protected string $deleted_at;
+    protected Carbon $created_at;
+    protected Carbon $updated_at;
 
-    /**suario
-     * Institucion constructor.
-     *
+
+    /* Relaciones */
+    private ?Municipios $municipio;
+    private ?Usuario $rector;
+
+    /**
+     * Usuarios constructor. Recibe un array asociativo
+     * @param array $Institucion
      */
 
-    public function __construct ($Institucion = array ())
-
+    public function __construct(array $Institucion = [])
     {
 
-        parent::__construct();
-        $this->id = $Institucion['id'] ?? 0;
-        $this->nombre = $Institucion['nombre'] ?? '';
-        $this->nit = $Institucion ['nit'] ?? '';
-        $this->direccion = $Institucion['direccion'] ?? '';
-        $this->municipios_id = $Institucion['municipios_id'] ?? 0 ;
-        $this->rector_id = $Institucion['rector_id'] ?? '';
-        $this->telefono = $Institucion['telefono'] ?? '';
-        $this->correo = $Institucion['correo'] ?? '';
-        $this->estado= $Institucion['estado'] ?? '';
+        parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
+        $this->setId($Institucion['id'] ?? NULL);
 
-        $this->created_at =  $Institucion ['created_at'] ?? new Carbon();
-        $this->updated_at =  $Institucion['updated_at'] ?? new Carbon();
-        $this->deleted_at =  $Institucion ['deleted_at'] ?? new Carbon();
+        $this->setNombre($Institucion['nombre'] ?? '');
+        $this->setNit($Institucion ['nit'] ?? '');
+        $this->setDireccion($Institucion['direccion'] ?? '');
+        $this->setMunicipioId($Institucion['municipio_id'] ?? 0);
+        $this->setRectorId($Institucion['rector_id'] ?? '');
+        $this->setTelefono($Institucion['telefono'] ?? 0);
+        $this->setCorreo($Institucion['correo'] ?? '');
+        $this->setEstado($Institucion['estado'] ?? '');
 
+        $this->setCreatedAt(!empty ($Institucion ['created_at']) ? Carbon::parse($Institucion['created_at']) : new Carbon());
+        $this->setUpdatedAt(!empty ($Institucion ['updated_at']) ? Carbon::parse($Institucion['updated_at']) : new Carbon());
     }
 
     function __destruct()
     {
-        //    $this->Disconnect(); // Cierro Conexiones
-    }
-
-    public static function InstitucionRegistrada($nit): bool
-    {
-        $result = Institucion::search("SELECT * FROM dbindalecio.instituciones where nit = " . $nit);
-        if ( count ($result) > 0 ) {
-            return true;
-        } else {
-            return false;
+        if ($this->isConnected) {
+            $this->Disconnect();
         }
     }
+
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -77,7 +71,7 @@ class Institucion extends BasicModel
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -87,7 +81,7 @@ class Institucion extends BasicModel
      */
     public function getNombre(): string
     {
-        return $this->nombre;
+        return ucwords($this->nombre);
     }
 
     /**
@@ -95,7 +89,7 @@ class Institucion extends BasicModel
      */
     public function setNombre(string $nombre): void
     {
-        $this->nombre = $nombre;
+        $this->nombre = trim(mb_strtolower($nombre, 'UTF-8'));
     }
 
     /**
@@ -134,17 +128,17 @@ class Institucion extends BasicModel
     /**
      * @return string
      */
-    public function getMunicipiosId(): string
+    public function getMunicipioId(): string
     {
-        return $this->municipios_id;
+        return $this->municipio_id;
     }
 
     /**
-     * @param string $municipios_id
+     * @param string $municipio_id
      */
-    public function setMunicipiosId(string $municipios_id): void
+    public function setMunicipioId(string $municipio_id): void
     {
-        $this->municipios_id = $municipios_id;
+        $this->municipio_id = $municipio_id;
     }
 
     /**
@@ -212,20 +206,15 @@ class Institucion extends BasicModel
         $this->estado = $estado;
     }
 
-    /**
-     * @return string
-     */
-
-    public function getCreatedAt(): string
+    public function getCreatedAt(): Carbon
     {
-        return $this->created_at;
+        return $this->created_at->locale('es');
     }
 
     /**
      * @param string $created_at
      */
-
-    public function setCreatedAt(string $created_at): void
+    public function setCreatedAt(Carbon $created_at): void
     {
         $this->created_at = $created_at;
     }
@@ -233,210 +222,213 @@ class Institucion extends BasicModel
     /**
      * @return string
      */
-
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): Carbon
     {
-        return $this->updated_at;
+        return $this->updated_at->locale('es');
     }
 
     /**
      * @param string $updated_at
      */
-
-    public function setUpdatedAt(string $updated_at): void
+    public function setUpdatedAt(Carbon $updated_at): void
     {
         $this->updated_at = $updated_at;
+    }
+
+    /**
+     * @return Municipios
+     */
+    public function getMunicipio(): ?Municipios
+    {
+        if (!empty($this->municipio_id)) {
+            $this->municipio = Municipios::searchForId($this->municipio_id) ?? new Municipios();
+            return $this->municipio;
+        }
+        return NULL;
+    }
+
+    public function getInstitucion(): ?Institucion
+    {
+        if (!empty($this->instituciones_id)) {
+            $this->institucion = Institucion::searchForId($this->instituciones_id) ?? new Institucion();
+            return $this->institucion;
+        }
+        return NULL;
+    }
+
+
+    public function getRector(): ?Usuario
+    {
+        if(!empty($this->rector_id)){
+            $this->rector = Usuario::searchForId($this->rector_id) ?? new Usuario();
+            return $this->rector;
+        }
+        return NULL;
+    }
+
+    protected function save(string $query): ?bool
+    {
+        $arrData = [
+            ':id' => $this->getId(),
+            ':nombre' => $this->getNombre(),
+            ':nit' => $this->getNit(),
+            ':direccion' => $this->getDireccion(),
+            ':municipio_id' => $this->getMunicipioId(),
+            ':rector_id' => $this->getRectorId(),
+            ':telefono' => $this->getTelefono(),
+            ':correo' => $this->getCorreo(),
+            ':estado' => $this->getEstado(),
+            ':created_at' => $this->getCreatedAt()->toDateTimeString(),
+            ':updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
+        $this->Disconnect();
+        return $result;
+
+    }
+
+    public function insert(): ?bool
+    {
+        $query = "INSERT INTO dbindalecio.instituciones VALUES (
+            :id,:nombre,:nit,:direccion,:municipio_id,
+            :rector_id,:telefono,:correo,:estado,:created_at,:updated_at
+        )";
+        return $this->save($query);
+    }
+
+    /**
+     * @return bool|null
+     */
+
+    public function update(): ?bool
+    {
+        $query = "UPDATE dbindalecio.instituciones SET 
+            nombre = :nombre, nit= :nit, direccion = :direccion, municipio_id = :municipio_id,
+            rector_id = :rector_id, telefono = :telefono, correo = :correo,
+            estado = :estado, created_At = :created_at, updated_at = :updated_at
+          WHERE id = :id";
+
+        return $this->save($query);
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws Exception
+     */
+    public function deleted(): bool
+    {
+        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        return $this->update();                    //Guarda los cambios..
+    }
+
+
+    /**
+     * @param $query
+     * @return Institucion|array
+     * @throws Exception
+     */
+    public static function search($query): ?array
+    {
+        try {
+            $arrInstitucion = array();
+            $tmp = new Institucion();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
+
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Institucion = new Institucion($valor);
+                    array_push($arrInstitucion, $Institucion);
+                    unset($Institucion);
+                }
+                return $arrInstitucion;
+            }
+            return null;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e, 'error');
+        }
+        return null;
+    }
+
+    /**
+     * @param $id
+     * @return Institucion
+     * @throws Exception
+     */
+    public static function searchForId(int $id): ?Institucion
+    {
+        try {
+            if ($id > 0) {
+                $tmpInstitucion = new Institucion();
+                $tmpInstitucion->Connect();
+                $getrow = $tmpInstitucion->getRow("SELECT * FROM dbindalecio.instituciones WHERE id =?", array($id));
+                $tmpInstitucion->Disconnect();
+                return ($getrow) ? new Institucion($getrow) : null;
+            } else {
+                throw new Exception('Id de Institucion Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e, 'error');
+        }
+        return null;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll(): array
+    {
+        return Institucion::search("SELECT * FROM dbindalecio.instituciones");
+    }
+
+    /**
+     * @param $documento
+     * @return bool
+     * @throws Exception
+     */
+    public static function institucionRegistrada($nit): bool
+    {
+        $result = Institucion::search("SELECT * FROM dbindalecio.instituciones where nit = " . $nit);
+        if (!empty($result) && count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * @return string
      */
 
-    public function getDeletedAt(): string
-    {
-        return $this->deleted_at;
-    }
-
     /**
-     * @param string $deleted_at
+     * @return string
      */
-
-    public function setDeletedAt(string $deleted_at): void
-    {
-        $this->deleted_at = $deleted_at;
-    }
-
-    /**
-     * @return mixed
-     */
-
-
-    public function create()
-    {
-        var_dump($this);
-        $result = $this->insertRow("INSERT INTO dbindalecio.instituciones VALUES (NULL, ?, ?, ?, ?, ?, ?, ? ,? , NOW() , NULL ,NULL )", array(
-
-                $this->getNombre(),
-                $this->getNit(),
-                $this->getDireccion(),
-                $this->getMunicipiosId(),
-                $this->getRectorId(),
-                $this->getTelefono(),
-                $this->getCorreo(),
-                $this->getEstado(),
-                /*
-                                $this->getCreatedAt(),
-                                $this->getUpdatedAt(),
-                                $this->getDeletedAt(),
-                */
-            )
-        );
-
-        $this->Disconnect();
-        return $this;
-
-    }
-
-    /**
-     * @return mixed
-     */
-
-
-    public function update()
-    {
-        $result = $this->updateRow("UPDATE dbindalecio.instituciones SET nombre = ?, nit = ?,  direccion = ?, municipios_id = ?, rector_id = ?,  telefono = ?,
-          correo = ?, estado = ? /*created_at = ?, updated_at = ?, deleted_at = ?*/   WHERE id = ?", array(
-
-                $this->getNombre(),
-                $this->getNit(),
-                $this->getDireccion(),
-                $this->getMunicipiosId(),
-                $this->getRectorId(),
-                $this->getTelefono(),
-                $this->getCorreo(),
-                $this->getEstado(),
-                /*
-                                $this->getCreatedAt(),
-                                $this->getUpdatedAt(),
-                                $this->getDeletedAt(),
-                */
-                $this->getId()
-
-            )
-        );
-        $this->Disconnect();
-        return $this;
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-
-    public function deleted($id)
-    {
-        $result = $this->updateRow('UPDATE dbindalecio.instituciones SET estado = ? WHERE id = ?', array(
-                'Inactivo',
-                $this->getId()
-            )
-        );
-    }
-
-    /**
-     * @param $query
-     * @return mixed
-     */
-
-    public static function search($query)
-    {
-        $arrInstitucion = array();
-        $tmp = new Institucion();
-        $getrows = $tmp->getRows($query);
-
-        foreach ($getrows as $valor) {
-
-            $Institucion = new Institucion();
-            $Institucion->setId($valor['id']);
-            $Institucion->setNombre($valor['nombre']);
-            $Institucion->setNit($valor ['nit']);
-            $Institucion->setDireccion($valor['direccion']);
-            $Institucion->setMunicipiosId($valor['municipios_id']);
-            $Institucion->setRectorId($valor['rector_id']);
-            $Institucion->setTelefono($valor['telefono']);
-            $Institucion->setCorreo($valor['correo']);
-            $Institucion->setEstado($valor['estado']);
-
-            //$Institucion->setCreatedAt($valor['created_at']);
-            //$Institucion->setUpdatedAt($valor['updated_at']);
-            //$Institucion->setDeletedAt($valor['deleted_at']);
-
-            $Institucion->Disconnect();
-            array_push($arrInstitucion, $Institucion);
-
-        }
-        $tmp->Disconnect();
-        return $arrInstitucion ;
-
-    }
-
-
-
-    public static function getAll()
-    {
-        return Institucion::search("SELECT * FROM dbindalecio.instituciones");
-    }
-
-
-
-    public static function searchForId($id)
-    {
-        $Institucion = null;
-        if ($id>0){
-            $Institucion = new Institucion();
-            $getrow = $Institucion->getRow("SELECT * FROM dbindalecio.instituciones WHERE id =?", array($id));
-            $Institucion->setId($getrow['id']);
-            $Institucion->setNit($getrow['nit']);
-            $Institucion->setNombre($getrow['nombre']);
-            $Institucion->setDireccion($getrow['direccion']);
-            $Institucion->setMunicipiosId($getrow['municipios_id']);
-            $Institucion->setRectorId($getrow['rector_id']);
-            $Institucion->setTelefono($getrow['telefono']);
-            $Institucion->setCorreo($getrow['correo']);
-            $Institucion->setEstado($getrow['estado']);
-
-            //$Institucion->setCreatedAt($getrow['created_at']);
-            //$Institucion->setUpdatedAt($getrow['updated_at']);
-            //$Institucion->setDeletedAt($getrow['deleted_at']);
-
-
-        }
-        $Institucion->Disconnect();
-        return $Institucion;
-    }
-
-
-
     public function __toString(): string
     {
-        return
-            "<strong>Sus datos son:</strong> ".
-            "<br>".
-            "<br>".
-            "<strong>Id:</strong> " . $this->getId() . "<br/>" .
-            "<strong>Nombre:</strong> " . $this->getNombre() . "<br/>" .
-            "<strong>Nit:</strong> " . $this->getNit() . "<br/>" .
-            "<strong>Dirección:</strong> " . $this->getDireccion() . "<br/>".
-            "<strong>Id Municipio:</strong> " . $this->getMunicipiosId() . "<br/>".
-            "<strong>Id Rector:</strong> " . $this->getRectorId() . "<br/>".
-            "<strong>Teléfono:</strong> " . $this->getTelefono() . "<br/>".
-            "<strong>Correo:</strong> " . $this->getCorreo() . "<br/>".
-            "<strong>Estado:</strong> " . $this->getEstado() . "<br/>" ;
-
-
-        /*
-        */
-
-
-
+        return "Nombre: $this->nombre, Nit: $this->nit, Direccion: $this->direccion, Municipip: $this->municipio_id, Rector: $this->rector_id, Telefono: $this->telefono, Correo: $this->correo, Estado: $this->estado";
     }
+
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'nombre' => $this->getNombre(),
+            'nit' => $this->getNit(),
+            'direccion' => $this->getDireccion(),
+            'municipio_id' => $this->getMunicipioId(),
+            'rector_id' => $this->getRectorId(),
+            'telefono' => $this->getTelefono(),
+            'correo' => $this->getCorreo(),
+            'estado' => $this->getEstado(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+        ];
+    }
+
+
 }

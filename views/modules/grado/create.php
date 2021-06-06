@@ -14,7 +14,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
+    <title> Crear <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -84,6 +84,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <option <?= (!empty($frmSession['Noveno']) && $frmSession['Noveno'] == "Noveno") ? "selected" : ""; ?> value="Noveno">Noveno</option>
                                                 <option <?= (!empty($frmSession['Décimo']) && $frmSession['Décimo'] == "Décimo") ? "selected" : ""; ?> value="Décimo">Décimo</option>
                                                 <option <?= (!empty($frmSession['Once']) && $frmSession['Once'] == "Once") ? "selected" : ""; ?> value="Once">Once</option>
+
+                                                <option <?= (!empty($frmSession['Primero']) && $frmSession['Primero'] == "Primero") ? "selected" : ""; ?> value="Primero">Primero</option>
+                                                <option <?= (!empty($frmSession['Segundo']) && $frmSession['Segundo'] == "Segundo") ? "selected" : ""; ?> value="Segundo">Segundo</option>
+                                                <option <?= (!empty($frmSession['Tercero']) && $frmSession['Tercero'] == "Tercero") ? "selected" : ""; ?> value="Tercero">Tercero</option>
+                                                <option <?= (!empty($frmSession['Cuarto']) && $frmSession['Cuarto'] == "Cuarto") ? "selected" : ""; ?> value="Cuarto">Cuarto</option>
+                                                <option <?= (!empty($frmSession['Quinto']) && $frmSession['Quinto'] == "Quinto") ? "selected" : ""; ?> value="Quinto">Quinto</option>
 
                                             </select>
                                         </div>

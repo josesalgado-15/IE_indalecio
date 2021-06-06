@@ -1,11 +1,15 @@
-<?php use Carbon\Carbon;
-require("partials/routes.php");
+<?php require("partials/routes.php");
+//require_once("../views/partials/check_login.php");
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Crear Usuario</title>
+
+    <link rel="stylesheet" type="text/css" href="public/css/estilos.css">
+
+    <title> Inicio | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php include_once ('partials/head_imports.php') ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -56,22 +60,48 @@ require("partials/routes.php");
                 </div>
                 <!-- /.card-body -->
 
-                <div class="slider">
-                    <ul>
-                        <li>
-                            <img src="http://dominicushoeve.com/wp-content/uploads/ktz/latest-high-resolution-wallpaper-1920x1080-70558-pictures-high-resolution-wallpaper-30whtvl34j4r12m8b0c1sa.jpg" alt="">
-                        </li>
-                        <li>
-                            <img src="http://youghaltennisclub.ie/wp-content/uploads/2014/06/Tennis-Wallpaper-High-Definition-700x300.jpg" alt="">
-                        </li>
-                        <li>
-                            <img src="http://welltechnically.com/wp-content/uploads/2013/08/android-wallpapers-700x300.jpg" alt="">
-                        </li>
-                        <li>
-                            <img src="http://welltechnically.com/wp-content/uploads/2013/09/android-widescreen-wallpaper-14165-hd-wallpapers-700x300.jpg" alt="">
-                        </li>
-                    </ul>
-                </div>
+
+
+                <!-- Carusel-->
+
+                <div class="container">
+
+                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class ="caruselimg"  src="<?= $baseURL ?>/views/public/img/pes1.jpg" width="100%" height="50%" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Institución Educativa Indalecio Vásquez</h5>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class ="caruselimg"  src="<?= $baseURL ?>/views/public/img/pes2.jpg" width="100%" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Institución Educativa Indalecio Vásquez</h5>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img class ="caruselimg"  src="<?= $baseURL ?>/views/public/img/pes3.jpg" width="100%" class="d-block w-100" alt="...">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>Institución Educativa Indalecio Vásquez</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
 
             </div>
             <!-- /.card-footer-->

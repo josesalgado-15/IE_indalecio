@@ -15,6 +15,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     protected Carbon $vigencia;
     protected int $usuarios_id;
     protected int $cursos_id;
+    protected string $reporte_asistencia;
     protected string $estado;
     protected Carbon $created_at;
     protected Carbon $updated_at;
@@ -23,9 +24,6 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     /* Relaciones */
     private ?Usuario $usuario;
     private ?Curso $curso;
-
-
-
 
     /**
      * Matricula constructor. Recibe un array asociativo
@@ -40,6 +38,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
         $this->setVigencia( !empty($matricula['vigencia']) ? Carbon::parse($matricula['vigencia']) : new Carbon());
         $this->setUsuariosId($matricula['usuarios_id'] ?? 0);
         $this->setCursosId($matricula['cursos_id'] ?? 0);
+        $this->setReporteAsistencia($matricula['reporte_asistencia'] ?? '');
         $this->setEstado($matricula['estado'] ?? '');
         $this->setCreatedAt(!empty($matricula['created_at']) ? Carbon::parse($matricula['created_at']) : new Carbon());
         $this->setUpdatedAt(!empty($matricula['updated_at']) ? Carbon::parse($matricula['updated_at']) : new Carbon());
@@ -119,6 +118,23 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     {
         $this->cursos_id = $cursos_id;
     }
+
+    /**
+     * @return string
+     */
+    public function getReporteAsistencia(): string
+    {
+        return $this->reporte_asistencia;
+    }
+
+    /**
+     * @param string $reporte_asistencia
+     */
+    public function setReporteAsistencia(string $reporte_asistencia): void
+    {
+        $this->reporte_asistencia = $reporte_asistencia;
+    }
+
 
     /**
      * @return mixed|string
@@ -225,10 +241,8 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
             ':vigencia' =>  $this->getVigencia()->toDateTimeString(),
             ':usuarios_id' =>   $this->getUsuariosId(),
             ':cursos_id' =>  $this->getCursosId(),
-            ':estado' =>   $this->getEstado(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),
-            ':deleted_at' =>  $this->getDeletedAt()->toDateTimeString()
+            ':reporte_asistencia' =>   $this->getReporteAsistencia(),
+            ':estado' =>   $this->getEstado()
 
         ];
         $this->Connect();
@@ -244,7 +258,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:estado,:created_at,:updated_at,:deleted_at)";
+        $query = "INSERT INTO dbindalecio.matriculas VALUES (:id,:vigencia,:usuarios_id,:cursos_id,:reporte_asistencia,:estado,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -255,7 +269,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     {
         $query = "UPDATE dbindalecio.matriculas SET 
             vigencia = :vigencia, usuarios_id = :usuarios_id,
-            cursos_id = :cursos_id, estado = :estado,created_at = :created_at, updated_at = :updated_at, deleted_at = :deleted_at WHERE id = :id";
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 
@@ -329,9 +343,9 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
         return Matricula::search("SELECT * FROM dbindalecio.matriculas");
     }
 
-    static function matriculaRegistrada($usuarios_id, $cursos_id): bool
+    static function matriculaRegistrada($vigencia, $usuarios_id, $cursos_id): bool
     {
-        $result = Matricula::search("SELECT * FROM dbindalecio.matriculas where usuarios_id = '" . $usuarios_id. "' and cursos_id = '".$cursos_id ."'" );
+        $result = Matricula::search("SELECT * FROM dbindalecio.matriculas where vigencia = '" . $vigencia. "' and usuarios_id = '" . $usuarios_id. "' and cursos_id =  '".$cursos_id ."'" );
         if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
@@ -377,6 +391,7 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
             'vigencia' =>  $this->getVigencia()->toDateTimeString(),
             'usuarios_id' =>   $this->getUsuariosId(),
             'cursos_id' =>  $this->getCursosId(),
+            'reporte_asistencia' =>   $this->getReporteAsistencia(),
             'estado' =>   $this->getEstado(),
             'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),

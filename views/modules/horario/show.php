@@ -15,7 +15,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos del <?= $nameModel ?></title>
+    <title> Datos Del <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -37,8 +37,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a
+                                        href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Ver</li>
                         </ol>
                     </div>
                 </div>
@@ -113,7 +115,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i>Sede</strong>
                                         <p class="text-muted">
-                                            <?= $DataHorario->getSedesId() ?>
+                                            <?= $DataHorario->getSede()->getNombre()?>
                                         </p>
 
 
@@ -127,9 +129,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="create.php" class="btn btn-primary float-right"
+                                                <a role="button" href="edit.php?id=<?= $DataHorario->getId(); ?>"
+                                                   class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Horario
+                                                    <i class="fas fa-edit"></i> Editar <?= $nameModel ?>
                                                 </a>
                                             </div>
                                         </div>

@@ -16,7 +16,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Datos de la <?= $nameModel ?></title>
+    <title> Datos de la <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -34,12 +34,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion del la <?= $nameModel ?></h1>
+                        <h1>Informacion De La <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">Institución Educativa Indalecio Vásquez</a></li>
-                            <li class="breadcrumb-item active">Inicio</li>
+                            <li class="breadcrumb-item"><a
+                                        href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
+                            <li class="breadcrumb-item active">Ver</li>
                         </ol>
                     </div>
                 </div>
@@ -83,15 +85,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Fecha</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getFecha()->toDateString();  ?>
+                                            <?=  $DataAsistencia->getFecha()->translatedFormat('l, j \\de F Y'), ".";  ?>
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Hora Ingreso</strong>
-                                        <p class="text-muted">
-                                            <?= $DataAsistencia->getHoraIngreso() ?>
-                                        </p>
-                                        <hr>
+
 
                                         <strong><i class="fas fa-user mr-1"></i>Observación</strong>
                                         <p class="text-muted">
@@ -99,21 +97,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Tipo De Ingreso</strong>
-                                        <p class="text-muted">
-                                            <?= $DataAsistencia->getTipoIngreso() ?>
-                                        </p>
-                                        <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Hora Salida</strong>
-                                        <p class="text-muted">
-                                            <?= $DataAsistencia->getHoraSalida() ?>
-                                        </p>
-                                        <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i># Documento</strong>
+                                        <strong><i class="fas fa-user mr-1"></i>Estudiante</strong>
                                         <p class="text-muted">
-                                            <?= $DataAsistencia->getUsuario()->getNumeroDocumento(),"-",  $DataAsistencia->getUsuario()->getNombres(); ?>
+                                            <?= $DataAsistencia->getMatricula()->getCurso()->getNombre()," - ",$DataAsistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $DataAsistencia->getMatricula()->getUsuario()->getNombres()," ",  $DataAsistencia->getMatricula()->getUsuario()->getApellidos(); ?>
                                         </p>
                                         <hr>
 
@@ -122,7 +110,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <?= $DataAsistencia->getEstado() ?>
                                         </p>
 
-
+                                        <strong><i class="far fa-file-alt mr-1"></i>Reporte</strong>
+                                        <p class="text-muted">
+                                            <?= $DataAsistencia->getReporte() ?>
+                                        </p>
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
@@ -133,9 +124,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="create.php" class="btn btn-primary float-right"
+                                                <a role="button" href="edit.php?id=<?= $DataAsistencia->getId(); ?>"
+                                                   class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
-                                                    <i class="fas fa-plus"></i> Crear Asistencia
+                                                    <i class="fas fa-edit"></i> Editar <?= $nameModel ?>
                                                 </a>
                                             </div>
                                         </div>

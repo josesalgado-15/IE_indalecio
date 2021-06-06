@@ -16,8 +16,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar <?= $pluralModel ?></title>
-    <?php include_once ('../../partials/head_imports.php') ?>
+    <title> Gestionar <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
+    <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">
@@ -92,12 +92,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <tr>
                                     <th>#</th>
                                     <th>Fecha</th>
-                                    <th>Tipo De Ingreso</th>
-                                    <th>Hora De Ingreso</th>
+                                    <th>Curso</th>
+                                    <th>Estudiante</th>
                                     <th>Observación</th>
-                                    <th>Hora De Salida</th>
-                                    <th># Documento</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -110,14 +109,27 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     ?>
                                     <tr>
                                         <td><?php echo $asistencia->getId(); ?></td>
-                                        <td><?php echo $asistencia->getFecha()->translatedFormat('l, j \\de F Y');  ?></td>
-                                        <td><?php echo $asistencia->getTipoIngreso(); ?></td>
-                                        <td><?php echo $asistencia->getHoraIngreso(); ?></td>
+                                        <td><?php echo $asistencia->getFecha()->translatedFormat('l, j \\de F Y'),".";  ?></td>
+                                        <td><?php echo $asistencia->getMatricula()->getCurso()->getNombre(); ?></td>
+                                        <td><?php echo $asistencia->getMatricula()->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getMatricula()->getUsuario()->getNombres()," ",  $asistencia->getMatricula()->getUsuario()->getApellidos(); ?></td>
                                         <td><?php echo $asistencia->getObservacion(); ?></td>
-                                        <td><?php echo $asistencia->getHoraSalida(); ?></td>
-                                        <td><?php echo $asistencia->getUsuario()->getNumeroDocumento(),"-",  $asistencia->getUsuario()->getNombres(); ?></td>
                                         <td><?php echo $asistencia->getEstado(); ?></td>
+                                        <td><?php echo $asistencia->getReporte(); ?></td>
                                         <td>
+
+
+                                            <?php if ($asistencia->getReporte() != "Asiste") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=asiste&id=<?= $asistencia->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Asiste"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-hand-paper"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=no_asiste&id=<?= $asistencia->getId(); ?>"
+                                                   data-toggle="tooltip" title="No asiste"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-user-times"></i></a>
+                                            <?php } ?>
                                             <a href="edit.php?id=<?php echo $asistencia->getId(); ?>"
                                                type="button" data-toggle="tooltip" title="Actualizar"
                                                class="btn docs-tooltip btn-primary btn-xs"><i
@@ -126,6 +138,23 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
+
+
+                                            <?php if ($asistencia->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $asistencia->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Activar"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-check-square"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $asistencia->getId(); ?>"
+                                                   data-toggle="tooltip" title="Inactivar"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-times-circle"></i></a>
+                                            <?php } ?>
+
+
+
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -133,15 +162,16 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>#</th>
                                     <th>Fecha</th>
-                                    <th>Tipo De Ingreso</th>
-                                    <th>Hora De Ingreso</th>
+                                    <th>Curso</th>
+                                    <th>Estudiante</th>
                                     <th>Observación</th>
-                                    <th>Hora De Salida</th>
-                                    <th># Documento</th>
                                     <th>Estado</th>
+                                    <th>Reporte</th>
                                     <th>Acciones</th>
+                                    <!--<th></th> IMPORTANTE Si se quieren mostrar todos los registros en una vista-->
                                 </tr>
                                 </tfoot>
                             </table>
@@ -166,7 +196,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     <?php include_once ('../../partials/footer.php') ?>
 </div>
 
-<?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

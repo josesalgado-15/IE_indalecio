@@ -92,7 +92,35 @@ class CursoController
         return null;
     }
 
+    static public function activate(int $id)
+    {
+        try {
+            $ObjCurso = Curso::searchForId($id);
+            $ObjCurso->setEstado("Activo");
+            if ($ObjCurso->update()) {
+                header("Location: ../../views/modules/curso/index.php");
+            } else {
+                header("Location: ../../views/modules/curso/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
 
+    static public function inactivate(int $id)
+    {
+        try {
+            $ObjCurso = Curso::searchForId($id);
+            $ObjCurso->setEstado("Inactivo");
+            if ($ObjCurso->update()) {
+                header("Location: ../../views/modules/curso/index.php");
+            } else {
+                header("Location: ../../views/modules/curso/index.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
 
     static public function selectCurso (array $params = []){
 

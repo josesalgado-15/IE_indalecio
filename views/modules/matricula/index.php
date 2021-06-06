@@ -17,8 +17,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestionar <?= $pluralModel ?></title>
-    <?php include_once ('../../partials/head_imports.php') ?>
+    <title> Gestionar Matrícula | <?= $_ENV['TITLE_SITE'] ?></title>
+    <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-responsive/css/responsive.bootstrap4.css">
@@ -38,12 +38,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestionar Matriculas</h1>
+                        <h1>Gestionar Matrículas</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                            <li class="breadcrumb-item active">Gestionar Matriculas</li>
+                            <li class="breadcrumb-item active">Gestionar Matrículas</li>
                         </ol>
                     </div>
                 </div>
@@ -61,7 +61,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <!-- Default box -->
             <div class="card card-dark">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Matriculas</h3>
+                    <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Gestionar Matrículas</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                 data-source="index.php" data-source-selector="#card-refresh-content"
@@ -120,6 +120,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                type="button" data-toggle="tooltip" title="Ver"
                                                class="btn docs-tooltip btn-warning btn-xs"><i
                                                         class="fa fa-eye"></i></a>
+
+                                            <?php if ($mastricula->getEstado() != "Activo") { ?>
+                                                <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $mastricula->getId(); ?>"
+                                                   type="button" data-toggle="tooltip" title="Activar"
+                                                   class="btn docs-tooltip btn-success btn-xs"><i
+                                                            class="fa fa-check-square"></i></a>
+                                            <?php } else { ?>
+                                                <a type="button"
+                                                   href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $mastricula->getId(); ?>"
+                                                   data-toggle="tooltip" title="Inactivar"
+                                                   class="btn docs-tooltip btn-danger btn-xs"><i
+                                                            class="fa fa-times-circle"></i></a>
+                                            <?php } ?>
                                         </td>
                                     </tr>
                                 <?php } ?>

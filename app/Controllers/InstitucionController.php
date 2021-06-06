@@ -3,116 +3,97 @@
 namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php'); //Requerido para convertir un objeto en Array
-require_once(__DIR__ . '/../Models/Institucion.php');
-require_once(__DIR__ . '/../Models/GeneralFunctions.php');
+
 
 use App\Models\GeneralFunctions;
 use App\Models\Institucion;
+use App\Models\Usuario;
+
 use Carbon\Carbon;
-
-
-if (!empty($_GET['action'])) { //InstitucionController.php?action=create
-    InstitucionController::main($_GET['action']);
-}
 
 class InstitucionController
 {
-    static function main($action)
+    private array $dataInstitucion;
+
+    public function __construct(array $_FORM)
     {
-        if ($action == "create") {
-            InstitucionController::create();
-        } else if ($action == "edit") {
-            InstitucionController::edit();
-        } else if ($action == "searchForID") {
-            InstitucionController::searchForID($_REQUEST['id']);
-        } else if ($action == "searchAll") {
-            InstitucionController::getAll();
-        } else if ($action == "changeStatus") {
-            InstitucionController::changeStatus();
-        }
+        $this->dataInstitucion = array();
+        $this->dataInstitucion['id'] = $_FORM['id'] ?? NULL;
+        $this->dataInstitucion['nombre'] = $_FORM['nombre'] ?? NULL;
+        $this->dataInstitucion['nit'] = $_FORM['nit'] ?? NULL;
+        $this->dataInstitucion['direccion'] = $_FORM['direccion'] ?? NULL;
+        $this->dataInstitucion['municipio_id'] = $_FORM['municipio_id'] ?? NULL;
+        $this->dataInstitucion['rector_id'] = $_FORM['rector_id'] ?? NULL;
+        $this->dataInstitucion['telefono'] = $_FORM['telefono'] ?? NULL;
+        $this->dataInstitucion['correo'] = $_FORM['correo'] ?? NULL;
+        $this->dataInstitucion['estado'] = $_FORM['estado'] ?? 'Activo';
+
     }
-
-    static public function create()
-    {
+    public function create($withFiles = null) {
         try {
+            if (!empty($this->dataInstitucion['nit']) && !Institucion::institucionRegistrada($this->dataInstitucion['nit'])) {
 
-            $arrayInstitucion = array();
-            $arrayInstitucion['nombre'] = $_POST['nombre'];
-            $arrayInstitucion['nit'] = $_POST['nit'];
-            $arrayInstitucion['direccion'] = $_POST['direccion'];
-            $arrayInstitucion['municipios_id'] = $_POST['municipios_id'];
-            $arrayInstitucion['rector_id'] = $_POST['rector_id'];
-            $arrayInstitucion['telefono'] = $_POST['telefono'];
-            $arrayInstitucion['correo'] = $_POST['correo'];
-            $arrayInstitucion['estado'] = $_POST['estado'];
-
-            $arrayInstitucion['created_at'] = Carbon::now();
-
-            if (!Institucion::InstitucionRegistrada($arrayInstitucion['nit'] )) {
-                $Institucion = new Institucion ($arrayInstitucion);
-                if ($Institucion->create()) {
-                    //var_dump($_POST);
-                    header("Location: ../../views/modules/instituciones/index.php?accion=create&respuesta=correcto");
+                $Institucion= new Institucion($this->dataInstitucion);
+                if ($Institucion->insert()) {
+                    unset($_SESSION['frmInstituciones']);
+                    header("Location: ../../views/modules/instituciones/index.php?respuesta=success&mensaje=Institucion Registrada");
                 }
             } else {
-
-                header("Location: ../../views/modules/instituciones/create.php?respuesta=error&mensaje=Institucion ya creada");
+                header("Location: ../../views/modules/instituciones/create.php?respuesta=error&mensaje=Institucion ya registrada");
             }
-        } catch (Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/instituciones/create.php?respuesta=error&mensaje=" . $e->getMessage());
-        }
-    }
-
-    static public function edit()
-    {
-        try {
-            $arrayInstitucion = array();
-            $arrayInstitucion['nombre'] = $_POST['nombre'];
-            $arrayInstitucion['nit'] = $_POST['nit'];
-            $arrayInstitucion['direccion'] = $_POST['direccion'];
-            $arrayInstitucion['municipios_id'] = ($_POST['municipios_id']);
-            $arrayInstitucion['rector_id'] = $_POST['rector_id'];
-            $arrayInstitucion['telefono'] = $_POST['telefono'];
-            $arrayInstitucion['correo'] = $_POST['correo'];
-            $arrayInstitucion['estado'] = $_POST['estado'];
-            $arrayInstitucion['id'] = $_POST['id'];
-
-            $institucion = new Institucion($arrayInstitucion);
-            $institucion->update();
-
-            header("Location: ../../views/modules/instituciones/index.php?id=" . $institucion->getId() . "&respuesta=correcto");
-
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuario/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function searchForID($id)
+    public function edit($withFiles = null)
     {
         try {
-            return Institucion::searchForId($id);
+            $user = new Institucion($this->dataInstitucion);
+            if($user->update()){
+                unset($_SESSION['frmInstituciones']);
+            }
+
+            header("Location: ../../views/modules/instituciones/show.php?id=" . $user->getId() . "&respuesta=success&mensaje=Institucion Actualizada");
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/instituciones/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
     }
 
-    static public function getAll()
+    static public function searchForID(array $data)
     {
         try {
-            return Institucion::getAll();
+            $result = Institucion::searchForId($data['id']);
+            if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result->jsonSerialize());
+            }
+            return $result;
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'log', 'errorStack');
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
+        return null;
     }
 
-    static public function activate()
+    static public function getAll(array $data = null)
     {
         try {
-            $ObjInstitucion = Institucion::searchForId($_GET['Id']);
+            $result = Institucion::getAll();
+            if (!empty($data['request']) and $data['request'] === 'ajax') {
+                header('Content-type: application/json; charset=utf-8');
+                $result = json_encode($result);
+            }
+            return $result;
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception', $e, 'error');
+        }
+        return null;
+    }
+
+    static public function activate(int $id)
+    {
+        try {
+            $ObjInstitucion = Institucion::searchForId($id);
             $ObjInstitucion->setEstado("Activo");
             if ($ObjInstitucion->update()) {
                 header("Location: ../../views/modules/instituciones/index.php");
@@ -120,15 +101,14 @@ class InstitucionController
                 header("Location: ../../views/modules/instituciones/index.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/usuarios/index.php?respuesta=error&mensaje=".$e->getMessage());
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
     }
 
-    static public function inactivate()
+    static public function inactivate(int $id)
     {
         try {
-            $ObjInstitucion = Institucion::searchForId($_GET['Id']);
+            $ObjInstitucion = Institucion::searchForId($id);
             $ObjInstitucion->setEstado("Inactivo");
             if ($ObjInstitucion->update()) {
                 header("Location: ../../views/modules/instituciones/index.php");
@@ -136,45 +116,47 @@ class InstitucionController
                 header("Location: ../../views/modules/instituciones/index.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
-            GeneralFunctions::console($e, 'error', 'errorStack');
-            //header("Location: ../../views/modules/instituciones/index.php?respuesta=error");
+            GeneralFunctions::logFile('Exception', $e, 'error');
         }
     }
 
-    static public function selectInstitucion($isMultiple = false,
-                                             $isRequired = true,
-                                             $id = "idUsuario",
-                                             $nombre = "idUsuario",
-                                             $defaultValue = "",
-                                             $class = "form-control",
-                                             $where = "",
-                                             $arrExcluir = array())
+    static public function selectInstitucion(array $params = [])
     {
+
+        $params['isMultiple'] = $params['isMultiple'] ?? false;
+        $params['isRequired'] = $params['isRequired'] ?? true;
+        $params['id'] = $params['id'] ?? "instituciones_id";
+        $params['name'] = $params['name'] ?? "instituciones_id";
+        $params['defaultValue'] = $params['defaultValue'] ?? "";
+        $params['class'] = $params['class'] ?? "form-control";
+        $params['where'] = $params['where'] ?? "";
+        $params['arrExcluir'] = $params['arrExcluir'] ?? array();
+        $params['request'] = $params['request'] ?? 'html';
+
         $arrInstitucion = array();
-        if ($where != "") {
+        if ($params['where'] != "") {
             $base = "SELECT * FROM instituciones WHERE ";
-            $arrInstitucion = Institucion::search($base . ' ' . $where);
+            $arrInstitucion = Institucion::search($base . ' ' . $params['where']);
         } else {
             $arrInstitucion = Institucion::getAll();
         }
-
-        $htmlSelect = "<select " . (($isMultiple) ? "multiple" : "") . " " . (($isRequired) ? "required" : "") . " id= '" . $id . "' name='" . $nombre . "' class='" . $class . "' style='width: 100%;'>";
+        $htmlSelect = "<select " . (($params['isMultiple']) ? "multiple" : "") . " " . (($params['isRequired']) ? "required" : "") . " id= '" . $params['id'] . "' name='" . $params['name'] . "' class='" . $params['class'] . "' style='width: 100%;'>";
         $htmlSelect .= "<option value='' >Seleccione</option>";
         if (count($arrInstitucion) > 0) {
-            /* @var $arrInstitucion \App\Models\Institucion[] */
+            /* @var $arrInstitucion Institucion[] */
             foreach ($arrInstitucion as $institucion)
-                if (!InstitucionController::institucionIsInArray($id->getId(), $arrExcluir))
-                    $htmlSelect .= "<option " . (($institucion != "") ? (($defaultValue == $institucion->getId()) ? "selected" : "") : "") . " value='" . $institucion->getId() . "'>" . $institucion->getDireccion() . " - " . $institucion->getNombre() . " " . $institucion->getRectorId() . "</option>";
+                if (!InstitucionController::institucionIsInArray($institucion->getId(), $params['arrExcluir']))
+                    $htmlSelect .= "<option " . (($institucion != "") ? (($params['defaultValue'] == $institucion->getId()) ? "selected" : "") : "") . " value='" . $institucion->getId() . "'>" . "NIT " . $institucion->getNit() . " - " . $institucion->getNombre() . " - " . $institucion->getTelefono() . "</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;
     }
 
-    private static function institucionIsInArray($id, $ArrInstitucion)
+    private static function institucionIsInArray($idInstitucion, $ArrInstitucion)
     {
         if (count($ArrInstitucion) > 0) {
             foreach ($ArrInstitucion as $Institucion) {
-                if ($Institucion->getId() == $id) {
+                if ($Institucion->getId() == $idInstitucion) {
                     return true;
                 }
             }
@@ -182,60 +164,36 @@ class InstitucionController
         return false;
     }
 
-    public static function login (){
+    public static function login()
+    {
         try {
-            if(!empty($_POST['user']) && !empty($_POST['password'])){
+            if (!empty($_POST['user']) && !empty($_POST['password'])) {
                 $tmpUser = new Institucion();
                 $respuesta = $tmpUser->Login($_POST['user'], $_POST['password']);
-                if (is_a($respuesta,"App\Models\Instituciones")) {
-                    $_SESSION['InstitucionInSession'] = $respuesta->jsonSerialize();
+                if (is_a($respuesta, "App\Models\Institucion")) {
+                    $_SESSION['UserInSession'] = $respuesta->jsonSerialize();
                     header("Location: ../../views/index.php");
-                }else{
-                    header("Location: ../../views/modules/site/login.php?respuesta=error&mensaje=".$respuesta);
+                } else {
+                    header("Location: ../../views/modules/site/login.php?respuesta=error&mensaje=" . $respuesta);
                 }
-            }else{
+            } else {
                 header("Location: ../../views/modules/site/login.php?respuesta=error&mensaje=Datos Vacíos");
             }
         } catch (\Exception $e) {
-            header("Location: ../../views/modules/site/login.php?respuesta=error".$e->getMessage());
+            header("Location: ../../views/modules/site/login.php?respuesta=error" . $e->getMessage());
         }
     }
 
-    public static function cerrarSession (){
+    public static function cerrarSession()
+    {
         session_unset();
         session_destroy();
         header("Location: ../../views/modules/site/login.php");
     }
-    /*
-    public function buscar ($Query){
-        try {
-            return Persona::buscar($Query);
-        } catch (Exception $e) {
-            header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
-        }
-    }
-    static public function asociarEspecialidad (){
-        try {
-            $Persona = new Persona();
-            $Persona->asociarEspecialidad($_POST['Persona'],$_POST['Especialidad']);
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?respuesta=correcto&id=".$_POST['Persona']);
-        } catch (Exception $e) {
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?respuesta=error&mensaje=".$e->getMessage());
-        }
-    }
-    static public function eliminarEspecialidad (){
-        try {
-            $ObjPersona = new Persona();
-            if(!empty($_GET['Persona']) && !empty($_GET['Especialidad'])){
-                $ObjPersona->eliminarEspecialidad($_GET['Persona'],$_GET['Especialidad']);
-            }else{
-                throw new Exception('No se recibio la informacion necesaria.');
-            }
-            header("Location: ../Vista/modules/persona/managerSpeciality.php?id=".$_GET['Persona']);
-        } catch (Exception $e) {
-            var_dump($e);
-            //header("Location: ../Vista/modules/persona/manager.php?respuesta=error");
-        }
-    }*/
+
+
 
 }
+
+
+

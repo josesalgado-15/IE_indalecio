@@ -2,4 +2,7 @@
 ### Composer template
 composer.lock
 /vendor/
+/node_modules/
 /.idea/
+/package-lock.json
+/resources/logs/general.log

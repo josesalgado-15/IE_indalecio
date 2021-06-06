@@ -4,6 +4,7 @@
 require("../../partials/routes.php");;
 
 use App\Controllers\HorarioController;
+use App\Controllers\SedeController;
 use App\Models\GeneralFunctions;
 
 $nameModel = "Horario";
@@ -15,7 +16,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Crear <?= $nameModel ?></title>
+    <title> Crear <?= $nameModel?> | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -75,6 +76,21 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
                                     <div class="form-group row">
+                                        <label for="sedes_id" class="col-sm-2 col-form-label">Sede Institución</label>
+                                        <div class="col-sm-10">
+
+                                            <?= SedeController::selectSede(array (
+                                                'id' => 'sedes_id',
+                                                'name' => 'sedes_id',
+                                                'defaultValue' => (!empty($frmSession['sedes_id'])) ? $frmSession['sedes_id'] : '',
+                                                'class' => 'form-control select2bs4 select2-info',
+                                                'where' => "estado = 'Activo'"))
+
+                                            ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label for="hora_entrada_sede" class="col-sm-2 col-form-label">Hora de Entrada a Institución</label>
                                         <div class="col-sm-10">
                                             <input required type="time" class="form-control" id="hora_entrada_sede" name="hora_entrada_sede"
@@ -106,20 +122,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <div class="col-sm-10">
                                             <input required type="date" class="form-control" id="fecha"
                                                    name="fecha" placeholder="Ingrese la fecha" value="<?= $frmSession['fecha'] ?? '' ?>">
-                                        </div>
-                                    </div>
-
-                                    <!--PENDIENTE ACTUALIZAR DE ACUERDO A SEBASTIAN-->
-
-                                    <div class="form-group row">
-                                        <label for="sedes_id" class="col-sm-2 col-form-label">Sede Institución</label>
-                                        <div class="col-sm-10">
-                                            <select id="sedes_id" name="sedes_id" class="custom-select">
-
-                                                <option <?= (!empty($frmSession['sedes_id']) && $frmSession['sedes_id'] == "1") ? "selected" : ""; ?> value="1">1</option>
-                                                <option <?= (!empty($frmSession['sedes_id']) && $frmSession['sedes_id'] == "2") ? "selected" : ""; ?> value="2">2</option>
-
-                                            </select>
                                         </div>
                                     </div>
 

@@ -123,7 +123,6 @@ abstract class AbstractDBConnection {
                 foreach ($params as $key => $value){
                     $stmt->bindValue($key, $value);
                 }
-                echo $this->getStringQuery($query, $params);
                 return $stmt->execute();
             }
             throw new Exception("Consulta vacía o errónea");

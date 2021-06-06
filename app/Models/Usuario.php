@@ -13,8 +13,8 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     protected ?int $id; //Visibilidad (public, protected, private)
     protected string $nombres;
     protected string $apellidos;
-    protected int $telefono;
-    protected int $numero_documento;
+    protected string $telefono;
+    protected string $numero_documento;
     protected string $tipo_documento;
     protected Carbon $fecha_nacimiento;
     protected string $direccion;
@@ -25,7 +25,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     protected ?string $contrasena;
     protected string $estado;
     protected ?string $nombre_acudiente;
-    protected ?int $telefono_acudiente;
+    protected string $telefono_acudiente;
     protected ?string $correo_acudiente;
     protected int $instituciones_id;
     protected Carbon $created_at;
@@ -50,8 +50,8 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $this->setId($usuario['id'] ?? NULL);
         $this->setNombres($usuario['nombres'] ?? '');
         $this->setApellidos($usuario['apellidos'] ?? '');
-        $this->setTelefono($usuario['telefono'] ?? 0);
-        $this->setNumeroDocumento($usuario['numero_documento'] ?? 0);
+        $this->setTelefono($usuario['telefono'] ?? '');
+        $this->setNumeroDocumento($usuario['numero_documento'] ?? '');
         $this->setTipoDocumento($usuario['tipo_documento'] ?? '');
         $this->setFechaNacimiento(!empty($usuario['fecha_nacimiento']) ? Carbon::parse($usuario['fecha_nacimiento']) : new Carbon());
         $this->setDireccion($usuario['direccion'] ?? '');
@@ -62,7 +62,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
         $this->setContrasena($usuario['contrasena'] ?? '');
         $this->setEstado($usuario['estado'] ?? '');
         $this->setNombreAcudiente($usuario['nombre_acudiente'] ?? '');
-        $this->setTelefonoAcudiente($usuario['telefono_acudiente'] ?? 0);
+        $this->setTelefonoAcudiente($usuario['telefono_acudiente'] ?? '');
         $this->setCorreoAcudiente($usuario['correo_acudiente'] ?? '');
         $this->setInstitucionesId($usuario['instituciones_id'] ?? 0);
         $this->setCreatedAt(!empty($usuario['created_at']) ? Carbon::parse($usuario['created_at']) : new Carbon());
@@ -129,7 +129,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return int
      */
-    public function getTelefono(): int
+    public function getTelefono(): string
     {
         return $this->telefono;
     }
@@ -137,7 +137,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @param int $telefono
      */
-    public function setTelefono(int $telefono): void
+    public function setTelefono(string $telefono): void
     {
         $this->telefono = $telefono;
     }
@@ -146,7 +146,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return int
      */
-    public function getNumeroDocumento(): int
+    public function getNumeroDocumento(): string
     {
         return $this->numero_documento;
     }
@@ -154,7 +154,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @param int $numero_documento
      */
-    public function setNumeroDocumento(int $numero_documento): void
+    public function setNumeroDocumento(string $numero_documento): void
     {
         $this->numero_documento = $numero_documento;
     }
@@ -309,7 +309,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return string
      */
-    public function getTelefonoAcudiente(): int
+    public function getTelefonoAcudiente(): string
     {
         return $this->telefono_acudiente;
     }
@@ -317,7 +317,7 @@ class Usuario extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @param string $telefono_acudiente
      */
-    public function setTelefonoAcudiente(int $telefono_acudiente): void
+    public function setTelefonoAcudiente(string $telefono_acudiente): void
     {
         $this->telefono_acudiente = $telefono_acudiente;
     }

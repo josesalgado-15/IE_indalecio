@@ -34,7 +34,6 @@ class AsistenciaController
     public function create() {
         try {
             if (!empty($this->dataAsistencia['fecha'] and $this->dataAsistencia['matriculas_id']) && !Asistencia::asistenciaRegistrada($this->dataAsistencia['fecha'], $this->dataAsistencia['matriculas_id']))
-
             {
                 $Asistencia = new Asistencia ($this->dataAsistencia);
                 if ($Asistencia->insert()) {
@@ -83,7 +82,8 @@ class AsistenciaController
             $result = Asistencia::searchForMatricula($data['matriculas_id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
                 header('Content-type: application/json; charset=utf-8');
-                $result = json_encode($result->jsonSerialize());
+                $result = json_encode($result
+                    ->jsonSerialize());
             }
             return $result;
         } catch (\Exception $e) {
@@ -125,12 +125,24 @@ class AsistenciaController
     static public function inactivate(int $id)
     {
         try {
-            $ObjAsistencia = Asistencia::searchForId($id);
+            $ObjAsistencia = Matricula::searchForId($id);
             $ObjAsistencia->setEstado("Inactivo");
             if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/index.php");
+                header("Location: ../../views/modules/asistencia/registrar.php");
             } else {
-                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+    }
+
+    static public function registrarAsistencia(array $data)
+    {
+        try {
+            $Asistencia = new Asistencia ($data);
+            if ($Asistencia->insert()) {
+                echo "Asistencia Registrada";
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
@@ -140,12 +152,12 @@ class AsistenciaController
     static public function asiste(int $id)
     {
         try {
-            $ObjAsistencia = Asistencia::searchForId($id);
-            $ObjAsistencia->setReporte("Asiste");
+            $ObjAsistencia = Matricula::searchForId($id);
+            $ObjAsistencia->setReporteAsistencia("Asiste");
             if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/index.php");
+                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&fecha=".$_GET['fecha']."&cursos_id=".$ObjAsistencia->getCursosId()."&respuesta=success&mensaje=Estudiante Actualizado");
             } else {
-                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
@@ -155,12 +167,12 @@ class AsistenciaController
     static public function no_asiste(int $id)
     {
         try {
-            $ObjAsistencia = Asistencia::searchForId($id);
-            $ObjAsistencia->setReporte("No asiste");
+            $ObjAsistencia = Matricula::searchForId($id);
+            $ObjAsistencia->setReporteAsistencia("No asiste");
             if ($ObjAsistencia->update()) {
-                header("Location: ../../views/modules/asistencia/index.php");
+                header("Location: ../../views/modules/asistencia/registrar.php?id=".$ObjAsistencia->getId()."&fecha=".$_GET['fecha']."&cursos_id=".$ObjAsistencia->getCursosId()."&respuesta=success&mensaje=Estudiante Actualizado");
             } else {
-                header("Location: ../../views/modules/asistencia/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/asistencia/registrar.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');

@@ -171,7 +171,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>Estado</th>
                                     <th>Reporte</th>
                                     <th>Acciones</th>
-                                    <!--<th></th> Si se quieren mostrar todos los registros en una vista-->
+                                    <!--<th></th> IMPORTANTE Si se quieren mostrar todos los registros en una vista-->
                                 </tr>
                                 </tfoot>
                             </table>

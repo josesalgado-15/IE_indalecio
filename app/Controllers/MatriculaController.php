@@ -22,6 +22,7 @@ class MatriculaController
         $this->dataMatricula['vigencia'] = !empty($_FORM['vigencia']) ? Carbon::parse($_FORM['vigencia']) : new Carbon();
         $this->dataMatricula['usuarios_id'] = $_FORM['usuarios_id'] ?? 0;
         $this->dataMatricula['cursos_id'] = $_FORM['cursos_id'] ?? 0;
+        $this->dataMatricula['reporte_asistencia'] = $_FORM['reporte_asistencia'] ?? 'Asiste';
         $this->dataMatricula['estado'] = $_FORM['estado'] ?? 'Activo';
         var_dump($this->dataMatricula);
 

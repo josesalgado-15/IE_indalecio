@@ -27,8 +27,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
     /* Relaciones */
     private ?Grado $grado;
     private ?Horario $horario;
-
-
+    private ?array $MatriculasCurso;
 
 
     /**
@@ -263,6 +262,20 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
         }
         return NULL;
     }
+
+    /**
+     * retorna un array de matriculas que perteneces a un Curso
+     * @return array
+     */
+    public function getMatriculasCurso(): ?array
+    {
+        if(!empty($this->id)){
+            $this-> MatriculasCurso = Matricula::search("SELECT * FROM matriculas WHERE cursos_id = ".$this->id);
+            return $this-> MatriculasCurso;
+        }
+        return null;
+    }
+
 
 
     /**

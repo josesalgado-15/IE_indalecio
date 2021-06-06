@@ -111,10 +111,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="numero_documento" class="col-sm-2 col-form-label">Documento</label>
+                                                <label for="numero_documento" class="col-sm-2 col-form-label">Documento/Código</label>
                                                 <div class="col-sm-10">
                                                     <input required type="number" minlength="6" class="form-control"
-                                                           id="numero_documento" name="numero_documento" placeholder="Ingrese su documento"
+                                                           id="numero_documento" name="numero_documento" placeholder="Ingrese su Documento o Código"
                                                            value="<?= $frmSession['numero_documento'] ?? '' ?>">
                                                 </div>
                                             </div>
@@ -145,14 +145,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
-                                                <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="direccion"
-                                                           name="direccion" placeholder="Ingrese su direccion"
-                                                           value="<?= $frmSession['direccion'] ?? '' ?>">
-                                                </div>
-                                            </div>
+
 
 
                                             <div class="form-group row">
@@ -207,6 +200,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                             <hr>
 
+                                            <hr>
+
+
                                             <div class="form-group row">
                                                 <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
                                                 <div class="col-sm-10">
@@ -216,6 +212,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
 
+                                            <div class="form-group row">
+                                                <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="direccion"
+                                                           name="direccion" placeholder="Ingrese su direccion"
+                                                           value="<?= $frmSession['direccion'] ?? '' ?>">
+                                                </div>
+                                            </div>
 
 
                                             <div class="form-group row">

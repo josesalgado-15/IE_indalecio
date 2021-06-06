@@ -91,13 +91,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Número de documento</th>
+                                    <th>Documento/Código</th>
                                     <th>Típo de documento</th>
-                                    <th>Fecha de nacimiento</th>
                                     <th>Dirección</th>
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Institución</th>
+                                    <th>Fecha de nacimiento</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Nombres de acudiente</th>
@@ -120,11 +120,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?=  $usuario->getApellidos(); ?></td>
                                         <td><?=  $usuario->getNumeroDocumento(); ?></td>
                                         <td><?=  $usuario->getTipoDocumento(); ?></td>
-                                        <td><?=  $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
                                         <td><?=  $usuario->getDireccion(); ?> - <?=  $usuario->getMunicipio()->getNombre() ; ?> - <?= $usuario->getMunicipio()->getDepartamento()->getNombre(); ?></td>
                                         <td><?=  $usuario->getGenero(); ?></td>
                                         <td><?=  $usuario->getRol(); ?></td>
                                         <td> <?= $usuario->getInstitucion()->getNombre() ?></td>
+                                        <td><?=  $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
                                         <td><?=  $usuario->getTelefono(); ?></td>
                                         <td><?=  $usuario->getCorreo(); ?></td>
                                         <td><?=  $usuario->getNombreAcudiente(); ?></td>
@@ -164,13 +164,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Número de documento</th>
+                                    <th>Documento/Código</th>
                                     <th>Típo de documento</th>
-                                    <th>Fecha de nacimiento</th>
                                     <th>Dirección</th>
                                     <th>Género</th>
                                     <th>Rol</th>
                                     <th>Institución</th>
+                                    <th>Fecha de nacimiento</th>
                                     <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Nombres de acudiente</th>

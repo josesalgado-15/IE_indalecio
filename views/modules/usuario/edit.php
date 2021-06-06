@@ -223,6 +223,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
 
+                                                    <hr>
 
                                                     <hr>
 

@@ -1035,3 +1035,106 @@
 
 )
   
+[2021-06-05T17:30:46.418500-05:00] General.ERROR: Exception  
+[2021-06-05T17:30:46.450220-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-05T17:30:46.450572-05:00] General.ERROR: Line: 126  
+[2021-06-05T17:30:46.450850-05:00] General.ERROR: Mensaje: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'telefono' at row 1  
+[2021-06-05T17:30:46.451154-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Usuario.php
+            [line] => 460
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.usuarios VALUES (
+            :id,:nombres,:apellidos,:telefono,
+            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municipios_id,
+            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,:instituciones_id,NOW(),NULL)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:nombres] => Ejemplo123
+                            [:apellidos] => Ejemplo
+                            [:telefono] => 
+                            [:numero_documento] => 44511
+                            [:tipo_documento] => TI
+                            [:fecha_nacimiento] => 2021-06-05
+                            [:direccion] => 
+                            [:municipios_id] => 15542
+                            [:genero] => Masculino
+                            [:rol] => Estudiante
+                            [:correo] => 
+                            [:contrasena] => 
+                            [:estado] => Activo
+                            [:nombre_acudiente] => 
+                            [:telefono_acudiente] => 
+                            [:correo_acudiente] => 
+                            [:instituciones_id] => 1
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Usuario.php
+            [line] => 472
+            [function] => save
+            [class] => App\Models\Usuario
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO dbindalecio.usuarios VALUES (
+            :id,:nombres,:apellidos,:telefono,
+            :numero_documento,:tipo_documento,:fecha_nacimiento,:direccion,:municipios_id,
+            :genero,:rol,:correo,:contrasena,:estado,:nombre_acudiente,:telefono_acudiente,:correo_acudiente,:instituciones_id,NOW(),NULL)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\UsuarioController.php
+            [line] => 44
+            [function] => insert
+            [class] => App\Models\Usuario
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => create
+            [class] => App\Controllers\UsuarioController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

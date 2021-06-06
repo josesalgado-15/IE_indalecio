@@ -111,23 +111,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
 
-
-                                                    <div class="form-group row">
-                                                        <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
-                                                        <div class="col-sm-10">
-                                                            <input required type="number" minlength="6" class="form-control"
-                                                                   id="telefono" name="telefono" value="<?= $DataUsuario->getTelefono(); ?>" placeholder="Ingrese su telefono">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row">
-                                                        <label for="numero_documento" class="col-sm-2 col-form-label">Documento</label>
-                                                        <div class="col-sm-10">
-                                                            <input required type="number" minlength="6" class="form-control"
-                                                                   id="numero_documento" name="numero_documento" value="<?= $DataUsuario->getNumeroDocumento(); ?>" placeholder="Ingrese su documento">
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-group row">
                                                         <label for="tipo_documento" class="col-sm-2 col-form-label">Tipo
                                                             Documento</label>
@@ -144,19 +127,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label for="fecha_nacimiento" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+                                                        <label for="numero_documento" class="col-sm-2 col-form-label">Documento</label>
                                                         <div class="col-sm-10">
-                                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>"
-                                                                   value="<?= $DataUsuario->getFechaNacimiento()->toDateString(); ?>" class="form-control" id="fecha_nacimiento"
-                                                                   name="fecha_nacimiento" placeholder="Ingrese su Fecha de Nacimiento">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group row">
-                                                        <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
-                                                        <div class="col-sm-10">
-                                                            <input required type="text" class="form-control" id="direccion"
-                                                                   name="direccion" value="<?= $DataUsuario->getDireccion(); ?>" placeholder="Ingrese su direccion">
+                                                            <input required type="number" minlength="6" class="form-control"
+                                                                   id="numero_documento" name="numero_documento" value="<?= $DataUsuario->getNumeroDocumento(); ?>" placeholder="Ingrese su documento">
                                                         </div>
                                                     </div>
 
@@ -187,6 +161,44 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
 
+
+                                                    <div class="form-group row">
+                                                        <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
+                                                        <div class="col-sm-10">
+                                                            <input required type="text" class="form-control" id="direccion"
+                                                                   name="direccion" value="<?= $DataUsuario->getDireccion(); ?>" placeholder="Ingrese su direccion">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="instituciones_id" class="col-sm-2 col-form-label">Institución</label>
+                                                        <div class="col-sm-10">
+                                                            <?= InstitucionController::selectInstitucion(
+                                                                array(
+                                                                    'id' => 'instituciones_id',
+                                                                    'name' => 'instituciones_id',
+                                                                    'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getInstitucion()->getId() : '',
+                                                                    'class' => 'form-control select2bs4 select2-info',
+                                                                    'where' => "estado = 'Activo'"
+                                                                )
+                                                            );
+                                                            ?>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                                        <div class="col-sm-10">
+                                                            <select required id="estado" name="estado" class="custom-select">
+                                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
+                                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+
+
                                                     <div class="form-group row">
                                                         <label for="genero" class="col-sm-2 col-form-label">Género</label>
                                                         <div class="col-sm-10">
@@ -211,6 +223,33 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
 
+
+                                                    <hr>
+
+                                                    <hr>
+
+
+
+                                                    <div class="form-group row">
+                                                        <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
+                                                        <div class="col-sm-10">
+                                                            <input required type="number" minlength="6" class="form-control"
+                                                                   id="telefono" name="telefono" value="<?= $DataUsuario->getTelefono(); ?>" placeholder="Ingrese su telefono">
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="form-group row">
+                                                        <label for="fecha_nacimiento" class="col-sm-2 col-form-label">Fecha Nacimiento</label>
+                                                        <div class="col-sm-10">
+                                                            <input required type="date" max="<?= Carbon::now()->subYear(12)->format('Y-m-d') ?>"
+                                                                   value="<?= $DataUsuario->getFechaNacimiento()->toDateString(); ?>" class="form-control" id="fecha_nacimiento"
+                                                                   name="fecha_nacimiento" placeholder="Ingrese su Fecha de Nacimiento">
+                                                        </div>
+                                                    </div>
+
+
                                                     <div class="form-group row">
                                                         <label for="correo" class="col-sm-2 col-form-label">Correo Electrónico</label>
                                                         <div class="col-sm-10">
@@ -228,17 +267,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                    placeholder="Ingrese su contraseña">
                                                         </div>
                                                     </div>
-
-                                                    <div class="form-group row">
-                                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                                        <div class="col-sm-10">
-                                                            <select required id="estado" name="estado" class="custom-select">
-                                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
 
 
                                                     <div class="form-group row">
@@ -265,21 +293,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group row">
-                                                        <label for="instituciones_id" class="col-sm-2 col-form-label">Institución</label>
-                                                        <div class="col-sm-10">
-                                                            <?= InstitucionController::selectInstitucion(
-                                                                array(
-                                                                    'id' => 'instituciones_id',
-                                                                    'name' => 'instituciones_id',
-                                                                    'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getInstitucion()->getId() : '',
-                                                                    'class' => 'form-control select2bs4 select2-info',
-                                                                    'where' => "estado = 'Activo'"
-                                                                )
-                                                            );
-                                                            ?>
-                                                        </div>
-                                                    </div>
 
 
 

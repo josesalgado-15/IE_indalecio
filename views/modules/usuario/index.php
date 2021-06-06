@@ -91,20 +91,20 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Teléfono</th>
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
                                     <th>Fecha de nacimiento</th>
                                     <th>Dirección</th>
                                     <th>Género</th>
                                     <th>Rol</th>
+                                    <th>Institución</th>
+                                    <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Nombres de acudiente</th>
                                     <th>Télefono de acudiente</th>
                                     <th>Correo de acudiente</th>
-                                    <th>Institución</th>
-                                    <th>Creación</th>
                                     <th>Estado</th>
+                                    <th>Creación</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </thead>
@@ -118,18 +118,18 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <td><?=  $usuario->getId(); ?></td>
                                         <td><?=  $usuario->getNombres(); ?></td>
                                         <td><?=  $usuario->getApellidos(); ?></td>
-                                        <td><?=  $usuario->getTelefono(); ?></td>
                                         <td><?=  $usuario->getNumeroDocumento(); ?></td>
                                         <td><?=  $usuario->getTipoDocumento(); ?></td>
                                         <td><?=  $usuario->getFechaNacimiento()->translatedFormat('l, j \\de F Y'); ?></td>
-                                        <td><?=  $usuario->getDireccion(); ?>, <?=  $usuario->getMunicipio()->getNombre() ; ?> - <?= $usuario->getMunicipio()->getDepartamento()->getNombre(); ?></td>
+                                        <td><?=  $usuario->getDireccion(); ?> - <?=  $usuario->getMunicipio()->getNombre() ; ?> - <?= $usuario->getMunicipio()->getDepartamento()->getNombre(); ?></td>
                                         <td><?=  $usuario->getGenero(); ?></td>
                                         <td><?=  $usuario->getRol(); ?></td>
+                                        <td> <?= $usuario->getInstitucion()->getNombre() ?></td>
+                                        <td><?=  $usuario->getTelefono(); ?></td>
                                         <td><?=  $usuario->getCorreo(); ?></td>
                                         <td><?=  $usuario->getNombreAcudiente(); ?></td>
                                         <td><?=  $usuario->getTelefonoAcudiente(); ?></td>
                                         <td><?=  $usuario->getCorreoAcudiente(); ?></td>
-                                        <td> <?= $usuario->getInstitucion()->getNombre() ?></td>
                                         <td><?=  $usuario->getEstado(); ?></td>
                                         <td><?=  $usuario->getCreatedAt(); ?></td>
                                         <td>
@@ -164,20 +164,20 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     <th>#</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
-                                    <th>Teléfono</th>
                                     <th>Número de documento</th>
                                     <th>Típo de documento</th>
                                     <th>Fecha de nacimiento</th>
                                     <th>Dirección</th>
                                     <th>Género</th>
                                     <th>Rol</th>
+                                    <th>Institución</th>
+                                    <th>Teléfono</th>
                                     <th>Correo</th>
                                     <th>Nombres de acudiente</th>
                                     <th>Télefono de acudiente</th>
                                     <th>Correo de acudiente</th>
-                                    <th>Institución</th>
-                                    <th>Creación</th>
                                     <th>Estado</th>
+                                    <th>Creación</th>
                                     <th>Acciones</th>
 
                                 </tr>

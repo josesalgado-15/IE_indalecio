@@ -19,7 +19,7 @@ class UsuarioController
         $this->dataUsuario = array();
         $this->dataUsuario['id'] = $_FORM['id'] ?? NULL;
         $this->dataUsuario['nombres'] = $_FORM['nombres'] ?? NULL;
-        $this->dataUsuario['apellidos'] = $_FORM['apellidos'] ?? null;
+        $this->dataUsuario['apellidos'] = $_FORM['apellidos'] ?? NULL;
         $this->dataUsuario['telefono'] = $_FORM['telefono'] ?? NULL;
         $this->dataUsuario['numero_documento'] = $_FORM['numero_documento'] ?? NULL;
         $this->dataUsuario['tipo_documento'] = $_FORM['tipo_documento'] ?? NULL;
@@ -32,7 +32,7 @@ class UsuarioController
         $this->dataUsuario['contrasena'] = $_FORM['contrasena'] ?? NULL;
         $this->dataUsuario['estado'] = $_FORM['estado'] ?? 'Activo';
         $this->dataUsuario['nombre_acudiente'] = $_FORM['nombre_acudiente'] ?? NULL;
-        $this->dataUsuario['telefono_acudiente'] = $_FORM['telefono_acudiente'] ?? NULL;
+        $this->dataUsuario['telefono_acudiente'] = $_FORM['telefono_acudiente'] ?? 0;
         $this->dataUsuario['correo_acudiente'] = $_FORM['correo_acudiente'] ?? NULL;
         $this->dataUsuario['instituciones_id'] = $_FORM['instituciones_id'] ?? NULL;
     }

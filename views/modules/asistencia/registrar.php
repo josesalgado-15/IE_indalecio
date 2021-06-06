@@ -165,7 +165,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Fecha</th>
                                                 <th>Nombre</th>
                                                 <th>Curso</th>
-                                                <th>Estado</th>
                                                 <th>Reporte</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -187,7 +186,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                             <td><?php echo Carbon::parse($_GET['fecha'])->locale('es')->translatedFormat('l, j \\de F Y'); ?></td>
                                                             <td><?php echo $detalleMatricula->getUsuario()->getNombres()," ",  $detalleMatricula->getUsuario()->getApellidos(); ?></td>
                                                             <td><?php echo $detalleMatricula->getCurso()->getNombre(); ?></td>
-                                                            <td><?php echo $detalleMatricula->getEstado(); ?></td>
                                                             <td><?php echo $detalleMatricula->getReporteAsistencia(); ?></td>
 
                                                             <td>
@@ -212,18 +210,18 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                                 class="fa fa-user-times"></i></a>
                                                                 <?php } ?>
 
-                                                                <?php if ($detalleMatricula->getEstado() != "Activo") { ?>
-                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=activate&id=<?= $detalleMatricula->getId(); ?>"
+                                                               <!-- <?php /*if ($detalleMatricula->getEstado() != "Activo") { */?>
+                                                                    <a href="../../../app/Controllers/MainController.php?controller=<?/*= $nameModel */?>&action=activate&id=<?/*= $detalleMatricula->getId(); */?>"
                                                                        type="button" data-toggle="tooltip" title="Activar"
                                                                        class="btn docs-tooltip btn-success btn-xs"><i
                                                                                 class="fa fa-check-square"></i></a>
-                                                                <?php } else { ?>
+                                                                <?php /*} else { */?>
                                                                     <a type="button"
-                                                                       href="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=inactivate&id=<?= $detalleMatricula->getId(); ?>"
+                                                                       href="../../../app/Controllers/MainController.php?controller=<?/*= $nameModel */?>&action=inactivate&id=<?/*= $detalleMatricula->getId(); */?>"
                                                                        data-toggle="tooltip" title="Inactivar"
                                                                        class="btn docs-tooltip btn-danger btn-xs"><i
                                                                                 class="fa fa-times-circle"></i></a>
-                                                                <?php } ?>
+                                                                --><?php /*} */?>
                                                             </td>
 
 
@@ -238,7 +236,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Fecha</th>
                                                 <th>Nombre</th>
                                                 <th>Curso</th>
-                                                <th>Estado</th>
                                                 <th>Reporte</th>
                                                 <th>Acciones</th>
                                             </tr>

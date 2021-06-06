@@ -76,23 +76,23 @@
 
 
                         <li class="nav-item">
-                            <a href="<?= $baseURL ?>/views/modules/asistencia/registrar.php" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Registrar 1</p>
-                            </a>
-
-
-                        </li>
-
-
-
-                        <!--<li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/asistencia/index.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Gestionar</p>
                             </a>
                         </li>
+
                         <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/asistencia/registrar.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+
+
+                        </li>
+
+
+                        <!--  <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/asistencia/create.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Registrar</p>

@@ -21,10 +21,8 @@ class CursoController
         $this->dataCurso['id'] = $_FORM['id'] ?? NULL;
         $this->dataCurso['nombre'] = $_FORM['nombre'] ?? NULL;
         $this->dataCurso['director'] = $_FORM['director'] ?? NULL;
-        $this->dataCurso['representante'] = $_FORM['representante'] ?? NULL;
         $this->dataCurso['cantidad'] = $_FORM['cantidad'] ?? 0;
         $this->dataCurso['grados_id'] = $_FORM['grados_id'] ?? 0;
-        $this->dataCurso['horarios_id'] = $_FORM['horarios_id'] ?? 0;
         $this->dataCurso['estado'] = $_FORM['estado'] ?? 'Activo';
         var_dump($this->dataCurso);
 

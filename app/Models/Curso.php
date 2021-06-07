@@ -14,11 +14,8 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
     protected ?int $id; //Visibilidad (public, protected, private)
     protected string $nombre;
     protected string $director;
-    protected string $representante;
     protected int $cantidad;
     protected int $grados_id;
-    protected int $horarios_id;
-
     protected string $estado;
     protected Carbon $created_at;
     protected Carbon $updated_at;
@@ -26,7 +23,6 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
 
     /* Relaciones */
     private ?Grado $grado;
-    private ?Horario $horario;
     private ?array $MatriculasCurso;
 
 
@@ -42,10 +38,8 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
         $this->setId($curso['id'] ?? NULL);
         $this->setNombre($curso['nombre'] ?? '');
         $this->setDirector($curso['director'] ?? '');
-        $this->setRepresentante($curso['representante'] ?? '');
         $this->setCantidad($curso['cantidad'] ?? 0);
         $this->setGradosId($curso['grados_id'] ?? 0);
-        $this->setHorariosId($curso['horarios_id'] ?? 0);
         $this->setEstado($curso['estado'] ?? '');
         $this->setCreatedAt(!empty($curso['created_at']) ? Carbon::parse($curso['created_at']) : new Carbon());
         $this->setUpdatedAt(!empty($curso['updated_at']) ? Carbon::parse($curso['updated_at']) : new Carbon());
@@ -108,21 +102,6 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
         $this->director = $director;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getRepresentante(): string
-    {
-        return $this->representante;
-    }
-
-    /**
-     * @param mixed|string representante
-     */
-    public function setRepresentante(string $representante): void
-    {
-        $this->representante = $representante;
-    }
 
     /**
      * @return int
@@ -156,21 +135,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
         $this->grados_id = $grados_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getHorariosId(): int
-    {
-        return $this->horarios_id;
-    }
 
-    /**
-     * @param int $horarios_id
-     */
-    public function setHorariosId(int $horarios_id): void
-    {
-        $this->horarios_id = $horarios_id;
-    }
 
     /**
      * @return mixed|string
@@ -251,17 +216,6 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
     }
 
 
-    /**
-     * @return Horario|null
-     */
-    public function getHorario(): ?Horario
-    {
-        if(!empty($this->horarios_id)){
-            $this->horario = Horario::searchForId($this->horarios_id) ?? new Horario();
-            return $this->horario;
-        }
-        return NULL;
-    }
 
     /**
      * retorna un array de matriculas que perteneces a un Curso
@@ -288,10 +242,8 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
             ':id' =>    $this->getId(),
             ':nombre' =>  $this->getNombre(),
             ':director' =>   $this->getDirector(),
-            ':representante' =>  $this->getRepresentante(),
             ':cantidad' =>   $this->getCantidad(),
             ':grados_id' =>   $this->getGradosId(),
-            ':horarios_id' =>   $this->getHorariosId(),
             ':estado' =>   $this->getEstado()
         ];
         $this->Connect();
@@ -307,7 +259,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO dbindalecio.cursos VALUES (:id,:nombre,:director,:representante,:cantidad,:grados_id,:horarios_id,:estado,NOW(),NULL,NULL)";
+        $query = "INSERT INTO dbindalecio.cursos VALUES (:id,:nombre,:director,:cantidad,:grados_id,:estado,NOW(),NULL,NULL)";
         return $this->save($query);
     }
 
@@ -317,10 +269,8 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
     public function update() : ?bool
     {
         $query = "UPDATE dbindalecio.cursos SET 
-            nombre = :nombre, director = :director,
-            representante = :representante, cantidad = :cantidad,
-            grados_id = :grados_id, horarios_id = :horarios_id,
-            estado = :estado,updated_at = NOW() WHERE id = :id";
+            nombre = :nombre, director = :director, cantidad = :cantidad,
+            grados_id = :grados_id, estado = :estado,updated_at = NOW() WHERE id = :id";
         return $this->save($query);
     }
 
@@ -408,7 +358,7 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
 
     public function __toString() : string
     {
-        return "Nombre: $this->nombre, Director: $this->director, Representante: $this->representante, Cantidad: $this->cantidad, Grado: $this->grados_id, Horario: $this->horarios_id, Estado: $this->estado";
+        return "Nombre: $this->nombre, Director: $this->director, Cantidad: $this->cantidad, Grado: $this->grados_id, Estado: $this->estado";
     }
 
     /*
@@ -443,10 +393,8 @@ class Curso extends AbstractDBConnection implements Model, JsonSerializable
             'id' =>    $this->getId(),
             'nombre' =>  $this->getNombre(),
             'director' =>   $this->getDirector(),
-            'representante' =>  $this->getRepresentante(),
             'cantidad' =>   $this->getCantidad(),
             'grados_id' =>   $this->getGradosId(),
-            'horarios_id' =>   $this->getHorariosId(),
             'estado' =>   $this->getEstado(),
             'created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             'updated_at' =>  $this->getUpdatedAt()->toDateTimeString(),

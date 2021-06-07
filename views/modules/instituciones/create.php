@@ -103,8 +103,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </div>
 
 
+
                                             <div class="form-group row">
-                                                <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
+                                                <label for="municipios_id" class="col-sm-2 col-form-label">Municipio</label>
                                                 <div class="col-sm-5">
                                                     <?= DepartamentosController::selectDepartamentos(
                                                         array(
@@ -119,9 +120,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                                 <div class="col-sm-5 ">
                                                     <?= MunicipiosController::selectMunicipios(array (
-                                                        'id' => 'municipio_id',
-                                                        'name' => 'municipio_id',
-                                                        'defaultValue' => (!empty($frmSession['municipio_id'])) ? $frmSession['municipio_id'] : '',
+                                                        'id' => 'municipios_id',
+                                                        'name' => 'municipios_id',
+                                                        'defaultValue' => (!empty($frmSession['municipios_id'])) ? $frmSession['municipios_id'] : '',
                                                         'class' => 'form-control select2bs4 select2-info',
                                                         'where' => "departamento_id = 15 and estado = 'Activo'"))
                                                     ?>

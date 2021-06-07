@@ -1322,3 +1322,199 @@
 
 )
   
+[2021-06-07T10:42:46.469613-05:00] General.ERROR: Exception  
+[2021-06-07T10:42:46.471896-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-07T10:42:46.473406-05:00] General.ERROR: Line: 126  
+[2021-06-07T10:42:46.478457-05:00] General.ERROR: Mensaje: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'nit' at row 1  
+[2021-06-07T10:42:46.479007-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Institucion.php
+            [line] => 284
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.instituciones SET 
+            nombre = :nombre, nit= :nit, direccion = :direccion, municipios_id = :municipios_id,
+            rector_id = :rector_id, telefono = :telefono, correo = :correo,
+            estado = :estado, created_At = :created_at, updated_at = :updated_at
+          WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:nombre] => Institución Educativa Indalecio Vásquez
+                            [:nit] => 800028107-3
+                            [:direccion] => Carrera 5° Vía Sogamoso-Pesca
+                            [:municipios_id] => 15542
+                            [:rector_id] => 1
+                            [:telefono] => 7784085
+                            [:correo] => info@controlacademico.com
+                            [:estado] => Activo
+                            [:created_at] => 2021-06-07 10:42:46
+                            [:updated_at] => 2021-06-07 10:42:46
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Institucion.php
+            [line] => 311
+            [function] => save
+            [class] => App\Models\Institucion
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.instituciones SET 
+            nombre = :nombre, nit= :nit, direccion = :direccion, municipios_id = :municipios_id,
+            rector_id = :rector_id, telefono = :telefono, correo = :correo,
+            estado = :estado, created_At = :created_at, updated_at = :updated_at
+          WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\InstitucionController.php
+            [line] => 53
+            [function] => update
+            [class] => App\Models\Institucion
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\InstitucionController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-07T10:48:33.938215-05:00] General.ERROR: Exception  
+[2021-06-07T10:48:33.952118-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-07T10:48:33.952524-05:00] General.ERROR: Line: 126  
+[2021-06-07T10:48:33.953002-05:00] General.ERROR: Mensaje: SQLSTATE[01000]: Warning: 1265 Data truncated for column 'nit' at row 1  
+[2021-06-07T10:48:33.953439-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Institucion.php
+            [line] => 284
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.instituciones SET 
+            nombre = :nombre, nit= :nit, direccion = :direccion, municipios_id = :municipios_id,
+            rector_id = :rector_id, telefono = :telefono, correo = :correo,
+            estado = :estado, created_At = :created_at, updated_at = :updated_at
+          WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:nombre] => Institución Educativa Indalecio Vásquez
+                            [:nit] => 800028107-3
+                            [:direccion] => Carrera 5° Vía Sogamoso-Pesca
+                            [:municipios_id] => 15542
+                            [:rector_id] => 1
+                            [:telefono] => 7784085
+                            [:correo] => info@controlacademico.com
+                            [:estado] => Activo
+                            [:created_at] => 2021-06-07 10:48:33
+                            [:updated_at] => 2021-06-07 10:48:33
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Institucion.php
+            [line] => 311
+            [function] => save
+            [class] => App\Models\Institucion
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.instituciones SET 
+            nombre = :nombre, nit= :nit, direccion = :direccion, municipios_id = :municipios_id,
+            rector_id = :rector_id, telefono = :telefono, correo = :correo,
+            estado = :estado, created_At = :created_at, updated_at = :updated_at
+          WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\InstitucionController.php
+            [line] => 53
+            [function] => update
+            [class] => App\Models\Institucion
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\InstitucionController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

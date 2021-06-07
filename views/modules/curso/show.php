@@ -83,6 +83,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="card-body">
+
+                                        <strong><i class="fas fa-user mr-1"></i>Grado</strong>
+                                        <p class="text-muted">
+                                            <?= $DataCurso->getGrado()->getNombre() ?>
+                                        </p>
+                                        <hr>
                                         <p>
                                             <strong><i class="fas fa-user mr-1"></i>Nombre</strong>
                                         <p class="text-muted">
@@ -96,11 +102,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Representante</strong>
-                                        <p class="text-muted">
-                                            <?= $DataCurso->getRepresentante() ?>
-                                        </p>
-                                        <hr>
 
                                         <strong><i class="fas fa-user mr-1"></i>Cantidad</strong>
                                         <p class="text-muted">
@@ -108,17 +109,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </p>
                                         <hr>
 
-                                        <strong><i class="fas fa-user mr-1"></i>Grado</strong>
-                                        <p class="text-muted">
-                                            <?= $DataCurso->getGrado()->getNombre() ?>
-                                        </p>
-                                        <hr>
-
-                                        <strong><i class="fas fa-user mr-1"></i>Horario</strong>
-                                        <p class="text-muted">
-                                            <?= $DataCurso->getHorario()->getSedesId() ?>
-                                        </p>
-                                        <hr>
 
 
                                         <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>

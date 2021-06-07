@@ -77,37 +77,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                           name="frmCreate<?= $nameModel ?>"
                                           action="../../../app/Controllers/MainController.php?controller=<?= $nameModel ?>&action=create">
 
-                                        <div class="form-group row">
-                                            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                       placeholder="Ingrese el nombre del curso" value="<?= $frmSession['nombre'] ?? '' ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="director" class="col-sm-2 col-form-label">Director</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="director" name="director"
-                                                       placeholder="Ingrese el nombre del director" value="<?= $frmSession['director'] ?? '' ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="representante" class="col-sm-2 col-form-label">Representante</label>
-                                            <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="representante" name="representante"
-                                                       placeholder="Ingrese el nombre del representante" value="<?= $frmSession['representante'] ?? '' ?>">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                                            <div class="col-sm-10">
-                                                <input required type="number" class="form-control" id="cantidad" name="cantidad"
-                                                       placeholder="Ingrese la cantidad" value="<?= $frmSession['cantidad'] ?? '' ?>">
-                                            </div>
-                                        </div>
 
                                         <div class="form-group row">
                                             <label for="grados_id" class="col-sm-2 col-form-label">Grado</label>
@@ -125,23 +94,32 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </div>
                                         </div>
 
+
+
                                         <div class="form-group row">
-                                            <label for="horarios_id" class="col-sm-2 col-form-label">Horario</label>
+                                            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                             <div class="col-sm-10">
-                                                <?= HorarioController::selectHorario(
-                                                    array(
-                                                        'id' => 'horarios_id',
-                                                        'name' => 'horarios_id',
-                                                        'defaultValue' => (!empty($frmSession['horarios_id'])) ? $frmSession['horarios_id'] : '',
-                                                        'class' => 'form-control select2bs4 select2-info',
-                                                        'where' => "estado = 'Activo'"
-                                                    )
-                                                );
-                                                ?>
+                                                <input required type="text" class="form-control" id="nombre" name="nombre"
+                                                       placeholder="Ingrese el nombre del curso" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="director" class="col-sm-2 col-form-label">Director</label>
+                                            <div class="col-sm-10">
+                                                <input required type="text" class="form-control" id="director" name="director"
+                                                       placeholder="Ingrese el nombre del director" value="<?= $frmSession['director'] ?? '' ?>">
                                             </div>
                                         </div>
 
 
+                                        <div class="form-group row">
+                                            <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+                                            <div class="col-sm-10">
+                                                <input required type="number" class="form-control" id="cantidad" name="cantidad"
+                                                       placeholder="Ingrese la cantidad" value="<?= $frmSession['cantidad'] ?? '' ?>">
+                                            </div>
+                                        </div>
 
                                     <hr>
                                     <button type="submit" class="btn btn-info">Enviar</button>

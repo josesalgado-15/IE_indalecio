@@ -22,7 +22,7 @@ class InstitucionController
         $this->dataInstitucion['nombre'] = $_FORM['nombre'] ?? NULL;
         $this->dataInstitucion['nit'] = $_FORM['nit'] ?? NULL;
         $this->dataInstitucion['direccion'] = $_FORM['direccion'] ?? NULL;
-        $this->dataInstitucion['municipio_id'] = $_FORM['municipio_id'] ?? NULL;
+        $this->dataInstitucion['municipios_id'] = $_FORM['municipios_id'] ?? NULL;
         $this->dataInstitucion['rector_id'] = $_FORM['rector_id'] ?? NULL;
         $this->dataInstitucion['telefono'] = $_FORM['telefono'] ?? NULL;
         $this->dataInstitucion['correo'] = $_FORM['correo'] ?? NULL;

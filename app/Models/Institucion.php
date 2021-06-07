@@ -14,7 +14,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
     protected string $nombre;
     protected string $nit;
     protected string $direccion;
-    protected string $municipio_id;
+    protected string $municipios_id;
     protected string $rector_id;
     protected int $telefono;
     protected string $correo;
@@ -42,7 +42,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
         $this->setNombre($Institucion['nombre'] ?? '');
         $this->setNit($Institucion ['nit'] ?? '');
         $this->setDireccion($Institucion['direccion'] ?? '');
-        $this->setMunicipioId($Institucion['municipio_id'] ?? 0);
+        $this->setMunicipiosId($Institucion['municipios_id'] ?? 0);
         $this->setRectorId($Institucion['rector_id'] ?? '');
         $this->setTelefono($Institucion['telefono'] ?? 0);
         $this->setCorreo($Institucion['correo'] ?? '');
@@ -128,17 +128,17 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
     /**
      * @return string
      */
-    public function getMunicipioId(): string
+    public function getMunicipiosId(): string
     {
-        return $this->municipio_id;
+        return $this->municipios_id;
     }
 
     /**
-     * @param string $municipio_id
+     * @param string $municipios_id
      */
-    public function setMunicipioId(string $municipio_id): void
+    public function setMunicipiosId(string $municipios_id): void
     {
-        $this->municipio_id = $municipio_id;
+        $this->municipios_id = $municipios_id;
     }
 
     /**
@@ -234,14 +234,13 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
     {
         $this->updated_at = $updated_at;
     }
-
     /**
      * @return Municipios
      */
     public function getMunicipio(): ?Municipios
     {
-        if (!empty($this->municipio_id)) {
-            $this->municipio = Municipios::searchForId($this->municipio_id) ?? new Municipios();
+        if (!empty($this->municipios_id)) {
+            $this->municipio = Municipios::searchForId($this->municipios_id) ?? new Municipios();
             return $this->municipio;
         }
         return NULL;
@@ -273,7 +272,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
             ':nombre' => $this->getNombre(),
             ':nit' => $this->getNit(),
             ':direccion' => $this->getDireccion(),
-            ':municipio_id' => $this->getMunicipioId(),
+            ':municipios_id' => $this->getMunicipiosId(),
             ':rector_id' => $this->getRectorId(),
             ':telefono' => $this->getTelefono(),
             ':correo' => $this->getCorreo(),
@@ -291,7 +290,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
     public function insert(): ?bool
     {
         $query = "INSERT INTO dbindalecio.instituciones VALUES (
-            :id,:nombre,:nit,:direccion,:municipio_id,
+            :id,:nombre,:nit,:direccion,:municipios_id,
             :rector_id,:telefono,:correo,:estado,:created_at,:updated_at
         )";
         return $this->save($query);
@@ -304,7 +303,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
     public function update(): ?bool
     {
         $query = "UPDATE dbindalecio.instituciones SET 
-            nombre = :nombre, nit= :nit, direccion = :direccion, municipio_id = :municipio_id,
+            nombre = :nombre, nit= :nit, direccion = :direccion, municipios_id = :municipios_id,
             rector_id = :rector_id, telefono = :telefono, correo = :correo,
             estado = :estado, created_At = :created_at, updated_at = :updated_at
           WHERE id = :id";
@@ -420,7 +419,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
             'nombre' => $this->getNombre(),
             'nit' => $this->getNit(),
             'direccion' => $this->getDireccion(),
-            'municipio_id' => $this->getMunicipioId(),
+            'municipio_id' => $this->getMunicipiosId(),
             'rector_id' => $this->getRectorId(),
             'telefono' => $this->getTelefono(),
             'correo' => $this->getCorreo(),

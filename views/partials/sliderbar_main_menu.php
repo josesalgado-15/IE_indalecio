@@ -265,6 +265,7 @@
                     </ul>
                 </li>
 
+                <!--
                 <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'sede') ? 'menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'sede') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-school"></i>
@@ -289,6 +290,7 @@
                         </li>
                     </ul>
                 </li>
+                -->
 
             </ul>
 

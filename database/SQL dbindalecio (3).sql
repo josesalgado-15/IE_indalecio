@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 07-06-2021 a las 10:53:51
+-- Tiempo de generación: 07-06-2021 a las 13:08:47
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.10
 
@@ -245,10 +245,96 @@ CREATE TABLE `matriculas` (
 --
 
 INSERT INTO `matriculas` (`id`, `vigencia`, `usuarios_id`, `cursos_id`, `reporte_asistencia`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '2021-12-31', 3, 6, 'No asiste', 'Activo', '2021-01-18 18:43:44', '2021-04-21 02:10:02', '2021-01-18 23:43:44'),
-(2, '2021-12-31', 5, 6, 'No asiste', 'Activo', '2021-01-18 18:44:53', '2021-04-21 02:07:01', '2021-01-18 23:44:53'),
-(3, '2021-12-31', 6, 6, 'Asiste', 'Activo', '2021-02-03 23:51:05', '2021-04-21 02:07:05', '2021-02-04 04:51:05'),
-(4, '2021-12-31', 7, 7, 'Asiste', 'Activo', '2021-02-22 16:14:26', '2021-03-27 21:05:04', NULL);
+(1, '2021-12-31', 2, 1, 'Asiste', 'Activo', '2021-06-07 12:15:34', '2021-06-07 17:31:31', NULL),
+(2, '2021-12-31', 3, 1, 'Asiste', 'Activo', '2021-06-07 12:15:51', NULL, NULL),
+(3, '2021-12-31', 4, 1, 'Asiste', 'Activo', '2021-06-07 12:16:43', NULL, NULL),
+(4, '2021-12-31', 5, 1, 'Asiste', 'Activo', '2021-06-07 12:17:05', NULL, NULL),
+(5, '2021-12-31', 6, 1, 'Asiste', 'Activo', '2021-06-07 12:17:21', NULL, NULL),
+(6, '2021-12-31', 7, 1, 'Asiste', 'Activo', '2021-06-07 12:17:36', NULL, NULL),
+(7, '2021-12-31', 8, 1, 'Asiste', 'Activo', '2021-06-07 12:17:52', NULL, NULL),
+(8, '2021-12-31', 9, 1, 'Asiste', 'Activo', '2021-06-07 12:18:08', NULL, NULL),
+(9, '2021-12-31', 10, 1, 'Asiste', 'Activo', '2021-06-07 12:18:24', NULL, NULL),
+(10, '2021-12-31', 11, 1, 'Asiste', 'Activo', '2021-06-07 12:18:38', NULL, NULL),
+(11, '2021-12-31', 12, 1, 'Asiste', 'Activo', '2021-06-07 12:18:57', NULL, NULL),
+(12, '2021-12-31', 13, 1, 'Asiste', 'Activo', '2021-06-07 12:19:15', NULL, NULL),
+(13, '2021-12-31', 14, 1, 'Asiste', 'Activo', '2021-06-07 12:19:43', NULL, NULL),
+(14, '2021-12-31', 15, 1, 'Asiste', 'Activo', '2021-06-07 12:19:59', NULL, NULL),
+(15, '2021-12-31', 16, 1, 'Asiste', 'Activo', '2021-06-07 12:20:18', NULL, NULL),
+(16, '2021-12-31', 17, 1, 'Asiste', 'Activo', '2021-06-07 12:20:32', NULL, NULL),
+(17, '2021-12-31', 18, 1, 'Asiste', 'Activo', '2021-06-07 12:20:48', NULL, NULL),
+(18, '2021-12-31', 19, 1, 'Asiste', 'Activo', '2021-06-07 12:21:04', NULL, NULL),
+(19, '2021-12-31', 20, 1, 'Asiste', 'Activo', '2021-06-07 12:21:20', NULL, NULL),
+(20, '2021-12-31', 21, 1, 'Asiste', 'Activo', '2021-06-07 12:21:53', NULL, NULL),
+(21, '2021-12-31', 22, 1, 'Asiste', 'Activo', '2021-06-07 12:25:03', NULL, NULL),
+(22, '2021-12-31', 23, 1, 'Asiste', 'Activo', '2021-06-07 12:25:19', NULL, NULL),
+(23, '2021-12-31', 24, 1, 'Asiste', 'Activo', '2021-06-07 12:25:37', NULL, NULL),
+(24, '2021-12-31', 25, 1, 'Asiste', 'Activo', '2021-06-07 12:28:06', NULL, NULL),
+(25, '2021-12-31', 26, 1, 'Asiste', 'Activo', '2021-06-07 12:28:24', NULL, NULL),
+(26, '2021-12-31', 27, 1, 'Asiste', 'Activo', '2021-06-07 12:28:39', NULL, NULL),
+(27, '2021-12-31', 28, 1, 'Asiste', 'Activo', '2021-06-07 12:28:55', NULL, NULL),
+(28, '2021-12-31', 29, 1, 'Asiste', 'Activo', '2021-06-07 12:29:21', NULL, NULL),
+(29, '2021-12-31', 30, 1, 'Asiste', 'Activo', '2021-06-07 12:29:40', NULL, NULL),
+(30, '2021-12-31', 31, 1, 'Asiste', 'Activo', '2021-06-07 12:29:56', NULL, NULL),
+(31, '2021-12-31', 32, 1, 'Asiste', 'Activo', '2021-06-07 12:30:14', NULL, NULL),
+(32, '2021-12-31', 33, 2, 'Asiste', 'Activo', '2021-06-07 12:34:56', NULL, NULL),
+(33, '2021-12-31', 34, 2, 'Asiste', 'Activo', '2021-06-07 12:35:15', NULL, NULL),
+(34, '2021-12-31', 35, 2, 'Asiste', 'Activo', '2021-06-07 12:35:35', NULL, NULL),
+(35, '2021-12-31', 36, 2, 'Asiste', 'Activo', '2021-06-07 12:35:52', NULL, NULL),
+(36, '2021-12-31', 37, 2, 'Asiste', 'Activo', '2021-06-07 12:36:10', NULL, NULL),
+(37, '2021-12-31', 38, 2, 'Asiste', 'Activo', '2021-06-07 12:36:24', NULL, NULL),
+(38, '2021-12-31', 39, 2, 'Asiste', 'Activo', '2021-06-07 12:36:42', NULL, NULL),
+(39, '2021-12-31', 40, 2, 'Asiste', 'Activo', '2021-06-07 12:37:43', NULL, NULL),
+(40, '2021-12-31', 41, 2, 'Asiste', 'Activo', '2021-06-07 12:38:01', NULL, NULL),
+(41, '2021-12-31', 42, 2, 'Asiste', 'Activo', '2021-06-07 12:38:19', NULL, NULL),
+(42, '2021-12-31', 43, 2, 'Asiste', 'Activo', '2021-06-07 12:38:36', NULL, NULL),
+(43, '2021-12-31', 44, 2, 'Asiste', 'Activo', '2021-06-07 12:38:53', NULL, NULL),
+(44, '2021-12-31', 45, 2, 'Asiste', 'Activo', '2021-06-07 12:39:12', NULL, NULL),
+(45, '2021-12-31', 46, 2, 'Asiste', 'Activo', '2021-06-07 12:39:30', NULL, NULL),
+(46, '2021-12-31', 47, 2, 'Asiste', 'Activo', '2021-06-07 12:40:48', NULL, NULL),
+(47, '2021-12-31', 48, 2, 'Asiste', 'Activo', '2021-06-07 12:41:10', NULL, NULL),
+(48, '2021-12-31', 49, 2, 'Asiste', 'Activo', '2021-06-07 12:41:27', NULL, NULL),
+(49, '2021-12-31', 50, 2, 'Asiste', 'Activo', '2021-06-07 12:41:44', NULL, NULL),
+(50, '2021-12-31', 51, 2, 'Asiste', 'Activo', '2021-06-07 12:42:02', NULL, NULL),
+(51, '2021-12-31', 52, 2, 'Asiste', 'Activo', '2021-06-07 12:42:43', NULL, NULL),
+(52, '2021-12-31', 53, 2, 'Asiste', 'Activo', '2021-06-07 12:42:59', NULL, NULL),
+(53, '2021-12-31', 54, 2, 'Asiste', 'Activo', '2021-06-07 12:43:18', NULL, NULL),
+(54, '2021-12-31', 55, 2, 'Asiste', 'Activo', '2021-06-07 12:43:37', NULL, NULL),
+(55, '2021-12-31', 56, 2, 'Asiste', 'Activo', '2021-06-07 12:43:53', NULL, NULL),
+(56, '2021-12-31', 57, 2, 'Asiste', 'Activo', '2021-06-07 12:44:54', NULL, NULL),
+(57, '2021-12-31', 58, 2, 'Asiste', 'Activo', '2021-06-07 12:45:14', NULL, NULL),
+(58, '2021-12-31', 59, 2, 'Asiste', 'Activo', '2021-06-07 12:45:31', NULL, NULL),
+(59, '2021-12-31', 60, 2, 'Asiste', 'Activo', '2021-06-07 12:46:13', NULL, NULL),
+(60, '2021-12-31', 61, 2, 'Asiste', 'Activo', '2021-06-07 12:46:30', NULL, NULL),
+(61, '2021-12-31', 62, 2, 'Asiste', 'Activo', '2021-06-07 12:47:17', NULL, NULL),
+(62, '2021-12-31', 63, 2, 'Asiste', 'Activo', '2021-06-07 12:47:38', NULL, NULL),
+(63, '2021-12-31', 64, 3, 'Asiste', 'Activo', '2021-06-07 12:50:52', NULL, NULL),
+(64, '2021-12-31', 65, 3, 'Asiste', 'Activo', '2021-06-07 12:51:10', NULL, NULL),
+(65, '2021-12-31', 66, 3, 'Asiste', 'Activo', '2021-06-07 12:51:28', NULL, NULL),
+(66, '2021-12-31', 67, 3, 'Asiste', 'Activo', '2021-06-07 12:53:02', NULL, NULL),
+(67, '2021-12-31', 68, 3, 'Asiste', 'Activo', '2021-06-07 12:53:21', NULL, NULL),
+(68, '2021-12-31', 69, 3, 'Asiste', 'Activo', '2021-06-07 12:53:39', NULL, NULL),
+(69, '2021-12-31', 70, 3, 'Asiste', 'Activo', '2021-06-07 12:53:56', NULL, NULL),
+(70, '2021-12-31', 71, 3, 'Asiste', 'Activo', '2021-06-07 12:54:17', NULL, NULL),
+(71, '2021-12-31', 72, 3, 'Asiste', 'Activo', '2021-06-07 12:54:38', NULL, NULL),
+(72, '2021-12-31', 73, 3, 'Asiste', 'Activo', '2021-06-07 12:54:58', NULL, NULL),
+(73, '2021-12-31', 74, 3, 'Asiste', 'Activo', '2021-06-07 12:55:18', NULL, NULL),
+(74, '2021-12-31', 75, 3, 'Asiste', 'Activo', '2021-06-07 12:55:38', NULL, NULL),
+(75, '2021-12-31', 76, 3, 'Asiste', 'Activo', '2021-06-07 12:55:59', NULL, NULL),
+(76, '2021-12-31', 77, 3, 'Asiste', 'Activo', '2021-06-07 12:56:20', NULL, NULL),
+(77, '2021-12-31', 78, 3, 'Asiste', 'Activo', '2021-06-07 12:56:50', NULL, NULL),
+(78, '2021-12-31', 79, 3, 'Asiste', 'Activo', '2021-06-07 12:57:14', NULL, NULL),
+(79, '2021-12-31', 80, 3, 'Asiste', 'Activo', '2021-06-07 12:57:36', NULL, NULL),
+(80, '2021-12-31', 81, 3, 'Asiste', 'Activo', '2021-06-07 12:57:55', NULL, NULL),
+(81, '2021-12-31', 82, 3, 'Asiste', 'Activo', '2021-06-07 12:58:14', NULL, NULL),
+(82, '2021-12-31', 83, 3, 'Asiste', 'Activo', '2021-06-07 12:58:36', NULL, NULL),
+(83, '2021-12-31', 85, 3, 'Asiste', 'Activo', '2021-06-07 12:59:33', NULL, NULL),
+(84, '2021-12-31', 86, 3, 'Asiste', 'Activo', '2021-06-07 12:59:51', NULL, NULL),
+(85, '2021-12-31', 87, 3, 'Asiste', 'Activo', '2021-06-07 13:00:11', NULL, NULL),
+(86, '2021-12-31', 88, 3, 'Asiste', 'Activo', '2021-06-07 13:00:31', NULL, NULL),
+(87, '2021-12-31', 89, 3, 'Asiste', 'Activo', '2021-06-07 13:00:52', NULL, NULL),
+(88, '2021-12-31', 90, 3, 'Asiste', 'Activo', '2021-06-07 13:01:14', NULL, NULL),
+(89, '2021-12-31', 91, 3, 'Asiste', 'Activo', '2021-06-07 13:01:36', NULL, NULL),
+(90, '2021-12-31', 92, 3, 'Asiste', 'Activo', '2021-06-07 13:01:55', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1488,7 +1574,96 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `telefono`, `numero_documento`, `tipo_documento`, `fecha_nacimiento`, `direccion`, `municipios_id`, `genero`, `rol`, `correo`, `contrasena`, `estado`, `nombre_acudiente`, `telefono_acudiente`, `correo_acudiente`, `instituciones_id`, `created_at`, `updated_at`) VALUES
 (1, 'Administrador 1', 'Administrador 2', '', '10000000', 'CC', '2021-06-07', '', 15542, 'Masculino', 'Administrador', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:48:04', NULL),
 (2, 'Brayan Alejandro', 'Abril Farias', '', '3321', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:52:13', NULL),
-(3, 'Maria Claudia Lorena', 'Amaya Roldan', '', '3219', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:52:57', NULL);
+(3, 'Maria Claudia Lorena', 'Amaya Roldan', '', '3219', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:52:57', NULL),
+(4, 'Yenny Rocio', 'Amaya Chaparro', '', '3112', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:08:19', NULL),
+(5, 'Fabian Andres', 'Camargo Colmenares', '', '3122', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:08:49', NULL),
+(6, 'Yeimy Liceth', 'Camero Tambo', '', '3752', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:09:20', NULL),
+(7, 'Juan David', 'Chaparro Soraca', '', '3106', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:09:52', NULL),
+(8, 'Mariana', 'Cruz Banoy', '', '3442', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:10:23', NULL),
+(9, 'Kevin Stivens', 'Cruz Cruz', '', '3201', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:10:49', NULL),
+(10, 'Lina Esperanza', 'Español Soraca', '', '3848', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:11:24', NULL),
+(11, 'Diland Josepth', 'Gutierrez Talero', '', '3187', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:11:49', NULL),
+(12, 'Luis Enrique', 'Hernandez Ferrucho', '', '3055', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:12:18', NULL),
+(13, 'Paula Valentina', 'Herrera Rodriguez', '', '3199', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:12:46', NULL),
+(14, 'Karen Natalia', 'Malaver Lopez', '', '3189', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:13:13', NULL),
+(15, 'Karol Dayanna', 'Martinez Rincon', '', '3103', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:13:47', NULL),
+(16, 'Wilman Yesid', 'Martinez Rodriguez', '', '3175', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:14:12', NULL),
+(17, 'Wilmer Alexander', 'Pacheco Paez', '', '3313', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:14:47', NULL),
+(18, 'Cristian Camilo', 'Pesca Bolivar', '', '3346', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:15:17', NULL),
+(19, 'Karen Janeth', 'Pesca Bolivar', '', '3345', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:15:48', NULL),
+(20, 'Kevin Santiago', 'Pirajan Cotrina', '', '2960', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:16:23', NULL),
+(21, 'Leidy Lorena', 'Prieto Herrera', '', '3692', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:16:58', NULL),
+(22, 'Jose Luis', 'Quevedo Melo', '', '2404', 'TI', '2001-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:17:25', '2021-06-07 17:24:44'),
+(23, 'Jose Faustino', 'Riativa Carabuena', '', '3152', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:17:47', NULL),
+(24, 'Leidy Carolina', 'Rodriguez Herrera', '', '3028', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:18:14', NULL),
+(25, 'Darwin Alexis', 'Rodriguez Martinez', '', '3104', 'TI', '2001-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:18:45', '2021-06-07 17:26:59'),
+(26, 'Cristian Alejandro', 'Silva Martinez', '', '3131', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:19:12', NULL),
+(27, 'Wilder Santiago', 'Tambo Camero', '', '3135', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:19:43', NULL),
+(28, 'Emerson Fabian', 'Tambo Vargas', '', '3149', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:20:10', NULL),
+(29, 'Nicoll Dayanna', 'Tenjo Chaparro', '', '3138', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:20:38', NULL),
+(30, 'Kely Yojana', 'Tenjo Moreno', '', '3136', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:21:04', NULL),
+(31, 'Lina Fernanda', 'Vargas Rico', '', '2979', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:21:29', NULL),
+(32, 'Laura Juliana', 'Velandia Farias', '', '3134', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:21:59', NULL),
+(33, 'Cristian Fabian', 'Ballesteros Diaz', '', '3297', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:26:25', NULL),
+(34, 'Wilmar Agustin', 'Bautista Sanchez', '', '3065', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:27:00', NULL),
+(35, 'Yeimy Natalia', 'Bautista Sanchez', '', '3031', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:27:34', NULL),
+(36, 'Jenny Yulieth', 'Bolivar Chaparro', '', '3214', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:28:08', NULL),
+(37, 'Valentina', 'Caicedo Lopez', '', '2965', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:28:39', NULL),
+(38, 'Erika Tatiana', 'Calvo Pacanchique', '', '3851', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:29:05', NULL),
+(39, 'Dairon Andres', 'Camargo Bolivar', '', '3115', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:29:30', NULL),
+(40, 'Edicson Alexander', 'Camargo Bolivar', '', '3114', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:29:53', NULL),
+(41, 'Gladys Marinela', 'Camargo Camargo', '', '3113', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:30:22', NULL),
+(42, 'Leidy Lorena', 'Camargo Rojas', '', '3155', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:30:52', NULL),
+(43, 'Diana Maria', 'Córdoba Bolívar', '', '3130', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:31:20', NULL),
+(44, 'Luyge Martin', 'Farias Bocachica', '', '3051', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:31:45', NULL),
+(45, 'Sara Valentina', 'Ferrucho Malaver', '', '3060', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:32:13', NULL),
+(46, 'Sara Valentina', 'Gonzalez Lagos', '', '3763', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:32:40', NULL),
+(47, 'Ailyn Vanessa', 'Jimenez Fuquen', '', '3096', 'TI', '2001-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:34:30', '2021-06-07 17:40:35'),
+(48, 'Jose Alejandro', 'Lagos Pacheco', '', '3144', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:34:57', NULL),
+(49, 'Kelin Michel', 'Lemus Parada', '', '3708', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:35:28', NULL),
+(50, 'Hugo Hernando', 'Lopez Maldonado', '', '2232', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:35:57', NULL),
+(51, 'Jorge Armando', 'Martinez Avendaño', '', '3188', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:36:26', NULL),
+(52, 'Adriana Lucia', 'Merchan Camargo', '', '3120', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:36:58', NULL),
+(53, 'Juan David', 'Perez Moreno', '', '3083', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:37:20', NULL),
+(54, 'Sara Lucia', 'Puerto Guevara', '', '3567', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:37:52', NULL),
+(55, 'Cristian Camilo', 'Quevedo Tambo', '', '3846', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:38:19', NULL),
+(56, 'Yuber Albeiro', 'Quevedo Tambo', '', '3732', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:38:46', NULL),
+(57, 'Maria Camila', 'Rodriguez Gutierrez', '', '3056', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:39:14', NULL),
+(58, 'Jhon Sebastian', 'Rodriguez Torres', '', '3147', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:39:42', NULL),
+(59, 'Yohan Stiven', 'Rodriguez Torres', '', '2989', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:40:14', NULL),
+(60, 'Nicol Dayana', 'Salamanca Vargas', '', '3159', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:40:50', NULL),
+(61, 'Edwar Leonardo', 'Tenjo Malaver', '', '3176', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:41:16', NULL),
+(62, 'Angela Marcela', 'Tequia Montaña', '', '3132', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:41:45', NULL),
+(63, 'Marlon Stiven', 'Vargas Pulido', '', '3864', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:42:16', NULL),
+(64, 'Angel Stiven', 'Ayala Nieves', '', '3668', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:44:20', NULL),
+(65, 'Edwin Andres', 'Bolivar Camargo', '', '3019', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:44:48', NULL),
+(66, 'Juan Fernando', 'Calixto Holguin', '', '3101', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:45:18', NULL),
+(67, 'Juan Daniel', 'Camargo Camargo', '', '3110', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:46:01', NULL),
+(68, 'Pablo', 'Camargo Hurtado', '', '3111', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:47:27', NULL),
+(69, 'Angela Rocio', 'Camargo Malaver', '', '3128', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:48:06', NULL),
+(70, 'Laura Tatiana', 'Diaz Ferrucho', '', '3099', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:48:36', NULL),
+(71, 'Yerik Yalith', 'Ferrucho Rivera', '', '3198', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:49:10', NULL),
+(72, 'Mildred Eliette', 'Gutierrez Acosta', '', '3807', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:49:39', NULL),
+(73, 'Adaluz Yurany', 'Lemus Camargo', '', '3098', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:50:10', NULL),
+(74, 'Kevin Stivens', 'Lopez Español', '', '3066', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:50:39', NULL),
+(75, 'Cristian Andres', 'Malaver Camargo', '', '2974', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:51:03', NULL),
+(76, 'Julian Sneider', 'Montaña Martinez', '', '3100', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:51:45', NULL),
+(77, 'Valery Juliana', 'Otalora Camargo', '', '3109', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:52:29', NULL),
+(78, 'Ana Yulieth', 'Pacheco Bautista', '', '3123', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:53:01', NULL),
+(79, 'Yeimy Yohana', 'Pacheco Giraldo', '', '3205', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:53:31', NULL),
+(80, 'Duvan Santiago', 'Pedraza Rodriguez', '', '3012', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:54:02', NULL),
+(81, 'Samuel Felipe', 'Perez Vargas', '', '3153', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:54:30', NULL),
+(82, 'Diego Alexander', 'Quesada Sanchez', '', '3314', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:54:58', NULL),
+(83, 'Sonia Jimena', 'Quevedo Rivera', '', '3847', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:55:29', NULL),
+(84, 'Sara Benilda', 'Rodriguez Camargo', '', '3337', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:55:59', NULL),
+(85, 'Yineth Nataly', 'Rodriguez Pacheco', '', '2812', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:56:27', NULL),
+(86, 'Santiago', 'Salcedo Parada', '', '3035', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:56:59', NULL),
+(87, 'Luz Stella', 'Santiago Quintero', '', '3117', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:57:35', NULL),
+(88, 'Yohann Julian', 'Tibocha Pacheco', '', '3124', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:58:16', NULL),
+(89, 'Kelin Yadira', 'Vargas Martinez', '', '3413', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:58:43', NULL),
+(90, 'Erika Mayerly', 'Vargas Vasquez', '', '3102', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:59:17', NULL),
+(91, 'Luis Angel', 'Vasquez Bautista', '', '3739', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 11:59:51', NULL),
+(92, 'Andres Santiago', 'Vega Vargas', '', '3161', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 12:00:23', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -1617,7 +1792,7 @@ ALTER TABLE `instituciones`
 -- AUTO_INCREMENT de la tabla `matriculas`
 --
 ALTER TABLE `matriculas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT de la tabla `municipios`
@@ -1641,7 +1816,7 @@ ALTER TABLE `sedes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- Restricciones para tablas volcadas
@@ -1670,8 +1845,8 @@ ALTER TABLE `instituciones`
 -- Filtros para la tabla `matriculas`
 --
 ALTER TABLE `matriculas`
-  ADD CONSTRAINT `fk_cursos_has_usuarios_cursos1` FOREIGN KEY (`cursos_id`) REFERENCES `cursos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_cursos_has_usuarios_cursos1` FOREIGN KEY (`cursos_id`) REFERENCES `cursos` (`id`),
+  ADD CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`);
 
 --
 -- Filtros para la tabla `municipios`

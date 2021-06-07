@@ -408,7 +408,7 @@ class Institucion extends AbstractDBConnection implements Model, JsonSerializabl
      */
     public function __toString(): string
     {
-        return "Nombre: $this->nombre, Nit: $this->nit, Direccion: $this->direccion, Municipip: $this->municipio_id, Rector: $this->rector_id, Telefono: $this->telefono, Correo: $this->correo, Estado: $this->estado";
+        return "Nombre: $this->nombre, Nit: $this->nit, Direccion: $this->direccion, Municipip: $this->municipios_id, Rector: $this->rector_id, Telefono: $this->telefono, Correo: $this->correo, Estado: $this->estado";
     }
 
 

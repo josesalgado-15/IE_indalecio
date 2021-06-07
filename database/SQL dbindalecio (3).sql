@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 07-06-2021 a las 10:29:08
+-- Tiempo de generación: 07-06-2021 a las 10:53:51
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.10
 
@@ -203,7 +203,7 @@ INSERT INTO `grados` (`id`, `nombre`, `estado`, `created_at`, `updated_at`, `del
 CREATE TABLE `instituciones` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(80) NOT NULL,
-  `nit` bigint(20) NOT NULL,
+  `nit` varchar(20) NOT NULL,
   `direccion` varchar(80) NOT NULL,
   `municipios_id` bigint(20) UNSIGNED NOT NULL,
   `rector_id` bigint(20) UNSIGNED NOT NULL,
@@ -219,8 +219,8 @@ CREATE TABLE `instituciones` (
 --
 
 INSERT INTO `instituciones` (`id`, `nombre`, `nit`, `direccion`, `municipios_id`, `rector_id`, `telefono`, `correo`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 'Institución Educativa Indalecio Vásquez', 7000000000, 'Carrera 5° Vía Sogamoso-Pesca', 15542, 1, 7784085, 'info@controlacademico.com', 'Activo', '2021-06-07 09:27:54', '2021-06-07 14:27:54'),
-(3, 'Ejemplo', 32432423, 'Ejemplo', 15759, 2, 324234, 'Ejemplo@gmail.com', 'Inactivo', '2021-02-20 12:10:53', '2021-02-20 17:10:53');
+(1, 'Institución Educativa Indalecio Vásquez', '800028107-3', 'Carrera 5° Vía Sogamoso-Pesca', 15542, 1, 7784085, 'info@controlacademico.com', 'Activo', '2021-06-07 10:50:43', '2021-06-07 15:50:43'),
+(3, 'Ejemplo', '32432423', 'Ejemplo', 15759, 2, 324234, 'Ejemplo@gmail.com', 'Inactivo', '2021-02-20 12:10:53', '2021-02-20 17:10:53');
 
 -- --------------------------------------------------------
 
@@ -1486,8 +1486,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `telefono`, `numero_documento`, `tipo_documento`, `fecha_nacimiento`, `direccion`, `municipios_id`, `genero`, `rol`, `correo`, `contrasena`, `estado`, `nombre_acudiente`, `telefono_acudiente`, `correo_acudiente`, `instituciones_id`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'Administrador', '', '10025484561', 'CC', '2000-06-05', '', 15759, 'Masculino', 'Administrador', 'admin@gmail.com', '123456789', 'Activo', '', '', '', 1, '2021-06-05 20:24:11', '2021-06-06 02:29:52'),
-(2, 'Brayan Alejandro', 'Abril Farias', '', '3321', 'TI', '2021-06-05', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-05 20:28:23', NULL);
+(1, 'Administrador 1', 'Administrador 2', '', '10000000', 'CC', '2021-06-07', '', 15542, 'Masculino', 'Administrador', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:48:04', NULL),
+(2, 'Brayan Alejandro', 'Abril Farias', '', '3321', 'TI', '2021-06-07', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:52:13', NULL),
+(3, 'Maria Claudia Lorena', 'Amaya Roldan', '', '3219', 'TI', '2021-06-07', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-07 10:52:57', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -1640,7 +1641,7 @@ ALTER TABLE `sedes`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -1696,8 +1697,8 @@ ALTER TABLE `sedes`
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_usuarios_instituciones10` FOREIGN KEY (`instituciones_id`) REFERENCES `instituciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_usuarios_municipios10` FOREIGN KEY (`municipios_id`) REFERENCES `municipios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_usuarios_instituciones10` FOREIGN KEY (`instituciones_id`) REFERENCES `instituciones` (`id`),
+  ADD CONSTRAINT `fk_usuarios_municipios10` FOREIGN KEY (`municipios_id`) REFERENCES `municipios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

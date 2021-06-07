@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 05-06-2021 a las 20:31:24
+-- Tiempo de generación: 07-06-2021 a las 10:29:08
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.4.10
 
@@ -80,10 +80,8 @@ CREATE TABLE `cursos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `director` varchar(50) NOT NULL,
-  `representante` varchar(50) NOT NULL,
   `cantidad` int(11) NOT NULL,
   `grados_id` bigint(20) UNSIGNED NOT NULL,
-  `horarios_id` bigint(20) UNSIGNED NOT NULL,
   `estado` enum('Activo','Inactivo') NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -94,14 +92,20 @@ CREATE TABLE `cursos` (
 -- Volcado de datos para la tabla `cursos`
 --
 
-INSERT INTO `cursos` (`id`, `nombre`, `director`, `representante`, `cantidad`, `grados_id`, `horarios_id`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(6, '7-A', 'Juan Manuel Correa', 'David Perez', 35, 2, 1, 'Activo', '2021-01-18 18:53:03', '2021-01-18 23:53:03', '2021-01-18 23:53:03'),
-(7, '7-B', 'Juan Perez', 'David Diaz', 35, 2, 1, 'Activo', '2021-01-15 23:25:17', '2021-01-16 04:25:17', '2021-01-16 04:25:17'),
-(8, '7-C', 'David Correa', 'Juan Diaz', 30, 2, 1, 'Activo', '2021-01-18 15:35:31', '2021-01-18 20:35:31', '2021-01-18 20:35:31'),
-(9, '8-A', 'Ejemplo', 'Ejemplo', 34, 3, 2, 'Activo', '2021-02-22 17:44:54', NULL, NULL),
-(10, '8-B', 'Ejemplo', 'Ejemplo', 35, 3, 2, 'Activo', '2021-03-01 18:59:17', NULL, NULL),
-(11, '8-C', 'Ejemplo', 'Ejemplo', 35, 3, 2, 'Activo', '2021-03-01 19:00:15', NULL, NULL),
-(12, '9-A', 'Ejemplo', 'Ejemplo', 35, 4, 2, 'Activo', '2021-03-01 19:00:37', NULL, NULL);
+INSERT INTO `cursos` (`id`, `nombre`, `director`, `cantidad`, `grados_id`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '6-A', 'Miguel Angel Perez Barragan', 31, 1, 'Activo', '2021-06-07 10:07:26', NULL, NULL),
+(2, '6-B', 'Pilar Rocio Avella Franco', 31, 1, 'Activo', '2021-06-07 10:08:31', NULL, NULL),
+(3, '6-C', 'Miguel Antonio Neita Torres', 29, 1, 'Activo', '2021-06-07 10:09:30', NULL, NULL),
+(4, '7-A', 'Fanny Vitalia Cardenas Aguirre', 40, 2, 'Activo', '2021-06-07 10:11:02', NULL, NULL),
+(5, '7-B', 'Gabriela Cely Huérfano', 38, 2, 'Activo', '2021-06-07 10:11:41', NULL, NULL),
+(6, '8-A', 'Joaquin Tangua Castro', 36, 3, 'Activo', '2021-06-07 10:12:24', NULL, NULL),
+(7, '8-B', 'Maria Janeth Fagua Perez', 38, 3, 'Activo', '2021-06-07 10:13:16', NULL, NULL),
+(8, '9-A', 'Victor Lusbin Peña Tovar', 25, 4, 'Activo', '2021-06-07 10:14:40', '2021-06-07 15:22:07', NULL),
+(9, '9-B', 'Mireya Tapias Cusba', 24, 4, 'Activo', '2021-06-07 10:15:20', NULL, NULL),
+(10, '10-A', 'Jairo Lopez Lopez', 20, 5, 'Activo', '2021-06-07 10:16:02', NULL, NULL),
+(11, '10-B', 'Martha Lucia Martinez Herrera', 20, 5, 'Activo', '2021-06-07 10:16:44', NULL, NULL),
+(12, '11-A', 'Deyny Vicky Rosas Quijano', 19, 6, 'Activo', '2021-06-07 10:19:48', NULL, NULL),
+(13, '11-B', 'Oscar Emerson Becerra Amaya', 23, 6, 'Activo', '2021-06-07 10:20:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -193,35 +197,6 @@ INSERT INTO `grados` (`id`, `nombre`, `estado`, `created_at`, `updated_at`, `del
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `horarios`
---
-
-CREATE TABLE `horarios` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `hora_entrada_sede` time NOT NULL,
-  `hora_salida` time NOT NULL,
-  `hora_entrada_restaurante` time NOT NULL,
-  `fecha` date NOT NULL,
-  `estado` enum('Activo','Inactivo') NOT NULL,
-  `sedes_id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `horarios`
---
-
-INSERT INTO `horarios` (`id`, `hora_entrada_sede`, `hora_salida`, `hora_entrada_restaurante`, `fecha`, `estado`, `sedes_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '06:30:00', '14:00:00', '11:35:00', '2021-01-09', 'Inactivo', 1, '2021-02-10 16:47:35', '2021-02-10 21:47:35', '2021-02-10 21:47:35'),
-(2, '06:15:00', '14:10:00', '11:30:00', '2021-12-31', 'Activo', 1, '2021-02-09 21:14:19', '2021-02-10 02:14:19', '2021-02-10 02:14:19'),
-(3, '06:30:00', '15:00:00', '23:00:00', '2021-12-31', 'Inactivo', 4, '2021-02-09 21:24:03', '2021-02-10 02:24:03', '2021-02-10 02:24:03'),
-(4, '06:00:00', '14:00:00', '11:15:00', '2021-12-31', 'Activo', 4, '2021-02-17 20:00:02', NULL, NULL);
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `instituciones`
 --
 
@@ -230,7 +205,7 @@ CREATE TABLE `instituciones` (
   `nombre` varchar(80) NOT NULL,
   `nit` bigint(20) NOT NULL,
   `direccion` varchar(80) NOT NULL,
-  `municipio_id` bigint(20) UNSIGNED NOT NULL,
+  `municipios_id` bigint(20) UNSIGNED NOT NULL,
   `rector_id` bigint(20) UNSIGNED NOT NULL,
   `telefono` bigint(20) NOT NULL,
   `correo` varchar(320) NOT NULL,
@@ -243,8 +218,8 @@ CREATE TABLE `instituciones` (
 -- Volcado de datos para la tabla `instituciones`
 --
 
-INSERT INTO `instituciones` (`id`, `nombre`, `nit`, `direccion`, `municipio_id`, `rector_id`, `telefono`, `correo`, `estado`, `created_at`, `updated_at`) VALUES
-(1, 'Institución Educativa Indalecio Vasquez', 70158596, 'Calle 25 # 25-09', 5004, 2, 3132587458, 'Indalecio@gmail.com', 'Activo', '2021-02-04 18:07:10', NULL),
+INSERT INTO `instituciones` (`id`, `nombre`, `nit`, `direccion`, `municipios_id`, `rector_id`, `telefono`, `correo`, `estado`, `created_at`, `updated_at`) VALUES
+(1, 'Institución Educativa Indalecio Vásquez', 7000000000, 'Carrera 5° Vía Sogamoso-Pesca', 15542, 1, 7784085, 'info@controlacademico.com', 'Activo', '2021-06-07 09:27:54', '2021-06-07 14:27:54'),
 (3, 'Ejemplo', 32432423, 'Ejemplo', 15759, 2, 324234, 'Ejemplo@gmail.com', 'Inactivo', '2021-02-20 12:10:53', '2021-02-20 17:10:53');
 
 -- --------------------------------------------------------
@@ -1511,9 +1486,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombres`, `apellidos`, `telefono`, `numero_documento`, `tipo_documento`, `fecha_nacimiento`, `direccion`, `municipios_id`, `genero`, `rol`, `correo`, `contrasena`, `estado`, `nombre_acudiente`, `telefono_acudiente`, `correo_acudiente`, `instituciones_id`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'Administrador', '', '10025484561', 'CC', '2021-06-05', '', 15542, 'Masculino', 'Administrador', 'admin@gmail.com', '123456789', 'Activo', '', '', '', 1, '2021-06-05 20:24:11', NULL),
-(2, 'Brayan Alejandro', 'Abril Farias', '', '3321', 'TI', '2021-06-05', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-05 20:28:23', NULL),
-(3, 'Maria Claudia Lorena', 'Amaya Roldan ', '', '3219', 'TI', '2021-06-05', '', 15542, 'Femenino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-05 20:28:23', NULL);
+(1, 'Administrador', 'Administrador', '', '10025484561', 'CC', '2000-06-05', '', 15759, 'Masculino', 'Administrador', 'admin@gmail.com', '123456789', 'Activo', '', '', '', 1, '2021-06-05 20:24:11', '2021-06-06 02:29:52'),
+(2, 'Brayan Alejandro', 'Abril Farias', '', '3321', 'TI', '2021-06-05', '', 15542, 'Masculino', 'Estudiante', '', '', 'Activo', '', '', '', 1, '2021-06-05 20:28:23', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -1533,8 +1507,7 @@ ALTER TABLE `asistencias`
 ALTER TABLE `cursos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_curso_UNIQUE` (`id`),
-  ADD KEY `fk_cursos_grados1_idx` (`grados_id`),
-  ADD KEY `fk_cursos_horarios1_idx` (`horarios_id`);
+  ADD KEY `fk_cursos_grados1_idx` (`grados_id`);
 
 --
 -- Indices de la tabla `departamentos`
@@ -1551,21 +1524,13 @@ ALTER TABLE `grados`
   ADD UNIQUE KEY `id_UNIQUE` (`id`);
 
 --
--- Indices de la tabla `horarios`
---
-ALTER TABLE `horarios`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_UNIQUE` (`id`),
-  ADD KEY `fk_horarios_sedes1_idx` (`sedes_id`);
-
---
 -- Indices de la tabla `instituciones`
 --
 ALTER TABLE `instituciones`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id_UNIQUE` (`id`),
   ADD UNIQUE KEY `nit_UNIQUE` (`nit`),
-  ADD KEY `fk_instituciones_municipios1_idx` (`municipio_id`),
+  ADD KEY `fk_instituciones_municipios1_idx` (`municipios_id`),
   ADD KEY `fk_instituciones_usuarios1_idx` (`rector_id`);
 
 --
@@ -1627,7 +1592,7 @@ ALTER TABLE `asistencias`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `departamentos`
@@ -1640,12 +1605,6 @@ ALTER TABLE `departamentos`
 --
 ALTER TABLE `grados`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT de la tabla `horarios`
---
-ALTER TABLE `horarios`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `instituciones`
@@ -1697,20 +1656,13 @@ ALTER TABLE `asistencias`
 -- Filtros para la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  ADD CONSTRAINT `fk_cursos_grados1` FOREIGN KEY (`grados_id`) REFERENCES `grados` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_cursos_horarios1` FOREIGN KEY (`horarios_id`) REFERENCES `horarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `horarios`
---
-ALTER TABLE `horarios`
-  ADD CONSTRAINT `fk_horarios_sedes1` FOREIGN KEY (`sedes_id`) REFERENCES `sedes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_cursos_grados1` FOREIGN KEY (`grados_id`) REFERENCES `grados` (`id`);
 
 --
 -- Filtros para la tabla `instituciones`
 --
 ALTER TABLE `instituciones`
-  ADD CONSTRAINT `fk_instituciones_municipios1` FOREIGN KEY (`municipio_id`) REFERENCES `municipios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_instituciones_municipios1` FOREIGN KEY (`municipios_id`) REFERENCES `municipios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_instituciones_usuarios1` FOREIGN KEY (`rector_id`) REFERENCES `usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --

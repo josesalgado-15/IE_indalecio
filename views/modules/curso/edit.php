@@ -93,38 +93,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 
                                             <div class="form-group row">
-                                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                           placeholder="Ingrese el nombre del curso" value="<?= $DataCurso->getNombre(); ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="director" class="col-sm-2 col-form-label">Director</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="director" name="director"
-                                                           placeholder="Ingrese el nombre del director" value="<?= $DataCurso->getDirector(); ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="representante" class="col-sm-2 col-form-label">representante</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="representante" name="representante"
-                                                           placeholder="Ingrese el nombre del representante" value="<?= $DataCurso->getRepresentante(); ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="number" class="form-control" id="cantidad" name="cantidad"
-                                                           placeholder="Ingrese la cantidad" value="<?= $DataCurso->getCantidad(); ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
                                                 <label for="grados_id" class="col-sm-2 col-form-label">Grado</label>
                                                 <div class="col-sm-10">
                                                     <?= GradoController::selectGrado(
@@ -140,19 +108,29 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
 
+
                                             <div class="form-group row">
-                                                <label for="horarios_id" class="col-sm-2 col-form-label">Horario</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                                                 <div class="col-sm-10">
-                                                    <?= HorarioController::selectHorario(
-                                                        array(
-                                                            'id' => 'horarios_id',
-                                                            'name' => 'horarios_id',
-                                                            'defaultValue' => (!empty($DataCurso)) ? $DataCurso->getHorario()->getId() : '',
-                                                            'class' => 'form-control select2bs4 select2-info',
-                                                            'where' => "estado = 'Activo'"
-                                                        )
-                                                    );
-                                                    ?>
+                                                    <input required type="text" class="form-control" id="nombre" name="nombre"
+                                                           placeholder="Ingrese el nombre del curso" value="<?= $DataCurso->getNombre(); ?>">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="director" class="col-sm-2 col-form-label">Director</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="text" class="form-control" id="director" name="director"
+                                                           placeholder="Ingrese el nombre del director" value="<?= $DataCurso->getDirector(); ?>">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="number" class="form-control" id="cantidad" name="cantidad"
+                                                           placeholder="Ingrese la cantidad" value="<?= $DataCurso->getCantidad(); ?>">
                                                 </div>
                                             </div>
 

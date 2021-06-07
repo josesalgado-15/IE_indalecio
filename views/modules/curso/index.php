@@ -93,12 +93,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Grado</th>
                                     <th>Nombre</th>
                                     <th>Director</th>
-                                    <th>Representante</th>
                                     <th>Cantidad</th>
-                                    <th>Grado</th>
-                                    <th>Horario</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -111,12 +109,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                     ?>
                                     <tr>
                                         <td><?php echo $curso->getId(); ?></td>
+                                        <td><?php echo $curso->getGrado()->getNombre(); ?></td>
                                         <td><?php echo $curso->getNombre(); ?></td>
                                         <td><?php echo $curso->getDirector(); ?></td>
-                                        <td><?php echo $curso->getRepresentante(); ?></td>
                                         <td><?php echo $curso->getCantidad(); ?></td>
-                                        <td><?php echo $curso->getGrado()->getNombre(); ?></td>
-                                        <td><?php echo $curso->getHorario()->getSedesId(); ?></td>
                                         <td><?php echo $curso->getEstado(); ?></td>
                                         <td>
                                             
@@ -151,14 +147,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <tfoot>
                                 <tr>
                                     <th>#</th>
+                                    <th>Grado</th>
                                     <th>Nombre</th>
                                     <th>Director</th>
-                                    <th>Representante</th>
                                     <th>Cantidad</th>
-                                    <th>Grado</th>
-                                    <th>Horario</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
+
                                 </tr>
                                 </tfoot>
                             </table>
@@ -183,7 +178,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
     <?php include_once ('../../partials/footer.php') ?>
 </div>
 
-<?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

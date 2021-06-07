@@ -216,8 +216,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                         <label for="rol" class="col-sm-2 col-form-label">Rol</label>
                                                         <div class="col-sm-10">
                                                             <select required id="rol" name="rol" class="custom-select">
-                                                                <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Administrador") ? "selected" : ""; ?> value="Administrador">Administrador</option>
                                                                 <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Estudiante") ? "selected" : ""; ?> value="Estudiante">Estudiante</option>
+                                                                <option <?= (!empty($frmSession['rol']) && $frmSession['rol'] == "Administrador") ? "selected" : ""; ?> value="Administrador">Administrador</option>
 
                                                             </select>
                                                         </div>

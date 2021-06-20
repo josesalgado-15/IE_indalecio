@@ -205,7 +205,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                             <select id="genero" name="genero" class="custom-select">
                                                                 <option <?= ($DataUsuario->getGenero() == "Masculino") ? "selected" : ""; ?> value="Masculino">Masculino</option>
                                                                 <option <?= ($DataUsuario->getGenero() == "Femenino") ? "selected" : ""; ?> value="Femenino">Femenino</option>
-                                                                <option <?= ($DataUsuario->getGenero() == "Otro") ? "selected" : ""; ?> value="Otro">Otro</option>
 
                                                             </select>
                                                         </div>

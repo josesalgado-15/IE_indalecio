@@ -184,7 +184,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                                             <td><?php echo $detalleMatricula->getId(); ?></td>
                                                             <td><?php echo Carbon::parse($_GET['fecha'])->locale('es')->translatedFormat('l, j \\de F Y'); ?></td>
-                                                            <td><?php echo $detalleMatricula->getUsuario()->getNumeroDocumento(),"-", $detalleMatricula->getUsuario()->getApellidos()," ",  $detalleMatricula->getUsuario()->getNombres(); ?></td>
+                                                            <td><?php echo $detalleMatricula->getUsuario()->getApellidos()," ",  $detalleMatricula->getUsuario()->getNombres(), "-", $detalleMatricula->getUsuario()->getNumeroDocumento()  ; ?></td>
                                                             <td><?php echo $detalleMatricula->getCurso()->getNombre(); ?></td>
                                                             <td><?php echo $detalleMatricula->getReporteAsistencia(); ?></td>
 

@@ -179,7 +179,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <select id="genero" name="genero" class="custom-select">
                                                         <option <?= (!empty($frmSession['genero']) && $frmSession['genero'] == "Masculino") ? "selected" : ""; ?>   value="Masculino">Masculino</option>
                                                         <option <?= (!empty($frmSession['genero']) && $frmSession['genero'] == "Femenino") ? "selected" : ""; ?> value="Femenino">Femenino</option>
-                                                        <option <?= (!empty($frmSession['genero']) && $frmSession['genero'] == "Otro") ? "selected" : ""; ?> value="Otro">Otro</option>
+
 
                                                     </select>
                                                 </div>

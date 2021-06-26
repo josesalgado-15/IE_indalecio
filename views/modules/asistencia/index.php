@@ -1,6 +1,6 @@
 <?php
 
-//require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
 
 use App\Controllers\AsistenciaController;

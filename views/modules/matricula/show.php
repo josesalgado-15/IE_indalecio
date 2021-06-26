@@ -1,8 +1,7 @@
 <?php
 
-//require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
-
+require_once("../../partials/check_login.php");
 
 use App\Controllers\MatriculaController;
 use App\Models\GeneralFunctions;
@@ -91,7 +90,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                         <strong><i class="fas fa-user mr-1"></i>Usuario</strong>
                                         <p class="text-muted">
-                                            <?= $DataMatricula->getUsuario()->getNombres(), $DataMatricula->getUsuario()->getApellidos() ?>
+                                            <?= $DataMatricula->getUsuario()->getNombres(), " ", $DataMatricula->getUsuario()->getApellidos() ?>
                                         </p>
                                         <hr>
 

@@ -1,6 +1,6 @@
 <?php
 require("../../partials/routes.php");
-//require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 
 use App\Controllers\CursoController;
 use App\Controllers\MatriculaController;
@@ -25,7 +25,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Crear Asistencia | <?= $_ENV['TITLE_SITE'] ?></title>
+    <title> Reporte Asistencia | <?= $_ENV['TITLE_SITE'] ?></title>
     <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -49,7 +49,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear una nueva <?= $nameModel ?></h1>
+                        <h1>Reporte <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -70,8 +70,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     <div class="col-md-4">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-shopping-cart"></i> &nbsp; Información de la
-                                    <?= $nameModel ?></h3>
+                                <h3 class="card-title"><i class="fas fa-user"></i> &nbsp; Filtro</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -142,7 +141,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     <div class="col-md-8">
                         <div class="card card-lightblue">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-parachute-box"></i> &nbsp; Listado de Alumnos</h3>
+                                <h3 class="card-title"><i class="fas fa-users"></i> &nbsp; Listado de Alumnos</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"

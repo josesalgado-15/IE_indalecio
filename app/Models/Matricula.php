@@ -265,11 +265,12 @@ class Matricula extends AbstractDBConnection implements Model, JsonSerializable
     /**
      * @return bool|null
      */
-    public function update() : ?bool
+    public function update(): ?bool
     {
         $query = "UPDATE dbindalecio.matriculas SET 
-            vigencia = :vigencia, usuarios_id = :usuarios_id,
-            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id";
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id";
+
         return $this->save($query);
     }
 

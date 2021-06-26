@@ -1,7 +1,7 @@
 <?php
 require_once("../../../app/Controllers/UsuarioController.php");
 require_once("../../partials/routes.php");
-//require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;

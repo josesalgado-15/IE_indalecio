@@ -1,6 +1,6 @@
 <?php
 require("../../partials/routes.php");
-//require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 require("../../../app/Controllers/UsuarioController.php");
 
 use App\Controllers\UsuarioController;
@@ -129,6 +129,12 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                         <hr>
 
 
+                                        <strong><i class="fas fa-book mr-1"></i>Contraseña</strong>
+                                        <p class="text-muted">
+                                            <?= $DataUsuario->getContrasena()?>
+                                        </p>
+                                        <hr>
+
                                         <strong><i class="fas fa-user mr-1"></i>Estado</strong>
                                         <p class="text-muted">
                                             <?= $DataUsuario->getEstado()?>
@@ -152,6 +158,7 @@ $frmSession = $_SESSION['frm' . $pluralModel] ?? NULL;
                                             <?= $DataUsuario->getCorreoAcudiente()?>
                                         </p>
                                         <hr>
+
 
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i>Institución</strong>
                                         <p class="text-muted">

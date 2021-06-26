@@ -1,12 +1,13 @@
 <?php
 
-//require_once("../../partials/check_login.php");
 require("../../partials/routes.php");;
+require_once("../../partials/check_login.php");
 
 use App\Controllers\CursoController;
 use App\Controllers\MatriculaController;
 use App\Controllers\UsuarioController;
 use App\Models\GeneralFunctions;
+use App\Models\Matricula;
 use Carbon\Carbon;
 
 $nameModel = "Matricula";
@@ -77,7 +78,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <p>
                                 <?php
                                 $DataMatricula = MatriculaController::searchForID(["id" => $_GET["id"]]);
-
+                                /* @var $DataMatricula Matricula */
                                 if (!empty($DataMatricula)) {
                                     ?>
 
@@ -103,9 +104,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <label for="usuarios_id" class="col-sm-2 col-form-label">Estudiante</label>
                                                 <div class="col-sm-10">
                                                     <?= UsuarioController::selectUsuario(array (
-                                                        'id' => 'matriculas_id',
-                                                        'name' => 'matriculas_id',
-                                                        'defaultValue' => (!empty($DataMatricula)) ? $DataMatricula->getUsuariosId() : '',
+                                                        'id' => 'usuarios_id',
+                                                        'name' => 'usuarios_id',
+                                                        'defaultValue' => (!empty($DataMatricula)) ? $DataMatricula->getUsuario()->getId() : '',
                                                         'class' => 'form-control select2bs4 select2-info',
                                                         'where' => "rol = 'Estudiante' and estado = 'Activo'"))
 

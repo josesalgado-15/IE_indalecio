@@ -196,4 +196,5 @@ class UsuarioController
         header("Location: ../../views/modules/site/login.php");
     }
 
+
 }

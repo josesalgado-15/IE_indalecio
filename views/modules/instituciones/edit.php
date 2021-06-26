@@ -1,5 +1,6 @@
 <?php
 require("../../partials/routes.php");
+require_once("../../partials/check_login.php");
 require_once("../../../app/Controllers/InstitucionController.php");
 require_once("../../../app/Controllers/UsuarioController.php");
 

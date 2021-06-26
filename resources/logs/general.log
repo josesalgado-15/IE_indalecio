@@ -1785,3 +1785,1338 @@
 
 )
   
+[2021-06-26T10:16:56.236577-05:00] General.ERROR: Exception  
+[2021-06-26T10:16:56.493599-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:16:56.493901-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:16:56.494086-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:16:56.494343-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 273
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:23:36.167872-05:00] General.ERROR: Exception  
+[2021-06-26T10:23:36.169212-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:23:36.169450-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:23:36.169702-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:23:36.170188-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 273
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:27:27.604288-05:00] General.ERROR: Exception  
+[2021-06-26T10:27:27.605854-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:27:27.606176-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:27:27.606416-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:27:27.606673-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 273
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:29:49.904937-05:00] General.ERROR: Exception  
+[2021-06-26T10:29:49.906255-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:29:49.906930-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:29:49.907209-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:29:49.908022-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-30 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 273
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:31:02.968680-05:00] General.ERROR: Exception  
+[2021-06-26T10:31:02.971512-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:31:02.971901-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:31:02.972537-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:31:02.974109-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 273
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id,
+            cursos_id = :cursos_id, reporte_asistencia = :reporte_asistencia, estado = :estado, updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:40:35.110061-05:00] General.ERROR: Exception  
+[2021-06-26T10:40:35.111405-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:40:35.111638-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:40:35.111829-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:40:35.112033-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-30 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:42:53.540734-05:00] General.ERROR: Exception  
+[2021-06-26T10:42:53.542108-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:42:53.542331-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:42:53.542518-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:42:53.542727-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 2
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:45:59.186029-05:00] General.ERROR: Exception  
+[2021-06-26T10:45:59.187322-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:45:59.187546-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:45:59.187738-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:45:59.187940-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 2
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:46:42.064566-05:00] General.ERROR: Exception  
+[2021-06-26T10:46:42.069712-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:46:42.070653-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:46:42.072715-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:46:42.073364-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-20 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:48:55.696073-05:00] General.ERROR: Exception  
+[2021-06-26T10:48:55.700271-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:48:55.700611-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:48:55.700858-05:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens  
+[2021-06-26T10:48:55.701116-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia,  cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia,  cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:49:29.151503-05:00] General.ERROR: Exception  
+[2021-06-26T10:49:29.153125-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:49:29.153481-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:49:29.153739-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:49:29.154021-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:51:25.364384-05:00] General.ERROR: Exception  
+[2021-06-26T10:51:25.365958-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:51:25.366351-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:51:25.366723-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:51:25.367070-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:51:54.472326-05:00] General.ERROR: Exception  
+[2021-06-26T10:51:54.474069-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:51:54.474635-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:51:54.474945-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:51:54.475581-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:52:41.977061-05:00] General.ERROR: Exception  
+[2021-06-26T10:52:41.978098-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:52:41.978492-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:52:41.978683-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:52:41.978882-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 1
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 1
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2021-06-26T10:55:36.887019-05:00] General.ERROR: Exception  
+[2021-06-26T10:55:36.890720-05:00] General.ERROR: Archivo: C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php  
+[2021-06-26T10:55:36.891190-05:00] General.ERROR: Line: 126  
+[2021-06-26T10:55:36.891984-05:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`dbindalecio`.`matriculas`, CONSTRAINT `fk_mastriculas_usuarios1` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`))  
+[2021-06-26T10:55:36.892296-05:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\AbstractDBConnection.php
+            [line] => 126
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 249
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                    [1] => Array
+                        (
+                            [:id] => 40
+                            [:vigencia] => 2021-12-31 00:00:00
+                            [:usuarios_id] => 0
+                            [:cursos_id] => 2
+                            [:reporte_asistencia] => Asiste
+                            [:estado] => Inactivo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Models\Matricula.php
+            [line] => 274
+            [function] => save
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE dbindalecio.matriculas SET 
+            vigencia = :vigencia, usuarios_id = :usuarios_id, cursos_id = :cursos_id,
+            reporte_asistencia = :reporte_asistencia, estado = :estado,  updated_at = NOW() WHERE id = :id
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MatriculaController.php
+            [line] => 55
+            [function] => update
+            [class] => App\Models\Matricula
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\institucion-educativa-indalecio-vasquez\app\Controllers\MainController.php
+            [line] => 29
+            [function] => edit
+            [class] => App\Controllers\MatriculaController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

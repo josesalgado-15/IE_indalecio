@@ -12,11 +12,12 @@ require("../../partials/routes.php");
 <body class="hold-transition login-page">
 
 <div class="login-box">
-    <div class="login-logo">
-        <a href="login.php"><b>Control De Asistencia</b> FLAJ</a>
-    </div>
+
     <!-- /.login-logo -->
     <div class="card">
+        <div class="form-control">
+            <a href="login.php"><b >Control de Asistencia</b> - PESCA</a>
+        </div>
         <div class="card-body login-card-body">
             <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
             <form action="../../../app/Controllers/MainController.php?controller=Usuario&action=login" method="post">
